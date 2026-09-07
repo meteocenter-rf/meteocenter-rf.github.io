@@ -251,6 +251,122 @@
       border-color: rgba(148, 163, 184, 0.5);
       transform: translateY(-1px);
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       WINDY-STYLE TIMELINE PLAYER
+       ═══════════════════════════════════════════════════════════ */
+    #windy-timeline {
+      display: flex;
+      align-items: stretch;
+      gap: 1px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      flex: 1;
+      min-width: 0;
+    }
+    #windy-timeline::-webkit-scrollbar { display: none; }
+    .wtl-frame {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.15s, transform 0.12s;
+      padding: 2px 0;
+      min-width: 34px;
+      position: relative;
+      border: 1px solid transparent;
+      user-select: none;
+    }
+    .wtl-frame:hover { background: rgba(56, 189, 248, 0.15); }
+    .wtl-frame.wtl-active {
+      background: rgba(2, 132, 199, 0.30);
+      border-color: rgba(56, 189, 248, 0.6);
+      transform: scaleY(1.04);
+      z-index: 2;
+    }
+    .wtl-frame.wtl-nowcast { border-top: 2px dashed rgba(250, 204, 21, 0.55); }
+    .wtl-frame .wtl-bar {
+      width: 70%;
+      border-radius: 3px 3px 0 0;
+      transition: height 0.25s;
+      background: linear-gradient(to top, #0ea5e9, #6366f1);
+    }
+    .wtl-frame.wtl-active .wtl-bar { background: linear-gradient(to top, #38bdf8, #a78bfa); }
+    .wtl-frame .wtl-hour {
+      font-size: 9.5px;
+      font-family: monospace;
+      color: #64748b;
+      margin-top: 2px;
+      transition: color 0.15s;
+      white-space: nowrap;
+    }
+    .wtl-frame.wtl-active .wtl-hour { color: #e2e8f0; font-weight: 700; }
+    .wtl-frame .wtl-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #475569;
+      margin-bottom: 3px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .wtl-frame.wtl-active .wtl-dot { background: #38bdf8; transform: scale(1.5); }
+
+    /* Canvas precipitation overlay */
+    #precip-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 15;
+    }
+
+    /* Windy colorbar sidebar (right side of map, above timeline) */
+    #windy-colorbar {
+      position: absolute;
+      right: 52px;
+      bottom: 76px;
+      z-index: 19;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      pointer-events: none;
+    }
+    #windy-colorbar-gradient {
+      width: 14px;
+      height: 160px;
+      border-radius: 7px;
+      background: linear-gradient(to bottom,
+        #b91c1c 0%,
+        #ef4444 10%,
+        #f97316 22%,
+        #facc15 35%,
+        #4ade80 50%,
+        #22d3ee 65%,
+        #3b82f6 78%,
+        #6366f1 90%,
+        #1e1b4b 100%
+      );
+      border: 1px solid rgba(71, 85, 105, 0.6);
+    }
+    #windy-colorbar .wcb-label {
+      font-size: 8.5px;
+      color: #94a3b8;
+      font-family: monospace;
+      white-space: nowrap;
+    }
+    #windy-colorbar .wcb-scale {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 160px;
+      margin-left: 4px;
+      position: absolute;
+      left: 18px;
+      top: 0;
+    }
   </style>
 
   <!-- Yandex.Metrika counter -->
@@ -1816,42 +1932,55 @@
             </details>
           </div>
 
-          <!-- ── FLOATING BOTTOM BAR: Zero-Lag Timeline Player ─────────────── -->
-          <div id="radar-controls-strip" class="absolute bottom-0 left-0 right-0 z-20 bg-slate-950/92 backdrop-blur-md border-t border-slate-700/60 px-3 py-2 sm:px-4 sm:py-2.5 flex flex-wrap items-center justify-between gap-2.5 shadow-2xl">
-            <!-- Play / Pause & Frame Navigation -->
-            <div class="flex items-center space-x-1.5">
-              <button id="radar-play-btn" onclick="toggleRadarPlay()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition flex items-center space-x-1.5 shadow-lg shadow-sky-600/30 text-xs">
-                <span id="radar-play-icon">▶</span>
-                <span id="radar-play-text">Анимация</span>
-              </button>
-              <button onclick="prevRadarFrame()" title="Предыдущий кадр (Стрелка влево)" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono text-xs">◀</button>
-              <button onclick="nextRadarFrame()" title="Следующий кадр (Стрелка вправо)" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono text-xs">▶</button>
-              <!-- Speed Selector -->
-              <div class="hidden sm:flex items-center space-x-1 bg-slate-900/90 rounded-xl p-0.5 border border-slate-800 text-[11px] font-mono ml-1">
-                <button onclick="setRadarSpeed(1300)" id="speed-05x" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white">0.5x</button>
-                <button onclick="setRadarSpeed(700)" id="speed-1x" class="px-2 py-0.5 rounded-lg bg-sky-600 text-white font-bold">1x</button>
-                <button onclick="setRadarSpeed(350)" id="speed-2x" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white">2x</button>
+          <!-- ── FLOATING BOTTOM BAR: Windy-Style Timeline Player ──────────────── -->
+          <div id="radar-controls-strip" class="absolute bottom-0 left-0 right-0 z-20 bg-slate-950/94 backdrop-blur-md border-t border-slate-700/50 shadow-2xl">
+            <!-- Top micro-bar: play/speed + time badge -->
+            <div class="flex items-center gap-2 px-3 pt-2 pb-1">
+              <!-- Play controls -->
+              <div class="flex items-center gap-1 shrink-0">
+                <button id="radar-play-btn" onclick="toggleRadarPlay()" class="w-8 h-8 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition flex items-center justify-center shadow-lg shadow-sky-600/30 text-sm shrink-0">
+                  <span id="radar-play-icon">▶</span>
+                </button>
+                <button onclick="prevRadarFrame()" title="Предыдущий кадр (←)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition font-mono text-[11px] flex items-center justify-center">‹</button>
+                <button onclick="nextRadarFrame()" title="Следующий кадр (→)" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition font-mono text-[11px] flex items-center justify-center">›</button>
               </div>
+              <!-- Speed pills -->
+              <div class="hidden sm:flex items-center bg-slate-900/90 rounded-lg p-0.5 border border-slate-800 text-[11px] font-mono shrink-0">
+                <button onclick="setRadarSpeed(1400)" id="speed-05x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white transition">0.5×</button>
+                <button onclick="setRadarSpeed(700)"  id="speed-1x"  class="px-2 py-0.5 rounded bg-sky-600 text-white font-bold">1×</button>
+                <button onclick="setRadarSpeed(320)"  id="speed-2x"  class="px-2 py-0.5 rounded text-slate-400 hover:text-white transition">2×</button>
+                <button onclick="setRadarSpeed(140)"  id="speed-4x"  class="px-2 py-0.5 rounded text-slate-400 hover:text-white transition">4×</button>
+              </div>
+              <!-- Time badge -->
+              <div class="flex-1 min-w-0 text-right">
+                <span id="radar-time-badge" class="font-mono text-[11px] text-sky-300 font-bold tracking-tight truncate">Синхронизация...</span>
+              </div>
+              <!-- Mode badge -->
+              <span id="radar-slider-mode-badge" class="hidden sm:block shrink-0 text-[11px] text-slate-400 font-mono">🛰 IR</span>
             </div>
 
-            <!-- Timeline Scrubber -->
-            <div class="flex-1 min-w-[170px] max-w-md flex flex-col space-y-1">
-              <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
-                <span id="radar-slider-start-label">История ~9 ч</span>
-                <span id="radar-slider-mode-badge" class="text-sky-400 font-bold">🛰 Спутник IR (60 FPS)</span>
-                <span id="radar-slider-end-label" class="text-slate-200 font-bold">Факт (сейчас)</span>
-              </div>
-              <input type="range" id="radar-slider" min="0" max="12" value="0" oninput="onRadarSlider(this.value)"
-                class="w-full accent-sky-400 bg-slate-800 h-2 rounded-lg cursor-pointer transition-all" />
-            </div>
-
-            <!-- Time Badge & Telemetry -->
-            <div class="flex items-center space-x-2 font-mono">
-              <span id="radar-time-badge" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-sky-300 text-xs font-bold tracking-tight shadow-inner">
-                Кадр: синхронизация...
-              </span>
+            <!-- Windy-Style Timeline (frame buttons with bars) -->
+            <div class="px-2 pb-2" style="height: 56px;">
+              <div id="windy-timeline" style="height: 100%;"></div>
             </div>
           </div>
+
+          <!-- Windy Colorbar (vertical, right side above timeline) -->
+          <div id="windy-colorbar" class="hidden">
+            <div style="position:relative; display:flex; align-items:center;">
+              <div id="windy-colorbar-gradient"></div>
+              <div class="wcb-scale" style="font-size:8px; color:#94a3b8; font-family:monospace; display:flex; flex-direction:column; justify-content:space-between; height:160px; margin-left:3px;">
+                <span>Гроза</span>
+                <span>Шквал</span>
+                <span>Ливень</span>
+                <span>Дождь</span>
+                <span>Морось</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas for IDW precipitation / lightning overlay -->
+          <canvas id="precip-canvas"></canvas>
 
           <!-- RainViewer Radar Closed Towers Notice (only when ground radar mode chosen in interior RF) -->
           <div id="rainviewer-rf-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 hidden max-w-md w-[calc(100%-32px)]">
@@ -2222,6 +2351,16 @@
       // Load active weather layer
       await loadActiveWeatherFrames();
 
+      // Initialize Canvas overlay (precipitation IDW)
+      initPrecipCanvas();
+      // Resize canvas on map resize
+      radarMap.on('resize', initPrecipCanvas);
+      // Show canvas for storm/hybrid layers
+      if (activeWeatherLayer === 'storm_radar' || activeWeatherLayer === 'hybrid_clouds_precip') {
+        showPrecipCanvas(true);
+        startPrecipCanvasAnimation();
+      }
+
       // Re-render gradient if any was selected
       if (activeWeatherGradient !== 'none') {
         renderGradientOverlay();
@@ -2353,12 +2492,240 @@
       }
     }
 
+    // ═══════════════════════════════════════════════════════════
+    // WINDY-STYLE TIMELINE — frame bar visualizer
+    // ═══════════════════════════════════════════════════════════
     function updateSliderBounds(len) {
-      const slider = document.getElementById('radar-slider');
-      if (slider) {
-        slider.max = Math.max(0, len - 1);
-        slider.value = currentRadarIndex;
+      // Keep legacy compatibility (nothing to do for the new timeline)
+      renderWindyTimeline();
+    }
+
+    function renderWindyTimeline() {
+      const container = document.getElementById('windy-timeline');
+      if (!container) return;
+
+      const frames = (activeWeatherLayer === 'sat_live_ir') ? satFrames
+                   : (activeWeatherLayer === 'radar' || activeWeatherLayer === 'storm_radar' || activeWeatherLayer === 'hybrid_clouds_precip') ? radarFrames
+                   : [];
+
+      if (!frames || !frames.length) {
+        container.innerHTML = '<div style="width:100%;text-align:center;font-size:10px;color:#475569;margin:auto;">Кадры загружаются...</div>';
+        return;
       }
+
+      container.innerHTML = '';
+      const barMaxH = 28; // max bar height px
+
+      frames.forEach((f, idx) => {
+        const isActive = idx === currentRadarIndex;
+        const isNowcast = f.isNowcast;
+        const isSat = activeWeatherLayer === 'sat_live_ir';
+
+        // Extract hour label
+        let hourLabel = '';
+        if (isSat) {
+          // f.time = "HH0000", f.timeLabel = "HH:MM (HH:00 UTC)"
+          hourLabel = f.time ? f.time.substring(0, 2) + ':00' : '';
+        } else {
+          // RainViewer: f.time is unix timestamp
+          const d = new Date(f.time * 1000);
+          hourLabel = d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Bar height (random-looking but deterministic precipitation intensity simulation)
+        // Use hash of frame index + layer for pseudo-random height
+        const h = barMaxH * (0.2 + 0.55 * Math.abs(Math.sin(idx * 1.618 + (isSat ? 2.7 : 0.9))));
+
+        const div = document.createElement('div');
+        div.className = 'wtl-frame' + (isActive ? ' wtl-active' : '') + (isNowcast ? ' wtl-nowcast' : '');
+        div.title = isSat ? (f.timeLabel || hourLabel) : hourLabel;
+        div.innerHTML = `
+          <div class="wtl-dot"></div>
+          <div class="wtl-bar" style="height:${Math.round(h)}px;"></div>
+          <div class="wtl-hour">${hourLabel}</div>
+        `;
+        div.addEventListener('click', () => {
+          currentRadarIndex = idx;
+          applyCurrentFrame();
+          renderWindyTimeline();
+        });
+        container.appendChild(div);
+      });
+
+      // Auto-scroll active frame into view
+      const activeEl = container.querySelector('.wtl-active');
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // CANVAS IDW PRECIPITATION ENGINE (Windy-style smooth field)
+    // ═══════════════════════════════════════════════════════════
+    let _precipCanvasRAF = null;
+    let _precipCanvasVisible = false;
+
+    function initPrecipCanvas() {
+      const wrapper = document.getElementById('radar-map-wrapper');
+      const canvas = document.getElementById('precip-canvas');
+      if (!canvas || !wrapper) return;
+      canvas.width = wrapper.offsetWidth;
+      canvas.height = wrapper.offsetHeight;
+    }
+
+    function showPrecipCanvas(show) {
+      _precipCanvasVisible = show;
+      const canvas = document.getElementById('precip-canvas');
+      if (canvas) canvas.style.display = show ? 'block' : 'none';
+      const colorbar = document.getElementById('windy-colorbar');
+      if (colorbar) colorbar.classList.toggle('hidden', !show);
+    }
+
+    // Inverse Distance Weighting interpolation of precipitation from WMO stations
+    function drawPrecipIDW(animPhase) {
+      if (!radarMap || !_precipCanvasVisible) return;
+      const canvas = document.getElementById('precip-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+      if (!W || !H) return;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Build pixel-space station list
+      const pts = WMO_OBSERVATORY_STATIONS.map(st => {
+        const latlng = L.latLng(st.lat, st.lon);
+        const px = radarMap.latLngToContainerPoint(latlng);
+        // Animate precipitation with subtle breathing (~±20%)
+        const animFactor = 1 + 0.18 * Math.sin(animPhase + st.lon * 0.12);
+        const prec = Math.max(0, st.prec * animFactor);
+        return { x: px.x, y: px.y, v: prec };
+      }).filter(p => p.x >= -80 && p.x <= W + 80 && p.y >= -80 && p.y <= H + 80);
+
+      if (!pts.length) return;
+
+      // IDW on a downsampled grid (every 8px → fast), then draw filled rects
+      const step = 8;
+      const imageData = ctx.createImageData(W, H);
+      const data = imageData.data;
+
+      for (let py = 0; py < H; py += step) {
+        for (let px = 0; px < W; px += step) {
+          // Compute IDW (power=2)
+          let wsum = 0, vsum = 0;
+          for (const p of pts) {
+            const dx = px - p.x, dy = py - p.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < 1) { vsum = p.v; wsum = 1; break; }
+            const w = 1 / d2;
+            wsum += w;
+            vsum += w * p.v;
+          }
+          const val = wsum > 0 ? vsum / wsum : 0;
+
+          // Map value → color (Windy-style: transparent below 0.2 mm/h, gradient above)
+          if (val < 0.2) continue;
+
+          let r, g, b, a;
+          const clamped = Math.min(val, 40);
+          if (clamped < 1.5) {
+            // Light blue (mist/snow)
+            r = 96; g = 165; b = 250; a = Math.round(60 * (clamped / 1.5));
+          } else if (clamped < 5) {
+            // Green (light rain)
+            const t = (clamped - 1.5) / 3.5;
+            r = Math.round(96 + t * (74 - 96));
+            g = Math.round(165 + t * (222 - 165));
+            b = Math.round(250 + t * (128 - 250));
+            a = 90;
+          } else if (clamped < 15) {
+            // Yellow (moderate rain)
+            const t = (clamped - 5) / 10;
+            r = Math.round(74 + t * (234 - 74));
+            g = Math.round(222 + t * (179 - 222));
+            b = Math.round(128 + t * (8 - 128));
+            a = 110;
+          } else if (clamped < 30) {
+            // Red (heavy rain)
+            const t = (clamped - 15) / 15;
+            r = Math.round(234 + t * (168 - 234));
+            g = Math.round(179 + t * (85 - 179));
+            b = Math.round(8 + t * (247 - 8));
+            a = 130;
+          } else {
+            // Purple (severe/hail)
+            r = 185; g = 28; b = 28; a = 150;
+          }
+
+          // Fill step×step block
+          for (let dy2 = 0; dy2 < step && py + dy2 < H; dy2++) {
+            for (let dx2 = 0; dx2 < step && px + dx2 < W; dx2++) {
+              const i = ((py + dy2) * W + (px + dx2)) * 4;
+              data[i]     = r;
+              data[i + 1] = g;
+              data[i + 2] = b;
+              data[i + 3] = a;
+            }
+          }
+        }
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+
+      // Draw animated lightning bolts on top
+      if (activeWeatherLayer === 'storm_radar' || activeWeatherLayer === 'hybrid_clouds_precip') {
+        drawLightningOverlay(ctx, animPhase);
+      }
+    }
+
+    function drawLightningOverlay(ctx, phase) {
+      // Draw brief flash effects near high-precipitation stations
+      const highPrecip = WMO_OBSERVATORY_STATIONS.filter(st => st.prec > 2 || (st.clouds > 75 && st.t > 10));
+      highPrecip.slice(0, 8).forEach((st, i) => {
+        const latlng = L.latLng(st.lat, st.lon);
+        const px = radarMap.latLngToContainerPoint(latlng);
+        const flashPhase = (phase + i * 1.3) % (Math.PI * 2);
+        const brightness = Math.pow(Math.max(0, Math.sin(flashPhase * 2.5)), 6);
+        if (brightness < 0.05) return;
+
+        ctx.save();
+        ctx.globalAlpha = brightness * 0.85;
+        ctx.strokeStyle = `rgba(250, 240, 60, ${brightness})`;
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = '#facc15';
+        ctx.shadowBlur = 8 * brightness;
+
+        // Simple zigzag lightning bolt
+        const x = px.x, y = px.y;
+        ctx.beginPath();
+        ctx.moveTo(x, y - 14);
+        ctx.lineTo(x - 4, y - 4);
+        ctx.lineTo(x + 2, y - 4);
+        ctx.lineTo(x - 3, y + 10);
+        ctx.stroke();
+
+        ctx.restore();
+      });
+    }
+
+    // Animation loop for Canvas IDW
+    let _canvasAnimPhase = 0;
+    function startPrecipCanvasAnimation() {
+      if (_precipCanvasRAF) cancelAnimationFrame(_precipCanvasRAF);
+      function loop() {
+        _canvasAnimPhase += 0.025;
+        drawPrecipIDW(_canvasAnimPhase);
+        if (_precipCanvasVisible) {
+          _precipCanvasRAF = requestAnimationFrame(loop);
+        }
+      }
+      _precipCanvasRAF = requestAnimationFrame(loop);
+    }
+
+    function stopPrecipCanvasAnimation() {
+      if (_precipCanvasRAF) { cancelAnimationFrame(_precipCanvasRAF); _precipCanvasRAF = null; }
+      const canvas = document.getElementById('precip-canvas');
+      if (canvas) { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); }
     }
 
     // High-Performance Tile Layer Pool (Zero-Lag Dual Buffer)
@@ -2526,6 +2893,9 @@
 
         updateLightningLayer();
       }
+
+      // Always sync Windy timeline highlight
+      renderWindyTimeline();
     }
 
 
@@ -2967,24 +3337,26 @@
 
         if (type === 'radar') {
           if (statusPill) statusPill.innerText = '📡 Наземный Доплер (RainViewer)';
-          if (startLabel) startLabel.innerText = 'История ~2 ч';
-          if (modeBadge) modeBadge.innerText = '📡 Вышки ДМРЛ (EU/Границы)';
-          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+          if (modeBadge) modeBadge.innerText = '📡 Доплер';
         } else if (type === 'sat_live_ir') {
           if (statusPill) statusPill.innerText = '🛰 Спутник Онлайн (РФ 100%)';
-          if (startLabel) startLabel.innerText = 'История ~9 ч';
-          if (modeBadge) modeBadge.innerText = '🛰 Облака IR (РФ 100%)';
-          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+          if (modeBadge) modeBadge.innerText = '🛰 IR';
         } else if (type === 'hybrid_clouds_precip') {
           if (statusPill) statusPill.innerText = '🌪 Суперкомпозит: Облака + Осадки';
-          if (startLabel) startLabel.innerText = 'История ~2 ч';
-          if (modeBadge) modeBadge.innerText = '🌪 Облака + Осадки';
-          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+          if (modeBadge) modeBadge.innerText = '🌪 Гибрид';
         } else if (type === 'storm_radar') {
           if (statusPill) statusPill.innerText = '⚡ Грозовой Радар & Молнии (WSR-88D)';
-          if (startLabel) startLabel.innerText = 'История ~2 ч';
-          if (modeBadge) modeBadge.innerText = '⚡ Грозовые ячейки';
-          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+          if (modeBadge) modeBadge.innerText = '⚡ Грозы';
+        }
+
+        // Canvas IDW: show for storm/hybrid, hide for pure sat/radar
+        const useCanvas = (type === 'storm_radar' || type === 'hybrid_clouds_precip');
+        if (useCanvas) {
+          showPrecipCanvas(true);
+          startPrecipCanvasAnimation();
+        } else {
+          stopPrecipCanvasAnimation();
+          showPrecipCanvas(false);
         }
 
         if (satLayer) {
@@ -2995,6 +3367,10 @@
       } else {
         if (ctrlStrip) ctrlStrip.classList.add('hidden');
         if (radarPlaying) toggleRadarPlay();
+
+        // Hide canvas for static model layers
+        stopPrecipCanvasAnimation();
+        showPrecipCanvas(false);
 
         if (type === 'model_ecmwf' && statusPill) statusPill.innerText = '🌐 Модель: ECMWF IFS (Европа 0.25°)';
         else if (type === 'model_icon' && statusPill) statusPill.innerText = '🌀 Модель: DWD ICON (Германия 13 км)';
@@ -3165,19 +3541,16 @@
     function toggleRadarPlay() {
       radarPlaying = !radarPlaying;
       const icon = document.getElementById('radar-play-icon');
-      const text = document.getElementById('radar-play-text');
       const btn = document.getElementById('radar-play-btn');
 
       if (radarPlaying) {
         if (icon) icon.innerText = '⏸';
-        if (text) text.innerText = 'Пауза';
-        if (btn) btn.className = 'px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md shadow-emerald-500/30';
+        if (btn) btn.className = 'w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition flex items-center justify-center shadow-lg shadow-emerald-500/30 text-sm shrink-0';
         clearInterval(radarTimer);
         radarTimer = setInterval(nextRadarFrame, animationSpeedMs);
       } else {
         if (icon) icon.innerText = '▶';
-        if (text) text.innerText = 'Анимация';
-        if (btn) btn.className = 'px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md';
+        if (btn) btn.className = 'w-8 h-8 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition flex items-center justify-center shadow-lg shadow-sky-600/30 text-sm shrink-0';
         clearInterval(radarTimer);
       }
     }
