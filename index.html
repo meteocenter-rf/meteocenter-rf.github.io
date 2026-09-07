@@ -150,6 +150,8 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/112330199" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
   <!-- /Yandex.Metrika counter -->
+  <!-- ApexCharts Interactive Graphing Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.0/apexcharts.min.js"></script>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
 
@@ -453,15 +455,20 @@
         </div>
       </div>
 
-      <!-- ================= INTERACTIVE APEXCHARTS IFRAME ================= -->
+      <!-- ================= INTERACTIVE APEXCHARTS CONTAINER ================= -->
       <div id="interactive-card" class="hidden glass rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden border border-slate-700/60">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
-            <span>📈</span><span>ИНТЕРАКТИВНЫЙ ПОЧАСОВОЙ ГРАФИК APEXCHARTS</span>
-          </h2>
-          <span class="text-xs text-slate-400">Синхронный зум и перекрестие</span>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+          <div>
+            <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
+              <span>📈</span><span>ИНТЕРАКТИВНЫЙ ПОЧАСОВОЙ ГРАФИК (APEXCHARTS)</span>
+            </h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Синхронный зум, перекрестие, динамический масштаб и экспорт в PNG/SVG</p>
+          </div>
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="px-2.5 py-1 rounded-lg bg-sky-950/80 border border-sky-800/60 text-sky-400 font-mono font-semibold">ECMWF / ВМО</span>
+          </div>
         </div>
-        <iframe id="interactive-frame" src="" class="w-full h-[660px] rounded-xl border border-slate-800 bg-slate-950"></iframe>
+        <div id="apex-chart-container" class="w-full min-h-[500px] rounded-xl border border-slate-800 bg-slate-950/80 p-2 sm:p-4"></div>
       </div>
 
       <!-- ================= STRUCTURED REPORT / METEOROLOGICAL PROTOCOL ================= -->
@@ -824,7 +831,7 @@
 
       // 2. Запрос прогноза Open-Meteo
       const daysCount = (mode === '14days') ? 14 : ((mode === 'month') ? 16 : 7);
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless&forecast_days=${daysCount}&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,surface_pressure,relative_humidity_2m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless&forecast_days=${daysCount}&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       const fRes = await fetch(fUrl);
       if (!fRes.ok) throw new Error('Ошибка получения метеоданных');
@@ -867,15 +874,28 @@
         trend_desc: 'Вековое потепление (1940–2024)'
       };
 
+      // Вспомогательный селектор полей (с поддержкой ECMWF/ICON/GFS)
+      const getField = (obj, key) => (obj && (obj[key] || obj[`${key}_ecmwf_ifs025`] || obj[`${key}_icon_seamless`] || obj[`${key}_gfs_seamless`])) || [];
+
       // Почасовая лента (24 ч)
       const hourly_list = [];
-      const hTimes = (hourly.time || []).slice(0, 24);
-      const hTemps = (hourly.temperature_2m || []).slice(0, 24);
-      const hCodes = (hourly.weather_code || []).slice(0, 24);
-      const hPrecs = (hourly.precipitation || []).slice(0, 24);
-      const hWinds = (hourly.wind_speed_10m || []).slice(0, 24);
+      const hTimes = hourly.time || [];
+      const hTemps = getField(hourly, 'temperature_2m');
+      const hCodes = getField(hourly, 'weather_code');
+      const hPrecs = getField(hourly, 'precipitation');
+      const hWinds = getField(hourly, 'wind_speed_10m');
+      const hPress = getField(hourly, 'surface_pressure');
 
-      for (let i = 0; i < hTimes.length; i++) {
+      const hourly_raw_normalized = {
+        time: hTimes,
+        temperature_2m: hTemps,
+        precipitation: hPrecs,
+        weather_code: hCodes,
+        wind_speed_10m: hWinds,
+        surface_pressure: hPress
+      };
+
+      for (let i = 0; i < Math.min(hTimes.length, 24); i++) {
         const tStr = hTimes[i].length >= 16 ? hTimes[i].substring(11, 16) : `${i}:00`;
         const [hIcon, hDesc] = getWmo(hCodes[i]);
         hourly_list.push({
@@ -892,25 +912,31 @@
       const daily_list = [];
       const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
       const dTimes = daily.time || [];
+      const dCodes = getField(daily, 'weather_code');
+      const dMaxs = getField(daily, 'temperature_2m_max');
+      const dMins = getField(daily, 'temperature_2m_min');
+      const dPrecs = getField(daily, 'precipitation_sum');
+      const dWinds = getField(daily, 'wind_speed_10m_max');
+
       for (let i = 0; i < dTimes.length; i++) {
         const dtStr = dTimes[i];
-        const dLbl = `${dtStr.substring(8, 10)}.${dtStr.substring(5, 7)}`;
+        const dLbl = (dtStr && dtStr.length >= 10) ? `${dtStr.substring(8, 10)}.${dtStr.substring(5, 7)}` : `Д.${i+1}`;
         let dName = `День ${i + 1}`;
         try {
           const dObj = new Date(dtStr);
           const dayIdx = (dObj.getDay() + 6) % 7;
           dName = (i === 0) ? 'Сегодня' : ((i === 1) ? 'Завтра' : dayNames[dayIdx]);
         } catch (e) {}
-        const [dIcon, dDesc] = getWmo(daily.weather_code ? daily.weather_code[i] : 0);
+        const [dIcon, dDesc] = getWmo(dCodes[i] != null ? dCodes[i] : 0);
         daily_list.push({
           date_lbl: dLbl,
           day_name: dName,
           icon: dIcon,
           desc: dDesc,
-          t_min: daily.temperature_2m_min ? daily.temperature_2m_min[i] : 5,
-          t_max: daily.temperature_2m_max ? daily.temperature_2m_max[i] : 15,
-          precip: daily.precipitation_sum ? daily.precipitation_sum[i] : 0,
-          wind: daily.wind_speed_10m_max ? Math.round(daily.wind_speed_10m_max[i]) : 3
+          t_min: dMins[i] != null ? dMins[i] : 5,
+          t_max: dMaxs[i] != null ? dMaxs[i] : 15,
+          precip: dPrecs[i] != null ? dPrecs[i] : 0,
+          wind: dWinds[i] != null ? Math.round(dWinds[i]) : 3
         });
       }
 
@@ -921,6 +947,7 @@
         { name: 'NOAA GFS (США, 22 км)', flag: '🇺🇸', t_max: (daily_list[0] ? daily_list[0].t_max : 15) - 0.4, t_min: (daily_list[0] ? daily_list[0].t_min : 6) + 0.2, prec: daily_list[0] ? daily_list[0].precip : 0, wind: 4, desc: 'Глобальная американская система' }
       ];
 
+      // 
       // WeatherNext 2 ИИ bundle
       const daysLabels = daily_list.slice(0, 7).map(d => d.date_lbl);
       const tMaxList = daily_list.slice(0, 7).map(d => Math.round(d.t_max));
@@ -972,6 +999,7 @@
         coords: `${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
         current: current_dict,
         hourly: hourly_list,
+        hourly_raw: hourly_raw_normalized,
         daily: daily_list,
         models_data: models_dict,
         weathernext_data: weathernext_bundle,
@@ -997,14 +1025,9 @@
       if (currentMode === 'interactive') {
         if (chartCard) chartCard.classList.add('hidden');
         if (interactiveCard) interactiveCard.classList.remove('hidden');
-        const frame = document.getElementById('interactive-frame');
-        if (frame) frame.src = `/chart?lat=${lastCoords.lat}&lon=${lastCoords.lon}&name=${encodeURIComponent(currentCity)}`;
         if (reportText) {
-          reportText.innerText = `Интерактивный почасовой график для города ${currentCity.toUpperCase()}.
-Используйте колесо мыши или кнопки выбора периода для детального анализа температуры, осадков, давления и ветра.`;
+          reportText.innerText = `Интерактивный почасовой график для города ${currentCity.toUpperCase()}.\nИспользуйте колесо мыши или инструменты панели для детального анализа температуры, осадков, давления и ветра.`;
         }
-        if (loading) loading.classList.add('hidden');
-        return;
       } else {
         if (interactiveCard) interactiveCard.classList.add('hidden');
       }
@@ -1058,6 +1081,8 @@
         renderMetrics(data);
         renderHourly(data);
         renderDynamicView(data);
+        if (data.hourly_raw || data.hourly) { renderApexChart(data.hourly_raw || data.hourly, currentCity); }
+
 
         // Raw text report
         if (reportText) {
@@ -1266,6 +1291,224 @@
         `;
       }).join('');
     }
+
+    
+        window.apexChartInstance = null;
+let apexChartInstance = null;
+
+    function renderApexChart(hourlyInput, cityName) {
+      const container = document.getElementById('apex-chart-container');
+      if (!container) return;
+      if (!window.ApexCharts) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-12">Загрузка библиотеки графиков ApexCharts...</div>';
+        setTimeout(() => renderApexChart(hourlyInput, cityName), 400);
+        return;
+      }
+
+      let times = [], temps = [], precips = [], winds = [], pressures = [];
+
+      if (hourlyInput && hourlyInput.time && hourlyInput.time.length) {
+        const count = Math.min(hourlyInput.time.length, 72);
+        for (let i = 0; i < count; i++) {
+          const t = hourlyInput.time[i];
+          try {
+            const d = new Date(t);
+            const dayName = d.toLocaleDateString('ru-RU', { weekday: 'short' });
+            const hours = String(d.getHours()).padStart(2, '0') + ':00';
+            times.push(`${dayName} ${hours}`);
+          } catch(e) {
+            times.push(t.substring(11, 16));
+          }
+          temps.push(hourlyInput.temperature_2m ? hourlyInput.temperature_2m[i] : null);
+          precips.push(hourlyInput.precipitation ? hourlyInput.precipitation[i] : 0);
+          winds.push(hourlyInput.wind_speed_10m ? hourlyInput.wind_speed_10m[i] : 0);
+          const p = hourlyInput.surface_pressure ? hourlyInput.surface_pressure[i] : null;
+          pressures.push(p ? Math.round(p * 0.750062) : null);
+        }
+      } else if (Array.isArray(hourlyInput) && hourlyInput.length) {
+        times = hourlyInput.map(h => h.time_lbl || h.time || '');
+        temps = hourlyInput.map(h => h.temp);
+        precips = hourlyInput.map(h => h.precip || 0);
+        winds = hourlyInput.map(h => h.wind || 0);
+        pressures = hourlyInput.map(h => h.pressure || null);
+      }
+
+      if (!times.length) {
+        container.innerHTML = '<div class="text-center text-slate-400 py-12">Нет почасовых данных для построения графика</div>';
+        return;
+      }
+
+      const options = {
+        series: [
+          {
+            name: 'Температура',
+            type: 'area',
+            data: temps
+          },
+          {
+            name: 'Осадки',
+            type: 'column',
+            data: precips
+          },
+          {
+            name: 'Скорость ветра',
+            type: 'line',
+            data: winds
+          },
+          {
+            name: 'Давление',
+            type: 'line',
+            data: pressures
+          }
+        ],
+        chart: {
+          height: 480,
+          type: 'line',
+          stacked: false,
+          background: 'transparent',
+          fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+          toolbar: {
+            show: true,
+            tools: {
+              download: true,
+              selection: true,
+              zoom: true,
+              zoomin: true,
+              zoomout: true,
+              pan: true,
+              reset: true
+            }
+          },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 500
+          }
+        },
+        theme: {
+          mode: 'dark'
+        },
+        colors: ['#38bdf8', '#3b82f6', '#34d399', '#fbbf24'],
+        stroke: {
+          width: [3, 0, 2.5, 2],
+          curve: 'smooth',
+          dashArray: [0, 0, 4, 0]
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '45%',
+            borderRadius: 3
+          }
+        },
+        fill: {
+          opacity: [0.35, 0.85, 1, 1],
+          gradient: {
+            inverseColors: false,
+            shade: 'dark',
+            type: "vertical",
+            opacityFrom: 0.6,
+            opacityTo: 0.05,
+            stops: [0, 95, 100]
+          }
+        },
+        markers: {
+          size: 0,
+          hover: {
+            size: 5
+          }
+        },
+        xaxis: {
+          categories: times,
+          labels: {
+            style: {
+              colors: '#94a3b8',
+              fontSize: '11px'
+            },
+            rotate: -45,
+            rotateAlways: false
+          },
+          axisBorder: {
+            color: '#334155'
+          },
+          axisTicks: {
+            color: '#334155'
+          },
+          tickAmount: 14
+        },
+        yaxis: [
+          {
+            title: {
+              text: 'Температура (°C)',
+              style: { color: '#38bdf8', fontSize: '11px' }
+            },
+            labels: {
+              formatter: val => (val != null ? `${val > 0 ? '+' : ''}${Math.round(val)}°` : ''),
+              style: { colors: '#38bdf8', fontSize: '11px' }
+            }
+          },
+          {
+            opposite: true,
+            title: {
+              text: 'Осадки (мм)',
+              style: { color: '#60a5fa', fontSize: '11px' }
+            },
+            labels: {
+              formatter: val => (val != null ? `${val.toFixed(1)}` : ''),
+              style: { colors: '#60a5fa', fontSize: '11px' }
+            },
+            min: 0
+          },
+          {
+            show: false,
+            title: {
+              text: 'Ветер (м/с)',
+              style: { color: '#34d399' }
+            }
+          },
+          {
+            show: false,
+            title: {
+              text: 'Давление (мм)',
+              style: { color: '#fbbf24' }
+            }
+          }
+        ],
+        tooltip: {
+          theme: 'dark',
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function (y, { seriesIndex }) {
+              if (y == null) return '—';
+              if (seriesIndex === 0) return `${y > 0 ? '+' : ''}${y.toFixed(1)} °C`;
+              if (seriesIndex === 1) return `${y.toFixed(1)} мм`;
+              if (seriesIndex === 2) return `${y.toFixed(1)} м/с`;
+              if (seriesIndex === 3) return `${Math.round(y)} мм рт. ст.`;
+              return y;
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'center',
+          labels: {
+            colors: '#cbd5e1'
+          }
+        },
+        grid: {
+          borderColor: 'rgba(51, 65, 85, 0.4)',
+          strokeDashArray: 3
+        }
+      };
+
+      container.innerHTML = '';
+      if (apexChartInstance) {
+        try { apexChartInstance.destroy(); } catch(e) {}
+      }
+      window.apexChartInstance = apexChartInstance = new ApexCharts(container, options);
+      apexChartInstance.render();
+    }
+    
 
     function renderDynamicView(d) {
       const container = document.getElementById('dynamic-view-container');
