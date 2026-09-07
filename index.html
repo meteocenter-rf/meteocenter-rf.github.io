@@ -844,7 +844,7 @@
       if (eAqi > 40) aqiDesc = 'Умеренный';
       if (eAqi > 60) aqiDesc = 'Нездоровый';
 
-      // 24h Hourly list
+      // 48h Hourly list
       const hourly_list = [];
       const hTimes = hourly.time || [];
       const hTemps = getField(hourly, 'temperature_2m');
@@ -853,16 +853,23 @@
       const hWinds = getField(hourly, 'wind_speed_10m');
       const hPress = getField(hourly, 'surface_pressure');
 
-      for (let i = 0; i < Math.min(hTimes.length, 24); i++) {
-        const tStr = hTimes[i].length >= 16 ? hTimes[i].substring(11, 16) : `${i}:00`;
+      const maxH = Math.min(hTimes.length, 48);
+      for (let i = 0; i < maxH; i++) {
+        const rawTime = hTimes[i] || '';
+        const tStr = rawTime.length >= 16 ? rawTime.substring(11, 16) : `${i % 24}:00`;
+        const dtPart = rawTime.length >= 10 ? rawTime.substring(0, 10) : '';
         const [hIcon, hDesc] = getWmo(hCodes[i]);
         hourly_list.push({
+          hour_idx: i,
+          raw_time: rawTime,
           time_lbl: tStr,
-          temp: hTemps[i] != null ? Math.round(hTemps[i] * 10) / 10 : 12,
+          date_str: dtPart,
+          temp: (hTemps[i] != null && !isNaN(hTemps[i])) ? Math.round(hTemps[i] * 10) / 10 : 12,
           icon: hIcon,
           desc: hDesc,
-          precip: hPrecs[i] || 0,
-          wind: hWinds[i] ? Math.round(hWinds[i]) : 3
+          precip: (hPrecs[i] != null && !isNaN(hPrecs[i])) ? Math.round(hPrecs[i] * 10) / 10 : 0,
+          wind: (hWinds[i] != null && !isNaN(hWinds[i])) ? Math.round(hWinds[i]) : 3,
+          is_midnight: (tStr === '00:00' && i > 0)
         });
       }
 
@@ -1180,13 +1187,21 @@
           </div>
         </div>
 
-        <!-- 24-Hour Spline Chart & Hourly Scroller -->
+        <!-- 48-Hour Spline Chart & Hourly Scroller -->
         <div class="glass rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-          <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
-            <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ (БЛИЖАЙШИЕ 24 ЧАСА)</span>
-            <span class="text-sky-400 font-mono">ECMWF IFS</span>
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
+            <div class="flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
+            </div>
+            <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
+              <span class="text-sky-400">ECMWF IFS 9km</span>
+              <span>· Листайте вправо 👉</span>
+            </div>
           </div>
-          <div id="hourly-svg-mount" class="w-full h-28 my-1"></div>
+          <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
+            <div id="hourly-svg-mount" class="h-36 min-w-[1380px]"></div>
+          </div>
           <div id="hourly-cards-strip" class="flex space-x-2 overflow-x-auto no-scrollbar py-2 text-center select-none"></div>
         </div>
       `;
@@ -1202,22 +1217,22 @@
       const stripMount = document.getElementById('hourly-cards-strip');
       if (!svgMount || !hourly || !hourly.length) return;
 
-      const h24 = hourly.slice(0, 24);
-      const temps = h24.map(h => h.temp);
-      const precs = h24.map(h => h.precip || 0);
+      const n = hourly.length;
+      const temps = hourly.map(h => (h.temp != null && !isNaN(h.temp)) ? h.temp : 12);
+      const precs = hourly.map(h => (h.precip != null && !isNaN(h.precip)) ? h.precip : 0);
       const minT = Math.min(...temps);
       const maxT = Math.max(...temps);
       const rangeT = (maxT - minT) > 0 ? (maxT - minT) : 2.0;
 
-      const W = 760, H = 105, padX = 24, padTop = 22, padBottom = 22;
+      const W = 1380, H = 135, padX = 36, padTop = 36, padBottom = 26;
       const chartW = W - 2 * padX;
       const chartH = H - padTop - padBottom;
-      const stepX = chartW / (h24.length - 1);
+      const stepX = chartW / (n - 1);
 
-      const pts = h24.map((h, i) => {
+      const pts = hourly.map((h, i) => {
         const x = padX + i * stepX;
         const y = padTop + chartH - ((h.temp - minT) / rangeT) * chartH;
-        return { x, y, temp: h.temp, precip: h.precip || 0, lbl: h.time_lbl };
+        return { x, y, temp: h.temp, precip: h.precip || 0, lbl: h.time_lbl, is_midnight: h.is_midnight };
       });
 
       let pathD = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
@@ -1232,54 +1247,76 @@
         const cp2y = p2.y - (p3.y - p1.y) / 6;
         pathD += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
       }
-      const areaD = `${pathD} L ${pts[pts.length-1].x.toFixed(1)} ${H - padBottom + 10} L ${pts[0].x.toFixed(1)} ${H - padBottom + 10} Z`;
+      const areaD = `${pathD} L ${pts[pts.length-1].x.toFixed(1)} ${H - padBottom + 12} L ${pts[0].x.toFixed(1)} ${H - padBottom + 12} Z`;
 
+      // Midnight vertical line & day badges
+      let midnightSvg = '';
+      const midPt = pts.find(p => p.is_midnight);
+      if (midPt) {
+        midnightSvg = `
+          <line x1="${midPt.x.toFixed(1)}" y1="2" x2="${midPt.x.toFixed(1)}" y2="${H - 4}" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3" opacity="0.85"/>
+          <rect x="${(midPt.x / 2 - 48).toFixed(1)}" y="4" width="96" height="18" rx="5" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" opacity="0.95"/>
+          <text x="${(midPt.x / 2).toFixed(1)}" y="16.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#38bdf8" font-family="sans-serif">СЕГОДНЯ</text>
+          <rect x="${((midPt.x + W - padX) / 2 - 48).toFixed(1)}" y="4" width="96" height="18" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1" opacity="0.95"/>
+          <text x="${((midPt.x + W - padX) / 2).toFixed(1)}" y="16.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#fbbf24" font-family="sans-serif">ЗАВТРА</text>
+        `;
+      }
+
+      // Precipitation bars
       let precipBars = '';
-      const maxP = Math.max(...precs, 1.5);
+      const maxP = Math.max(...precs, 2.0);
       pts.forEach(p => {
         if (p.precip >= 0.05) {
-          const barH = Math.min(26, (p.precip / maxP) * 26);
-          precipBars += `<rect x="${(p.x - 7).toFixed(1)}" y="${(H - padBottom - barH).toFixed(1)}" width="14" height="${barH.toFixed(1)}" rx="2.5" fill="#38bdf8" opacity="0.45"/>`;
+          const barH = Math.min(28, (p.precip / maxP) * 28);
+          precipBars += `<rect x="${(p.x - 6).toFixed(1)}" y="${(H - padBottom - barH).toFixed(1)}" width="12" height="${barH.toFixed(1)}" rx="2" fill="#38bdf8" opacity="0.5"/>`;
         }
       });
 
+      // Points & Labels every 2-3 hours
       let markers = '';
       pts.forEach((p, i) => {
-        if (i === 0 || i % 3 === 0 || i === pts.length - 1) {
+        const isMajor = (i % 3 === 0 || i === n - 1 || p.is_midnight);
+        if (isMajor) {
           const tSign = p.temp > 0 ? `+${Math.round(p.temp)}°` : `${Math.round(p.temp)}°`;
           markers += `
-            <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#38bdf8" stroke="#0f172a" stroke-width="2" />
-            <text x="${p.x.toFixed(1)}" y="${(p.y - 8).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="bold" fill="#f8fafc" font-family="monospace">${tSign}</text>
-            <text x="${p.x.toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9" font-weight="500" fill="#94a3b8" font-family="monospace">${p.lbl}</text>
+            <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#38bdf8" stroke="#0f172a" stroke-width="2" />
+            <text x="${p.x.toFixed(1)}" y="${(p.y - 7).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#ffffff" font-family="monospace">${tSign}</text>
+            <text x="${p.x.toFixed(1)}" y="${H - 5}" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8" font-family="monospace">${p.lbl}</text>
           `;
         }
       });
 
       svgMount.innerHTML = `
-        <svg viewBox="0 0 ${W} ${H}" class="w-full h-28 overflow-visible select-none" preserveAspectRatio="none">
+        <svg viewBox="0 0 ${W} ${H}" class="w-full h-36 overflow-visible select-none" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="hourTempGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+            <linearGradient id="h48Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32"/>
               <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
             </linearGradient>
           </defs>
+          ${midnightSvg}
           ${precipBars}
-          <path d="${areaD}" fill="url(#hourTempGrad)"/>
-          <path d="${pathD}" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="${areaD}" fill="url(#h48Grad)"/>
+          <path d="${pathD}" fill="none" stroke="#38bdf8" stroke-width="2.6" stroke-linecap="round"/>
           ${markers}
         </svg>
       `;
 
       if (stripMount) {
-        stripMount.innerHTML = h24.map((h, i) => {
+        let currentDayTag = 'Сегодня';
+        stripMount.innerHTML = hourly.map((h, i) => {
+          if (h.is_midnight) currentDayTag = 'Завтра';
           const isNow = (i === 0);
           const tSign = h.temp > 0 ? `+${Math.round(h.temp)}°` : `${Math.round(h.temp)}°`;
           const precBadge = (h.precip && h.precip >= 0.1) ? `<div class="text-[10px] text-cyan-400 font-bold mt-0.5">${h.precip} мм</div>` : '';
+          const dayColor = (currentDayTag === 'Сегодня') ? 'text-sky-400' : 'text-amber-400';
           return `
-            <div class="shrink-0 w-16 px-2 py-2 rounded-xl ${isNow ? 'bg-sky-950/80 border border-sky-500/50 text-sky-200 shadow-md' : 'bg-slate-900/60 border border-slate-800 text-slate-300'}">
+            <div class="shrink-0 w-16 px-2 py-2 rounded-xl ${isNow ? 'bg-sky-950/90 border border-sky-500/60 shadow-lg' : (h.is_midnight ? 'bg-amber-950/40 border border-amber-500/50' : 'bg-slate-900/60 border border-slate-800')}">
+              <div class="text-[9px] font-bold uppercase ${dayColor}">${currentDayTag}</div>
               <div class="text-[10px] font-medium text-slate-400">${isNow ? 'Сейчас' : h.time_lbl}</div>
               <div class="text-xl my-1">${h.icon || '⛅'}</div>
               <div class="text-xs font-bold font-mono text-white">${tSign}</div>
+              <div class="text-[9px] text-slate-500">${h.wind || 3} м/с</div>
               ${precBadge}
             </div>
           `;
