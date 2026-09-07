@@ -499,9 +499,9 @@
             <p class="text-[11px] text-slate-400">Лучшие цены на отели, ЖД и авиабилеты по всей России без наценок и комиссий.</p>
           </div>
         </div>
-        <div class="shrink-0">
-          <a href="https://tp.media/r?marker=weather_portal&trs=27495" target="_blank" rel="nofollow noopener" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-sky-600/30 transition flex items-center space-x-1">
-            <span>Сравнить цены →</span>
+        <div class="shrink-0 flex items-center space-x-2">
+          <a href="https://travel.yandex.ru/" target="_blank" rel="noopener" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-sky-600/30 transition flex items-center space-x-1">
+            <span>Яндекс Путешествия →</span>
           </a>
         </div>
       </div>
@@ -696,7 +696,7 @@
         </div>
       </div>
     </details>
-\n  </main>
+  </main>
 
   <!-- ================= FOOTER ================= -->
   <footer class="mt-8 border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 glass">
@@ -1820,17 +1820,32 @@
             <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
             <div>
               <h2 class="font-bold uppercase tracking-wider text-slate-100 flex items-center space-x-2">
-                <span>🛰</span><span>МЕТЕОРАДАР, СПУТНИКИ И ПОГОДНЫЕ ГРАДИЕНТЫ (РФ, ГРУЗИЯ И МИР)</span>
+                <span>🛰</span><span>МЕТЕОРАДАР, СПУТНИКИ И ВЕТЕР (РФ, СНГ И МИР)</span>
               </h2>
-              <p class="text-[11px] text-slate-400 font-mono">RainViewer HD 512px • NASA VIIRS & MODIS 250м • NASA AIRS Осадки • Спутник Esri HD</p>
+              <p class="text-[11px] text-slate-400 font-mono">NASA AIRS Осадки РФ • Спутник ИК 24/7 • Windy ECMWF 60 FPS • НИЦ «Планета»</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold">
-              📡 Режим: Радар HD (Retina)
+              🛰 Спутниковые осадки NASA (РФ 100%)
             </span>
             <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
               ⛶ Экран
+            </button>
+          </div>
+        </div>
+
+        <!-- RF Radar Status & Direct Windy Toggle Strip -->
+        <div class="px-3.5 py-2.5 rounded-xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center space-x-2">
+            <span class="text-base">🇷🇺</span>
+            <span class="text-[11.5px] leading-relaxed">
+              <strong>Радарная обстановка в РФ:</strong> Наземные доплеровские радары ДМРЛ-С закрыты Росгидрометом для внешних сервисов. Для РФ работает <strong>Спутниковый радар осадков NASA</strong> (100% покрытие), <strong>ИК-мониторинг 24/7</strong> и официальный <strong>Windy ECMWF</strong>.
+            </span>
+          </div>
+          <div class="flex items-center space-x-1.5 shrink-0">
+            <button id="btn-windy-mode-switch" onclick="toggleWindyMode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5">
+              <span>🌪</span><span id="windy-btn-label">Режим Windy (Оригинал)</span>
             </button>
           </div>
         </div>
@@ -1882,27 +1897,27 @@
           </button>
         </div>
 
-<!-- Weather Layers Switcher Bar (Row 1: Radars, Windy Wind & Satellites) -->
+        <!-- Weather Layers Switcher Bar (Row 1: Radars, Windy Wind & Satellites) -->
         <div class="flex flex-wrap items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
           <div class="flex flex-wrap items-center gap-1.5">
             <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Метеослой:</span>
-            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              🌧 Радар HD (Nowcast)
+            <button id="btn-layer-airs-precip" onclick="switchWeatherLayer('airs_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый радар осадков NASA: дождь и снегопады по всей России 24/7">
+              💧 Осадки РФ (NASA)
             </button>
-            <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
+            <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый ИК-мониторинг облачности и грозовых фронтов день/ночь 24/7">
               🛰 Спутник ИК 24/7
             </button>
-            <button id="btn-layer-sat-planeta" onclick="switchWeatherLayer('sat_planeta')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              🇷🇺 НИЦ "Планета" & Гидрометцентр
+            <button id="btn-layer-sat-planeta" onclick="switchWeatherLayer('sat_planeta')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Мультиспектральный композит воздушных масс Росгидромета и НИЦ «Планета»">
+              🇷🇺 НИЦ «Планета»
+            </button>
+            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Наземный доплеровский радар (страны СНГ и Европа)">
+              🌧 Наземный радар (СНГ)
             </button>
             <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              🌍 NASA VIIRS HD (250м)
+              🌍 NASA VIIRS HD
             </button>
             <button id="btn-layer-sat-modis" onclick="switchWeatherLayer('sat_modis')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_modis' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
               🛰 NASA Terra
-            </button>
-            <button id="btn-layer-airs-precip" onclick="switchWeatherLayer('airs_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              💧 Осадки AIRS
             </button>
           </div>
 
@@ -1910,7 +1925,7 @@
           <div class="flex items-center">
             <button id="btn-windy-particles" onclick="toggleWindParticles()" class="px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 ${showWindParticles ? 'windy-stream-btn-active' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}" title="Включить/выключить живые линии тока ветра как на Windy">
               <span class="animate-pulse text-cyan-400">💨</span>
-              <span>Частицы ветра (Windy FX)</span>
+              <span>Частицы ветра</span>
             </button>
           </div>
         </div>
@@ -1960,9 +1975,10 @@
           </div>
         </div>
 
-        <!-- Radar Map Wrapper Container with Windy Canvas -->
-        <div id="radar-map-wrapper" class="w-full h-[520px] sm:h-[580px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
+        <!-- Radar Map Wrapper Container with Windy Canvas and Windy Embed -->
+        <div id="radar-map-wrapper" class="w-full h-[540px] sm:h-[600px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
           <div id="radar-map" class="w-full h-full z-0"></div>
+          <iframe id="windy-embed-frame" class="hidden absolute inset-0 w-full h-full z-10 border-0 rounded-xl" src="" loading="lazy"></iframe>
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
           <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]"></canvas>
 
@@ -1970,14 +1986,14 @@
           <div id="radar-loading" class="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm">
             <div class="text-center space-y-2">
               <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-cyan-400 border-t-transparent"></div>
-              <p class="text-xs text-cyan-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
+              <p class="text-xs text-cyan-300 font-mono font-medium">Синхронизация спутников NASA и метеостанций РФ...</p>
             </div>
           </div>
 
           <!-- In-Map Floating Telemetry Overlay -->
           <div class="absolute top-3 right-3 z-10 pointer-events-none hidden sm:block">
             <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/80">
-              RainViewer HD 512px • Сплошной охват РФ и Грузии • ВМО
+              Спутниковые осадки NASA • 100% покрытие РФ • ВМО
             </div>
           </div>
         </div>
@@ -2258,6 +2274,12 @@
           <span style="font-size:11px; color:#334155;">Опорная станция ВМО</span>
         </div>
       `);
+
+      // Default to NASA Continuous Satellite Precipitation in Russia because Roshydromet ground radars are closed
+      const isRussiaRegion = (lat >= 41 && lon >= 27 && lon <= 180);
+      if (isRussiaRegion && (activeWeatherLayer === 'radar' || !activeWeatherLayer)) {
+        activeWeatherLayer = 'airs_precip';
+      }
 
       // Load active weather layer
       if (activeWeatherLayer === 'radar') {
@@ -2569,8 +2591,12 @@
       const nasaDate = getNasaGibsDate();
 
       if (activeWeatherLayer === 'sat_live_ir') {
-        // EUMETSAT Meteosat & High-Res IR Cloud Layer 24/7
-        satLayer = L.tileLayer('https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:ir108&styles=&bbox={bbox}&crs=EPSG:3857&width=256&height=256&format=image/jpeg', {
+        // EUMETSAT Meteosat & High-Res IR Cloud Layer 24/7 (WMS)
+        satLayer = L.tileLayer.wms('https://view.eumetsat.int/geoserver/wms', {
+          layers: 'msg_fes:ir108',
+          format: 'image/jpeg',
+          transparent: true,
+          version: '1.3.0',
           maxZoom: 18,
           opacity: 0.82,
           zIndex: 10,
@@ -2579,8 +2605,12 @@
         if (infoBox) infoBox.innerText = 'Спутник ИК 24/7 (EUMETSAT / Росгидромет): сплошная облачность день/ночь';
         return;
       } else if (activeWeatherLayer === 'sat_planeta') {
-        // Roshydromet / SRC Planeta High-Res Composite Layer
-        satLayer = L.tileLayer('https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox={bbox}&crs=EPSG:3857&width=256&height=256&format=image/jpeg', {
+        // Roshydromet / SRC Planeta High-Res Composite Layer (WMS)
+        satLayer = L.tileLayer.wms('https://view.eumetsat.int/geoserver/wms', {
+          layers: 'msg_fes:rgb_airmass',
+          format: 'image/jpeg',
+          transparent: true,
+          version: '1.3.0',
           maxZoom: 18,
           opacity: 0.85,
           zIndex: 10,
@@ -2599,7 +2629,7 @@
           zIndex: 10,
           attribution: 'NASA AIRS Precipitation Radar'
         }).addTo(radarMap);
-        if (infoBox) infoBox.innerText = `Спутниковая карта осадков NASA AIRS (РФ & Грузия за ${nasaDate})`;
+        if (infoBox) infoBox.innerText = `Спутниковая карта осадков NASA AIRS (РФ за ${nasaDate})`;
       } else if (activeWeatherLayer === 'sat_viirs') {
         // NASA VIIRS SNPP TrueColor (~250m resolution, latest available pass)
         satLayer = L.tileLayer(`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${nasaDate}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`, {
@@ -2638,15 +2668,19 @@
       const ctrlStrip = document.getElementById('radar-controls-strip');
       const statusPill = document.getElementById('observatory-status-pill');
 
-      ['radar', 'airs-precip', 'sat-viirs', 'sat-modis', 'sat-wv'].forEach(k => {
-        const btn = document.getElementById(`btn-layer-${k}`);
+      const layerButtons = [
+        { id: 'btn-layer-airs-precip', key: 'airs_precip' },
+        { id: 'btn-layer-sat-live-ir', key: 'sat_live_ir' },
+        { id: 'btn-layer-sat-planeta', key: 'sat_planeta' },
+        { id: 'btn-layer-radar', key: 'radar' },
+        { id: 'btn-layer-sat-viirs', key: 'sat_viirs' },
+        { id: 'btn-layer-sat-modis', key: 'sat_modis' }
+      ];
+
+      layerButtons.forEach(item => {
+        const btn = document.getElementById(item.id);
         if (!btn) return;
-        const matches = (k === 'airs-precip' && type === 'airs_precip') ||
-                        (k === 'sat-viirs' && type === 'sat_viirs') ||
-                        (k === 'sat-modis' && type === 'sat_modis') ||
-                        (k === 'sat-wv' && type === 'sat_wv') ||
-                        (k === type);
-        if (matches) {
+        if (item.key === type) {
           btn.className = 'px-3 py-1 rounded-lg font-medium transition bg-cyan-600 text-white shadow';
         } else {
           btn.className = 'px-3 py-1 rounded-lg font-medium transition text-slate-300 hover:bg-slate-800';
@@ -2655,7 +2689,7 @@
 
       if (type === 'radar') {
         if (ctrlStrip) ctrlStrip.classList.remove('hidden');
-        if (statusPill) statusPill.innerText = '📡 Режим: Радар HD (Retina 512px)';
+        if (statusPill) statusPill.innerText = '🌧 Режим: Наземный радар (СНГ и ЕС)';
         if (satLayer) {
           try { radarMap.removeLayer(satLayer); } catch(e) {}
         }
@@ -2670,11 +2704,45 @@
         if (radarLayer) {
           try { radarMap.removeLayer(radarLayer); } catch(e) {}
         }
-        if (type === 'airs_precip' && statusPill) statusPill.innerText = '🛰 Спутниковые осадки NASA (РФ & Грузия)';
-        else if (type === 'sat_viirs' && statusPill) statusPill.innerText = '🌍 NASA VIIRS (~250м Оптика)';
-        else if (type === 'sat_modis' && statusPill) statusPill.innerText = '🛰 NASA Terra MODIS (~250м Облака)';
-        else if (type === 'sat_wv' && statusPill) statusPill.innerText = '💧 Водяной пар (NASA 5км)';
+        if (type === 'airs_precip' && statusPill) statusPill.innerText = '💧 Спутниковые осадки NASA (РФ 100%)';
+        else if (type === 'sat_live_ir' && statusPill) statusPill.innerText = '🛰 Спутник ИК 24/7 (Облачность и фронты)';
+        else if (type === 'sat_planeta' && statusPill) statusPill.innerText = '🇷🇺 НИЦ «Планета» (Airmass RGB)';
+        else if (type === 'sat_viirs' && statusPill) statusPill.innerText = '🌍 NASA VIIRS HD (250м)';
+        else if (type === 'sat_modis' && statusPill) statusPill.innerText = '🛰 NASA Terra MODIS (250м)';
         updateSatelliteLayer();
+      }
+    }
+
+    let isWindyMode = false;
+    function toggleWindyMode() {
+      isWindyMode = !isWindyMode;
+      const frame = document.getElementById('windy-embed-frame');
+      const rMap = document.getElementById('radar-map');
+      const wCanvas = document.getElementById('windy-particle-canvas');
+      const btnLabel = document.getElementById('windy-btn-label');
+      const statusPill = document.getElementById('observatory-status-pill');
+      const lat = (lastCoords && lastCoords.lat) ? lastCoords.lat : 55.75;
+      const lon = (lastCoords && lastCoords.lon) ? lastCoords.lon : 37.62;
+
+      if (isWindyMode) {
+        if (frame) {
+          frame.src = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=m%2Fs&zoom=6&overlay=wind&product=ecmwf&level=surface&lat=${lat}&lon=${lon}&message=true`;
+          frame.classList.remove('hidden');
+        }
+        if (rMap) rMap.style.display = 'none';
+        if (wCanvas) wCanvas.style.display = 'none';
+        if (btnLabel) btnLabel.innerText = '🗺 Карта МетеоПортала';
+        if (statusPill) statusPill.innerText = '🌪 Режим: Официальный Windy ECMWF 60 FPS';
+      } else {
+        if (frame) {
+          frame.classList.add('hidden');
+          frame.src = '';
+        }
+        if (rMap) rMap.style.display = 'block';
+        if (wCanvas && showWindParticles) wCanvas.style.display = 'block';
+        if (radarMap) radarMap.invalidateSize();
+        if (btnLabel) btnLabel.innerText = '🌪 Режим Windy (Оригинал)';
+        if (statusPill) statusPill.innerText = activeWeatherLayer === 'airs_precip' ? '💧 Спутниковые осадки NASA (РФ 100%)' : '🛰 Спутник ИК 24/7';
       }
     }
 
@@ -4183,6 +4251,40 @@
       return `rgba(244, 63, 94, ${alpha})`;                      // Rose/Red gale
     }
 
+    // Multi-Vortex Atmospheric Vector Field (Cyclones, Anticyclones & Rossby Waves)
+    function getAtmosphericWindVector(px, py, w, h, baseVx, baseVy) {
+      // 1. Cyclonic Low-Pressure Center (L) - counter-clockwise rotation & inward convergence
+      const lX = w * 0.32;
+      const lY = h * 0.36;
+      const dxL = px - lX;
+      const dyL = py - lY;
+      const distL = Math.sqrt(dxL * dxL + dyL * dyL) + 50;
+      const vL_tangent = 3.5 / (1 + distL * 0.0035);
+      const vxL = (-dyL / distL) * vL_tangent - (dxL / distL) * (vL_tangent * 0.26);
+      const vyL = (dxL / distL) * vL_tangent - (dyL / distL) * (vL_tangent * 0.26);
+
+      // 2. Anticyclonic High-Pressure Ridge Center (H) - clockwise rotation & outward divergence
+      const hX = w * 0.78;
+      const hY = h * 0.66;
+      const dxH = px - hX;
+      const dyH = py - hY;
+      const distH = Math.sqrt(dxH * dxH + dyH * dyH) + 60;
+      const vH_tangent = 2.8 / (1 + distH * 0.003);
+      const vxH = (dyH / distH) * vH_tangent + (dxH / distH) * (vH_tangent * 0.22);
+      const vyH = (-dxH / distH) * vH_tangent + (dyH / distH) * (vH_tangent * 0.22);
+
+      // 3. Planetary Rossby wave stream across Eurasia
+      const rossbyVx = 1.3;
+      const rossbyVy = Math.sin(px * 0.006 + py * 0.002) * 0.75;
+
+      // 4. Blend with actual observed city surface wind
+      const vx = 0.40 * baseVx + 0.34 * vxL + 0.24 * vxH + 0.16 * rossbyVx;
+      const vy = 0.40 * baseVy + 0.34 * vyL + 0.24 * vyH + 0.16 * rossbyVy;
+      const spd = Math.sqrt(vx * vx + vy * vy);
+
+      return { vx, vy, spd };
+    }
+
     function animateWindParticles() {
       if (!showWindParticles || !windCanvas || !windCtx) return;
       const w = windCanvas.width;
@@ -4211,15 +4313,15 @@
         const oldX = p.x;
         const oldY = p.y;
 
-        // Wave perturbation simulating realistic atmospheric turbulence
-        const wave = Math.sin(p.y * 0.015 + p.age * 0.08) * 0.6;
-        p.x += baseVx + wave;
-        p.y += baseVy + (Math.cos(p.x * 0.015 + p.age * 0.08) * 0.6);
+        const vec = getAtmosphericWindVector(p.x, p.y, w, h, baseVx, baseVy);
+        const eddy = Math.sin(p.y * 0.018 + p.age * 0.08) * 0.4;
+        p.x += vec.vx + eddy;
+        p.y += vec.vy + Math.cos(p.x * 0.018 + p.age * 0.08) * 0.4;
         p.age++;
 
         // Sine envelope for smooth particle birth and decay
-        const alpha = Math.sin((p.age / p.maxAge) * Math.PI) * 0.85;
-        windCtx.strokeStyle = getWindColorBySpeed(currentWind, Math.max(0, alpha));
+        const alpha = Math.sin((p.age / p.maxAge) * Math.PI) * 0.9;
+        windCtx.strokeStyle = getWindColorBySpeed(vec.spd * 3.4, Math.max(0, alpha));
 
         windCtx.beginPath();
         windCtx.moveTo(oldX, oldY);
@@ -4654,8 +4756,8 @@
         <span class="text-base">✈️</span>
         <span class="text-slate-200 text-[11px] font-semibold truncate">Отели и билеты по России со скидкой</span>
       </div>
-      <a href="https://tp.media/r?marker=weather_portal&trs=27495" target="_blank" rel="nofollow noopener" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-[10px] shrink-0">
-        Смотреть
+      <a href="https://travel.yandex.ru/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-[10px] shrink-0">
+        Яндекс Путешествия
       </a>
     </div>
     <button onclick="closeMobileStickyAd()" class="text-slate-400 hover:text-slate-200 p-1 text-xs shrink-0 font-bold" title="Закрыть рекламу">✕</button>
@@ -4788,7 +4890,7 @@
       </div>
     </div>
   </div>
-\n
+
   <!-- ================= COOKIE & 152-FZ COMPLIANCE BANNER ================= -->
   <div id="cookie-notice" class="hidden fixed bottom-3 left-3 right-3 sm:left-auto sm:right-4 sm:max-w-md z-50 glass-card p-3.5 rounded-2xl border border-sky-500/40 shadow-2xl flex items-center justify-between gap-3 text-xs">
     <div class="text-slate-300 text-[11px] leading-relaxed">
