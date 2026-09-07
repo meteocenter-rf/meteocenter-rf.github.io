@@ -217,6 +217,40 @@
       left: 50%;
       top: 50%;
     }
+
+    /* Radar Floating HUD Controls (Windy & Ventusky style) */
+    .radar-float-btn {
+      padding: 0.35rem 0.65rem;
+      border-radius: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      user-select: none;
+      cursor: pointer;
+    }
+    .radar-float-active {
+      background: rgba(2, 132, 199, 0.92) !important;
+      color: #ffffff !important;
+      border: 1px solid #38bdf8 !important;
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.45) !important;
+    }
+    .radar-float-inactive {
+      background: rgba(10, 15, 29, 0.85);
+      color: #94a3b8;
+      border: 1px solid rgba(51, 65, 85, 0.65);
+    }
+    .radar-float-inactive:hover {
+      background: rgba(24, 34, 58, 0.95);
+      color: #f8fafc;
+      border-color: rgba(148, 163, 184, 0.5);
+      transform: translateY(-1px);
+    }
   </style>
 
   <!-- Yandex.Metrika counter -->
@@ -1619,240 +1653,39 @@
     // -------------------------------------------------------------------------
     function renderTabRadar(container, d) {
       const card = document.createElement('div');
-      card.className = 'glass rounded-2xl p-3.5 sm:p-5 shadow-2xl space-y-3';
+      card.className = 'glass rounded-2xl shadow-2xl space-y-3 overflow-hidden p-3.5 sm:p-5';
+
+      const curT = d.current ? (d.current.temp != null ? `${d.current.temp > 0 ? '+' : ''}${Math.round(d.current.temp)}°C` : '—') : '—';
+      const curApp = d.current && d.current.apparent != null ? `${d.current.apparent > 0 ? '+' : ''}${Math.round(d.current.apparent)}°C` : curT;
+      const curCond = d.current ? (d.current.condition || 'Переменная облачность') : 'Мониторинг';
+      const curIcon = d.current ? (d.current.icon || '⛅') : '⛅';
+      const curWind = d.current ? `${numFmt(d.current.wind_speed, 1)} м/с` : '—';
+      const curWindDir = d.current ? (d.current.wind_dir_name || '') : '';
+      const curHum = d.current && d.current.humidity ? `${d.current.humidity}%` : '—';
+      const curPrec = d.current && d.current.precipitation != null ? `${numFmt(d.current.precipitation, 1)} мм` : '0 мм';
+
       card.innerHTML = `
-        <!-- Observatory Header & Realtime Telemetry -->
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-800 text-xs">
+        <!-- Observatory Header Row -->
+        <div class="flex flex-wrap items-center justify-between gap-2.5 pb-2 border-b border-slate-800/80 text-xs">
           <div class="flex items-center space-x-2.5">
-            <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
+            <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_12px_#22d3ee]"></span>
             <div>
-              <h2 class="font-bold uppercase tracking-wider text-slate-100 flex items-center space-x-2">
-                <span>🛰</span><span>МЕТЕОРАДАР, СПУТНИКИ И ПОГОДНЫЕ ГРАДИЕНТЫ (РФ, ГРУЗИЯ И МИР)</span>
+              <h2 class="font-bold uppercase tracking-wider text-slate-100 flex items-center space-x-2 text-xs sm:text-sm">
+                <span>🛰</span><span>МЕТЕОРАДАР ОНЛАЙН · ОСАДКИ, ГРОЗЫ И СНЕГ</span>
               </h2>
-              <p class="text-[11px] text-slate-400 font-mono">RainViewer HD 512px • NASA VIIRS & MODIS 250м • NASA AIRS Осадки • Спутник Esri HD</p>
+              <p class="text-[11px] text-slate-400 font-mono">Спутниковый мониторинг 60 FPS • Доплер-радар HD • Снег & Дождь • Детекция молний</p>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold">
-              🛰 Режим: Спутник Онлайн (Meteosat IR)
+          <div class="flex items-center space-x-2 flex-wrap gap-y-1.5">
+            <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold shadow-sm">
+              🛰 Режим: Спутник Онлайн (IR)
             </span>
-            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
-              ⛶ Экран
+            <!-- Snow / Rain Toggle -->
+            <button id="radar-snow-btn" onclick="toggleRadarSnow()" title="Переключить разделение снега и дождя" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-semibold hover:bg-emerald-900/80 transition flex items-center space-x-1 shadow-sm">
+              <span>❄️</span><span>Снег/Дождь: ВКЛ</span>
             </button>
-          </div>
-        </div>
-
-        <!-- Regional Quick-Preset Navigation Strip (Russia & Georgia Focused) -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-[11px] font-mono select-none">
-          <span class="text-slate-400 shrink-0 text-xs font-sans font-semibold mr-1">Регионы:</span>
-          <button onclick="flyToPreset(${d.lat}, ${d.lon}, 8, '${d.city}')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-sky-950/70 hover:bg-sky-900 border border-sky-600/60 text-sky-200 transition">
-            📍 ${d.city}
-          </button>
-          <button onclick="flyToPreset(55.7558, 37.6173, 8, 'Москва')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            📍 Москва и ЦФО
-          </button>
-          <button onclick="flyToPreset(59.9343, 30.3351, 8, 'Санкт-Петербург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            📍 СПб и СЗФО
-          </button>
-          <button onclick="flyToPreset(43.5855, 39.7231, 8, 'Сочи')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌊 Сочи и Черноморье
-          </button>
-          <button onclick="flyToPreset(45.0355, 38.9753, 9, 'Краснодар')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌾 Краснодар (Кубань)
-          </button>
-          <button onclick="flyToPreset(55.7887, 49.1221, 8, 'Казань')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🏛️ Поволжье
-          </button>
-          <button onclick="flyToPreset(56.8389, 60.6057, 8, 'Екатеринбург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            ⛰️ Урал (Екб)
-          </button>
-          <button onclick="flyToPreset(55.0084, 82.9357, 7, 'Новосибирск')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌲 Сибирь (Нск)
-          </button>
-          <button onclick="flyToPreset(43.1155, 131.8855, 7, 'Владивосток')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            ⚓ Дальний Восток
-          </button>
-          <button onclick="flyToPreset(41.7151, 44.8271, 9, 'Тбилиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🏔️ Тбилиси
-          </button>
-          <button onclick="flyToPreset(41.6423, 41.6339, 10, 'Батуми')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌊 Батуми (Аджария)
-          </button>
-          <button onclick="flyToPreset(42.2679, 42.6946, 9, 'Кутаиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🏛️ Кутаиси
-          </button>
-          <button onclick="flyToPreset(42.6593, 44.6418, 9, 'Казбеги')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            ⛰️ Казбеги (Кавказ)
-          </button>
-          <button onclick="flyToPreset(53.0, 60.0, 4, 'Евразия')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌐 Обзор РФ и Евразии
-          </button>
-        </div>
-
-        <!-- Weather Layers Switcher Bar (Row 1: Primary Satellite / Radar Modes) -->
-        <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/85 border border-slate-800 text-xs">
-          <span class="text-slate-400 text-[11px] px-1 font-semibold uppercase shrink-0">Режим:</span>
-          <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Сплошной 100% охват РФ и Евразии со спутников Meteosat/GOES 24/7">
-            🛰 Спутник Онлайн (Meteosat IR)
-          </button>
-          <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Спутниковые облака + Доплеровский радар">
-            🌪 Облака + Осадки
-          </button>
-          <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Наземные доплеровские вышки ДМРЛ (Европа, Беларусь, приграничные зоны РФ)">
-            📡 Доплер-Радар (RainViewer)
-          </button>
-          <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'storm_radar' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-            ⚡ Грозы & Молнии
-          </button>
-        </div>
-
-        <!-- Row 2: Atmospheric Models, NASA Satellites, Gradients & Basemaps Bar -->
-        <div class="space-y-1.5 text-xs">
-          <!-- Numerical Models & NASA Satellites Row -->
-          <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold uppercase shrink-0">Модели & NASA:</span>
-            <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_ecmwf' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-              🌐 ECMWF IFS (9 км)
-            </button>
-            <button id="btn-layer-model-icon" onclick="switchWeatherLayer('model_icon')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_icon' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-              🌀 DWD ICON (13 км)
-            </button>
-            <button id="btn-layer-model-gfs" onclick="switchWeatherLayer('model_gfs')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_gfs' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-              📡 NOAA GFS
-            </button>
-            <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-              🌍 NASA VIIRS (~250м)
-            </button>
-            <button id="btn-layer-sat-wv" onclick="switchWeatherLayer('sat_wv')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'sat_wv' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
-              💧 NASA Пар
-            </button>
-          </div>
-
-          <!-- Weather Gradients & Basemaps Row -->
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-2 text-xs">
-            <!-- Weather Gradients Toolbar -->
-            <div class="md:col-span-7 flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-              <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Градиент:</span>
-              <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                Выкл
-              </button>
-              <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'temp' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌡️ Температура
-              </button>
-              <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌧️ Осадки
-              </button>
-              <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'wind' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                💨 Ветер
-              </button>
-              <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'clouds' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                ☁️ Облака
-              </button>
-              <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'press' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌀 Давление
-              </button>
-            </div>
-
-            <!-- Basemap Selector & Stations toggle -->
-            <div class="md:col-span-5 flex items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-              <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Карта:</span>
-              <div class="flex items-center space-x-1">
-                <button id="btn-base-sat" onclick="switchBasemap('satellite')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                  🛰 Спутник
-                </button>
-                <button id="btn-base-dark" onclick="switchBasemap('dark')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                  🌌 Темная
-                </button>
-                <button id="btn-base-osm" onclick="switchBasemap('osm')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                  🗺 OSM
-                </button>
-              </div>
-              <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть 115 опорных станций ВМО" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0 hover:bg-emerald-900/80 transition">
-                📍 115 Станций
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Radar Map Wrapper Container -->
-        <div id="radar-map-wrapper" class="w-full h-[52vh] min-h-[420px] sm:h-[600px] xl:h-[650px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
-          <div id="radar-map" class="w-full h-full"></div>
-
-          <!-- Loading Indicator -->
-          <div id="radar-loading" class="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm">
-            <div class="text-center space-y-2">
-              <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-sky-400 border-t-transparent"></div>
-              <p id="radar-loading-text" class="text-xs text-sky-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
-            </div>
-          </div>
-
-          <!-- In-Map Floating Telemetry Overlay -->
-          <div class="absolute top-3 right-3 z-10 pointer-events-none hidden sm:block">
-            <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/80">
-              🛰 Meteosat IR (RealEarth) • Сплошной охват РФ 24/7 • 60 FPS
-            </div>
-          </div>
-
-          <!-- RainViewer Russian Coverage Notice Badge (visible only in radar mode) -->
-          <div id="rainviewer-rf-hint" class="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-20 hidden">
-            <div class="glass-card p-3 rounded-xl border border-amber-500/50 bg-slate-950/95 shadow-2xl flex items-start space-x-2.5 text-xs backdrop-blur-md">
-              <span class="text-amber-400 text-base mt-0.5 shrink-0">ℹ️</span>
-              <div class="space-y-1">
-                <div class="font-bold text-amber-300 text-[11px]">Наземные вышки RainViewer в глубине РФ закрыты</div>
-                <div class="text-slate-300 text-[10.5px] leading-relaxed">
-                  Росгидромет не передает доплеровские эхо ДМРЛ международным сервисам (вышки есть только в Европе и у границ РФ). Чтобы видеть тучи, циклоны и дожди над РФ в реальном времени:
-                </div>
-                <div class="pt-1 flex flex-wrap items-center gap-1.5">
-                  <button onclick="switchWeatherLayer('sat_live_ir')" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-[10.5px] transition shadow-sm">
-                    🛰 Включить Спутник Онлайн (РФ 100%)
-                  </button>
-                  <button onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-semibold text-[10.5px] transition shadow-sm">
-                    🌪 Облака + Осадки
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Interactive Timeline Player Strip (Zero-Lag Dual-Buffered Engine) -->
-        <div id="radar-controls-strip" class="glass-card rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <!-- Playback Buttons -->
-          <div class="flex items-center space-x-1.5">
-            <button id="radar-play-btn" onclick="toggleRadarPlay()" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md">
-              <span id="radar-play-icon">▶</span>
-              <span id="radar-play-text">Анимация</span>
-              <span class="text-[10px] text-sky-200/80 hidden sm:inline ml-1 font-mono">[Пробел]</span>
-            </button>
-            <button onclick="prevRadarFrame()" title="Предыдущий кадр (Стрелка влево)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono">◀</button>
-            <button onclick="nextRadarFrame()" title="Следующий кадр (Стрелка вправо)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono">▶</button>
-            <!-- Speed Selector -->
-            <div class="flex items-center space-x-1 bg-slate-900/90 rounded-lg p-0.5 border border-slate-800 text-[11px] font-mono ml-1">
-              <button onclick="setRadarSpeed(1300)" id="speed-05x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">0.5x</button>
-              <button onclick="setRadarSpeed(700)" id="speed-1x" class="px-2 py-0.5 rounded bg-sky-600 text-white font-bold">1x</button>
-              <button onclick="setRadarSpeed(350)" id="speed-2x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">2x</button>
-            </div>
-          </div>
-
-          <!-- Timeline Scrubber Range -->
-          <div class="flex-1 min-w-[220px] max-w-md flex flex-col space-y-1">
-            <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
-              <span id="radar-slider-start-label">История ~9 ч</span>
-              <span id="radar-slider-mode-badge" class="text-sky-400 font-bold">🛰 Спутник IR (60 FPS)</span>
-              <span id="radar-slider-end-label" class="text-slate-300 font-bold">Факт (сейчас)</span>
-            </div>
-            <input type="range" id="radar-slider" min="0" max="12" value="0" oninput="onRadarSlider(this.value)"
-              class="w-full accent-sky-500 bg-slate-800 h-2.5 rounded-lg cursor-pointer transition-all" />
-          </div>
-
-          <!-- Time Badge & Options -->
-          <div class="flex items-center space-x-2.5 font-mono flex-wrap gap-y-1.5">
-            <span id="radar-time-badge" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-sky-300 text-[11px] font-bold tracking-tight">
-              Кадр: синхронизация...
-            </span>
-
             <!-- Palette Selector -->
-            <select id="radar-palette-select" onchange="switchRadarPalette(this.value)" class="bg-slate-900 text-slate-300 border border-slate-700 rounded-lg px-2 py-1 text-[11px] outline-none">
+            <select id="radar-palette-select" onchange="switchRadarPalette(this.value)" class="bg-slate-900 text-slate-200 border border-slate-700 rounded-lg px-2.5 py-1 text-xs outline-none cursor-pointer hover:border-slate-600 transition font-mono">
               <option value="6">Палитра: NEXRAD (WSR-88D)</option>
               <option value="7">Палитра: Радуга (Rainbow)</option>
               <option value="2" selected>Палитра: Синяя HD</option>
@@ -1860,73 +1693,262 @@
               <option value="4">Палитра: Meteored</option>
               <option value="1">Палитра: Оригинальная</option>
             </select>
-
-            <!-- Snow Differentiation Toggle -->
-            <button id="radar-snow-btn" onclick="toggleRadarSnow()" title="Переключить разделение снега и дождя" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-[11px] transition">
-              ❄️ Снег/Дождь: ВКЛ
-            </button>
-
             <!-- Opacity Slider -->
-            <div class="flex items-center space-x-1 text-[11px] text-slate-400">
-              <span title="Прозрачность">Пр:</span>
-              <input type="range" min="20" max="100" value="80" oninput="setRadarOpacity(this.value)" class="w-16 accent-cyan-400 bg-slate-800 h-1.5 rounded cursor-pointer" />
+            <div class="hidden sm:flex items-center space-x-1.5 text-xs text-slate-400 bg-slate-900/80 px-2 py-1 rounded-lg border border-slate-800">
+              <span title="Прозрачность слоя">Пр:</span>
+              <input type="range" min="20" max="100" value="80" oninput="setRadarOpacity(this.value)" class="w-16 accent-cyan-400 h-1.5 rounded cursor-pointer" />
             </div>
+            <!-- Fullscreen -->
+            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
+              ⛶ Экран
+            </button>
           </div>
         </div>
 
-        <!-- Dynamic Meteorological Legends Strip (dBZ, mm/h, Rain, Snow, Thunderstorms, Hail) -->
-        <div id="radar-legend-strip" class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 space-y-2 text-[11px] font-mono">
-          <!-- Reflectivity Scale & Weather Category -->
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center space-x-1.5 text-slate-300">
-              <span class="font-bold text-cyan-400">Шкала интенсивности осадков и явлений:</span>
-            </div>
-            <div class="flex items-center space-x-2 flex-wrap text-[10.5px]">
-              <span class="flex items-center space-x-1" title="0.1–1.5 мм/ч"><span class="w-3 h-3 rounded bg-[#06b6d4]"></span><span class="text-slate-300">Морось</span></span>
-              <span class="flex items-center space-x-1" title="1.5–5 мм/ч"><span class="w-3 h-3 rounded bg-[#22c55e]"></span><span class="text-slate-300">Дождь</span></span>
-              <span class="flex items-center space-x-1" title="5–15 мм/ч"><span class="w-3 h-3 rounded bg-[#eab308]"></span><span class="text-slate-300">Ливень</span></span>
-              <span class="flex items-center space-x-1" title="15–35 мм/ч"><span class="w-3 h-3 rounded bg-[#ef4444]"></span><span class="text-rose-300 font-bold">Сильный ливень</span></span>
-              <span class="flex items-center space-x-1" title=">35 мм/ч, конвекция"><span class="w-3 h-3 rounded bg-[#a855f7] shadow-[0_0_6px_#a855f7]"></span><span class="text-purple-300 font-bold">⚡ Гроза / Шквал</span></span>
-              <span class="flex items-center space-x-1" title="Крупный град >55 dBZ"><span class="w-3 h-3 rounded bg-[#f43f5e] shadow-[0_0_6px_#f43f5e]"></span><span class="text-pink-300 font-bold">🟣 Град</span></span>
-              <span class="flex items-center space-x-1" title="Снег в режиме «Снег/Дождь»"><span class="w-3 h-3 rounded bg-[#38bdf8] border border-cyan-300"></span><span class="text-cyan-300 font-bold">❄️ Снег</span></span>
-            </div>
-          </div>
-          <!-- Satellite & Atmospheric Motion Info Line -->
-          <div class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-slate-800 text-[10px] text-slate-400">
-            <div>
-              <strong class="text-slate-300">Движение атмосферы:</strong> Анимация облачных циклонов Meteosat IR (RealEarth SSEC, 8–10 ч) • Доплеровский радар РФ (10 мин) • NASA VIIRS
-            </div>
-            <div>
-              <strong class="text-slate-300">Грозовая телеметрия:</strong> Детекция конвективных ячеек CAPE • Разряды молний CG/IC • Шквалы
-            </div>
-          </div>
-        </div>
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- IMMERSIVE RADAR MAP CONTAINER (Windy / Ventusky Top-Tier UX)       -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <div id="radar-map-wrapper" class="relative w-full rounded-2xl overflow-hidden border border-slate-700/60 shadow-2xl bg-slate-950" style="height: clamp(520px, 72vh, 850px);">
+          <!-- Leaflet Map Mount -->
+          <div id="radar-map" class="w-full h-full"></div>
 
-        <!-- Numerical Prognostic Models Comparison & Verification Matrix -->
-        <div id="radar-model-cockpit" class="glass-card rounded-xl p-3 sm:p-4 text-xs space-y-2.5">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2">
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              <h3 class="font-tech font-bold uppercase text-slate-200 tracking-wider text-xs sm:text-sm">
-                СИНТЕЗ ВЕДУЩИХ МИРОВЫХ МОДЕЛЕЙ (ECMWF IFS • DWD ICON • NOAA GFS • WEATHERNEXT 3.0)
-              </h3>
+          <!-- Loading Indicator -->
+          <div id="radar-loading" class="absolute inset-0 z-30 flex items-center justify-center bg-slate-950/85 backdrop-blur-md">
+            <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-700 shadow-2xl">
+              <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-sky-400 border-t-transparent"></div>
+              <p id="radar-loading-text" class="text-xs sm:text-sm text-sky-300 font-mono font-medium">Синхронизация спутников NASA и радаров осадков...</p>
             </div>
-            <span class="text-[11px] font-mono text-cyan-300 px-2 py-0.5 rounded bg-cyan-950/70 border border-cyan-500/30">
-              Локация: ${d.city} · 00z/12z Run
-            </span>
           </div>
 
-          <!-- Model Grid Comparison Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 font-mono text-[11px]">
-            <!-- Card 1: ECMWF IFS -->
-            <div class="p-2.5 rounded-lg bg-slate-900/80 border border-indigo-500/40 space-y-1.5 hover:border-indigo-400 transition">
-              <div class="flex items-center justify-between text-indigo-300 font-bold">
-                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.2 rounded bg-indigo-950 border border-indigo-500/50 text-indigo-300 text-[10px] font-mono font-bold">EU</span><span>ECMWF IFS</span></span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-indigo-950/80 border border-indigo-600/50">0.25° ~9 км</span>
+          <!-- ── FLOATING TOP-LEFT: Atmospheric Layer Controls ─────────────── -->
+          <div class="absolute top-3 left-3 z-20 flex flex-col gap-1.5 max-w-[190px]">
+            <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" title="Спутник Meteosat IR — 100% охват РФ, Сибири и Арктики 24/7" class="radar-float-btn ${activeWeatherLayer === 'sat_live_ir' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>🛰️</span><span>Спутник Онлайн (РФ)</span>
+            </button>
+            <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" title="Спутниковые облака + Доплеровский радар (Живой синтез)" class="radar-float-btn ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>🌪️</span><span>Облака + Осадки</span>
+            </button>
+            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" title="Наземные доплеровские вышки RainViewer (Европа, приграничье РФ)" class="radar-float-btn ${activeWeatherLayer === 'radar' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>📡</span><span>Доплер-Радар HD</span>
+            </button>
+            <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" title="Грозы, конвекция CAPE и разряды молний" class="radar-float-btn ${activeWeatherLayer === 'storm_radar' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>⚡</span><span>Грозы & Молнии</span>
+            </button>
+            <div class="h-px bg-slate-700/60 my-0.5 mx-1"></div>
+            <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" title="Численный прогноз ECMWF IFS (Европа 9 км)" class="radar-float-btn text-[11px] ${activeWeatherLayer === 'model_ecmwf' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>🌐</span><span>ECMWF Модель</span>
+            </button>
+            <button id="btn-layer-model-gfs" onclick="switchWeatherLayer('model_gfs')" title="Численный прогноз NOAA GFS (США 25 км)" class="radar-float-btn text-[11px] ${activeWeatherLayer === 'model_gfs' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>📡</span><span>GFS Модель</span>
+            </button>
+          </div>
+
+          <!-- ── FLOATING TOP-RIGHT: Basemaps & Observatories ───────────────── -->
+          <div class="absolute top-3 right-3 z-20 flex flex-col items-end gap-1.5">
+            <!-- Telemetry overlay -->
+            <div id="radar-info-box" class="px-3 py-1.5 rounded-xl text-[11px] font-mono text-slate-300 bg-slate-950/85 backdrop-blur-md border border-slate-700/70 shadow-xl max-w-[240px] text-right pointer-events-none">
+              🛰 Meteosat IR • 60 FPS • WMO
+            </div>
+            <!-- Basemap row -->
+            <div class="flex items-center gap-1 bg-slate-950/85 backdrop-blur-md rounded-xl p-1 border border-slate-700/60 shadow-lg">
+              <button id="btn-base-dark" onclick="switchBasemap('dark')" title="Контрастная тёмная подложка" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-white'}">
+                🌌 Тёмная
+              </button>
+              <button id="btn-base-sat" onclick="switchBasemap('satellite')" title="Спутниковая фотокарта высокой чёткости" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-white'}">
+                🛰 Спутник
+              </button>
+              <button id="btn-base-osm" onclick="switchBasemap('osm')" title="Топографическая карта OpenStreetMap" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-white'}">
+                🗺 OSM
+              </button>
+            </div>
+            <!-- Stations toggle -->
+            <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть 115 опорных метеостанций ВМО с онлайн-данными" class="px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-emerald-950/90 backdrop-blur-md border border-emerald-500/50 text-emerald-300 hover:bg-emerald-900/90 transition shadow-lg flex items-center space-x-1.5">
+              <span>📍</span><span>115 Станций ВМО</span>
+            </button>
+          </div>
+
+          <!-- ── FLOATING BOTTOM-LEFT: Active City Weather HUD ─────────────── -->
+          <div class="absolute bottom-[76px] left-3 z-20 max-w-[310px]">
+            <div class="p-2.5 sm:p-3 rounded-2xl bg-slate-950/90 backdrop-blur-md border border-slate-700/70 shadow-2xl text-xs space-y-1">
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center space-x-1.5 font-bold text-white text-sm">
+                  <span class="text-base">${curIcon}</span>
+                  <span class="tracking-tight">${d.city}</span>
+                </div>
+                <span class="text-sky-300 font-black font-mono text-base">${curT}</span>
               </div>
-              <div class="text-slate-400 text-[10px]">Европейский центр среднесрочных прогнозов</div>
+              <div class="text-[11px] text-slate-300 flex items-center justify-between gap-2 border-t border-slate-800/80 pt-1">
+                <span>${curCond}</span>
+                <span class="text-slate-400">ощущ. ${curApp}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-1 text-[10.5px] font-mono text-slate-400 pt-0.5">
+                <div>💨 <strong class="text-slate-200">${curWind}</strong> ${curWindDir}</div>
+                <div>💧 <strong class="text-slate-200">${curHum}</strong></div>
+                <div>🌧️ <strong class="text-slate-200">${curPrec}</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── FLOATING BOTTOM-RIGHT: Regional Presets Dropdown ──────────── -->
+          <div class="absolute bottom-[76px] right-3 z-20">
+            <details class="group">
+              <summary class="cursor-pointer list-none px-3 py-1.5 rounded-xl bg-slate-950/90 backdrop-blur-md border border-slate-700/70 text-xs text-slate-200 font-semibold hover:text-white transition flex items-center space-x-1.5 shadow-2xl select-none">
+                <span>📍 Быстрые регионы</span>
+                <span class="text-slate-400 group-open:rotate-180 transition-transform text-[10px]">▼</span>
+              </summary>
+              <div class="absolute bottom-full right-0 mb-1.5 bg-slate-950/95 backdrop-blur-md rounded-2xl border border-slate-700/70 shadow-2xl p-1.5 flex flex-col gap-0.5 min-w-[200px]" style="max-height: 280px; overflow-y: auto;">
+                <button onclick="flyToPreset(${d.lat}, ${d.lon}, 8, '${d.city}')" class="text-left px-3 py-1.5 rounded-lg text-xs text-sky-300 font-bold bg-sky-950/70 hover:bg-sky-900/70 transition flex items-center justify-between">
+                  <span>📍 ${d.city} (текущий)</span><span class="text-[10px]">🎯</span>
+                </button>
+                <div class="h-px bg-slate-800 my-0.5"></div>
+                <button onclick="flyToPreset(55.7558, 37.6173, 8, 'Москва')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">📍 Москва и ЦФО</button>
+                <button onclick="flyToPreset(59.9343, 30.3351, 8, 'Санкт-Петербург')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">📍 Санкт-Петербург и СЗФО</button>
+                <button onclick="flyToPreset(43.5855, 39.7231, 8, 'Сочи')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🌊 Сочи и Черноморье</button>
+                <button onclick="flyToPreset(45.0355, 38.9753, 9, 'Краснодар')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🌾 Краснодар (Кубань)</button>
+                <button onclick="flyToPreset(55.7887, 49.1221, 8, 'Казань')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🏛️ Поволжье (Казань)</button>
+                <button onclick="flyToPreset(56.8389, 60.6057, 8, 'Екатеринбург')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">⛰️ Урал (Екатеринбург)</button>
+                <button onclick="flyToPreset(55.0084, 82.9357, 7, 'Новосибирск')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🌲 Сибирь (Новосибирск)</button>
+                <button onclick="flyToPreset(69.35, 88.20, 8, 'Норильск')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">❄️ Норильск (Таймыр)</button>
+                <button onclick="flyToPreset(43.1155, 131.8855, 7, 'Владивосток')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">⚓ Дальний Восток</button>
+                <button onclick="flyToPreset(41.7151, 44.8271, 9, 'Тбилиси')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🏔️ Тбилиси / Грузия</button>
+                <button onclick="flyToPreset(53.0, 60.0, 4, 'Евразия')" class="text-left px-3 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800/70 transition">🌐 Обзор РФ и Евразии</button>
+              </div>
+            </details>
+          </div>
+
+          <!-- ── FLOATING BOTTOM BAR: Zero-Lag Timeline Player ─────────────── -->
+          <div id="radar-controls-strip" class="absolute bottom-0 left-0 right-0 z-20 bg-slate-950/92 backdrop-blur-md border-t border-slate-700/60 px-3 py-2 sm:px-4 sm:py-2.5 flex flex-wrap items-center justify-between gap-2.5 shadow-2xl">
+            <!-- Play / Pause & Frame Navigation -->
+            <div class="flex items-center space-x-1.5">
+              <button id="radar-play-btn" onclick="toggleRadarPlay()" class="px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition flex items-center space-x-1.5 shadow-lg shadow-sky-600/30 text-xs">
+                <span id="radar-play-icon">▶</span>
+                <span id="radar-play-text">Анимация</span>
+              </button>
+              <button onclick="prevRadarFrame()" title="Предыдущий кадр (Стрелка влево)" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono text-xs">◀</button>
+              <button onclick="nextRadarFrame()" title="Следующий кадр (Стрелка вправо)" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono text-xs">▶</button>
+              <!-- Speed Selector -->
+              <div class="hidden sm:flex items-center space-x-1 bg-slate-900/90 rounded-xl p-0.5 border border-slate-800 text-[11px] font-mono ml-1">
+                <button onclick="setRadarSpeed(1300)" id="speed-05x" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white">0.5x</button>
+                <button onclick="setRadarSpeed(700)" id="speed-1x" class="px-2 py-0.5 rounded-lg bg-sky-600 text-white font-bold">1x</button>
+                <button onclick="setRadarSpeed(350)" id="speed-2x" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white">2x</button>
+              </div>
+            </div>
+
+            <!-- Timeline Scrubber -->
+            <div class="flex-1 min-w-[170px] max-w-md flex flex-col space-y-1">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                <span id="radar-slider-start-label">История ~9 ч</span>
+                <span id="radar-slider-mode-badge" class="text-sky-400 font-bold">🛰 Спутник IR (60 FPS)</span>
+                <span id="radar-slider-end-label" class="text-slate-200 font-bold">Факт (сейчас)</span>
+              </div>
+              <input type="range" id="radar-slider" min="0" max="12" value="0" oninput="onRadarSlider(this.value)"
+                class="w-full accent-sky-400 bg-slate-800 h-2 rounded-lg cursor-pointer transition-all" />
+            </div>
+
+            <!-- Time Badge & Telemetry -->
+            <div class="flex items-center space-x-2 font-mono">
+              <span id="radar-time-badge" class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-sky-300 text-xs font-bold tracking-tight shadow-inner">
+                Кадр: синхронизация...
+              </span>
+            </div>
+          </div>
+
+          <!-- RainViewer Radar Closed Towers Notice (only when ground radar mode chosen in interior RF) -->
+          <div id="rainviewer-rf-hint" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 hidden max-w-md w-[calc(100%-32px)]">
+            <div class="p-4 sm:p-5 rounded-2xl border border-amber-500/60 bg-slate-950/95 shadow-2xl backdrop-blur-xl space-y-2.5 text-xs">
+              <div class="flex items-center space-x-2 text-amber-300 font-bold text-sm">
+                <span>⚠️</span><span>Наземные вышки ДМРЛ в регионе закрыты</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed">
+                Росгидромет не транслирует открытые радиолокационные эхо в глубине РФ международным сервисам. Чтобы наблюдать за тучами, снежными фронтами и циклонами в реальном времени:
+              </p>
+              <div class="flex flex-wrap items-center gap-2 pt-1">
+                <button onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition text-xs shadow-lg shadow-sky-600/30">
+                  🛰 Включить Спутник Онлайн (100% охват)
+                </button>
+                <button onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold transition text-xs border border-slate-700">
+                  🌪 Облака + Осадки
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- CONTINUOUS METEOROLOGICAL LEGEND & GRADIENTS (Windy Style)          -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <div class="p-3 sm:p-4 rounded-xl bg-slate-900/80 border border-slate-800/90 space-y-2.5 text-xs">
+          <!-- Gradient Bar & Reflectivity Scale -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-slate-300 text-[11px] font-semibold">
+              <span class="flex items-center space-x-1 text-cyan-400 font-mono font-bold">
+                <span>🌧️</span><span>Шкала интенсивности осадков и конвекции (dBZ / мм·ч⁻¹):</span>
+              </span>
+              <span class="text-slate-500 font-mono text-[10px]">WMO / NEXRAD Refl</span>
+            </div>
+            <!-- Rainbow Gradient Bar -->
+            <div class="w-full h-3.5 rounded-full shadow-inner border border-slate-700/50" style="background: linear-gradient(to right, #06b6d4 0%, #22c55e 25%, #eab308 50%, #ef4444 72%, #a855f7 88%, #f43f5e 100%);"></div>
+            <!-- Legend intervals -->
+            <div class="flex flex-wrap items-center justify-between gap-1 text-[11px] font-mono text-slate-300 pt-0.5">
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#06b6d4]"></span><span>Морось / Снег &lt;1.5</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#22c55e]"></span><span>Дождь 1.5–5</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#eab308]"></span><span>Ливень 5–15</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#ef4444]"></span><span class="text-rose-300 font-bold">Сильный ливень 15–35</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#a855f7]"></span><span class="text-purple-300 font-bold">⚡ Шквал / Гроза &gt;35</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-[#f43f5e]"></span><span class="text-pink-300 font-bold">🟣 Град &gt;55 dBZ</span></span>
+            </div>
+          </div>
+
+          <!-- Quick Synoptic Gradients Toolbar -->
+          <div class="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
+              <span class="text-slate-400 text-[11px] font-semibold mr-1">Синтез полей:</span>
+              <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                Выкл
+              </button>
+              <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'temp' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌡️ Температура
+              </button>
+              <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌧️ Осадки
+              </button>
+              <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'wind' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                💨 Ветер
+              </button>
+              <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'clouds' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                ☁️ Облачность
+              </button>
+              <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'press' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌀 Давление
+              </button>
+            </div>
+            <div class="text-[10.5px] text-slate-500 font-mono">
+              ВМО · WMO Global Observing System
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <!-- COLLAPSIBLE: Numerical Prognostic Models Matrix                     -->
+        <!-- ═══════════════════════════════════════════════════════════════════ -->
+        <details class="rounded-xl border border-slate-800/90 bg-slate-950/60 group">
+          <summary class="flex items-center justify-between cursor-pointer select-none px-4 py-3 text-xs text-slate-300 font-semibold hover:text-white transition">
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>Сравнение 4 суперкомпьютеров · ECMWF IFS • DWD ICON • NOAA GFS • WeatherNext 3.0</span>
+            </div>
+            <span class="text-slate-500 group-open:rotate-180 transition-transform text-xs">▼</span>
+          </summary>
+          <div class="p-4 pt-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 font-mono text-[11px] border-t border-slate-800/80">
+            <!-- Card 1: ECMWF IFS -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-indigo-500/40 space-y-1.5 hover:border-indigo-400 transition">
+              <div class="flex items-center justify-between text-indigo-300 font-bold">
+                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.5 rounded bg-indigo-950 border border-indigo-500/50 text-indigo-300 text-[10px]">EU</span><span>ECMWF IFS</span></span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-950/80 border border-indigo-600/50">9 км</span>
+              </div>
+              <div class="text-slate-400 text-[10px]">Европейский центр ECMWF (Рединг)</div>
               <div class="pt-1 text-slate-200 space-y-0.5">
-                <div class="flex justify-between"><span>Осадки (48ч):</span><strong class="text-sky-300" id="mod-ecmwf-prec">0.8 мм</strong></div>
+                <div class="flex justify-between"><span>Осадки 48ч:</span><strong class="text-sky-300" id="mod-ecmwf-prec">0.8 мм</strong></div>
                 <div class="flex justify-between"><span>Вероятность:</span><strong class="text-cyan-300" id="mod-ecmwf-prob">45%</strong></div>
                 <div class="flex justify-between"><span>Облачность:</span><strong class="text-slate-300" id="mod-ecmwf-cld">65%</strong></div>
                 <div class="flex justify-between"><span>Порывы ветра:</span><strong class="text-teal-300" id="mod-ecmwf-wind">8.4 м/с</strong></div>
@@ -1934,14 +1956,14 @@
             </div>
 
             <!-- Card 2: DWD ICON -->
-            <div class="p-2.5 rounded-lg bg-slate-900/80 border border-amber-500/40 space-y-1.5 hover:border-amber-400 transition">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-amber-500/40 space-y-1.5 hover:border-amber-400 transition">
               <div class="flex items-center justify-between text-amber-300 font-bold">
-                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.2 rounded bg-amber-950 border border-amber-500/50 text-amber-300 text-[10px] font-mono font-bold">DE</span><span>DWD ICON</span></span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-950/80 border border-amber-600/50">13 км сетка</span>
+                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.5 rounded bg-amber-950 border border-amber-500/50 text-amber-300 text-[10px]">DE</span><span>DWD ICON</span></span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-950/80 border border-amber-600/50">13 км</span>
               </div>
-              <div class="text-slate-400 text-[10px]">Немецкая метеорологическая служба (DWD)</div>
+              <div class="text-slate-400 text-[10px]">Немецкая служба погоды (Оффенбах)</div>
               <div class="pt-1 text-slate-200 space-y-0.5">
-                <div class="flex justify-between"><span>Осадки (48ч):</span><strong class="text-sky-300" id="mod-icon-prec">1.1 мм</strong></div>
+                <div class="flex justify-between"><span>Осадки 48ч:</span><strong class="text-sky-300" id="mod-icon-prec">1.1 мм</strong></div>
                 <div class="flex justify-between"><span>Вероятность:</span><strong class="text-cyan-300" id="mod-icon-prob">50%</strong></div>
                 <div class="flex justify-between"><span>Облачность:</span><strong class="text-slate-300" id="mod-icon-cld">70%</strong></div>
                 <div class="flex justify-between"><span>Порывы ветра:</span><strong class="text-teal-300" id="mod-icon-wind">9.1 м/с</strong></div>
@@ -1949,41 +1971,40 @@
             </div>
 
             <!-- Card 3: NOAA GFS -->
-            <div class="p-2.5 rounded-lg bg-slate-900/80 border border-emerald-500/40 space-y-1.5 hover:border-emerald-400 transition">
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-emerald-500/40 space-y-1.5 hover:border-emerald-400 transition">
               <div class="flex items-center justify-between text-emerald-300 font-bold">
-                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.2 rounded bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-[10px] font-mono font-bold">US</span><span>NOAA GFS</span></span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-emerald-950/80 border border-emerald-600/50">0.25° ~25 км</span>
+                <span class="flex items-center space-x-1.5"><span class="px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-[10px]">US</span><span>NOAA GFS</span></span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/80 border border-emerald-600/50">25 км</span>
               </div>
-              <div class="text-slate-400 text-[10px]">Национальная служба погоды США (NCEP)</div>
+              <div class="text-slate-400 text-[10px]">Национальная служба NCEP США</div>
               <div class="pt-1 text-slate-200 space-y-0.5">
-                <div class="flex justify-between"><span>Осадки (48ч):</span><strong class="text-sky-300" id="mod-gfs-prec">0.6 мм</strong></div>
+                <div class="flex justify-between"><span>Осадки 48ч:</span><strong class="text-sky-300" id="mod-gfs-prec">0.6 мм</strong></div>
                 <div class="flex justify-between"><span>Вероятность:</span><strong class="text-cyan-300" id="mod-gfs-prob">35%</strong></div>
                 <div class="flex justify-between"><span>Облачность:</span><strong class="text-slate-300" id="mod-gfs-cld">55%</strong></div>
                 <div class="flex justify-between"><span>Порывы ветра:</span><strong class="text-teal-300" id="mod-gfs-wind">7.8 м/с</strong></div>
               </div>
             </div>
 
-            <!-- Card 4: WeatherNext 3.0 / Consensus -->
-            <div class="p-2.5 rounded-lg bg-slate-900/80 border border-cyan-500/40 space-y-1.5 hover:border-cyan-400 transition">
+            <!-- Card 4: WeatherNext 3.0 -->
+            <div class="p-3 rounded-xl bg-slate-900/80 border border-cyan-500/40 space-y-1.5 hover:border-cyan-400 transition">
               <div class="flex items-center justify-between text-cyan-300 font-bold">
                 <span>🧠 WEATHERNEXT 3.0</span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-950/80 border border-cyan-600/50">64 ИИ модели</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-950/80 border border-cyan-600/50">64 ИИ</span>
               </div>
-              <div class="text-slate-400 text-[10px]">Google DeepMind нейросетевой ансамбль SFNO</div>
+              <div class="text-slate-400 text-[10px]">Google DeepMind нейроансамбль SFNO</div>
               <div class="pt-1 text-slate-200 space-y-0.5">
                 <div class="flex justify-between"><span>Сходимость:</span><strong class="text-emerald-400" id="mod-wn-conf">92% Высокая</strong></div>
                 <div class="flex justify-between"><span>Консенсус t:</span><strong class="text-cyan-300" id="mod-wn-t">±0.4°C</strong></div>
-                <div class="flex justify-between"><span>Осадки тренд:</span><strong class="text-sky-300" id="mod-wn-prec">Локальные</strong></div>
+                <div class="flex justify-between"><span>Осадки:</span><strong class="text-sky-300" id="mod-wn-prec">Локальные</strong></div>
                 <div class="flex justify-between"><span>Фронт:</span><strong class="text-yellow-300" id="mod-wn-front">Устойчивый</strong></div>
               </div>
             </div>
           </div>
-        </div>
+        </details>
       `;
 
       container.appendChild(card);
 
-      // Initialize Leaflet Map
       setTimeout(() => {
         initRadarMap(d.lat, d.lon);
         fetchModelForecastData(d.lat, d.lon);
@@ -2667,9 +2688,9 @@
         if (!btn) return;
         const matches = (k === 'sat' && type === 'satellite') || (k === type);
         if (matches) {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition bg-slate-700 text-white font-bold';
+          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition bg-sky-600 text-white font-bold shadow';
         } else {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition text-slate-400 hover:text-slate-200';
+          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition text-slate-400 hover:text-white';
         }
       });
     }
@@ -2906,11 +2927,10 @@
         const btn = document.getElementById(item.id);
         if (!btn) return;
         const isSmall = item.id.includes('model') || item.id.includes('sat-viirs') || item.id.includes('sat-wv');
-        const pad = isSmall ? 'px-2.5 py-1 text-[11px]' : 'px-3 py-1.5 text-xs';
         if (item.key === type) {
-          btn.className = `${pad} rounded-lg font-medium transition ${item.activeBg}`;
+          btn.className = `radar-float-btn radar-float-active ${isSmall ? 'text-[11px]' : 'text-xs'}`;
         } else {
-          btn.className = `${pad} rounded-lg font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-800/60`;
+          btn.className = `radar-float-btn radar-float-inactive ${isSmall ? 'text-[11px]' : 'text-xs'}`;
         }
       });
 
