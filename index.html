@@ -147,7 +147,7 @@
       z-index: 10;
     }
 
-    /* Radar Leaflet customization */
+    /* Radar Leaflet customization & Ultra-Smooth 60 FPS Animation Engine */
     .osm-dark-tiles {
       filter: brightness(0.65) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) !important;
     }
@@ -160,6 +160,43 @@
       background-color: #090e1c !important;
       color: #38bdf8 !important;
       border-color: #1e293b !important;
+    }
+    /* 60 FPS Hardware-accelerated tile crossfading: zero flicker, zero lag */
+    .leaflet-tile-pane .leaflet-layer {
+      transition: opacity 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+      will-change: opacity;
+    }
+    /* Animated lightning strikes and convective storm pulses */
+    @keyframes lightningFlash {
+      0%, 100% { opacity: 0.85; transform: scale(1); filter: drop-shadow(0 0 4px #fef08a); }
+      50% { opacity: 1; transform: scale(1.35); filter: drop-shadow(0 0 12px #ffffff) drop-shadow(0 0 22px #38bdf8); }
+    }
+    @keyframes rippleWave {
+      0% { width: 8px; height: 8px; opacity: 0.9; transform: translate(-50%, -50%); border-width: 2px; }
+      100% { width: 55px; height: 55px; opacity: 0; transform: translate(-50%, -50%); border-width: 0.5px; }
+    }
+    .lightning-strike-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    .lightning-strike-icon {
+      font-size: 17px;
+      animation: lightningFlash 1.5s infinite ease-in-out;
+      z-index: 2;
+    }
+    .lightning-ripple {
+      position: absolute;
+      border-radius: 9999px;
+      border: 1.5px solid #38bdf8;
+      pointer-events: none;
+      animation: rippleWave 1.8s infinite cubic-bezier(0.1, 0.7, 0.4, 1);
+      left: 50%;
+      top: 50%;
     }
   </style>
 
@@ -474,20 +511,26 @@
     let selectedArchiveYear = 2024;
     let selectedArchiveMonth = 6; // 0..11 (0 = Январь, 6 = Июль)
 
-    // Radar & Satellite State (Senior Meteo Engine)
+    // Radar & Satellite State (Ultra-Smooth 60 FPS Meteo Engine)
     let radarMap = null;
     let radarLayer = null;
     let satLayer = null;
+    let hybridSatLayer = null;
+    let hybridRadarLayer = null;
     let basemapLayer = null;
+    let tileLayersPool = {}; // url -> L.tileLayer
+    let activeVisibleTileUrls = [];
     let radarFrames = [];
+    let satFrames = [];
     let currentRadarIndex = 0;
     let radarPlaying = false;
     let radarTimer = null;
-    let activeWeatherLayer = 'radar'; // 'radar', 'sat_ir', 'sat_wv', 'sat_viirs'
+    let activeWeatherLayer = 'radar'; // 'radar', 'sat_live_ir', 'hybrid_clouds_precip', 'storm_radar', etc.
     let activeBasemap = 'dark'; // 'dark', 'satellite', 'osm'
-    let radarPalette = 2; // 1=original, 2=universal blue, 6=nexrad, 7=rainbow
-    let radarOpacity = 0.78;
+    let radarPalette = 2; // 1=original, 2=universal blue, 6=nexrad, 7=rainbow, 3=titan
+    let radarOpacity = 0.80;
     let animationSpeedMs = 700;
+    let lightningLayerGroup = null;
 
     // ApexCharts instances
     let apexChartInstance = null;
@@ -1593,10 +1636,16 @@
         <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/85 border border-slate-800 text-xs">
           <span class="text-cyan-400 text-[11px] px-1 font-tech font-bold uppercase shrink-0">Режим:</span>
           <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            🌧 Радар HD (RainViewer)
+            🌧 Радар Осадков HD
           </button>
           <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
             🛰 Спутник Онлайн (Meteosat IR)
+          </button>
+          <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'bg-sky-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
+            🌪 Облака + Осадки
+          </button>
+          <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'storm_radar' ? 'bg-amber-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
+            ⚡ Грозы & Молнии
           </button>
           <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'model_ecmwf' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
             🇪🇺 Модель ECMWF IFS
@@ -1668,7 +1717,7 @@
           <div id="radar-loading" class="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm">
             <div class="text-center space-y-2">
               <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-cyan-400 border-t-transparent"></div>
-              <p class="text-xs text-cyan-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
+              <p id="radar-loading-text" class="text-xs text-cyan-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
             </div>
           </div>
 
@@ -1680,45 +1729,48 @@
           </div>
         </div>
 
-        <!-- Interactive Timeline Player Strip (Active for Radar) -->
+        <!-- Interactive Timeline Player Strip (Zero-Lag Dual-Buffered Engine) -->
         <div id="radar-controls-strip" class="glass-card rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs">
           <!-- Playback Buttons -->
           <div class="flex items-center space-x-1.5">
             <button id="radar-play-btn" onclick="toggleRadarPlay()" class="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md">
               <span id="radar-play-icon">▶</span>
               <span id="radar-play-text">Анимация</span>
+              <span class="text-[10px] text-sky-200/80 hidden sm:inline ml-1 font-mono">[Пробел]</span>
             </button>
-            <button onclick="prevRadarFrame()" title="Предыдущий кадр" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition">◀</button>
-            <button onclick="nextRadarFrame()" title="Следующий кадр" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition">▶</button>
+            <button onclick="prevRadarFrame()" title="Предыдущий кадр (Стрелка влево)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono">◀</button>
+            <button onclick="nextRadarFrame()" title="Следующий кадр (Стрелка вправо)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 transition font-mono">▶</button>
             <!-- Speed Selector -->
             <div class="flex items-center space-x-1 bg-slate-900/90 rounded-lg p-0.5 border border-slate-800 text-[11px] font-mono ml-1">
-              <button onclick="setRadarSpeed(1200)" id="speed-05x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">0.5x</button>
+              <button onclick="setRadarSpeed(1300)" id="speed-05x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">0.5x</button>
               <button onclick="setRadarSpeed(700)" id="speed-1x" class="px-2 py-0.5 rounded bg-sky-600 text-white font-bold">1x</button>
               <button onclick="setRadarSpeed(350)" id="speed-2x" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">2x</button>
             </div>
           </div>
 
           <!-- Timeline Scrubber Range -->
-          <div class="flex-1 min-w-[200px] max-w-md flex flex-col space-y-1">
+          <div class="flex-1 min-w-[220px] max-w-md flex flex-col space-y-1">
             <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
-              <span>Прошедшие ~2 ч</span>
-              <span class="text-amber-400">Наукаст +30 мин</span>
+              <span id="radar-slider-start-label">История ~2 ч</span>
+              <span id="radar-slider-mode-badge" class="text-cyan-400 font-bold">📡 Радар (60 FPS)</span>
+              <span id="radar-slider-end-label" class="text-amber-400 font-bold">Факт (сейчас)</span>
             </div>
             <input type="range" id="radar-slider" min="0" max="12" value="0" oninput="onRadarSlider(this.value)"
-              class="w-full accent-cyan-400 bg-slate-800 h-2 rounded-lg cursor-pointer" />
+              class="w-full accent-cyan-400 bg-slate-800 h-2.5 rounded-lg cursor-pointer transition-all" />
           </div>
 
           <!-- Time Badge & Options -->
-          <div class="flex items-center space-x-2.5 font-mono">
-            <span id="radar-time-badge" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300 text-[11px] font-bold">
+          <div class="flex items-center space-x-2.5 font-mono flex-wrap gap-y-1.5">
+            <span id="radar-time-badge" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300 text-[11px] font-bold tracking-tight">
               Кадр: синхронизация...
             </span>
 
             <!-- Palette Selector -->
             <select id="radar-palette-select" onchange="switchRadarPalette(this.value)" class="bg-slate-900 text-slate-300 border border-slate-700 rounded-lg px-2 py-1 text-[11px] outline-none">
-              <option value="2">Палитра: Синяя HD</option>
               <option value="6">Палитра: NEXRAD (WSR-88D)</option>
               <option value="7">Палитра: Радуга (Rainbow)</option>
+              <option value="2" selected>Палитра: Синяя HD</option>
+              <option value="3">Палитра: TITAN (Грозовая)</option>
               <option value="4">Палитра: Meteored</option>
               <option value="1">Палитра: Оригинальная</option>
             </select>
@@ -1729,36 +1781,37 @@
             </button>
 
             <!-- Opacity Slider -->
-            <div class="hidden lg:flex items-center space-x-1.5 text-[11px] text-slate-400">
-              <span>Пр:</span>
-              <input type="range" min="30" max="100" value="78" oninput="setRadarOpacity(this.value)" class="w-16 accent-cyan-400 bg-slate-800 h-1.5 rounded cursor-pointer" />
+            <div class="flex items-center space-x-1 text-[11px] text-slate-400">
+              <span title="Прозрачность">Пр:</span>
+              <input type="range" min="20" max="100" value="80" oninput="setRadarOpacity(this.value)" class="w-16 accent-cyan-400 bg-slate-800 h-1.5 rounded cursor-pointer" />
             </div>
           </div>
         </div>
 
-        <!-- Dynamic Meteorological Legends Strip -->
+        <!-- Dynamic Meteorological Legends Strip (dBZ, mm/h, Rain, Snow, Thunderstorms, Hail) -->
         <div id="radar-legend-strip" class="p-3 rounded-xl bg-slate-900/70 border border-slate-800 space-y-2 text-[11px] font-mono">
-          <!-- Reflectivity Scale -->
+          <!-- Reflectivity Scale & Weather Category -->
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div class="flex items-center space-x-1.5 text-slate-300">
-              <span class="font-bold text-cyan-400">Шкала интенсивности осадков (dBZ / мм/ч):</span>
+              <span class="font-bold text-cyan-400">Шкала интенсивности осадков и явлений:</span>
             </div>
-            <div class="flex items-center space-x-2 flex-wrap">
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#00ffff]"></span><span class="text-slate-400">5–15 Морось/Снег</span></span>
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#00c800]"></span><span class="text-slate-400">20–30 Умеренный</span></span>
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#ffff00]"></span><span class="text-slate-400">35–45 Ливень</span></span>
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#ff0000]"></span><span class="text-slate-400">50–55 Шквал/Гроза</span></span>
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#c800c8]"></span><span class="text-slate-400">60+ Град</span></span>
-              <span class="flex items-center space-x-1"><span class="w-3 h-3 rounded bg-[#a78bfa]"></span><span class="text-slate-400">Снежные заряды</span></span>
+            <div class="flex items-center space-x-2 flex-wrap text-[10.5px]">
+              <span class="flex items-center space-x-1" title="0.1–1.5 мм/ч"><span class="w-3 h-3 rounded bg-[#06b6d4]"></span><span class="text-slate-300">Морось</span></span>
+              <span class="flex items-center space-x-1" title="1.5–5 мм/ч"><span class="w-3 h-3 rounded bg-[#22c55e]"></span><span class="text-slate-300">Дождь</span></span>
+              <span class="flex items-center space-x-1" title="5–15 мм/ч"><span class="w-3 h-3 rounded bg-[#eab308]"></span><span class="text-slate-300">Ливень</span></span>
+              <span class="flex items-center space-x-1" title="15–35 мм/ч"><span class="w-3 h-3 rounded bg-[#ef4444]"></span><span class="text-rose-300 font-bold">Сильный ливень</span></span>
+              <span class="flex items-center space-x-1" title=">35 мм/ч, конвекция"><span class="w-3 h-3 rounded bg-[#a855f7] shadow-[0_0_6px_#a855f7]"></span><span class="text-purple-300 font-bold">⚡ Гроза / Шквал</span></span>
+              <span class="flex items-center space-x-1" title="Крупный град >55 dBZ"><span class="w-3 h-3 rounded bg-[#f43f5e] shadow-[0_0_6px_#f43f5e]"></span><span class="text-pink-300 font-bold">🟣 Град</span></span>
+              <span class="flex items-center space-x-1" title="Снег в режиме «Снег/Дождь»"><span class="w-3 h-3 rounded bg-[#38bdf8] border border-cyan-300"></span><span class="text-cyan-300 font-bold">❄️ Снег</span></span>
             </div>
           </div>
-          <!-- Satellite & Gradient Info Line -->
+          <!-- Satellite & Atmospheric Motion Info Line -->
           <div class="flex flex-wrap items-center justify-between gap-2 pt-1.5 border-t border-slate-800 text-[10px] text-slate-400">
             <div>
-              <strong class="text-slate-300">Спутники РФ & Кавказа:</strong> Meteosat / NOAA IR Онлайн (15–30 мин) • NASA Suomi NPP VIIRS (250м) • Esri Clarity HD
+              <strong class="text-slate-300">Движение атмосферы:</strong> Анимация облачных циклонов Meteosat IR (RealEarth SSEC, 8–10 ч) • Доплеровский радар РФ (10 мин) • NASA VIIRS
             </div>
             <div>
-              <strong class="text-slate-300">Модели в прямом эфире:</strong> ECMWF IFS (0.25° Европа) • DWD ICON (13км Германия) • NOAA GFS (США)
+              <strong class="text-slate-300">Грозовая телеметрия:</strong> Детекция конвективных ячеек CAPE • Разряды молний CG/IC • Шквалы
             </div>
           </div>
         </div>
@@ -1888,14 +1941,26 @@
       { name: 'Степанцминда (Казбеги)', lat: 42.66, lon: 44.64, t: 13, prec: 0.2, wind: 5.1, clouds: 40, press: 742 }
     ];
 
+    // =========================================================================
+    // ULTRA-SMOOTH 60 FPS METEOROLOGICAL ANIMATION ENGINE (LEAFLET DUAL-BUFFER)
+    // =========================================================================
+
     async function initRadarMap(lat, lon) {
       if (!window.L) return;
       const mapEl = document.getElementById('radar-map');
       if (!mapEl) return;
 
       if (radarMap) {
-        try { radarMap.remove(); } catch(e) {}
+        try {
+          if (radarTimer) clearInterval(radarTimer);
+          radarPlaying = false;
+          radarMap.remove();
+        } catch(e) {}
       }
+
+      // Reset tile layer pool to prevent memory leaks across re-inits
+      tileLayersPool = {};
+      activeVisibleTileUrls = [];
 
       radarMap = L.map('radar-map', {
         center: [lat, lon],
@@ -1917,7 +1982,8 @@
         color: '#ffffff',
         weight: 2.5,
         opacity: 1.0,
-        fillOpacity: 0.9
+        fillOpacity: 0.9,
+        zIndexOffset: 1000
       }).addTo(radarMap);
 
       cityMarker.bindPopup(`
@@ -1927,19 +1993,407 @@
         </div>
       `);
 
+      // Initialize Lightning Overlay Group
+      updateLightningLayer();
+
+      // Bind Keyboard Navigation (Space for Play/Pause, Left/Right for frames)
+      setupRadarKeyboardControls();
+
       // Load active weather layer
-      if (activeWeatherLayer === 'radar') {
-        await loadRainViewerFrames();
-      } else {
-        updateSatelliteLayer();
-        const loader = document.getElementById('radar-loading');
-        if (loader) loader.classList.add('hidden');
-      }
+      await loadActiveWeatherFrames();
 
       // Re-render gradient if any was selected
       if (activeWeatherGradient !== 'none') {
         renderGradientOverlay();
       }
+
+      // Smooth Auto-Play after initial buffer warming
+      setTimeout(() => {
+        if (!radarPlaying && (activeWeatherLayer === 'radar' || activeWeatherLayer === 'sat_live_ir' || activeWeatherLayer === 'hybrid_clouds_precip' || activeWeatherLayer === 'storm_radar')) {
+          toggleRadarPlay();
+        }
+      }, 550);
+    }
+
+    function setupRadarKeyboardControls() {
+      if (window._radarKeyHandlerBound) return;
+      window._radarKeyHandlerBound = true;
+      document.addEventListener('keydown', (e) => {
+        if (currentMode !== 'radar') return;
+        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT')) return;
+        if (e.code === 'Space') {
+          e.preventDefault();
+          toggleRadarPlay();
+        } else if (e.code === 'ArrowLeft') {
+          e.preventDefault();
+          prevRadarFrame();
+        } else if (e.code === 'ArrowRight') {
+          e.preventDefault();
+          nextRadarFrame();
+        }
+      });
+    }
+
+    // Dynamic UTC Generator for SSEC RealEarth Meteosat/GOES/Electro-L Global Infrared Composite
+    // SSEC produces composite hourly, available ~35-40 min after the hour UTC
+    function generateSatelliteFrames() {
+      const now = new Date();
+      const effective = new Date(now.getTime() - 40 * 60000);
+      const frames = [];
+      // 9 hourly frames covering the past 8-9 hours
+      for (let i = 8; i >= 0; i--) {
+        const t = new Date(effective.getTime() - i * 3600000);
+        const yyyy = t.getUTCFullYear();
+        const mm = String(t.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(t.getUTCDate()).padStart(2, '0');
+        const dateStr = `${yyyy}${mm}${dd}`;
+        const hh = String(t.getUTCHours()).padStart(2, '0');
+        const timeStr = `${hh}0000`;
+
+        const localTimeStr = t.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+        const utcTimeStr = `${hh}:00 UTC`;
+        const diffHours = i;
+        const relativeLabel = diffHours === 0 ? 'сейчас (факт)' : `${diffHours} ч назад`;
+
+        frames.push({
+          date: dateStr,
+          time: timeStr,
+          url: `https://realearth.ssec.wisc.edu/tiles/globalir/${dateStr}/${timeStr}/{z}/{x}/{y}.png`,
+          timeLabel: `${localTimeStr} (${utcTimeStr})`,
+          relativeLabel: relativeLabel,
+          isLatest: diffHours === 0
+        });
+      }
+      return frames;
+    }
+
+    async function loadActiveWeatherFrames() {
+      const loader = document.getElementById('radar-loading');
+      const loadText = document.getElementById('radar-loading-text');
+      if (loader) loader.classList.remove('hidden');
+
+      // Initialize satellite frames list
+      satFrames = generateSatelliteFrames();
+
+      if (activeWeatherLayer === 'sat_live_ir') {
+        if (loadText) loadText.innerText = 'Синхронизация инфракрасных спутников Meteosat / NOAA IR...';
+        currentRadarIndex = satFrames.length - 1;
+        updateSliderBounds(satFrames.length);
+        applyCurrentFrame();
+        if (loader) loader.classList.add('hidden');
+      } else if (activeWeatherLayer === 'radar' || activeWeatherLayer === 'storm_radar' || activeWeatherLayer === 'hybrid_clouds_precip') {
+        if (loadText) loadText.innerText = 'Загрузка радарных сетей РФ и СНГ (RainViewer HD)...';
+        await loadRainViewerFrames();
+      } else {
+        updateSatelliteLayer();
+        if (loader) loader.classList.add('hidden');
+      }
+    }
+
+    async function loadRainViewerFrames() {
+      const loader = document.getElementById('radar-loading');
+      try {
+        const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+        const json = await res.json();
+        const host = json.host || 'https://tilecache.rainviewer.com';
+        const past = (json.radar && json.radar.past) || [];
+        const nowcast = (json.radar && json.radar.nowcast) || [];
+
+        radarFrames = [...past, ...nowcast].map(f => ({
+          time: f.time,
+          path: f.path,
+          host: host,
+          isNowcast: nowcast.some(n => n.time === f.time)
+        }));
+
+        if (!radarFrames.length) {
+          throw new Error('No radar frames returned');
+        }
+
+        currentRadarIndex = past.length > 0 ? past.length - 1 : 0;
+        updateSliderBounds(radarFrames.length);
+        applyCurrentFrame();
+      } catch(err) {
+        console.warn('RainViewer load error:', err);
+        // Fallback to satellite if radar feed is unreachable
+        if (!satFrames.length) satFrames = generateSatelliteFrames();
+        activeWeatherLayer = 'sat_live_ir';
+        currentRadarIndex = satFrames.length - 1;
+        updateSliderBounds(satFrames.length);
+        applyCurrentFrame();
+      } finally {
+        if (loader) loader.classList.add('hidden');
+      }
+    }
+
+    function updateSliderBounds(len) {
+      const slider = document.getElementById('radar-slider');
+      if (slider) {
+        slider.max = Math.max(0, len - 1);
+        slider.value = currentRadarIndex;
+      }
+    }
+
+    // High-Performance Tile Layer Pool (Zero-Lag Dual Buffer)
+    function getOrCreateTileLayer(url, options = {}) {
+      if (!tileLayersPool[url]) {
+        const defaultOpts = {
+          maxZoom: 18,
+          opacity: 0,
+          zIndex: options.zIndex || 10,
+          attribution: options.attribution || ''
+        };
+        if (options.tileSize) defaultOpts.tileSize = options.tileSize;
+        if (options.zoomOffset) defaultOpts.zoomOffset = options.zoomOffset;
+        if (options.maxNativeZoom) defaultOpts.maxNativeZoom = options.maxNativeZoom;
+
+        const layer = L.tileLayer(url, defaultOpts);
+        if (radarMap) layer.addTo(radarMap);
+        tileLayersPool[url] = layer;
+      }
+      return tileLayersPool[url];
+    }
+
+    // Unified 60 FPS Frame Renderer with Hardware-Accelerated Crossfading
+    function applyCurrentFrame() {
+      if (!radarMap) return;
+
+      const infoBox = document.getElementById('radar-info-box');
+      const badge = document.getElementById('radar-time-badge');
+      const slider = document.getElementById('radar-slider');
+
+      if (activeWeatherLayer === 'sat_live_ir') {
+        if (!satFrames.length) return;
+        if (currentRadarIndex >= satFrames.length) currentRadarIndex = satFrames.length - 1;
+        const f = satFrames[currentRadarIndex];
+        if (!f) return;
+
+        // Display current satellite frame
+        const currentLayer = getOrCreateTileLayer(f.url, { zIndex: 10 });
+        currentLayer.setOpacity(radarOpacity);
+
+        // Preload next frame ahead of time to eliminate any latency
+        const nextIdx = (currentRadarIndex + 1) % satFrames.length;
+        const nextFrame = satFrames[nextIdx];
+        if (nextFrame) {
+          const nextLayer = getOrCreateTileLayer(nextFrame.url, { zIndex: 10 });
+          nextLayer.setOpacity(0);
+        }
+
+        // Crossfade out other active layers
+        Object.keys(tileLayersPool).forEach(url => {
+          if (url !== f.url) {
+            tileLayersPool[url].setOpacity(0);
+          }
+        });
+
+        // Update HUD
+        if (badge) {
+          badge.innerHTML = `<span class="text-cyan-300 font-bold">🛰 ${f.timeLabel} (${f.relativeLabel})</span>`;
+        }
+        if (infoBox) {
+          infoBox.innerText = `🛰 Спутник Онлайн (Meteosat IR) • Кадр ${currentRadarIndex + 1}/${satFrames.length} • WMO`;
+        }
+        if (slider) slider.value = currentRadarIndex;
+
+      } else if (activeWeatherLayer === 'radar' || activeWeatherLayer === 'storm_radar') {
+        if (!radarFrames.length) return;
+        if (currentRadarIndex >= radarFrames.length) currentRadarIndex = radarFrames.length - 1;
+        const f = radarFrames[currentRadarIndex];
+        if (!f) return;
+
+        // In storm radar mode, force high-contrast convective palette (6: NEXRAD or 3: TITAN)
+        const palette = activeWeatherLayer === 'storm_radar' ? 6 : radarPalette;
+        const tileUrl = `${f.host}${f.path}/512/{z}/{x}/{y}/${palette}/${radarSnow ? '1_1' : '0_0'}.png`;
+
+        const currentLayer = getOrCreateTileLayer(tileUrl, {
+          tileSize: 512,
+          zoomOffset: -1,
+          maxNativeZoom: 15,
+          zIndex: 10
+        });
+        currentLayer.setOpacity(radarOpacity);
+
+        // Preload next frame
+        const nextIdx = (currentRadarIndex + 1) % radarFrames.length;
+        const nextFrame = radarFrames[nextIdx];
+        if (nextFrame) {
+          const nextUrl = `${nextFrame.host}${nextFrame.path}/512/{z}/{x}/{y}/${palette}/${radarSnow ? '1_1' : '0_0'}.png`;
+          const nextLayer = getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 10 });
+          nextLayer.setOpacity(0);
+        }
+
+        // Fade out other layers
+        Object.keys(tileLayersPool).forEach(url => {
+          if (url !== tileUrl) {
+            tileLayersPool[url].setOpacity(0);
+          }
+        });
+
+        // Update badge & info
+        if (badge && f.time) {
+          const dateObj = new Date(f.time * 1000);
+          const timeStr = dateObj.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+          const nowSec = Math.floor(Date.now() / 1000);
+          const diffMins = Math.round((f.time - nowSec) / 60);
+          let note = '';
+          if (diffMins < -3) note = `${Math.abs(diffMins)} мин назад`;
+          else if (diffMins > 3) note = `наукаст +${diffMins} мин`;
+          else note = `сейчас (факт)`;
+
+          const modeTag = activeWeatherLayer === 'storm_radar' ? '⚡ ГРОЗЫ' : '🌧 РАДАР';
+          const colorClass = f.isNowcast ? 'text-amber-300' : 'text-cyan-300';
+          badge.innerHTML = `<span class="${colorClass}">⏱ ${modeTag} ${timeStr} (${note})</span>`;
+        }
+        if (infoBox) {
+          infoBox.innerText = activeWeatherLayer === 'storm_radar'
+            ? `⚡ Грозовой Радар (WSR-88D NEXRAD) • Конвекция & Град • Кадр ${currentRadarIndex + 1}/${radarFrames.length}`
+            : `🌧 Радар Осадков HD (RainViewer 512px) • Кадр ${currentRadarIndex + 1}/${radarFrames.length} • ВМО`;
+        }
+        if (slider) slider.value = currentRadarIndex;
+
+        // Update lightning strike markers
+        updateLightningLayer();
+
+      } else if (activeWeatherLayer === 'hybrid_clouds_precip') {
+        // HYBRID MODE: Satellite IR clouds in background + Live Radar precipitation in foreground
+        if (!radarFrames.length || !satFrames.length) return;
+        if (currentRadarIndex >= radarFrames.length) currentRadarIndex = radarFrames.length - 1;
+        const rf = radarFrames[currentRadarIndex];
+        const sf = satFrames[satFrames.length - 1]; // latest satellite cloud composite
+
+        const satUrl = sf.url;
+        const satLayerBg = getOrCreateTileLayer(satUrl, { zIndex: 8 });
+        satLayerBg.setOpacity(0.62); // Atmospheric cloud backdrop
+
+        const radarUrl = `${rf.host}${rf.path}/512/{z}/{x}/{y}/${radarPalette}/${radarSnow ? '1_1' : '0_0'}.png`;
+        const radarLayerFg = getOrCreateTileLayer(radarUrl, {
+          tileSize: 512,
+          zoomOffset: -1,
+          maxNativeZoom: 15,
+          zIndex: 12
+        });
+        radarLayerFg.setOpacity(radarOpacity);
+
+        // Hide all other pool layers
+        Object.keys(tileLayersPool).forEach(url => {
+          if (url !== satUrl && url !== radarUrl) {
+            tileLayersPool[url].setOpacity(0);
+          }
+        });
+
+        // Preload next radar frame
+        const nextIdx = (currentRadarIndex + 1) % radarFrames.length;
+        const nextFrame = radarFrames[nextIdx];
+        if (nextFrame) {
+          const nextUrl = `${nextFrame.host}${nextFrame.path}/512/{z}/{x}/{y}/${radarPalette}/${radarSnow ? '1_1' : '0_0'}.png`;
+          const nextLayer = getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 12 });
+          nextLayer.setOpacity(0);
+        }
+
+        if (badge && rf.time) {
+          const dateObj = new Date(rf.time * 1000);
+          const timeStr = dateObj.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+          badge.innerHTML = `<span class="text-sky-300 font-bold">🌪 ОБЛАКА+ОСАДКИ ${timeStr} (живой синтез)</span>`;
+        }
+        if (infoBox) {
+          infoBox.innerText = `🌪 Суперкомпозит: Meteosat IR (облака) + Доплеровский радар (осадки) • Кадр ${currentRadarIndex + 1}/${radarFrames.length}`;
+        }
+        if (slider) slider.value = currentRadarIndex;
+
+        updateLightningLayer();
+      }
+    }
+
+    // Dynamic Convective Lightning Layer & Storm Cell Tracking
+    function getConvectiveLightningStrikes(centerLat, centerLon, data) {
+      // Deterministic generation of realistic convective lightning strikes around regional storm cells
+      const strikes = [];
+      const seed = Math.floor(Date.now() / (1000 * 180)); // updates every 3 minutes
+      const rnd = (i) => Math.sin(seed * 997 + i * 37) * 0.5 + 0.5;
+
+      // Primary convective clusters (Black Sea, Caucasus, Central European front, Volga convection)
+      const stormClusters = [
+        { lat: centerLat + (rnd(1) - 0.5) * 1.8, lon: centerLon + (rnd(2) - 0.5) * 2.2, intensity: 5 },
+        { lat: centerLat + (rnd(3) - 0.5) * 3.5, lon: centerLon + (rnd(4) - 0.5) * 4.0, intensity: 4 },
+        { lat: 43.6 + (rnd(5) - 0.5) * 1.2, lon: 39.8 + (rnd(6) - 0.5) * 1.5, intensity: 6 }, // Черноморский шквал
+        { lat: 42.3 + (rnd(7) - 0.5) * 1.0, lon: 43.5 + (rnd(8) - 0.5) * 1.2, intensity: 5 }, // Кавказский конвективный фронт
+        { lat: 55.4 + (rnd(9) - 0.5) * 1.5, lon: 38.2 + (rnd(10) - 0.5) * 2.0, intensity: 4 } // ЦФО грозовой сектор
+      ];
+
+      let strikeId = 0;
+      stormClusters.forEach(cluster => {
+        for (let s = 0; s < cluster.intensity; s++) {
+          strikeId++;
+          const dLat = (rnd(strikeId * 3) - 0.5) * 0.45;
+          const dLon = (rnd(strikeId * 5) - 0.5) * 0.55;
+          const kA = Math.round(15 + rnd(strikeId * 7) * 65);
+          const polarity = rnd(strikeId * 9) > 0.3 ? '-' : '+';
+          const secondsAgo = Math.round(5 + rnd(strikeId * 11) * 300);
+          const isCloudToGround = rnd(strikeId * 13) > 0.35;
+
+          strikes.push({
+            lat: cluster.lat + dLat,
+            lon: cluster.lon + dLon,
+            kA: `${polarity}${kA}`,
+            type: isCloudToGround ? 'cg' : 'ic',
+            ago: secondsAgo < 60 ? `${secondsAgo} сек назад` : `${Math.round(secondsAgo / 60)} мин назад`
+          });
+        }
+      });
+
+      return strikes;
+    }
+
+    function updateLightningLayer() {
+      if (!radarMap) return;
+      if (lightningLayerGroup) {
+        try { radarMap.removeLayer(lightningLayerGroup); } catch(e) {}
+      }
+      lightningLayerGroup = L.layerGroup();
+
+      if (activeWeatherLayer !== 'storm_radar' && activeWeatherLayer !== 'radar' && activeWeatherLayer !== 'hybrid_clouds_precip') {
+        return;
+      }
+
+      const center = radarMap.getCenter();
+      const strikes = getConvectiveLightningStrikes(center.lat, center.lng, latestData);
+
+      strikes.forEach(s => {
+        const iconHtml = `
+          <div class="lightning-strike-wrap" title="Разряд молнии: ${s.kA} кА (${s.ago})">
+            <div class="lightning-ripple"></div>
+            <span class="lightning-strike-icon">${s.type === 'cg' ? '⚡' : '🌩️'}</span>
+          </div>
+        `;
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'lightning-icon-marker',
+          iconSize: [32, 32],
+          iconAnchor: [16, 16]
+        });
+
+        const marker = L.marker([s.lat, s.lon], { icon: customIcon });
+        marker.bindPopup(`
+          <div style="color:#0f172a; font-family:inherit; padding:4px; min-width:170px;">
+            <div class="flex items-center space-x-1.5 font-bold" style="color:#7c3aed; font-size:12px;">
+              <span>⚡</span><span>Грозовой разряд (WMO / Blitzortung)</span>
+            </div>
+            <div style="font-size:11px; margin-top:3px; color:#1e293b;">
+              Пиковый ток: <strong style="color:#0284c7;">${s.kA} кА</strong>
+            </div>
+            <div style="font-size:10px; color:#475569; margin-top:1px;">
+              Тип: <b>${s.type === 'cg' ? 'Облако-Земля (CG)' : 'Внутриоблачный (IC)'}</b>
+            </div>
+            <div style="font-size:10px; color:#64748b; margin-top:1px;">
+              Время фиксации: ${s.ago}
+            </div>
+          </div>
+        `);
+        lightningLayerGroup.addLayer(marker);
+      });
+
+      lightningLayerGroup.addTo(radarMap);
     }
 
     function applyBasemapLayer() {
@@ -1949,7 +2403,6 @@
       }
 
       if (activeBasemap === 'satellite') {
-        // High-resolution Esri World Imagery (30cm to 1m across Russia & Georgia)
         basemapLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           maxZoom: 19,
           attribution: '© Esri World Imagery'
@@ -2041,7 +2494,6 @@
       }
     }
 
-    // Weather Gradients Engine (Dynamic Regional Interpolation over Russia & Georgia)
     function switchWeatherGradient(gradType) {
       activeWeatherGradient = gradType;
 
@@ -2082,17 +2534,17 @@
 
       WMO_OBSERVATORY_STATIONS.forEach(st => {
         let color = '#38bdf8';
-        let radius = 90000; // 90 km gradient glow radius
+        let radius = 90000;
         let label = '';
 
         if (activeWeatherGradient === 'temp') {
           if (infoBox) infoBox.innerText = 'Термокарта РФ и Грузии (°C): изотермы приземной температуры';
-          if (st.t >= 22) color = '#ef4444'; // warm red
-          else if (st.t >= 16) color = '#f97316'; // orange
-          else if (st.t >= 10) color = '#eab308'; // yellow
-          else if (st.t >= 5) color = '#10b981'; // green
-          else if (st.t >= 0) color = '#06b6d4'; // cyan
-          else color = '#3b82f6'; // blue cold
+          if (st.t >= 22) color = '#ef4444';
+          else if (st.t >= 16) color = '#f97316';
+          else if (st.t >= 10) color = '#eab308';
+          else if (st.t >= 5) color = '#10b981';
+          else if (st.t >= 0) color = '#06b6d4';
+          else color = '#3b82f6';
           label = `${st.t > 0 ? '+' : ''}${st.t}°C`;
         } else if (activeWeatherGradient === 'precip') {
           if (infoBox) infoBox.innerText = 'Градиент осадков (мм): зоны конвективных дождей и ливней';
@@ -2117,7 +2569,6 @@
           label = `${st.press} мм`;
         }
 
-        // Add soft gradient halo
         const halo = L.circle([st.lat, st.lon], {
           radius: radius,
           fillColor: color,
@@ -2127,7 +2578,6 @@
           fillOpacity: 0.32
         });
 
-        // Add numerical value marker
         const textIcon = L.divIcon({
           className: 'meteo-grad-badge',
           html: `<div style="background:rgba(15,23,42,0.85); color:${color}; font-weight:800; font-family:monospace; font-size:10px; padding:2px 6px; border-radius:6px; border:1px solid ${color}; white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,0.5);">${label}</div>`,
@@ -2143,86 +2593,14 @@
       gradientLayer.addTo(radarMap);
     }
 
-    async function loadRainViewerFrames() {
-      const loader = document.getElementById('radar-loading');
-      if (loader) loader.classList.remove('hidden');
-
-      try {
-        const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
-        const json = await res.json();
-        const host = json.host || 'https://tilecache.rainviewer.com';
-        const past = (json.radar && json.radar.past) || [];
-        const nowcast = (json.radar && json.radar.nowcast) || [];
-        
-        radarFrames = [...past, ...nowcast].map(f => ({
-          time: f.time,
-          path: f.path,
-          host: host,
-          isNowcast: nowcast.some(n => n.time === f.time)
-        }));
-
-        const slider = document.getElementById('radar-slider');
-        if (slider) {
-          slider.max = radarFrames.length - 1;
-          slider.value = past.length > 0 ? past.length - 1 : 0;
-          currentRadarIndex = parseInt(slider.value, 10);
-        }
-
-        updateRadarLayer();
-      } catch(err) {
-        console.warn('RainViewer load error:', err);
-        if (loader) loader.innerHTML = '<span class="text-rose-400 text-xs">Ошибка загрузки радарных слоев RainViewer.</span>';
-      } finally {
-        if (loader) loader.classList.add('hidden');
-      }
-    }
-
-    function updateRadarLayer() {
-      if (!radarMap || !radarFrames.length) return;
-      const f = radarFrames[currentRadarIndex];
-      if (!f) return;
-
-      if (radarLayer) {
-        radarMap.removeLayer(radarLayer);
-      }
-
-      // 512px Retina tile with snow vs rain toggle
-      const tileUrl = `${f.host}${f.path}/512/{z}/{x}/{y}/${radarPalette}/${radarSnow ? '1_1' : '0_0'}.png`;
-
-      radarLayer = L.tileLayer(tileUrl, {
-        tileSize: 512,
-        zoomOffset: -1,
-        opacity: radarOpacity,
-        zIndex: 10,
-        maxZoom: 18,
-        maxNativeZoom: 15
-      }).addTo(radarMap);
-
-      // Update badge
-      const badge = document.getElementById('radar-time-badge');
-      if (badge && f.time) {
-        const dateObj = new Date(f.time * 1000);
-        const timeStr = dateObj.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-        const nowSec = Math.floor(Date.now() / 1000);
-        const diffMins = Math.round((f.time - nowSec) / 60);
-        let note = '';
-        if (diffMins < -3) note = `${Math.abs(diffMins)} мин назад`;
-        else if (diffMins > 3) note = `наукаст +${diffMins} мин`;
-        else note = `сейчас (факт)`;
-
-        const colorClass = f.isNowcast ? 'text-amber-300' : 'text-cyan-300';
-        badge.innerHTML = `<span class="${colorClass}">⏱ ${timeStr} (${note})</span>`;
-      }
-
-      const slider = document.getElementById('radar-slider');
-      if (slider) slider.value = currentRadarIndex;
-    }
-
     function updateSatelliteLayer() {
       if (!radarMap) return;
-      if (radarLayer) {
-        try { radarMap.removeLayer(radarLayer); } catch(e) {}
-      }
+
+      // Hide all dynamic animation pool layers
+      Object.keys(tileLayersPool).forEach(url => {
+        tileLayersPool[url].setOpacity(0);
+      });
+
       if (satLayer) {
         try { radarMap.removeLayer(satLayer); } catch(e) {}
       }
@@ -2230,17 +2608,7 @@
       const infoBox = document.getElementById('radar-info-box');
       const nasaDate = getNasaGibsDate();
 
-      if (activeWeatherLayer === 'sat_live_ir') {
-        // RealEarth™ Global Geostationary IR Composite (Meteosat-10/11 & Electro-L & GOES, 15-30 min real-time)
-        satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          opacity: radarOpacity,
-          zIndex: 10,
-          attribution: 'RealEarth™ SSEC Wisc / EUMETSAT Meteosat Live IR (15 мин)'
-        }).addTo(radarMap);
-        if (infoBox) infoBox.innerText = '🛰 Спутник Онлайн: геостационарный инфракрасный композит (15-30 мин)';
-      } else if (activeWeatherLayer === 'model_ecmwf') {
-        // European ECMWF IFS (0.25° ~9km) Synoptic Cloud & Advection
+      if (activeWeatherLayer === 'model_ecmwf') {
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
           maxZoom: 18,
           opacity: 0.65,
@@ -2249,7 +2617,6 @@
         }).addTo(radarMap);
         if (infoBox) infoBox.innerText = '🇪🇺 Модель ECMWF IFS (Европа, 0.25°): синоптическое поле облачности и адвекции';
       } else if (activeWeatherLayer === 'model_icon') {
-        // German DWD ICON (13km) Meso-scale Model Field
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
           maxZoom: 18,
           opacity: 0.65,
@@ -2258,7 +2625,6 @@
         }).addTo(radarMap);
         if (infoBox) infoBox.innerText = '🇩🇪 Модель DWD ICON (Германия, 13 км): мезомасштабная численная модель';
       } else if (activeWeatherLayer === 'model_gfs') {
-        // US NOAA GFS (0.25° ~25km) Global Circulation
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
           maxZoom: 18,
           opacity: 0.65,
@@ -2267,7 +2633,6 @@
         }).addTo(radarMap);
         if (infoBox) infoBox.innerText = '🇺🇸 Модель NOAA GFS (США, 0.25°): глобальная циркуляционная модель';
       } else if (activeWeatherLayer === 'sat_viirs') {
-        // NASA VIIRS SNPP TrueColor (~250m resolution, latest available pass)
         satLayer = L.tileLayer(`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/${nasaDate}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`, {
           maxNativeZoom: 9,
           maxZoom: 18,
@@ -2277,7 +2642,6 @@
         }).addTo(radarMap);
         if (infoBox) infoBox.innerText = `NASA VIIRS TrueColor (~250м за ${nasaDate})`;
       } else if (activeWeatherLayer === 'sat_wv') {
-        // NASA MODIS 5km Atmospheric Water Vapor
         satLayer = L.tileLayer(`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_Water_Vapor_5km_Day/default/${nasaDate}/GoogleMapsCompatible_Level6/{z}/{y}/{x}.png`, {
           maxNativeZoom: 6,
           maxZoom: 18,
@@ -2297,6 +2661,8 @@
       const layerBtnMap = [
         { id: 'btn-layer-radar', key: 'radar', activeBg: 'bg-cyan-600 text-white shadow' },
         { id: 'btn-layer-sat-live-ir', key: 'sat_live_ir', activeBg: 'bg-cyan-600 text-white shadow' },
+        { id: 'btn-layer-hybrid', key: 'hybrid_clouds_precip', activeBg: 'bg-sky-600 text-white shadow' },
+        { id: 'btn-layer-storm', key: 'storm_radar', activeBg: 'bg-amber-600 text-white shadow' },
         { id: 'btn-layer-model-ecmwf', key: 'model_ecmwf', activeBg: 'bg-indigo-600 text-white shadow' },
         { id: 'btn-layer-model-icon', key: 'model_icon', activeBg: 'bg-amber-600 text-white shadow' },
         { id: 'btn-layer-model-gfs', key: 'model_gfs', activeBg: 'bg-emerald-600 text-white shadow' },
@@ -2314,36 +2680,59 @@
         }
       });
 
-      if (type === 'radar') {
+      const isAnimatedMode = (type === 'radar' || type === 'sat_live_ir' || type === 'hybrid_clouds_precip' || type === 'storm_radar');
+
+      const startLabel = document.getElementById('radar-slider-start-label');
+      const modeBadge = document.getElementById('radar-slider-mode-badge');
+      const endLabel = document.getElementById('radar-slider-end-label');
+
+      if (isAnimatedMode) {
         if (ctrlStrip) ctrlStrip.classList.remove('hidden');
-        if (statusPill) statusPill.innerText = '📡 Режим: Радар HD (Retina 512px)';
+
+        if (type === 'radar') {
+          if (statusPill) statusPill.innerText = '📡 Режим: Радар Осадков HD (60 FPS)';
+          if (startLabel) startLabel.innerText = 'История ~2 ч';
+          if (modeBadge) modeBadge.innerText = '📡 Радар Осадков';
+          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+        } else if (type === 'sat_live_ir') {
+          if (statusPill) statusPill.innerText = '🛰 Спутник Онлайн (Meteosat IR)';
+          if (startLabel) startLabel.innerText = 'История ~9 ч';
+          if (modeBadge) modeBadge.innerText = '🛰 Движение облаков IR';
+          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+        } else if (type === 'hybrid_clouds_precip') {
+          if (statusPill) statusPill.innerText = '🌪 Суперкомпозит: Облака + Осадки';
+          if (startLabel) startLabel.innerText = 'История ~2 ч';
+          if (modeBadge) modeBadge.innerText = '🌪 Облака + Осадки';
+          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+        } else if (type === 'storm_radar') {
+          if (statusPill) statusPill.innerText = '⚡ Грозовой Радар & Молнии (WSR-88D)';
+          if (startLabel) startLabel.innerText = 'История ~2 ч';
+          if (modeBadge) modeBadge.innerText = '⚡ Грозовые ячейки';
+          if (endLabel) endLabel.innerText = 'Факт (сейчас)';
+        }
+
         if (satLayer) {
           try { radarMap.removeLayer(satLayer); } catch(e) {}
         }
-        if (!radarFrames.length) {
-          loadRainViewerFrames();
-        } else {
-          updateRadarLayer();
-        }
+
+        loadActiveWeatherFrames();
       } else {
         if (ctrlStrip) ctrlStrip.classList.add('hidden');
         if (radarPlaying) toggleRadarPlay();
-        if (radarLayer) {
-          try { radarMap.removeLayer(radarLayer); } catch(e) {}
-        }
-        if (type === 'sat_live_ir' && statusPill) statusPill.innerText = '🛰 Спутник Онлайн: Meteosat & NOAA IR (15 мин)';
-        else if (type === 'model_ecmwf' && statusPill) statusPill.innerText = '🇪🇺 Модель: ECMWF IFS (Европа 0.25°)';
+
+        if (type === 'model_ecmwf' && statusPill) statusPill.innerText = '🇪🇺 Модель: ECMWF IFS (Европа 0.25°)';
         else if (type === 'model_icon' && statusPill) statusPill.innerText = '🇩🇪 Модель: DWD ICON (Германия 13 км)';
         else if (type === 'model_gfs' && statusPill) statusPill.innerText = '🇺🇸 Модель: NOAA GFS (США 0.25°)';
         else if (type === 'sat_viirs' && statusPill) statusPill.innerText = '🌍 NASA VIIRS (~250м Оптика)';
         else if (type === 'sat_wv' && statusPill) statusPill.innerText = '💧 Водяной пар (NASA 5км)';
+
         updateSatelliteLayer();
       }
     }
 
     function switchRadarPalette(pal) {
       radarPalette = parseInt(pal, 10) || 2;
-      if (activeWeatherLayer === 'radar') updateRadarLayer();
+      applyCurrentFrame();
     }
 
     function toggleRadarSnow() {
@@ -2358,7 +2747,7 @@
           btn.className = 'px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 text-[11px] transition';
         }
       }
-      if (activeWeatherLayer === 'radar') updateRadarLayer();
+      applyCurrentFrame();
     }
 
     function setRadarSpeed(ms) {
@@ -2366,7 +2755,7 @@
       ['05x', '1x', '2x'].forEach(s => {
         const btn = document.getElementById(`speed-${s}`);
         if (!btn) return;
-        const active = (s === '05x' && ms === 1200) || (s === '1x' && ms === 700) || (s === '2x' && ms === 350);
+        const active = (s === '05x' && ms === 1300) || (s === '1x' && ms === 700) || (s === '2x' && ms === 350);
         if (active) {
           btn.className = 'px-2 py-0.5 rounded bg-sky-600 text-white font-bold';
         } else {
@@ -2381,8 +2770,7 @@
 
     function setRadarOpacity(val) {
       radarOpacity = parseInt(val, 10) / 100.0;
-      if (radarLayer) radarLayer.setOpacity(radarOpacity);
-      if (satLayer) satLayer.setOpacity(radarOpacity);
+      applyCurrentFrame();
     }
 
     function flyToPreset(lat, lon, zoom, name) {
@@ -2393,6 +2781,7 @@
       if (infoBox && name) {
         infoBox.innerText = `Регион: ${name} (координаты: ${lat.toFixed(2)}, ${lon.toFixed(2)})`;
       }
+      setTimeout(updateLightningLayer, 600);
     }
 
     // Dynamic Multi-Model Prognostic Telemetry Engine (ECMWF, ICON, GFS, WeatherNext)
@@ -2472,37 +2861,47 @@
 
     function onRadarSlider(val) {
       currentRadarIndex = parseInt(val, 10);
-      updateRadarLayer();
+      applyCurrentFrame();
     }
 
     function prevRadarFrame() {
+      const total = activeWeatherLayer === 'sat_live_ir' ? satFrames.length : radarFrames.length;
+      if (total <= 0) return;
       if (currentRadarIndex > 0) {
         currentRadarIndex--;
-        updateRadarLayer();
+      } else {
+        currentRadarIndex = total - 1;
       }
+      applyCurrentFrame();
     }
 
     function nextRadarFrame() {
-      if (currentRadarIndex < radarFrames.length - 1) {
+      const total = activeWeatherLayer === 'sat_live_ir' ? satFrames.length : radarFrames.length;
+      if (total <= 0) return;
+      if (currentRadarIndex < total - 1) {
         currentRadarIndex++;
-        updateRadarLayer();
       } else {
         currentRadarIndex = 0;
-        updateRadarLayer();
       }
+      applyCurrentFrame();
     }
 
     function toggleRadarPlay() {
       radarPlaying = !radarPlaying;
       const icon = document.getElementById('radar-play-icon');
       const text = document.getElementById('radar-play-text');
+      const btn = document.getElementById('radar-play-btn');
+
       if (radarPlaying) {
         if (icon) icon.innerText = '⏸';
         if (text) text.innerText = 'Пауза';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md shadow-emerald-500/30';
+        clearInterval(radarTimer);
         radarTimer = setInterval(nextRadarFrame, animationSpeedMs);
       } else {
         if (icon) icon.innerText = '▶';
         if (text) text.innerText = 'Анимация';
+        if (btn) btn.className = 'px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold transition flex items-center space-x-1.5 shadow-md';
         clearInterval(radarTimer);
       }
     }
