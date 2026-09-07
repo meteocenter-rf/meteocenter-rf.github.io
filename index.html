@@ -1678,7 +1678,7 @@
           </div>
           <div class="flex items-center space-x-2 flex-wrap gap-y-1.5">
             <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold shadow-sm">
-              🛰 Режим: Спутник Онлайн (IR)
+              🛰 Режим: Спутник Онлайн (РФ 100%)
             </span>
             <!-- Snow / Rain Toggle -->
             <button id="radar-snow-btn" onclick="toggleRadarSnow()" title="Переключить разделение снега и дождя" class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 text-xs font-semibold hover:bg-emerald-900/80 transition flex items-center space-x-1 shadow-sm">
@@ -1716,23 +1716,23 @@
           <div id="radar-loading" class="absolute inset-0 z-30 flex items-center justify-center bg-slate-950/85 backdrop-blur-md">
             <div class="text-center space-y-3 p-4 rounded-2xl bg-slate-900/90 border border-slate-700 shadow-2xl">
               <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-sky-400 border-t-transparent"></div>
-              <p id="radar-loading-text" class="text-xs sm:text-sm text-sky-300 font-mono font-medium">Синхронизация спутников NASA и радаров осадков...</p>
+              <p id="radar-loading-text" class="text-xs sm:text-sm text-sky-300 font-mono font-medium">Синхронизация спутников NASA и Meteosat...</p>
             </div>
           </div>
 
           <!-- ── FLOATING TOP-LEFT: Atmospheric Layer Controls ─────────────── -->
-          <div class="absolute top-3 left-3 z-20 flex flex-col gap-1.5 max-w-[190px]">
+          <div class="absolute top-3 left-3 z-20 flex flex-col gap-1.5 max-w-[195px]">
             <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" title="Спутник Meteosat IR — 100% охват РФ, Сибири и Арктики 24/7" class="radar-float-btn ${activeWeatherLayer === 'sat_live_ir' ? 'radar-float-active' : 'radar-float-inactive'}">
-              <span>🛰️</span><span>Спутник Онлайн (РФ)</span>
+              <span>🛰️</span><span>Спутник Онлайн (РФ 100%)</span>
             </button>
             <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" title="Спутниковые облака + Доплеровский радар (Живой синтез)" class="radar-float-btn ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'radar-float-active' : 'radar-float-inactive'}">
               <span>🌪️</span><span>Облака + Осадки</span>
             </button>
-            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" title="Наземные доплеровские вышки RainViewer (Европа, приграничье РФ)" class="radar-float-btn ${activeWeatherLayer === 'radar' ? 'radar-float-active' : 'radar-float-inactive'}">
-              <span>📡</span><span>Доплер-Радар HD</span>
-            </button>
             <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" title="Грозы, конвекция CAPE и разряды молний" class="radar-float-btn ${activeWeatherLayer === 'storm_radar' ? 'radar-float-active' : 'radar-float-inactive'}">
               <span>⚡</span><span>Грозы & Молнии</span>
+            </button>
+            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" title="Наземные доплеровские вышки RainViewer (Европа, приграничье РФ)" class="radar-float-btn ${activeWeatherLayer === 'radar' ? 'radar-float-active' : 'radar-float-inactive'}">
+              <span>📡</span><span>Доплер (EU / Границы)</span>
             </button>
             <div class="h-px bg-slate-700/60 my-0.5 mx-1"></div>
             <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" title="Численный прогноз ECMWF IFS (Европа 9 км)" class="radar-float-btn text-[11px] ${activeWeatherLayer === 'model_ecmwf' ? 'radar-float-active' : 'radar-float-inactive'}">
@@ -1899,30 +1899,12 @@
             </div>
           </div>
 
-          <!-- Quick Synoptic Gradients Toolbar -->
-          <div class="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
-            <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
-              <span class="text-slate-400 text-[11px] font-semibold mr-1">Синтез полей:</span>
-              <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                Выкл
-              </button>
-              <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'temp' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌡️ Температура
-              </button>
-              <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌧️ Осадки
-              </button>
-              <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'wind' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                💨 Ветер
-              </button>
-              <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'clouds' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                ☁️ Облачность
-              </button>
-              <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherGradient === 'press' ? 'bg-sky-600 text-white font-bold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
-                🌀 Давление
-              </button>
+          <!-- Legend Footer Info -->
+          <div class="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-400">
+            <div>
+              <span class="text-slate-300 font-semibold">Радарный мониторинг:</span> Доплеровские эхо ДМРЛ RainViewer HD • Спутник Meteosat IR • Детекция молний Blitzortung
             </div>
-            <div class="text-[10.5px] text-slate-500 font-mono">
+            <div class="text-slate-500">
               ВМО · WMO Global Observing System
             </div>
           </div>
@@ -2388,9 +2370,13 @@
           zIndex: options.zIndex || 10,
           attribution: options.attribution || ''
         };
+        if (url.includes('realearth.ssec.wisc.edu')) {
+          defaultOpts.maxNativeZoom = 4;
+        } else if (options.maxNativeZoom) {
+          defaultOpts.maxNativeZoom = options.maxNativeZoom;
+        }
         if (options.tileSize) defaultOpts.tileSize = options.tileSize;
         if (options.zoomOffset) defaultOpts.zoomOffset = options.zoomOffset;
-        if (options.maxNativeZoom) defaultOpts.maxNativeZoom = options.maxNativeZoom;
 
         const layer = L.tileLayer(url, defaultOpts);
         if (radarMap) layer.addTo(radarMap);
@@ -2703,26 +2689,62 @@
       stationsLayerGroup = L.layerGroup();
 
       WMO_OBSERVATORY_STATIONS.forEach(st => {
-        const marker = L.circleMarker([st.lat, st.lon], {
-          radius: 6,
-          fillColor: st.t > 15 ? '#f59e0b' : (st.t > 0 ? '#10b981' : '#38bdf8'),
-          color: '#ffffff',
-          weight: 1.5,
-          opacity: 0.9,
-          fillOpacity: 0.85
+        let weatherIcon = '☀️';
+        let badgeBg = 'rgba(15, 23, 42, 0.88)';
+        let badgeBorder = '#38bdf8';
+        let badgeText = `${st.t > 0 ? '+' : ''}${st.t}°`;
+
+        if (st.t <= 0 && st.prec > 0.3) {
+          weatherIcon = '❄️';
+          badgeBorder = '#38bdf8';
+          badgeBg = 'rgba(3, 105, 161, 0.88)';
+          badgeText = `${st.prec} мм`;
+        } else if (st.prec >= 1.5) {
+          weatherIcon = '🌧️';
+          badgeBorder = '#eab308';
+          badgeBg = 'rgba(113, 63, 18, 0.88)';
+          badgeText = `${st.prec} мм`;
+        } else if (st.prec > 0.1) {
+          weatherIcon = '🌦️';
+          badgeBorder = '#10b981';
+          badgeBg = 'rgba(6, 78, 59, 0.88)';
+          badgeText = `${st.prec} мм`;
+        } else if (st.clouds >= 75) {
+          weatherIcon = '☁️';
+          badgeBorder = '#64748b';
+        } else if (st.clouds >= 40) {
+          weatherIcon = '⛅';
+          badgeBorder = '#0284c7';
+        }
+
+        const iconHtml = `
+          <div class="flex items-center space-x-1 px-1.5 py-0.5 rounded-full shadow-lg cursor-pointer transition hover:scale-110" style="background:${badgeBg}; border:1px solid ${badgeBorder}; font-family:monospace; font-size:10px; color:#f8fafc; white-space:nowrap; backdrop-filter:blur(6px);">
+            <span style="font-size:11px;">${weatherIcon}</span>
+            <span style="font-weight:700;">${badgeText}</span>
+          </div>
+        `;
+
+        const stationIcon = L.divIcon({
+          className: 'meteo-station-pill',
+          html: iconHtml,
+          iconSize: [48, 20],
+          iconAnchor: [24, 10]
         });
 
+        const marker = L.marker([st.lat, st.lon], { icon: stationIcon });
+
         marker.bindPopup(`
-          <div style="font-family:inherit; color:#0f172a; padding:3px; min-width:140px;">
-            <b style="font-size:12px; color:#0f172a;">${st.name}</b>
-            <div style="font-size:11px; margin-top:2px; font-weight:bold; color:#0284c7;">
-              Температура: ${st.t > 0 ? '+' : ''}${st.t}°C
+          <div style="font-family:inherit; color:#0f172a; padding:6px; min-width:180px;">
+            <div class="flex items-center space-x-1.5 font-bold" style="font-size:13px; color:#0369a1;">
+              <span>📍</span><span>${st.name}</span>
             </div>
-            <div style="font-size:10px; color:#475569;">
-              Осадки: ${st.prec} мм • Ветер: ${st.wind} м/с
+            <div style="font-size:14px; font-weight:800; color:#0f172a; margin-top:3px;">
+              ${st.t > 0 ? '+' : ''}${st.t}°C · <span style="font-size:12px; font-weight:normal; color:#475569;">${st.prec > 0 ? (st.t <= 0 ? 'Снег ' + st.prec + ' мм' : 'Дождь ' + st.prec + ' мм') : (st.clouds > 60 ? 'Пасмурно' : (st.clouds > 25 ? 'Облачно' : 'Ясно'))}</span>
             </div>
-            <div style="font-size:10px; color:#475569;">
-              Облачность: ${st.clouds}% • Давление: ${st.press} мм
+            <div style="font-size:11px; color:#334155; margin-top:4px; border-top:1px solid #e2e8f0; padding-top:4px;">
+              <div>💨 Ветер: <b>${st.wind} м/с</b></div>
+              <div>💧 Влажность / Облачность: <b>${st.clouds}%</b></div>
+              <div>🌀 Давление: <b>${st.press} мм рт. ст.</b></div>
             </div>
           </div>
         `);
@@ -2822,24 +2844,14 @@
           label = `${st.press} мм`;
         }
 
-        const halo = L.circle([st.lat, st.lon], {
-          radius: radius,
-          fillColor: color,
-          color: color,
-          weight: 0,
-          opacity: 0,
-          fillOpacity: 0.32
-        });
-
+        // Clean micro-badge (Windy style) without giant overlapping 90-km halos
         const textIcon = L.divIcon({
           className: 'meteo-grad-badge',
-          html: `<div style="background:rgba(15,23,42,0.85); color:${color}; font-weight:800; font-family:monospace; font-size:10px; padding:2px 6px; border-radius:6px; border:1px solid ${color}; white-space:nowrap; box-shadow:0 2px 8px rgba(0,0,0,0.5);">${label}</div>`,
-          iconSize: [40, 20],
-          iconAnchor: [20, 10]
+          html: `<div style="background:rgba(10,15,29,0.85); color:${color}; font-weight:700; font-family:monospace; font-size:10px; padding:1px 5px; border-radius:4px; border:1px solid ${color}; white-space:nowrap; box-shadow:0 2px 6px rgba(0,0,0,0.6); pointer-events:none;">${label}</div>`,
+          iconSize: [36, 16],
+          iconAnchor: [18, 8]
         });
-        const textMarker = L.marker([st.lat, st.lon], { icon: textIcon });
-
-        gradientLayer.addLayer(halo);
+        const textMarker = L.marker([st.lat, st.lon], { icon: textIcon, interactive: false });
         gradientLayer.addLayer(textMarker);
       });
 
@@ -2863,6 +2875,7 @@
 
       if (activeWeatherLayer === 'model_ecmwf') {
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
+          maxNativeZoom: 4,
           maxZoom: 18,
           opacity: 0.65,
           zIndex: 10,
@@ -2871,6 +2884,7 @@
         if (infoBox) infoBox.innerText = '🌐 Модель ECMWF IFS (Европа, 0.25°): синоптическое поле облачности и адвекции';
       } else if (activeWeatherLayer === 'model_icon') {
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
+          maxNativeZoom: 4,
           maxZoom: 18,
           opacity: 0.65,
           zIndex: 10,
@@ -2879,6 +2893,7 @@
         if (infoBox) infoBox.innerText = '🌀 Модель DWD ICON (Германия, 13 км): мезомасштабная численная модель';
       } else if (activeWeatherLayer === 'model_gfs') {
         satLayer = L.tileLayer('https://realearth.ssec.wisc.edu/tiles/globalir/{z}/{x}/{y}.png', {
+          maxNativeZoom: 4,
           maxZoom: 18,
           opacity: 0.65,
           zIndex: 10,
@@ -2956,7 +2971,7 @@
           if (modeBadge) modeBadge.innerText = '📡 Вышки ДМРЛ (EU/Границы)';
           if (endLabel) endLabel.innerText = 'Факт (сейчас)';
         } else if (type === 'sat_live_ir') {
-          if (statusPill) statusPill.innerText = '🛰 Спутник Онлайн (Meteosat IR)';
+          if (statusPill) statusPill.innerText = '🛰 Спутник Онлайн (РФ 100%)';
           if (startLabel) startLabel.innerText = 'История ~9 ч';
           if (modeBadge) modeBadge.innerText = '🛰 Облака IR (РФ 100%)';
           if (endLabel) endLabel.innerText = 'Факт (сейчас)';
