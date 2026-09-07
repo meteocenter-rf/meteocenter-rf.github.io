@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /?city=*
+Allow: /?mode=*
+Sitemap: https://meteocenter-rf.github.io/sitemap.xml
+Host: meteocenter-rf.github.io
