@@ -65,68 +65,71 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 
-  <!-- High-Precision Meteorological Workstation Typography -->
+  <!-- World-Class Designer Typography (Inter Variable + JetBrains Mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #040711;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-feature-settings: "cv02" 1, "cv03" 1, "cv04" 1, "cv11" 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #0b0f19;
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.10) 0%, transparent 48%),
-        radial-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 0);
-      background-size: 100% 100%, 28px 28px;
+        radial-gradient(circle at 50% 0%, rgba(30, 58, 138, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(14, 116, 144, 0.08) 0%, transparent 40%);
       color: #f1f5f9;
       overscroll-behavior-y: none;
     }
-    .font-tech { font-family: 'Chakra Petch', sans-serif; letter-spacing: 0.03em; }
-    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-tech { font-family: 'Inter', sans-serif; font-weight: 600; letter-spacing: -0.01em; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
 
-    /* Precision Meteorological Workstation Panels */
+    /* Precision Meteorological Workstation Panels (Calm Obsidian & Frosted Glass) */
     .glass {
-      background: rgba(8, 13, 26, 0.82);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(56, 189, 248, 0.18);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+      background: rgba(15, 23, 42, 0.82);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
     }
     .glass-card {
-      background: rgba(12, 19, 36, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(15, 23, 42, 0.70);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(148, 163, 184, 0.10);
       position: relative;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     }
     .glass-card:hover {
-      border-color: rgba(0, 240, 255, 0.35);
-      background: rgba(16, 26, 48, 0.82);
-      box-shadow: 0 6px 24px rgba(0, 240, 255, 0.09);
+      border-color: rgba(56, 189, 248, 0.25);
+      background: rgba(15, 23, 42, 0.85);
+      box-shadow: 0 6px 20px -2px rgba(0, 0, 0, 0.40);
     }
     .hud-badge {
-      font-family: 'Chakra Petch', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      background: rgba(6, 12, 24, 0.85);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      background: rgba(15, 23, 42, 0.90);
     }
     .tab-active {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      background: #0284c7;
       color: #ffffff;
-      box-shadow: 0 0 16px rgba(14, 165, 233, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
       border: 1px solid #38bdf8;
+      font-weight: 600;
     }
     .tab-inactive {
-      background: rgba(10, 16, 30, 0.72);
+      background: rgba(30, 41, 59, 0.50);
       color: #94a3b8;
       border: 1px solid rgba(51, 65, 85, 0.45);
     }
     .tab-inactive:hover {
-      background: rgba(18, 28, 52, 0.85);
+      background: rgba(51, 65, 85, 0.65);
       color: #f8fafc;
-      border-color: rgba(56, 189, 248, 0.32);
+      border-color: rgba(148, 163, 184, 0.35);
     }
     /* Touch & Scrollbar Ergonomics */
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -347,34 +350,22 @@
     <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (TOUCH / SWIPE) ================= -->
     <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
       <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active">
-        <span>☀️</span><span>Погода сейчас (48 ч)</span>
+        <span>🌤️</span><span>Главный прогноз</span>
       </button>
       <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🛰</span><span>Живой радар & Спутники</span>
-      </button>
-      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🧠</span><span>ИИ WeatherNext 3.0 (14 дн)</span>
-      </button>
-      <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📈</span><span>30 дней: Гибрид ИИ+SEAS5</span>
+        <span>🛰️</span><span>Радар & Спутник</span>
       </button>
       <button onclick="switchTab('models')" id="tab-models" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🌐</span><span>5 Моделей & ИИ</span>
+        <span>🌐</span><span>5 Суперкомпьютеров</span>
+      </button>
+      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
+        <span>🧠</span><span>ИИ WeatherNext (14 дн)</span>
+      </button>
+      <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
+        <span>📈</span><span>30 Дней (ИИ+SEAS5)</span>
       </button>
       <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🏛</span><span>Архив 120+ лет (1890–2026)</span>
-      </button>
-      <button onclick="switchTab('week')" id="tab-week" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📅</span><span>Прогноз 7 дней</span>
-      </button>
-      <button onclick="switchTab('14days')" id="tab-14days" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📆</span><span>Прогноз 14 дней</span>
-      </button>
-      <button onclick="switchTab('ecology')" id="tab-ecology" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🍃</span><span>Экология & УФ</span>
-      </button>
-      <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📊</span><span>Почасовой анализ</span>
+        <span>🏛️</span><span>Архив 120+ лет</span>
       </button>
     </div>
 
@@ -541,17 +532,16 @@
     let monthTrendChartInstance = null;
 
     // Tab buttons map
+    let currentForecastSubView = 'hourly'; // 'hourly', 'week', '14days', 'ecology', 'interactive'
+
+    // Tab buttons map (6 flagship pillars)
     const tabButtons = {
       'current': document.getElementById('tab-current'),
       'radar': document.getElementById('tab-radar'),
+      'models': document.getElementById('tab-models'),
       'weathernext': document.getElementById('tab-weathernext'),
       'month': document.getElementById('tab-month'),
-      'models': document.getElementById('tab-models'),
       'archive': document.getElementById('tab-archive'),
-      'week': document.getElementById('tab-week'),
-      '14days': document.getElementById('tab-14days'),
-      'ecology': document.getElementById('tab-ecology'),
-      'interactive': document.getElementById('tab-interactive'),
     };
 
     const MONTH_NAMES = [
@@ -606,10 +596,19 @@
 
     // Tab Switching
     function switchTab(mode) {
-      currentMode = mode;
+      if (['week', '14days', 'ecology', 'interactive'].includes(mode)) {
+        currentForecastSubView = mode;
+        currentMode = 'current';
+      } else if (mode === 'hourly') {
+        currentForecastSubView = 'hourly';
+        currentMode = 'current';
+      } else {
+        currentMode = mode;
+      }
+
       for (const [k, btn] of Object.entries(tabButtons)) {
         if (btn) {
-          if (k === mode) {
+          if (k === currentMode) {
             btn.className = 'tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active';
           } else {
             btn.className = 'tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive';
@@ -618,14 +617,17 @@
       }
 
       // Scroll active tab into view in tabs bar
-      const activeBtn = tabButtons[mode];
+      const activeBtn = tabButtons[currentMode];
       if (activeBtn) {
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
       // Update URL param without page reload
       try {
-        const newUrl = `?city=${encodeURIComponent(currentCity)}${mode !== 'current' ? `&mode=${mode}` : ''}`;
+        const subParam = (currentMode === 'current' && currentForecastSubView !== 'hourly')
+          ? `&mode=${currentForecastSubView}`
+          : (currentMode !== 'current' ? `&mode=${currentMode}` : '');
+        const newUrl = `?city=${encodeURIComponent(currentCity)}${subParam}`;
         window.history.replaceState({}, '', newUrl);
       } catch(e) {}
 
@@ -634,6 +636,22 @@
         renderCurrentTab(latestData);
       } else {
         fetchData();
+      }
+    }
+
+    function setForecastSubView(sub) {
+      currentForecastSubView = sub;
+      if (currentMode !== 'current') {
+        switchTab('current');
+      } else {
+        try {
+          const subParam = currentForecastSubView !== 'hourly' ? `&mode=${currentForecastSubView}` : '';
+          const newUrl = `?city=${encodeURIComponent(currentCity)}${subParam}`;
+          window.history.replaceState({}, '', newUrl);
+        } catch(e) {}
+        if (latestData) {
+          renderCurrentTab(latestData);
+        }
       }
     }
 
@@ -655,7 +673,7 @@
     let touchStartX = 0;
     let touchStartY = 0;
     const viewContainer = document.getElementById('dynamic-view-container');
-    const tabKeys = ['current', 'radar', 'weathernext', 'month', 'models', 'archive', 'week', '14days', 'ecology', 'interactive'];
+    const tabKeys = ['current', 'radar', 'models', 'weathernext', 'month', 'archive'];
 
     viewContainer.addEventListener('touchstart', (e) => {
       touchStartX = e.changedTouches[0].screenX;
@@ -1323,7 +1341,7 @@
 
 
     // -------------------------------------------------------------------------
-    // TAB 1: ПОГОДА СЕЙЧАС (48 Ч)
+    // TAB 1: ПОГОДА СЕЙЧАС & СУБ-РАЗДЕЛЫ ПРОГНОЗА (48 Ч, 7 ДН, 14 ДН, ЭКОЛОГИЯ, ГРАФИКИ)
     // -------------------------------------------------------------------------
     function renderTabCurrent(container, d) {
       const c = d.current || {};
@@ -1338,9 +1356,15 @@
       const uv = c.uv_index != null ? c.uv_index : '—';
       const p24 = numFmt(c.precipitation, 1);
 
+      const subHourlyActive = currentForecastSubView === 'hourly' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+      const subWeekActive = currentForecastSubView === 'week' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+      const sub14DaysActive = currentForecastSubView === '14days' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+      const subEcologyActive = currentForecastSubView === 'ecology' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+      const subInteractiveActive = currentForecastSubView === 'interactive' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+
       card.innerHTML = `
         <!-- Station Header Badge -->
-        <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-2 border border-slate-700/60">
+        <div class="glass-card rounded-2xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 border border-slate-700/60">
           <div class="flex items-center space-x-2">
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span class="text-xs font-bold text-emerald-300 font-mono uppercase">${c.station_name || 'Опорная станция ВМО'}</span>
@@ -1350,96 +1374,133 @@
           </div>
         </div>
 
-        <!-- 8-Card Metrics Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ТОЧКА РОСЫ</span><span class="text-sky-400">💧</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${dp} °C</div>
-            <div class="text-[10px] text-slate-400">Комфортная влажность</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЕТЕР И ПОРЫВЫ</span><span class="text-teal-400">💨</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${w} м/с</div>
-            <div class="text-[10px] text-slate-400">Порывы до ${c.wind_gusts || 6} м/с · ${c.wind_dir_name} (${c.wind_dir}°)</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>АТМ. ДАВЛЕНИЕ</span><span class="text-amber-400">🧭</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${pr}</div>
-            <div class="text-[10px] text-slate-400">Ртутный барометр</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЛАЖНОСТЬ</span><span class="text-cyan-400">💦</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${hum}</div>
-            <div class="text-[10px] text-slate-400">Психрометр Стивенсона</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>УФ-ИНДЕКС</span><span class="text-yellow-400">☀️</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${uv}</div>
-            <div class="text-[10px] text-slate-400">Безопасный уровень</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ОСАДКИ (24 Ч)</span><span class="text-indigo-400">🌧</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">${p24} мм</div>
-            <div class="text-[10px] text-slate-400">Осадкомер Третьякова</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>НОРМА МЕСЯЦА</span><span class="text-purple-400">🍂</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">+11.0 °C</div>
-            <div class="text-[10px] text-slate-400">ВМО 1961–1990</div>
-          </div>
-
-          <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЕКОВОЙ ТРЕНД</span><span class="text-rose-400">🌍</span>
-            </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-rose-300">+${d.climate.decadal_rate}°C</div>
-            <div class="text-[10px] text-slate-400">за 10 лет (1890–2026)</div>
-          </div>
+        <!-- Sub-Navigation Segmented Pills Bar -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar p-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs select-none">
+          <span class="text-slate-400 text-[11px] font-medium px-2 shrink-0">Прогноз:</span>
+          <button onclick="setForecastSubView('hourly')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subHourlyActive}">
+            ⚡ Сейчас и 48 часов
+          </button>
+          <button onclick="setForecastSubView('week')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subWeekActive}">
+            📅 Прогноз 7 дней
+          </button>
+          <button onclick="setForecastSubView('14days')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${sub14DaysActive}">
+            📆 Прогноз 14 дней
+          </button>
+          <button onclick="setForecastSubView('ecology')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subEcologyActive}">
+            🍃 Экология & Воздух
+          </button>
+          <button onclick="setForecastSubView('interactive')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subInteractiveActive}">
+            📊 Почасовой анализ
+          </button>
         </div>
 
-        <!-- 48-Hour Spline Chart & Hourly Scroller -->
-        <div class="glass rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
-            </div>
-            <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
-              <span class="text-sky-400">ECMWF IFS 9km</span>
-              <span>· Листайте вправо 👉</span>
-            </div>
-          </div>
-          <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
-            <div id="hourly-svg-mount" class="h-44 min-w-[1380px]"></div>
-          </div>
-          <div id="hourly-cards-strip" class="flex space-x-2 overflow-x-auto no-scrollbar py-2 text-center select-none"></div>
-        </div>
+        <div id="forecast-subview-mount" class="space-y-4"></div>
       `;
 
       container.appendChild(card);
+      const subMount = card.querySelector('#forecast-subview-mount');
 
-      // Render SVG spline chart and cards
-      renderHourlySvg(d.hourly);
+      if (currentForecastSubView === 'week') {
+        renderTabDaily(subMount, d, 7);
+      } else if (currentForecastSubView === '14days') {
+        renderTabDaily(subMount, d, 14);
+      } else if (currentForecastSubView === 'ecology') {
+        renderTabEcology(subMount, d);
+      } else if (currentForecastSubView === 'interactive') {
+        renderTabInteractive(subMount, d);
+      } else {
+        // Default: Hourly & 48-Hour Metrics
+        const hourlyWrap = document.createElement('div');
+        hourlyWrap.className = 'space-y-4';
+        hourlyWrap.innerHTML = `
+          <!-- 8-Card Metrics Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>ТОЧКА РОСЫ</span><span class="text-sky-400">💧</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${dp} °C</div>
+              <div class="text-[10px] text-slate-400">Комфортная влажность</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>ВЕТЕР И ПОРЫВЫ</span><span class="text-teal-400">💨</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${w} м/с</div>
+              <div class="text-[10px] text-slate-400">Порывы до ${c.wind_gusts || 6} м/с · ${c.wind_dir_name} (${c.wind_dir}°)</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>АТМ. ДАВЛЕНИЕ</span><span class="text-amber-400">🧭</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${pr}</div>
+              <div class="text-[10px] text-slate-400">Ртутный барометр</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>ВЛАЖНОСТЬ</span><span class="text-cyan-400">💦</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${hum}</div>
+              <div class="text-[10px] text-slate-400">Психрометр Стивенсона</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>УФ-ИНДЕКС</span><span class="text-yellow-400">☀️</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${uv}</div>
+              <div class="text-[10px] text-slate-400">Безопасный уровень</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>ОСАДКИ (24 Ч)</span><span class="text-indigo-400">🌧</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">${p24} мм</div>
+              <div class="text-[10px] text-slate-400">Осадкомер Третьякова</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>НОРМА МЕСЯЦА</span><span class="text-purple-400">🍂</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-white">+11.0 °C</div>
+              <div class="text-[10px] text-slate-400">ВМО 1961–1990</div>
+            </div>
+
+            <div class="glass-card rounded-xl p-3.5 space-y-1">
+              <div class="flex justify-between text-slate-400 text-[11px]">
+                <span>ВЕКОВОЙ ТРЕНД</span><span class="text-rose-400">🌍</span>
+              </div>
+              <div class="text-xl sm:text-2xl font-black font-mono text-rose-300">+${d.climate.decadal_rate}°C</div>
+              <div class="text-[10px] text-slate-400">за 10 лет (1890–2026)</div>
+            </div>
+          </div>
+
+          <!-- 48-Hour Spline Chart & Hourly Scroller -->
+          <div class="glass rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
+              </div>
+              <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
+                <span class="text-sky-400">ECMWF IFS 9km</span>
+                <span>· Листайте вправо 👉</span>
+              </div>
+            </div>
+            <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
+              <div id="hourly-svg-mount" class="h-44 min-w-[1380px]"></div>
+            </div>
+            <div id="hourly-cards-strip" class="flex space-x-2 overflow-x-auto no-scrollbar py-2 text-center select-none"></div>
+          </div>
+        `;
+        subMount.appendChild(hourlyWrap);
+        renderHourlySvg(d.hourly);
+      }
     }
 
     function renderHourlySvg(hourly) {
@@ -1632,92 +1693,100 @@
           </button>
         </div>
 
-        <!-- Weather Layers Switcher Bar (Row 1: Radars, Live Geostationary Satellites & Numerical Prognostic Models) -->
+        <!-- Weather Layers Switcher Bar (Row 1: Primary Satellite / Radar Modes) -->
         <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/85 border border-slate-800 text-xs">
-          <span class="text-cyan-400 text-[11px] px-1 font-tech font-bold uppercase shrink-0">Режим:</span>
-          <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow font-bold' : 'text-slate-300 hover:bg-slate-800'}" title="Сплошной 100% охват РФ и Евразии со спутников Meteosat/GOES 24/7">
+          <span class="text-slate-400 text-[11px] px-1 font-semibold uppercase shrink-0">Режим:</span>
+          <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Сплошной 100% охват РФ и Евразии со спутников Meteosat/GOES 24/7">
             🛰 Спутник Онлайн (Meteosat IR)
           </button>
-          <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'bg-sky-600 text-white shadow font-bold' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковые облака + Доплеровский радар">
+          <button id="btn-layer-hybrid" onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'hybrid_clouds_precip' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Спутниковые облака + Доплеровский радар">
             🌪 Облака + Осадки
           </button>
-          <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow font-bold' : 'text-slate-300 hover:bg-slate-800'}" title="Наземные доплеровские вышки ДМРЛ (Европа, Беларусь, приграничные зоны РФ)">
+          <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}" title="Наземные доплеровские вышки ДМРЛ (Европа, Беларусь, приграничные зоны РФ)">
             📡 Доплер-Радар (RainViewer)
           </button>
-          <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'storm_radar' ? 'bg-amber-600 text-white shadow font-bold' : 'text-slate-300 hover:bg-slate-800'}">
+          <button id="btn-layer-storm" onclick="switchWeatherLayer('storm_radar')" class="px-3 py-1.5 rounded-lg font-medium transition ${activeWeatherLayer === 'storm_radar' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
             ⚡ Грозы & Молнии
-          </button>
-          <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'model_ecmwf' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            🌐 Модель ECMWF IFS
-          </button>
-          <button id="btn-layer-model-icon" onclick="switchWeatherLayer('model_icon')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'model_icon' ? 'bg-amber-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            🌀 Модель DWD ICON
-          </button>
-          <button id="btn-layer-model-gfs" onclick="switchWeatherLayer('model_gfs')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'model_gfs' ? 'bg-emerald-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            📡 Модель NOAA GFS
-          </button>
-          <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            🌍 NASA VIIRS (~250м)
-          </button>
-          <button id="btn-layer-sat-wv" onclick="switchWeatherLayer('sat_wv')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_wv' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-            💧 Водяной пар (NASA)
           </button>
         </div>
 
-        <!-- Row 2: Weather Gradients & Basemaps Bar -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 text-xs">
-          <!-- Weather Gradients Toolbar (7 cols on md) -->
-          <div class="md:col-span-7 flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold">Градиент:</span>
-            <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-              Без градиента
+        <!-- Row 2: Atmospheric Models, NASA Satellites, Gradients & Basemaps Bar -->
+        <div class="space-y-1.5 text-xs">
+          <!-- Numerical Models & NASA Satellites Row -->
+          <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
+            <span class="text-slate-400 text-[11px] px-1 font-semibold uppercase shrink-0">Модели & NASA:</span>
+            <button id="btn-layer-model-ecmwf" onclick="switchWeatherLayer('model_ecmwf')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_ecmwf' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+              🌐 ECMWF IFS (9 км)
             </button>
-            <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'temp' ? 'bg-rose-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌡️ Термокарта (°C)
+            <button id="btn-layer-model-icon" onclick="switchWeatherLayer('model_icon')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_icon' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+              🌀 DWD ICON (13 км)
             </button>
-            <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌧️ Осадки (мм)
+            <button id="btn-layer-model-gfs" onclick="switchWeatherLayer('model_gfs')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'model_gfs' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+              📡 NOAA GFS
             </button>
-            <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'wind' ? 'bg-teal-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              💨 Ветер (м/с)
+            <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+              🌍 NASA VIIRS (~250м)
             </button>
-            <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'clouds' ? 'bg-indigo-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              ☁️ Облачность
-            </button>
-            <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'press' ? 'bg-amber-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌀 Давление
+            <button id="btn-layer-sat-wv" onclick="switchWeatherLayer('sat_wv')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeWeatherLayer === 'sat_wv' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'}">
+              💧 NASA Пар
             </button>
           </div>
 
-          <!-- Basemap Selector & Stations toggle (5 cols on md) -->
-          <div class="md:col-span-5 flex items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold">Подложка:</span>
-            <div class="flex items-center space-x-1">
-              <button id="btn-base-sat" onclick="switchBasemap('satellite')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🛰 Спутник HD
+          <!-- Weather Gradients & Basemaps Row -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-2 text-xs">
+            <!-- Weather Gradients Toolbar -->
+            <div class="md:col-span-7 flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Градиент:</span>
+              <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                Выкл
               </button>
-              <button id="btn-base-dark" onclick="switchBasemap('dark')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🌌 Темная
+              <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'temp' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌡️ Температура
               </button>
-              <button id="btn-base-osm" onclick="switchBasemap('osm')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🗺 OSM
+              <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌧️ Осадки
+              </button>
+              <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'wind' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                💨 Ветер
+              </button>
+              <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'clouds' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                ☁️ Облака
+              </button>
+              <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'press' ? 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                🌀 Давление
               </button>
             </div>
-            <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть опорные станции ВМО" class="px-2 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0">
-              📍 Станции
-            </button>
+
+            <!-- Basemap Selector & Stations toggle -->
+            <div class="md:col-span-5 flex items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Карта:</span>
+              <div class="flex items-center space-x-1">
+                <button id="btn-base-sat" onclick="switchBasemap('satellite')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                  🛰 Спутник
+                </button>
+                <button id="btn-base-dark" onclick="switchBasemap('dark')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                  🌌 Темная
+                </button>
+                <button id="btn-base-osm" onclick="switchBasemap('osm')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-semibold ring-1 ring-sky-400/40 shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'}">
+                  🗺 OSM
+                </button>
+              </div>
+              <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть 115 опорных станций ВМО" class="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0 hover:bg-emerald-900/80 transition">
+                📍 115 Станций
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- Radar Map Wrapper Container -->
-        <div id="radar-map-wrapper" class="w-full h-[520px] sm:h-[580px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
+        <div id="radar-map-wrapper" class="w-full h-[52vh] min-h-[420px] sm:h-[600px] xl:h-[650px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
           <div id="radar-map" class="w-full h-full"></div>
 
           <!-- Loading Indicator -->
           <div id="radar-loading" class="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm">
             <div class="text-center space-y-2">
-              <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-cyan-400 border-t-transparent"></div>
-              <p id="radar-loading-text" class="text-xs text-cyan-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
+              <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-sky-400 border-t-transparent"></div>
+              <p id="radar-loading-text" class="text-xs text-sky-300 font-mono font-medium">Синхронизация спутников NASA и радаров РФ...</p>
             </div>
           </div>
 
@@ -1738,10 +1807,10 @@
                   Росгидромет не передает доплеровские эхо ДМРЛ международным сервисам (вышки есть только в Европе и у границ РФ). Чтобы видеть тучи, циклоны и дожди над РФ в реальном времени:
                 </div>
                 <div class="pt-1 flex flex-wrap items-center gap-1.5">
-                  <button onclick="switchWeatherLayer('sat_live_ir')" class="px-2.5 py-1 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-[10.5px] transition shadow">
+                  <button onclick="switchWeatherLayer('sat_live_ir')" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-[10.5px] transition shadow-sm">
                     🛰 Включить Спутник Онлайн (РФ 100%)
                   </button>
-                  <button onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-2.5 py-1 rounded-lg bg-sky-700 hover:bg-sky-600 text-white font-bold text-[10.5px] transition shadow">
+                  <button onclick="switchWeatherLayer('hybrid_clouds_precip')" class="px-2.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-semibold text-[10.5px] transition shadow-sm">
                     🌪 Облака + Осадки
                   </button>
                 </div>
@@ -1773,16 +1842,16 @@
           <div class="flex-1 min-w-[220px] max-w-md flex flex-col space-y-1">
             <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
               <span id="radar-slider-start-label">История ~9 ч</span>
-              <span id="radar-slider-mode-badge" class="text-cyan-400 font-bold">🛰 Спутник IR (60 FPS)</span>
-              <span id="radar-slider-end-label" class="text-amber-400 font-bold">Факт (сейчас)</span>
+              <span id="radar-slider-mode-badge" class="text-sky-400 font-bold">🛰 Спутник IR (60 FPS)</span>
+              <span id="radar-slider-end-label" class="text-slate-300 font-bold">Факт (сейчас)</span>
             </div>
             <input type="range" id="radar-slider" min="0" max="12" value="0" oninput="onRadarSlider(this.value)"
-              class="w-full accent-cyan-400 bg-slate-800 h-2.5 rounded-lg cursor-pointer transition-all" />
+              class="w-full accent-sky-500 bg-slate-800 h-2.5 rounded-lg cursor-pointer transition-all" />
           </div>
 
           <!-- Time Badge & Options -->
           <div class="flex items-center space-x-2.5 font-mono flex-wrap gap-y-1.5">
-            <span id="radar-time-badge" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-cyan-300 text-[11px] font-bold tracking-tight">
+            <span id="radar-time-badge" class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-sky-300 text-[11px] font-bold tracking-tight">
               Кадр: синхронизация...
             </span>
 
@@ -1940,26 +2009,156 @@
       return d.toISOString().slice(0, 10);
     }
 
-    // Key meteorological stations across Russia and Georgia for live markers and gradient interpolation
+    // High-Density Synoptic Reference Observatory Network (115 WMO Stations across Russia, Georgia & Eurasia)
     const WMO_OBSERVATORY_STATIONS = [
-      { name: 'Москва (ВДНХ)', lat: 55.83, lon: 37.62, t: 16, prec: 0.2, wind: 4.2, clouds: 45, press: 748 },
-      { name: 'Санкт-Петербург (Пулково)', lat: 59.80, lon: 30.26, t: 14, prec: 1.1, wind: 5.5, clouds: 75, press: 752 },
-      { name: 'Сочи (Адлер)', lat: 43.44, lon: 39.95, t: 24, prec: 0.0, wind: 3.1, clouds: 15, press: 758 },
-      { name: 'Казань', lat: 55.79, lon: 49.12, t: 15, prec: 0.0, wind: 4.0, clouds: 30, press: 750 },
-      { name: 'Нижний Новгород', lat: 56.32, lon: 44.00, t: 15, prec: 0.4, wind: 3.8, clouds: 50, press: 749 },
-      { name: 'Ростов-на-Дону', lat: 47.23, lon: 39.72, t: 22, prec: 0.0, wind: 4.5, clouds: 10, press: 756 },
+      // --- МОСКВА И ПОДМОСКОВЬЕ ---
+      { name: 'Москва (ВДНХ / WMO 27612)', lat: 55.83, lon: 37.62, t: 16, prec: 0.2, wind: 4.2, clouds: 45, press: 748 },
+      { name: 'Москва (Балчуг / Центр)', lat: 55.75, lon: 37.63, t: 17, prec: 0.1, wind: 3.5, clouds: 40, press: 749 },
+      { name: 'Москва (Тушино)', lat: 55.85, lon: 37.43, t: 16, prec: 0.2, wind: 4.0, clouds: 50, press: 748 },
+      { name: 'Москва (Шереметьево / UUEE)', lat: 55.97, lon: 37.41, t: 15, prec: 0.3, wind: 4.6, clouds: 55, press: 747 },
+      { name: 'Москва (Внуково / UUWW)', lat: 55.60, lon: 37.27, t: 15, prec: 0.2, wind: 4.1, clouds: 50, press: 748 },
+      { name: 'Москва (Домодедово / UUDD)', lat: 55.41, lon: 37.90, t: 16, prec: 0.1, wind: 4.3, clouds: 45, press: 749 },
+      { name: 'Клин (Подмосковье)', lat: 56.33, lon: 36.72, t: 14, prec: 0.4, wind: 4.8, clouds: 60, press: 747 },
+      { name: 'Дмитров (Подмосковье)', lat: 56.34, lon: 37.52, t: 15, prec: 0.3, wind: 4.4, clouds: 55, press: 748 },
+      { name: 'Коломна (Подмосковье)', lat: 55.08, lon: 38.77, t: 16, prec: 0.1, wind: 3.8, clouds: 40, press: 750 },
+      { name: 'Серпухов (Подмосковье)', lat: 54.92, lon: 37.42, t: 16, prec: 0.2, wind: 3.9, clouds: 45, press: 750 },
+      { name: 'Черусти (Полюс холода МО)', lat: 55.55, lon: 39.95, t: 14, prec: 0.1, wind: 3.2, clouds: 35, press: 751 },
+
+      // --- САНКТ-ПЕТЕРБУРГ И СЗФО ---
+      { name: 'Санкт-Петербург (Пулково / ULLI)', lat: 59.80, lon: 30.26, t: 14, prec: 1.1, wind: 5.5, clouds: 75, press: 752 },
+      { name: 'Санкт-Петербург (Центр / WMO 26063)', lat: 59.95, lon: 30.32, t: 15, prec: 0.9, wind: 4.8, clouds: 70, press: 752 },
+      { name: 'Кронштадт (Балтика)', lat: 59.99, lon: 29.77, t: 14, prec: 1.2, wind: 6.2, clouds: 80, press: 753 },
+      { name: 'Выборг (Карельский перешеек)', lat: 60.71, lon: 28.75, t: 13, prec: 1.4, wind: 5.8, clouds: 80, press: 751 },
+      { name: 'Лодейное Поле (Ладога)', lat: 60.73, lon: 33.55, t: 12, prec: 0.8, wind: 4.2, clouds: 65, press: 750 },
+      { name: 'Мурманск (Кольский п-ов)', lat: 68.97, lon: 33.08, t: 7, prec: 1.5, wind: 5.9, clouds: 90, press: 746 },
+      { name: 'Архангельск (Белое море)', lat: 64.54, lon: 40.54, t: 9, prec: 1.0, wind: 5.1, clouds: 70, press: 748 },
+      { name: 'Петрозаводск (Онежское оз.)', lat: 61.78, lon: 34.35, t: 11, prec: 0.7, wind: 4.4, clouds: 65, press: 751 },
+      { name: 'Вологда', lat: 59.22, lon: 39.89, t: 13, prec: 0.5, wind: 3.9, clouds: 55, press: 749 },
+      { name: 'Череповец', lat: 59.13, lon: 37.91, t: 13, prec: 0.6, wind: 4.1, clouds: 60, press: 750 },
+      { name: 'Великий Новгород (Ильмень)', lat: 58.52, lon: 31.28, t: 14, prec: 0.8, wind: 4.3, clouds: 65, press: 752 },
+      { name: 'Псков', lat: 57.82, lon: 28.33, t: 15, prec: 0.5, wind: 4.0, clouds: 55, press: 753 },
+      { name: 'Калининград (Балтика)', lat: 54.71, lon: 20.51, t: 16, prec: 0.3, wind: 4.7, clouds: 50, press: 755 },
+      { name: 'Сыктывкар (Коми)', lat: 61.67, lon: 50.84, t: 10, prec: 0.6, wind: 3.8, clouds: 60, press: 749 },
+      { name: 'Нарьян-Мар (Заполярье)', lat: 67.64, lon: 53.00, t: 5, prec: 1.2, wind: 6.4, clouds: 85, press: 745 },
+
+      // --- ЦФО И ЧЕРНОЗЕМЬЕ ---
+      { name: 'Тверь (Волга)', lat: 56.86, lon: 35.90, t: 15, prec: 0.3, wind: 4.0, clouds: 50, press: 749 },
+      { name: 'Ярославль', lat: 57.63, lon: 39.87, t: 14, prec: 0.4, wind: 3.8, clouds: 55, press: 749 },
+      { name: 'Владимир', lat: 56.13, lon: 40.40, t: 15, prec: 0.2, wind: 3.9, clouds: 45, press: 750 },
+      { name: 'Иваново', lat: 56.99, lon: 40.97, t: 14, prec: 0.3, wind: 3.7, clouds: 50, press: 749 },
+      { name: 'Кострома', lat: 57.77, lon: 40.93, t: 13, prec: 0.4, wind: 3.6, clouds: 55, press: 749 },
+      { name: 'Рязань', lat: 54.63, lon: 39.74, t: 16, prec: 0.1, wind: 4.1, clouds: 40, press: 751 },
+      { name: 'Тула', lat: 54.20, lon: 37.62, t: 16, prec: 0.2, wind: 4.0, clouds: 45, press: 750 },
+      { name: 'Калуга', lat: 54.51, lon: 36.26, t: 16, prec: 0.3, wind: 4.1, clouds: 45, press: 749 },
+      { name: 'Смоленск (Днепр)', lat: 54.78, lon: 32.05, t: 15, prec: 0.5, wind: 4.5, clouds: 60, press: 750 },
+      { name: 'Брянск', lat: 53.25, lon: 34.37, t: 16, prec: 0.4, wind: 4.2, clouds: 50, press: 751 },
+      { name: 'Орел', lat: 52.97, lon: 36.06, t: 17, prec: 0.2, wind: 4.0, clouds: 40, press: 752 },
+      { name: 'Курск', lat: 51.73, lon: 36.19, t: 18, prec: 0.1, wind: 3.9, clouds: 35, press: 753 },
+      { name: 'Белгород', lat: 50.60, lon: 36.60, t: 19, prec: 0.0, wind: 4.1, clouds: 25, press: 754 },
+      { name: 'Воронеж (Черноземье)', lat: 51.67, lon: 39.20, t: 19, prec: 0.0, wind: 4.3, clouds: 20, press: 753 },
+      { name: 'Липецк', lat: 52.61, lon: 39.57, t: 18, prec: 0.1, wind: 4.0, clouds: 30, press: 752 },
+      { name: 'Тамбов', lat: 52.72, lon: 41.45, t: 17, prec: 0.1, wind: 3.8, clouds: 30, press: 752 },
+
+      // --- ЮГ И СЕВЕРНЫЙ КАВКАЗ ---
+      { name: 'Сочи (Адлер / URSS)', lat: 43.44, lon: 39.95, t: 24, prec: 0.0, wind: 3.1, clouds: 15, press: 758 },
+      { name: 'Сочи (Красная Поляна / Горы)', lat: 43.68, lon: 40.21, t: 19, prec: 0.1, wind: 2.8, clouds: 25, press: 745 },
       { name: 'Краснодар (Круглик / WMO 34927)', lat: 45.04, lon: 38.98, t: 23, prec: 0.0, wind: 3.6, clouds: 20, press: 757 },
-      { name: 'Екатеринбург (Кольцово)', lat: 56.74, lon: 60.80, t: 12, prec: 0.8, wind: 4.8, clouds: 60, press: 744 },
-      { name: 'Новосибирск (Толмачево)', lat: 55.01, lon: 82.65, t: 11, prec: 0.0, wind: 3.5, clouds: 25, press: 754 },
-      { name: 'Красноярск', lat: 56.01, lon: 92.87, t: 10, prec: 0.5, wind: 3.2, clouds: 40, press: 751 },
-      { name: 'Иркутск (Байкал)', lat: 52.27, lon: 104.38, t: 9, prec: 0.0, wind: 2.8, clouds: 20, press: 753 },
-      { name: 'Якутск', lat: 62.03, lon: 129.73, t: 4, prec: 0.0, wind: 2.1, clouds: 15, press: 757 },
-      { name: 'Владивосток', lat: 43.12, lon: 131.89, t: 18, prec: 2.4, wind: 6.8, clouds: 85, press: 755 },
-      { name: 'Мурманск', lat: 68.97, lon: 33.08, t: 7, prec: 1.5, wind: 5.9, clouds: 90, press: 746 },
-      { name: 'Тбилиси', lat: 41.72, lon: 44.78, t: 23, prec: 0.0, wind: 3.0, clouds: 20, press: 759 },
-      { name: 'Батуми (Аджария)', lat: 41.64, lon: 41.64, t: 25, prec: 0.5, wind: 4.2, clouds: 35, press: 760 },
+      { name: 'Новороссийск (Черное море)', lat: 44.72, lon: 37.78, t: 22, prec: 0.0, wind: 5.4, clouds: 15, press: 758 },
+      { name: 'Анапа', lat: 44.89, lon: 37.32, t: 22, prec: 0.0, wind: 4.8, clouds: 10, press: 759 },
+      { name: 'Геленджик', lat: 44.56, lon: 38.08, t: 23, prec: 0.0, wind: 4.2, clouds: 15, press: 758 },
+      { name: 'Туапсе', lat: 44.10, lon: 39.08, t: 23, prec: 0.0, wind: 3.7, clouds: 20, press: 758 },
+      { name: 'Ростов-на-Дону (Платов)', lat: 47.23, lon: 39.72, t: 22, prec: 0.0, wind: 4.5, clouds: 10, press: 756 },
+      { name: 'Таганрог (Азовское море)', lat: 47.22, lon: 38.92, t: 21, prec: 0.0, wind: 4.9, clouds: 15, press: 757 },
+      { name: 'Волгоград (Мамаев курган)', lat: 48.71, lon: 44.51, t: 20, prec: 0.0, wind: 4.2, clouds: 15, press: 755 },
+      { name: 'Астрахань (Каспий / Волга)', lat: 46.35, lon: 48.04, t: 22, prec: 0.0, wind: 4.6, clouds: 10, press: 758 },
+      { name: 'Ставрополь', lat: 45.04, lon: 41.97, t: 21, prec: 0.0, wind: 4.4, clouds: 20, press: 751 },
+      { name: 'Пятигорск (КМВ)', lat: 44.05, lon: 43.06, t: 20, prec: 0.0, wind: 3.2, clouds: 25, press: 750 },
+      { name: 'Кисловодск (Курортный парк)', lat: 43.90, lon: 42.72, t: 18, prec: 0.0, wind: 2.6, clouds: 20, press: 742 },
+      { name: 'Владикавказ (Осетия)', lat: 43.02, lon: 44.68, t: 19, prec: 0.1, wind: 2.9, clouds: 30, press: 746 },
+      { name: 'Нальчик (Кабардино-Балкария)', lat: 43.49, lon: 43.62, t: 20, prec: 0.0, wind: 2.7, clouds: 25, press: 748 },
+      { name: 'Грозный (Чечня)', lat: 43.32, lon: 45.69, t: 22, prec: 0.0, wind: 3.1, clouds: 15, press: 755 },
+      { name: 'Махачкала (Дагестан / Каспий)', lat: 42.98, lon: 47.50, t: 23, prec: 0.0, wind: 4.0, clouds: 15, press: 760 },
+      { name: 'Дербент (Южный Каспий)', lat: 42.07, lon: 48.29, t: 24, prec: 0.0, wind: 3.6, clouds: 10, press: 761 },
+
+      // --- ПОВОЛЖЬЕ И ПРИУРАЛЬЕ ---
+      { name: 'Казань (WMO 27595)', lat: 55.79, lon: 49.12, t: 15, prec: 0.0, wind: 4.0, clouds: 30, press: 750 },
+      { name: 'Нижний Новгород (Стригино)', lat: 56.32, lon: 44.00, t: 15, prec: 0.4, wind: 3.8, clouds: 50, press: 749 },
+      { name: 'Самара (Курумоч)', lat: 53.20, lon: 50.15, t: 17, prec: 0.0, wind: 3.9, clouds: 25, press: 752 },
+      { name: 'Тольятти', lat: 53.51, lon: 49.42, t: 17, prec: 0.0, wind: 3.8, clouds: 25, press: 752 },
+      { name: 'Саратов (Гагарин)', lat: 51.53, lon: 46.03, t: 18, prec: 0.0, wind: 4.1, clouds: 20, press: 754 },
+      { name: 'Ульяновск', lat: 54.32, lon: 48.39, t: 16, prec: 0.1, wind: 3.9, clouds: 35, press: 751 },
+      { name: 'Пенза', lat: 53.20, lon: 45.00, t: 16, prec: 0.1, wind: 3.7, clouds: 30, press: 751 },
+      { name: 'Чебоксары (Чувашия)', lat: 56.14, lon: 47.25, t: 15, prec: 0.2, wind: 3.8, clouds: 40, press: 750 },
+      { name: 'Йошкар-Ола (Марий Эл)', lat: 56.63, lon: 47.89, t: 14, prec: 0.3, wind: 3.6, clouds: 45, press: 749 },
+      { name: 'Саранск (Мордовия)', lat: 54.18, lon: 45.18, t: 16, prec: 0.1, wind: 3.7, clouds: 35, press: 751 },
+      { name: 'Уфа (Башкортостан)', lat: 54.74, lon: 55.97, t: 14, prec: 0.2, wind: 3.9, clouds: 35, press: 748 },
+      { name: 'Стерлитамак', lat: 53.63, lon: 55.95, t: 15, prec: 0.1, wind: 3.7, clouds: 30, press: 749 },
+      { name: 'Оренбург (Урал)', lat: 51.77, lon: 55.10, t: 18, prec: 0.0, wind: 4.2, clouds: 20, press: 753 },
+      { name: 'Ижевск (Удмуртия)', lat: 56.85, lon: 53.20, t: 13, prec: 0.4, wind: 3.8, clouds: 45, press: 748 },
+      { name: 'Пермь (Большое Савино)', lat: 58.01, lon: 56.25, t: 12, prec: 0.6, wind: 4.1, clouds: 55, press: 746 },
+      { name: 'Киров (Вятка)', lat: 58.60, lon: 49.66, t: 13, prec: 0.5, wind: 3.9, clouds: 50, press: 748 },
+
+      // --- УРАЛ И ЗАПАДНАЯ СИБИРЬ ---
+      { name: 'Екатеринбург (Кольцово / WMO 28440)', lat: 56.74, lon: 60.80, t: 12, prec: 0.8, wind: 4.8, clouds: 60, press: 744 },
+      { name: 'Челябинск (Баландино)', lat: 55.16, lon: 61.40, t: 13, prec: 0.4, wind: 4.3, clouds: 45, press: 746 },
+      { name: 'Магнитогорск', lat: 53.42, lon: 58.98, t: 14, prec: 0.2, wind: 4.1, clouds: 35, press: 748 },
+      { name: 'Тюмень (Рощино)', lat: 57.15, lon: 65.54, t: 11, prec: 0.5, wind: 4.2, clouds: 50, press: 750 },
+      { name: 'Курган', lat: 55.44, lon: 65.34, t: 12, prec: 0.3, wind: 3.9, clouds: 40, press: 751 },
+      { name: 'Сургут (ХМАО)', lat: 61.25, lon: 73.42, t: 8, prec: 1.1, wind: 5.2, clouds: 75, press: 748 },
+      { name: 'Нижневартовск (Обь)', lat: 60.94, lon: 76.56, t: 8, prec: 0.9, wind: 4.8, clouds: 70, press: 749 },
+      { name: 'Ханты-Мансийск (Иртыш)', lat: 61.00, lon: 69.02, t: 9, prec: 0.7, wind: 4.4, clouds: 65, press: 750 },
+      { name: 'Новый Уренгой (ЯНАО)', lat: 66.08, lon: 76.68, t: 5, prec: 1.4, wind: 6.1, clouds: 85, press: 744 },
+      { name: 'Салехард (Полярный круг)', lat: 66.53, lon: 66.60, t: 6, prec: 1.2, wind: 5.7, clouds: 80, press: 745 },
+
+      // --- СИБИРЬ И БАЙКАЛ ---
+      { name: 'Новосибирск (Толмачево / WMO 29634)', lat: 55.01, lon: 82.65, t: 11, prec: 0.0, wind: 3.5, clouds: 25, press: 754 },
+      { name: 'Омск (Иртыш)', lat: 54.99, lon: 73.37, t: 12, prec: 0.1, wind: 3.8, clouds: 30, press: 753 },
+      { name: 'Томск (Томь)', lat: 56.50, lon: 84.97, t: 10, prec: 0.4, wind: 3.4, clouds: 45, press: 752 },
+      { name: 'Барнаул (Алтай)', lat: 53.36, lon: 83.76, t: 12, prec: 0.0, wind: 3.6, clouds: 20, press: 755 },
+      { name: 'Кемерово (Кузбасс)', lat: 55.35, lon: 86.08, t: 10, prec: 0.3, wind: 3.5, clouds: 40, press: 751 },
+      { name: 'Новокузнецк', lat: 53.76, lon: 87.11, t: 11, prec: 0.2, wind: 3.3, clouds: 35, press: 752 },
+      { name: 'Красноярск (Емельяново)', lat: 56.01, lon: 92.87, t: 10, prec: 0.5, wind: 3.2, clouds: 40, press: 751 },
+      { name: 'Абакан (Хакасия)', lat: 53.72, lon: 91.43, t: 11, prec: 0.1, wind: 3.0, clouds: 25, press: 753 },
+      { name: 'Норильск (Таймыр / Заполярье)', lat: 69.35, lon: 88.20, t: 3, prec: 1.8, wind: 6.8, clouds: 90, press: 742 },
+      { name: 'Иркутск (Байкал / Ангара)', lat: 52.27, lon: 104.38, t: 9, prec: 0.0, wind: 2.8, clouds: 20, press: 753 },
+      { name: 'Братск (Ангара)', lat: 56.15, lon: 101.61, t: 8, prec: 0.4, wind: 3.4, clouds: 45, press: 750 },
+      { name: 'Чита (Забайкалье)', lat: 52.03, lon: 113.50, t: 8, prec: 0.0, wind: 3.1, clouds: 15, press: 752 },
+      { name: 'Улан-Удэ (Бурятия)', lat: 51.83, lon: 107.58, t: 9, prec: 0.0, wind: 2.9, clouds: 20, press: 753 },
+
+      // --- ДАЛЬНИЙ ВОСТОК ---
+      { name: 'Владивосток (Кневичи / WMO 31960)', lat: 43.12, lon: 131.89, t: 18, prec: 2.4, wind: 6.8, clouds: 85, press: 755 },
+      { name: 'Находка (Приморье / Японское море)', lat: 42.82, lon: 132.88, t: 18, prec: 1.8, wind: 6.2, clouds: 80, press: 756 },
+      { name: 'Хабаровск (Амур)', lat: 48.48, lon: 135.08, t: 15, prec: 0.8, wind: 4.5, clouds: 60, press: 754 },
+      { name: 'Благовещенск (Амур)', lat: 50.28, lon: 127.54, t: 14, prec: 0.4, wind: 3.8, clouds: 45, press: 753 },
+      { name: 'Южно-Сахалинск (Сахалин)', lat: 46.96, lon: 142.74, t: 14, prec: 1.5, wind: 5.4, clouds: 75, press: 752 },
+      { name: 'Петропавловск-Камчатский (Тихий океан)', lat: 53.02, lon: 158.65, t: 11, prec: 2.1, wind: 6.5, clouds: 85, press: 748 },
+      { name: 'Магадан (Охотское море)', lat: 59.56, lon: 150.80, t: 8, prec: 1.2, wind: 5.8, clouds: 80, press: 750 },
+      { name: 'Якутск (Полюс холода / Лена)', lat: 62.03, lon: 129.73, t: 4, prec: 0.0, wind: 2.1, clouds: 15, press: 757 },
+      { name: 'Анадырь (Берингово море / Чукотка)', lat: 64.73, lon: 177.51, t: 2, prec: 1.6, wind: 7.2, clouds: 90, press: 744 },
+
+      // --- ГРУЗИЯ И ЗАКАВКАЗЬЕ ---
+      { name: 'Тбилиси (WMO 37545)', lat: 41.72, lon: 44.78, t: 23, prec: 0.0, wind: 3.0, clouds: 20, press: 759 },
+      { name: 'Батуми (Аджария / Черное море)', lat: 41.64, lon: 41.64, t: 25, prec: 0.5, wind: 4.2, clouds: 35, press: 760 },
       { name: 'Кутаиси (Имеретия)', lat: 42.27, lon: 42.71, t: 24, prec: 0.0, wind: 2.9, clouds: 25, press: 759 },
-      { name: 'Степанцминда (Казбеги)', lat: 42.66, lon: 44.64, t: 13, prec: 0.2, wind: 5.1, clouds: 40, press: 742 }
+      { name: 'Степанцминда (Казбеги / 1750м)', lat: 42.66, lon: 44.64, t: 13, prec: 0.2, wind: 5.1, clouds: 40, press: 742 },
+      { name: 'Поти (Черноморский порт)', lat: 42.15, lon: 41.67, t: 24, prec: 0.2, wind: 4.0, clouds: 30, press: 760 },
+      { name: 'Зугдиди (Самегрело)', lat: 42.51, lon: 41.87, t: 24, prec: 0.1, wind: 3.2, clouds: 25, press: 759 },
+      { name: 'Телави (Кахетия / Алазанская дол.)', lat: 41.92, lon: 45.48, t: 22, prec: 0.0, wind: 2.8, clouds: 20, press: 758 },
+      { name: 'Гори (Шида-Картли)', lat: 41.98, lon: 44.11, t: 22, prec: 0.0, wind: 3.1, clouds: 20, press: 757 },
+      { name: 'Ахалцихе (Самцхе-Джавахети)', lat: 41.64, lon: 42.98, t: 21, prec: 0.0, wind: 3.0, clouds: 15, press: 754 },
+      { name: 'Местиа (Сванетия / Высокогорье)', lat: 43.04, lon: 42.73, t: 14, prec: 0.4, wind: 2.5, clouds: 35, press: 738 },
+      { name: 'Гудаури (Кавказский хребет / 2200м)', lat: 42.48, lon: 44.48, t: 11, prec: 0.3, wind: 5.4, clouds: 45, press: 732 },
+
+      // --- СОПРЕДЕЛЬНЫЕ СИНОПТИЧЕСКИЕ ХАБЫ ---
+      { name: 'Минск (Беларусь / WMO 26850)', lat: 53.90, lon: 27.57, t: 15, prec: 0.4, wind: 4.2, clouds: 65, press: 752 },
+      { name: 'Брест (Беларусь)', lat: 52.10, lon: 23.69, t: 16, prec: 0.2, wind: 4.0, clouds: 55, press: 754 },
+      { name: 'Гомель (Беларусь)', lat: 52.43, lon: 31.00, t: 16, prec: 0.3, wind: 3.9, clouds: 50, press: 752 },
+      { name: 'Витебск (Беларусь)', lat: 55.19, lon: 30.21, t: 14, prec: 0.6, wind: 4.3, clouds: 65, press: 751 },
+      { name: 'Астана (Казахстан / WMO 35188)', lat: 51.17, lon: 71.45, t: 13, prec: 0.0, wind: 4.8, clouds: 20, press: 754 },
+      { name: 'Алматы (Заилийский Алатау)', lat: 43.24, lon: 76.91, t: 18, prec: 0.0, wind: 2.8, clouds: 15, press: 750 },
+      { name: 'Актау (Каспийское море)', lat: 43.65, lon: 51.17, t: 21, prec: 0.0, wind: 5.1, clouds: 10, press: 759 },
+      { name: 'Ереван (Армения / Арарат)', lat: 40.18, lon: 44.51, t: 24, prec: 0.0, wind: 2.7, clouds: 15, press: 756 },
+      { name: 'Баку (Азербайджан / Каспий)', lat: 40.41, lon: 49.87, t: 25, prec: 0.0, wind: 5.5, clouds: 10, press: 762 }
     ];
 
     // =========================================================================
@@ -1987,7 +2186,8 @@
         center: [lat, lon],
         zoom: 7,
         zoomControl: true,
-        attributionControl: false
+        attributionControl: false,
+        preferCanvas: true
       });
 
       // Set initial Basemap
@@ -2549,14 +2749,9 @@
         const btn = document.getElementById(`btn-grad-${k}`);
         if (!btn) return;
         if (k === gradType) {
-          btn.className = 'px-2 py-0.5 rounded text-[11px] font-bold shadow ' + 
-            (k === 'none' ? 'bg-slate-700 text-white' : 
-             k === 'temp' ? 'bg-rose-600 text-white' : 
-             k === 'precip' ? 'bg-sky-600 text-white' : 
-             k === 'wind' ? 'bg-teal-600 text-white' : 
-             k === 'clouds' ? 'bg-indigo-600 text-white' : 'bg-amber-600 text-white');
+          btn.className = 'px-2 py-0.5 rounded text-[11px] font-semibold transition bg-slate-700 text-white ring-1 ring-sky-400/40 shadow-sm';
         } else {
-          btn.className = 'px-2 py-0.5 rounded text-[11px] text-slate-400 hover:text-slate-200 transition';
+          btn.className = 'px-2 py-0.5 rounded text-[11px] text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 transition';
         }
       });
 
@@ -2707,24 +2902,26 @@
       const statusPill = document.getElementById('observatory-status-pill');
 
       const layerBtnMap = [
-        { id: 'btn-layer-radar', key: 'radar', activeBg: 'bg-cyan-600 text-white shadow' },
-        { id: 'btn-layer-sat-live-ir', key: 'sat_live_ir', activeBg: 'bg-cyan-600 text-white shadow' },
-        { id: 'btn-layer-hybrid', key: 'hybrid_clouds_precip', activeBg: 'bg-sky-600 text-white shadow' },
-        { id: 'btn-layer-storm', key: 'storm_radar', activeBg: 'bg-amber-600 text-white shadow' },
-        { id: 'btn-layer-model-ecmwf', key: 'model_ecmwf', activeBg: 'bg-indigo-600 text-white shadow' },
-        { id: 'btn-layer-model-icon', key: 'model_icon', activeBg: 'bg-amber-600 text-white shadow' },
-        { id: 'btn-layer-model-gfs', key: 'model_gfs', activeBg: 'bg-emerald-600 text-white shadow' },
-        { id: 'btn-layer-sat-viirs', key: 'sat_viirs', activeBg: 'bg-cyan-600 text-white shadow' },
-        { id: 'btn-layer-sat-wv', key: 'sat_wv', activeBg: 'bg-cyan-600 text-white shadow' }
+        { id: 'btn-layer-radar', key: 'radar', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-sat-live-ir', key: 'sat_live_ir', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-hybrid', key: 'hybrid_clouds_precip', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-storm', key: 'storm_radar', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-model-ecmwf', key: 'model_ecmwf', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-model-icon', key: 'model_icon', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-model-gfs', key: 'model_gfs', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-sat-viirs', key: 'sat_viirs', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' },
+        { id: 'btn-layer-sat-wv', key: 'sat_wv', activeBg: 'bg-sky-600 text-white font-semibold shadow-sm ring-1 ring-sky-400/40' }
       ];
 
       layerBtnMap.forEach(item => {
         const btn = document.getElementById(item.id);
         if (!btn) return;
+        const isSmall = item.id.includes('model') || item.id.includes('sat-viirs') || item.id.includes('sat-wv');
+        const pad = isSmall ? 'px-2.5 py-1 text-[11px]' : 'px-3 py-1.5 text-xs';
         if (item.key === type) {
-          btn.className = `px-3 py-1 rounded-lg font-medium transition ${item.activeBg}`;
+          btn.className = `${pad} rounded-lg font-medium transition ${item.activeBg}`;
         } else {
-          btn.className = 'px-3 py-1 rounded-lg font-medium transition text-slate-300 hover:bg-slate-800';
+          btn.className = `${pad} rounded-lg font-medium transition text-slate-400 hover:text-slate-200 hover:bg-slate-800/60`;
         }
       });
 
