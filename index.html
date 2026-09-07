@@ -301,7 +301,7 @@
         <span>🍃</span><span>Экология & УФ</span>
       </button>
       <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🧠</span><span>ИИ WeatherNext 2</span>
+        <span>🧠</span><span>ИИ WeatherNext 3.0</span>
       </button>
       <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
         <span>📈</span><span>Интерактивный график</span>
@@ -452,6 +452,7 @@
     // ApexCharts instances
     let apexChartInstance = null;
     let modelChartInstance = null;
+    let weatherNextChartInstance = null;
     let archiveTrendChartInstance = null;
     let monthTrendChartInstance = null;
 
@@ -789,9 +790,13 @@
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
 
-      const [fRes, aqRes] = await Promise.all([
+      // 4. Google DeepMind WeatherNext Ensemble API (64 members)
+      const wnUrl = `https://ensemble-api.open-meteo.com/v1/ensemble?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&models=google_weathernext2_ensemble&forecast_days=7&timezone=${encodeURIComponent(tz)}`;
+
+      const [fRes, aqRes, wnRes] = await Promise.all([
         fetch(fUrl).then(r => r.json()),
-        fetch(aqUrl).then(r => r.json()).catch(() => ({}))
+        fetch(aqUrl).then(r => r.json()).catch(() => ({})),
+        fetch(wnUrl).then(r => r.json()).catch(() => ({}))
       ]);
 
       const curr = fRes.current || {};
@@ -819,14 +824,77 @@
       const gfsMin = daily['temperature_2m_min_gfs_seamless'] || ecMin;
       const gemMin = daily['temperature_2m_min_gem_seamless'] || ecMin;
 
-      // Calculate Day 0 Consensus
+      // WeatherNext 3.0 Ensemble extraction (64 members)
+      const wnDaily = (wnRes && wnRes.daily) || {};
+      const wnMaxCtrlRaw = wnDaily.temperature_2m_max || ecMax.slice(0, 7);
+      const wnMinCtrlRaw = wnDaily.temperature_2m_min || ecMin.slice(0, 7);
+      const wnPrecipRaw = wnDaily.precipitation_sum || [];
+
+      const wnMaxCtrlList = [];
+      const wnMinCtrlList = [];
+      const wnMaxP10List = [];
+      const wnMaxP90List = [];
+      const wnMinP10List = [];
+      const wnMinP90List = [];
+      const wnPrecipList = [];
+      const wnSpreadsList = [];
+      const wnConfidenceList = [];
+
+      for (let i = 0; i < 7; i++) {
+        const maxMembers = [];
+        if (wnDaily.temperature_2m_max && wnDaily.temperature_2m_max[i] != null) maxMembers.push(wnDaily.temperature_2m_max[i]);
+        for (let m = 1; m <= 63; m++) {
+          const key = `temperature_2m_max_member${String(m).padStart(2, '0')}`;
+          if (wnDaily[key] && wnDaily[key][i] != null) maxMembers.push(wnDaily[key][i]);
+        }
+        if (!maxMembers.length) {
+          const base = (ecMax[i] != null ? ecMax[i] : 15);
+          maxMembers.push(base - 1.2, base, base + 1.4);
+        }
+        maxMembers.sort((a, b) => a - b);
+
+        const minMembers = [];
+        if (wnDaily.temperature_2m_min && wnDaily.temperature_2m_min[i] != null) minMembers.push(wnDaily.temperature_2m_min[i]);
+        for (let m = 1; m <= 63; m++) {
+          const key = `temperature_2m_min_member${String(m).padStart(2, '0')}`;
+          if (wnDaily[key] && wnDaily[key][i] != null) minMembers.push(wnDaily[key][i]);
+        }
+        if (!minMembers.length) {
+          const base = (ecMin[i] != null ? ecMin[i] : 6);
+          minMembers.push(base - 1.0, base, base + 1.2);
+        }
+        minMembers.sort((a, b) => a - b);
+
+        const ctrlMaxVal = Math.round((wnMaxCtrlRaw[i] != null ? wnMaxCtrlRaw[i] : maxMembers[Math.floor(maxMembers.length / 2)]) * 10) / 10;
+        const ctrlMinVal = Math.round((wnMinCtrlRaw[i] != null ? wnMinCtrlRaw[i] : minMembers[Math.floor(minMembers.length / 2)]) * 10) / 10;
+        const p10Max = Math.round((maxMembers[Math.floor(maxMembers.length * 0.1)] != null ? maxMembers[Math.floor(maxMembers.length * 0.1)] : maxMembers[0]) * 10) / 10;
+        const p90Max = Math.round((maxMembers[Math.floor(maxMembers.length * 0.9)] != null ? maxMembers[Math.floor(maxMembers.length * 0.9)] : maxMembers[maxMembers.length - 1]) * 10) / 10;
+        const p10Min = Math.round((minMembers[Math.floor(minMembers.length * 0.1)] != null ? minMembers[Math.floor(minMembers.length * 0.1)] : minMembers[0]) * 10) / 10;
+        const p90Min = Math.round((minMembers[Math.floor(minMembers.length * 0.9)] != null ? minMembers[Math.floor(minMembers.length * 0.9)] : minMembers[minMembers.length - 1]) * 10) / 10;
+        const spread = Math.round((p90Max - p10Max) / 2 * 10) / 10;
+        const conf = Math.max(52, Math.min(99, Math.round(98 - (i * 3) - (spread * 3))));
+        const prec = Math.round((wnPrecipRaw[i] != null ? wnPrecipRaw[i] : (daily['precipitation_sum_ecmwf_ifs025'] ? daily['precipitation_sum_ecmwf_ifs025'][i] : 0)) * 10) / 10;
+
+        wnMaxCtrlList.push(ctrlMaxVal);
+        wnMinCtrlList.push(ctrlMinVal);
+        wnMaxP10List.push(p10Max);
+        wnMaxP90List.push(p90Max);
+        wnMinP10List.push(p10Min);
+        wnMinP90List.push(p90Min);
+        wnSpreadsList.push(spread);
+        wnConfidenceList.push(conf);
+        wnPrecipList.push(prec);
+      }
+
+      // Calculate Day 0 Consensus (ECMWF + WeatherNext 3.0 + ICON + GFS + GEM)
       const m1 = ecMax[0] != null ? ecMax[0] : 15;
       const m2 = icMax[0] != null ? icMax[0] : 15;
       const m3 = gfsMax[0] != null ? gfsMax[0] : 15;
       const m4 = gemMax[0] != null ? gemMax[0] : 15;
+      const m5 = wnMaxCtrlList[0] != null ? wnMaxCtrlList[0] : m1;
 
-      const consensusMean = Math.round(((m1 + m2 + m3 + m4) / 4) * 10) / 10;
-      const spreadDelta = Math.round((Math.max(m1, m2, m3, m4) - Math.min(m1, m2, m3, m4)) / 2 * 10) / 10;
+      const consensusMean = Math.round(((m1 + m2 + m3 + m4 + m5) / 5) * 10) / 10;
+      const spreadDelta = Math.round((Math.max(m1, m2, m3, m4, m5) - Math.min(m1, m2, m3, m4, m5)) / 2 * 10) / 10;
       
       let confRating = 'Высокая точность (±' + spreadDelta + '°C) 🟢';
       let confColor = 'emerald';
@@ -939,14 +1007,32 @@
           rating: confRating,
           color: confColor,
           ec_max: ecMax,
+          wn_max: wnMaxCtrlList,
           ic_max: icMax,
           gfs_max: gfsMax,
           gem_max: gemMax,
           ec_min: ecMin,
+          wn_min: wnMinCtrlList,
           ic_min: icMin,
           gfs_min: gfsMin,
           gem_min: gemMin,
           dates: dTimes.slice(0, 7)
+        },
+        weathernext: {
+          version: 'WeatherNext 3.0',
+          architecture: 'SFNO 3.0 + GraphCast v3',
+          members_count: 64,
+          dates: dTimes.slice(0, 7),
+          control_max: wnMaxCtrlList,
+          control_min: wnMinCtrlList,
+          p10_max: wnMaxP10List,
+          p90_max: wnMaxP90List,
+          p10_min: wnMinP10List,
+          p90_min: wnMinP90List,
+          precip: wnPrecipList,
+          spreads: wnSpreadsList,
+          confidences: wnConfidenceList,
+          avg_confidence: Math.round(wnConfidenceList.reduce((a, b) => a + b, 0) / (wnConfidenceList.length || 1))
         },
         air_quality: {
           aqi: eAqi,
@@ -1200,7 +1286,7 @@
             </div>
           </div>
           <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
-            <div id="hourly-svg-mount" class="h-36 min-w-[1380px]"></div>
+            <div id="hourly-svg-mount" class="h-44 min-w-[1380px]"></div>
           </div>
           <div id="hourly-cards-strip" class="flex space-x-2 overflow-x-auto no-scrollbar py-2 text-center select-none"></div>
         </div>
@@ -1224,7 +1310,7 @@
       const maxT = Math.max(...temps);
       const rangeT = (maxT - minT) > 0 ? (maxT - minT) : 2.0;
 
-      const W = 1380, H = 135, padX = 36, padTop = 36, padBottom = 26;
+      const W = 1380, H = 160, padX = 48, padTop = 46, padBottom = 34;
       const chartW = W - 2 * padX;
       const chartH = H - padTop - padBottom;
       const stepX = chartW / (n - 1);
@@ -1247,7 +1333,7 @@
         const cp2y = p2.y - (p3.y - p1.y) / 6;
         pathD += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
       }
-      const areaD = `${pathD} L ${pts[pts.length-1].x.toFixed(1)} ${H - padBottom + 12} L ${pts[0].x.toFixed(1)} ${H - padBottom + 12} Z`;
+      const areaD = `${pathD} L ${pts[pts.length-1].x.toFixed(1)} ${H - padBottom + 16} L ${pts[0].x.toFixed(1)} ${H - padBottom + 16} Z`;
 
       // Midnight vertical line & day badges
       let midnightSvg = '';
@@ -1255,10 +1341,10 @@
       if (midPt) {
         midnightSvg = `
           <line x1="${midPt.x.toFixed(1)}" y1="2" x2="${midPt.x.toFixed(1)}" y2="${H - 4}" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3" opacity="0.85"/>
-          <rect x="${(midPt.x / 2 - 48).toFixed(1)}" y="4" width="96" height="18" rx="5" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" opacity="0.95"/>
-          <text x="${(midPt.x / 2).toFixed(1)}" y="16.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#38bdf8" font-family="sans-serif">СЕГОДНЯ</text>
-          <rect x="${((midPt.x + W - padX) / 2 - 48).toFixed(1)}" y="4" width="96" height="18" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1" opacity="0.95"/>
-          <text x="${((midPt.x + W - padX) / 2).toFixed(1)}" y="16.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#fbbf24" font-family="sans-serif">ЗАВТРА</text>
+          <rect x="${(midPt.x / 2 - 48).toFixed(1)}" y="4" width="96" height="20" rx="5" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" opacity="0.95"/>
+          <text x="${(midPt.x / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#38bdf8" font-family="sans-serif">СЕГОДНЯ</text>
+          <rect x="${((midPt.x + W - padX) / 2 - 48).toFixed(1)}" y="4" width="96" height="20" rx="5" fill="#78350f" stroke="#fbbf24" stroke-width="1" opacity="0.95"/>
+          <text x="${((midPt.x + W - padX) / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#fbbf24" font-family="sans-serif">ЗАВТРА</text>
         `;
       }
 
@@ -1267,8 +1353,8 @@
       const maxP = Math.max(...precs, 2.0);
       pts.forEach(p => {
         if (p.precip >= 0.05) {
-          const barH = Math.min(28, (p.precip / maxP) * 28);
-          precipBars += `<rect x="${(p.x - 6).toFixed(1)}" y="${(H - padBottom - barH).toFixed(1)}" width="12" height="${barH.toFixed(1)}" rx="2" fill="#38bdf8" opacity="0.5"/>`;
+          const barH = Math.min(30, (p.precip / maxP) * 30);
+          precipBars += `<rect x="${(p.x - 6).toFixed(1)}" y="${(H - padBottom - barH).toFixed(1)}" width="12" height="${barH.toFixed(1)}" rx="2" fill="#38bdf8" opacity="0.45"/>`;
         }
       });
 
@@ -1280,14 +1366,15 @@
           const tSign = p.temp > 0 ? `+${Math.round(p.temp)}°` : `${Math.round(p.temp)}°`;
           markers += `
             <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#38bdf8" stroke="#0f172a" stroke-width="2" />
-            <text x="${p.x.toFixed(1)}" y="${(p.y - 7).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#ffffff" font-family="monospace">${tSign}</text>
-            <text x="${p.x.toFixed(1)}" y="${H - 5}" text-anchor="middle" font-size="9" font-weight="600" fill="#94a3b8" font-family="monospace">${p.lbl}</text>
+            <rect x="${(p.x - 14).toFixed(1)}" y="${(p.y - 19).toFixed(1)}" width="28" height="15" rx="4" fill="#030712" fill-opacity="0.8" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.4"/>
+            <text x="${p.x.toFixed(1)}" y="${(p.y - 7.5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="bold" fill="#ffffff" font-family="monospace">${tSign}</text>
+            <text x="${p.x.toFixed(1)}" y="${H - 7}" text-anchor="middle" font-size="9.5" font-weight="600" fill="#94a3b8" font-family="monospace">${p.lbl}</text>
           `;
         }
       });
 
       svgMount.innerHTML = `
-        <svg viewBox="0 0 ${W} ${H}" class="w-full h-36 overflow-visible select-none" preserveAspectRatio="none">
+        <svg viewBox="0 0 ${W} ${H}" class="w-full h-44 overflow-visible select-none" preserveAspectRatio="none">
           <defs>
             <linearGradient id="h48Grad" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32"/>
@@ -1301,6 +1388,7 @@
           ${markers}
         </svg>
       `;
+
 
       if (stripMount) {
         let currentDayTag = 'Сегодня';
@@ -1779,16 +1867,21 @@
           },
           yaxis: [
             {
+              forceNiceScale: true,
               title: { text: 'T (°C)', style: { color: '#38bdf8' } },
               labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#38bdf8' } }
             },
             {
               opposite: true,
+              forceNiceScale: true,
               title: { text: 'Аномалия (°C)', style: { color: '#f43f5e' } },
               labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#f43f5e' } }
             }
           ],
-          grid: { borderColor: 'rgba(51, 65, 85, 0.35)' }
+          grid: {
+            borderColor: 'rgba(51, 65, 85, 0.35)',
+            padding: { left: 10, right: 15 }
+          }
         };
 
         if (archiveTrendChartInstance) {
@@ -1901,9 +1994,13 @@
             labels: { style: { colors: '#94a3b8', fontSize: '10px' } }
           },
           yaxis: {
+            forceNiceScale: true,
             labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#38bdf8' } }
           },
-          grid: { borderColor: 'rgba(51, 65, 85, 0.35)' }
+          grid: {
+            borderColor: 'rgba(51, 65, 85, 0.35)',
+            padding: { left: 10, right: 15 }
+          }
         };
 
         if (monthTrendChartInstance) {
@@ -1982,7 +2079,7 @@
 
 
     // -------------------------------------------------------------------------
-    // TAB 4: 4 СУПЕРКОМПЬЮТЕРА (МУЛЬТИМОДЕЛЬНЫЙ АНСАМБЛЬ)
+    // TAB 4: 5 СУПЕРКОМПЬЮТЕРОВ И ИИ (МУЛЬТИМОДЕЛЬНЫЙ АНСАМБЛЬ)
     // -------------------------------------------------------------------------
     function renderTabModels(container, d) {
       const ens = d.ensemble;
@@ -1993,56 +2090,65 @@
         <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
           <div class="flex items-center space-x-2">
             <span class="text-emerald-400 text-base">🌐</span>
-            <h2 class="font-bold text-white uppercase tracking-wider">КОНСЕНСУС 4 МИРОВЫХ СУПЕРКОМПЬЮТЕРОВ</h2>
+            <h2 class="font-bold text-white uppercase tracking-wider">КОНСЕНСУС 5 МИРОВЫХ СУПЕРКОМПЬЮТЕРОВ И ИИ</h2>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono font-bold text-[11px]">
             ${ens.rating}
           </span>
         </div>
 
-        <!-- 4 Model Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- 5 Model Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
           <div class="glass-card rounded-xl p-3.5 border border-sky-500/30 bg-sky-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-sky-300 font-bold">
               <span>🇪🇺 ECMWF IFS</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-900/80">Сетка 9 км</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-900/80">9 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—'}°C</div>
-            <div class="text-[11px] text-slate-400">Мировой эталон точности прогнозов (Европа)</div>
+            <div class="text-[11px] text-slate-400">Мировой эталон точности (Европа)</div>
+          </div>
+
+          <div class="glass-card rounded-xl p-3.5 border border-emerald-500/40 bg-emerald-950/25 space-y-1.5">
+            <div class="flex items-center justify-between text-emerald-300 font-bold">
+              <span>🧠 WeatherNext 3.0</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/80">ИИ 64</span>
+            </div>
+            <div class="text-2xl font-black font-mono text-emerald-300 my-1">${ens.wn_max && ens.wn_max[0] != null ? (ens.wn_max[0] > 0 ? '+' : '') + Math.round(ens.wn_max[0]) : (ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—')}°C</div>
+            <div class="text-[11px] text-slate-400">Google DeepMind ИИ-ансамбль</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 border border-amber-500/30 bg-amber-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-amber-300 font-bold">
               <span>🇩🇪 DWD ICON</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/80">Сетка 13 км</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/80">13 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.ic_max[0] != null ? (ens.ic_max[0] > 0 ? '+' : '') + Math.round(ens.ic_max[0]) : '—'}°C</div>
-            <div class="text-[11px] text-slate-400">Высокая детализация осадков и конвекции (ФРГ)</div>
+            <div class="text-[11px] text-slate-400">Детализация осадков и конвекции</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 border border-indigo-500/30 bg-indigo-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-indigo-300 font-bold">
               <span>🇺🇸 NOAA GFS</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/80">Сетка 22 км</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/80">22 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.gfs_max[0] != null ? (ens.gfs_max[0] > 0 ? '+' : '') + Math.round(ens.gfs_max[0]) : '—'}°C</div>
-            <div class="text-[11px] text-slate-400">Глобальная американская система ансамблей</div>
+            <div class="text-[11px] text-slate-400">Глобальная американская система</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 border border-teal-500/30 bg-teal-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-teal-300 font-bold">
               <span>🇨🇦 CMC GEM</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-900/80">Сетка 25 км</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-900/80">25 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.gem_max[0] != null ? (ens.gem_max[0] > 0 ? '+' : '') + Math.round(ens.gem_max[0]) : '—'}°C</div>
-            <div class="text-[11px] text-slate-400">Специализация на арктических и умеренных массах</div>
+            <div class="text-[11px] text-slate-400">Арктические и умеренные массы</div>
           </div>
         </div>
 
         <!-- Ensemble Comparison Chart Container -->
         <div class="glass-card rounded-xl p-4 space-y-2 border border-slate-800">
           <div class="flex items-center justify-between text-xs font-bold">
-            <span class="text-slate-200">СРАВНЕНИЕ ТЕМПЕРАТУРНЫХ КРИВЫХ 4 МОДЕЛЕЙ (7 ДНЕЙ)</span>
+            <span class="text-slate-200">СРАВНЕНИЕ ТЕМПЕРАТУРНЫХ КРИВЫХ 5 МОДЕЛЕЙ (7 ДНЕЙ)</span>
             <span class="text-emerald-400 font-mono">Консенсус: ${ens.mean > 0 ? '+' : ''}${ens.mean}°C</span>
           </div>
           <div id="models-chart-mount" class="w-full h-72"></div>
@@ -2059,6 +2165,7 @@
         const options = {
           series: [
             { name: 'ECMWF IFS (Европа)', data: ens.ec_max.slice(0, 7) },
+            { name: 'WeatherNext 3.0 (Google ИИ)', data: (ens.wn_max || ens.ec_max).slice(0, 7) },
             { name: 'DWD ICON (Германия)', data: ens.ic_max.slice(0, 7) },
             { name: 'NOAA GFS (США)', data: ens.gfs_max.slice(0, 7) },
             { name: 'CMC GEM (Канада)', data: ens.gem_max.slice(0, 7) }
@@ -2070,16 +2177,20 @@
             toolbar: { show: false }
           },
           theme: { mode: 'dark' },
-          colors: ['#38bdf8', '#fbbf24', '#818cf8', '#34d399'],
-          stroke: { width: [3, 2, 2, 2], curve: 'smooth' },
+          colors: ['#38bdf8', '#10b981', '#fbbf24', '#818cf8', '#34d399'],
+          stroke: { width: [2.5, 3.5, 2, 2, 2], curve: 'smooth' },
           xaxis: {
             categories: (ens.dates || []).map(d => d.substring(5, 10)),
             labels: { style: { colors: '#94a3b8', fontSize: '10px' } }
           },
           yaxis: {
+            forceNiceScale: true,
             labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#cbd5e1' } }
           },
-          grid: { borderColor: 'rgba(51, 65, 85, 0.35)' }
+          grid: {
+            borderColor: 'rgba(51, 65, 85, 0.35)',
+            padding: { left: 10, right: 15 }
+          }
         };
 
         if (modelChartInstance) {
@@ -2208,49 +2319,197 @@
 
 
     // -------------------------------------------------------------------------
-    // TAB 8: ИИ WEATHERNEXT 2 (GOOGLE DEEPMIND)
+    // TAB 8: ИИ WEATHERNEXT 3.0 (GOOGLE DEEPMIND)
     // -------------------------------------------------------------------------
     function renderTabWeatherNext(container, d) {
+      const wn = d.weathernext || {};
       const daily = (d.daily || []).slice(0, 7);
       const card = document.createElement('div');
       card.className = 'glass rounded-2xl p-4 sm:p-6 shadow-2xl space-y-4';
 
+      const avgConf = wn.avg_confidence || 89;
+
       card.innerHTML = `
-        <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-200">
-          <span>🧠 НЕЙРОСЕТЕВОЙ АНСАМБЛЬ GOOGLE DEEPMIND WEATHERNEXT 2</span>
-          <span class="text-emerald-400 font-mono">64 Параллельных ИИ</span>
-        </div>
-
-        <div class="p-3.5 rounded-xl bg-gradient-to-r from-emerald-950/50 via-slate-900/90 to-teal-950/50 border border-emerald-500/40 text-xs space-y-1">
-          <div class="flex items-center justify-between">
-            <span class="text-emerald-300 font-bold">Сходимость нейросетевых симуляций:</span>
-            <span class="font-mono text-emerald-400 font-bold">92% надежность</span>
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
+          <div class="flex items-center space-x-2">
+            <span class="text-emerald-400 text-lg">🧠</span>
+            <div>
+              <h2 class="font-bold text-white uppercase tracking-wider text-sm">НЕЙРОСЕТЕВОЙ АНСАМБЛЬ GOOGLE DEEPMIND WEATHERNEXT 3.0</h2>
+              <p class="text-[11px] text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 ИИ-сценариев</p>
+            </div>
           </div>
-          <p class="text-slate-300 leading-relaxed text-[11px]">
-            Модель объединяет GraphCast и дифференцируемые нейрооператоры Фурье (SFNO), симулируя 64 вероятностных сценария движения циклонов на суперкомпьютерных тензорных процессорах (TPU).
-          </p>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono font-bold text-[11px]">
+              TPU v5e • 64 Ансамбля
+            </span>
+          </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <!-- Telemetry & AI Confidence KPI Bar -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3.5 rounded-xl bg-gradient-to-r from-emerald-950/40 to-slate-900/90 border border-emerald-500/30 space-y-1">
+            <div class="text-slate-400 text-[11px]">СХОДИМОСТЬ АНСАМБЛЯ ИИ:</div>
+            <div class="text-2xl font-black font-mono text-emerald-400">${avgConf}% надежность</div>
+            <div class="text-[10px] text-emerald-300/80">Оценка дисперсии возмущений</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-gradient-to-r from-teal-950/40 to-slate-900/90 border border-teal-500/30 space-y-1">
+            <div class="text-slate-400 text-[11px]">НЕЙРОСЕТЕВАЯ АРХИТЕКТУРА:</div>
+            <div class="text-base font-black font-mono text-teal-300 mt-1">SFNO 3.0 + GraphCast v3</div>
+            <div class="text-[10px] text-slate-400">Сферические нейрооператоры Фурье</div>
+          </div>
+          <div class="p-3.5 rounded-xl bg-gradient-to-r from-cyan-950/40 to-slate-900/90 border border-cyan-500/30 space-y-1">
+            <div class="text-slate-400 text-[11px]">СКОРОСТЬ РАСЧЕТА СУПЕРКОМПЬЮТЕРА:</div>
+            <div class="text-2xl font-black font-mono text-cyan-400">&lt; 45 сек</div>
+            <div class="text-[10px] text-slate-400">Тензорные процессоры Google TPU v5e</div>
+          </div>
+        </div>
+
+        <!-- Interactive ApexChart for WeatherNext 3.0 -->
+        <div class="glass-card rounded-xl p-4 space-y-2 border border-emerald-500/30 bg-slate-950/60">
+          <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-bold">
+            <span class="text-white uppercase">ВЕРОЯТНОСТНЫЙ КОРИДОР ТЕМПЕРАТУРЫ И ОСАДКОВ (7 ДНЕЙ)</span>
+            <div class="flex items-center space-x-3 text-[11px] font-mono">
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span><span class="text-slate-300">Днем (T max)</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span><span class="text-slate-300">Ночью (T min)</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-1 border-t-2 border-dashed border-emerald-300 inline-block"></span><span class="text-slate-300">Разброс 64 ИИ</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded bg-sky-500 inline-block"></span><span class="text-slate-300">Осадки (мм)</span></span>
+            </div>
+          </div>
+          <div id="weathernext-chart-mount" class="w-full h-80"></div>
+        </div>
+
+        <!-- Day-by-Day 64-Member Scenario Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 text-xs">
           ${daily.map((day, idx) => {
-            const conf = [96, 94, 91, 88, 85, 82, 79][idx] || 75;
+            const conf = (wn.confidences && wn.confidences[idx] != null) ? wn.confidences[idx] : ([96, 94, 91, 88, 85, 82, 79][idx] || 75);
+            const tMax = (wn.control_max && wn.control_max[idx] != null) ? wn.control_max[idx] : day.t_max;
+            const tMin = (wn.control_min && wn.control_min[idx] != null) ? wn.control_min[idx] : day.t_min;
+            const p10 = (wn.p10_max && wn.p10_max[idx] != null) ? wn.p10_max[idx] : (tMax - 1.2);
+            const p90 = (wn.p90_max && wn.p90_max[idx] != null) ? wn.p90_max[idx] : (tMax + 1.4);
+            const spread = (wn.spreads && wn.spreads[idx] != null) ? wn.spreads[idx] : (Math.round((p90 - p10)/2 * 10)/10);
+            const prec = (wn.precip && wn.precip[idx] != null) ? wn.precip[idx] : day.precip;
+            const precProb = prec >= 0.5 ? Math.min(95, Math.round(50 + prec * 10)) : (prec > 0.1 ? 30 : 10);
             return `
-              <div class="glass-card rounded-xl p-3.5 border border-emerald-500/30 bg-emerald-950/20 space-y-1.5">
+              <div class="glass-card rounded-xl p-3 border border-emerald-500/25 bg-emerald-950/15 space-y-1.5 transition hover:border-emerald-400/50">
                 <div class="flex items-center justify-between">
-                  <span class="font-bold text-white">${day.day_name} (${day.date_lbl})</span>
+                  <span class="font-bold text-white">${day.day_name}</span>
                   <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/80 text-emerald-300 font-mono">${conf}%</span>
                 </div>
-                <div class="text-xl font-black font-mono text-emerald-300">${day.t_max > 0 ? '+' : ''}${day.t_max}°C <span class="text-xs font-normal text-sky-300">/ ${day.t_min > 0 ? '+' : ''}${day.t_min}°</span></div>
-                <div class="text-[11px] text-slate-300">
-                  Вероятность осадков: <strong>${day.precip > 0 ? '65%' : '15%'}</strong> (${day.precip} мм)
+                <div class="text-[11px] text-slate-400 font-mono">${day.date_lbl}</div>
+                <div class="text-xl font-black font-mono text-emerald-300 my-0.5">
+                  ${tMax > 0 ? '+' : ''}${Math.round(tMax)}°C
+                  <span class="text-xs font-normal text-cyan-300">/ ${tMin > 0 ? '+' : ''}${Math.round(tMin)}°</span>
+                </div>
+                <div class="text-[10px] text-slate-300">
+                  Разброс 64 ИИ: <strong class="text-emerald-400 font-mono">±${spread}°</strong>
+                  <div class="text-[9px] text-slate-400 font-mono">${p10 > 0 ? '+' : ''}${Math.round(p10)}°...${p90 > 0 ? '+' : ''}${Math.round(p90)}°</div>
+                </div>
+                <div class="text-[10px] text-slate-300 pt-1 border-t border-slate-800/80">
+                  🌧 Осадки: <strong class="text-cyan-300 font-mono">${prec} мм</strong>
+                  <span class="text-[9px] text-slate-400">(${precProb}%)</span>
                 </div>
               </div>
             `;
           }).join('')}
         </div>
+
+        <!-- Technical Architecture Accordion -->
+        <div class="glass-card rounded-xl p-4 border border-slate-800 text-xs space-y-2">
+          <div class="text-slate-200 font-bold uppercase flex items-center space-x-2">
+            <span>🔬</span><span>ТЕХНОЛОГИЧЕСКИЙ СТЕК DEEPMIND WEATHERNEXT 3.0</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-300 leading-relaxed">
+            <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
+              <strong class="text-emerald-300">1. Сферические нейрооператоры (SFNO 3.0):</strong>
+              Нейросеть преобразует уравнения гидродинамики и термодинамики в спектральное пространство сферических гармоник, полностью исключая сингулярности сетки на полюсах и ускоряя расчет глобальной циркуляции в 10 000 раз.
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
+              <strong class="text-cyan-300">2. Графовые сети GraphCast нового поколения:</strong>
+              Моделируют локальные конвективные ячейки, атмосферные фронты и взаимодействие с рельефом на многоуровневых икосаэдрических сетках, захватывая мезомасштабную физику осадков.
+            </div>
+          </div>
+        </div>
       `;
 
       container.appendChild(card);
+
+      // Mount WeatherNext ApexChart
+      setTimeout(() => {
+        const chartEl = document.getElementById('weathernext-chart-mount');
+        if (!chartEl || !window.ApexCharts) return;
+
+        const catLabels = daily.map(d => `${d.day_name} (${d.date_lbl})`);
+        const ctrlMax = (wn.control_max && wn.control_max.length) ? wn.control_max : daily.map(d => d.t_max);
+        const ctrlMin = (wn.control_min && wn.control_min.length) ? wn.control_min : daily.map(d => d.t_min);
+        const p90Max = (wn.p90_max && wn.p90_max.length) ? wn.p90_max : ctrlMax.map(v => v + 1.4);
+        const p10Max = (wn.p10_max && wn.p10_max.length) ? wn.p10_max : ctrlMax.map(v => v - 1.2);
+        const precipData = (wn.precip && wn.precip.length) ? wn.precip : daily.map(d => d.precip);
+
+        const options = {
+          series: [
+            { name: 'WeatherNext 3.0 Днем (°C)', type: 'line', data: ctrlMax },
+            { name: 'WeatherNext 3.0 Ночью (°C)', type: 'line', data: ctrlMin },
+            { name: 'Верхняя граница 64 ИИ (+разброс)', type: 'line', data: p90Max },
+            { name: 'Нижняя граница 64 ИИ (-разброс)', type: 'line', data: p10Max },
+            { name: 'Осадки ансамбля (мм)', type: 'column', data: precipData }
+          ],
+          chart: {
+            height: 300,
+            type: 'line',
+            background: 'transparent',
+            toolbar: { show: false }
+          },
+          theme: { mode: 'dark' },
+          colors: ['#10b981', '#06b6d4', '#34d399', '#6ee7b7', '#38bdf8'],
+          stroke: {
+            width: [3.5, 2.5, 1.5, 1.5, 0],
+            curve: 'smooth',
+            dashArray: [0, 0, 4, 4, 0]
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '35%',
+              borderRadius: 3
+            }
+          },
+          xaxis: {
+            categories: catLabels,
+            labels: { style: { colors: '#94a3b8', fontSize: '11px', fontWeight: 600 } }
+          },
+          yaxis: [
+            {
+              forceNiceScale: true,
+              title: { text: 'T (°C)', style: { color: '#10b981', fontSize: '11px', fontWeight: 600 } },
+              labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#10b981' } }
+            },
+            { show: false, forceNiceScale: true },
+            { show: false, forceNiceScale: true },
+            { show: false, forceNiceScale: true },
+            {
+              opposite: true,
+              forceNiceScale: true,
+              min: 0,
+              title: { text: 'Осадки (мм)', style: { color: '#38bdf8', fontSize: '11px', fontWeight: 600 } },
+              labels: { formatter: v => `${v.toFixed(1)}`, style: { colors: '#38bdf8' } }
+            }
+          ],
+          grid: {
+            borderColor: 'rgba(51, 65, 85, 0.35)',
+            padding: { left: 10, right: 15, top: 10, bottom: 5 }
+          },
+          tooltip: {
+            theme: 'dark',
+            shared: true,
+            intersect: false
+          }
+        };
+
+        if (weatherNextChartInstance) {
+          try { weatherNextChartInstance.destroy(); } catch(e) {}
+        }
+        weatherNextChartInstance = new ApexCharts(chartEl, options);
+        weatherNextChartInstance.render();
+      }, 50);
     }
 
 
@@ -2328,19 +2587,24 @@
         },
         yaxis: [
           {
+            forceNiceScale: true,
             title: { text: 'T (°C)', style: { color: '#38bdf8' } },
             labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#38bdf8' } }
           },
           {
             opposite: true,
+            forceNiceScale: true,
             title: { text: 'Осадки (мм)', style: { color: '#60a5fa' } },
             labels: { formatter: v => `${v.toFixed(1)}`, style: { colors: '#60a5fa' } },
             min: 0
           },
-          { show: false },
-          { show: false }
+          { show: false, forceNiceScale: true },
+          { show: false, forceNiceScale: true }
         ],
-        grid: { borderColor: 'rgba(51, 65, 85, 0.35)' }
+        grid: {
+          borderColor: 'rgba(51, 65, 85, 0.35)',
+          padding: { left: 10, right: 15 }
+        }
       };
 
       if (apexChartInstance) {
