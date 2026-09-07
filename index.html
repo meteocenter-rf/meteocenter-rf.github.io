@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Погода в Москве — архив погоды за 120+ лет (1890–2026), радар осадков онлайн, метеостанции ВМО и 4 суперкомпьютера</title>
-  <meta name="description" content="Фактическая погода, живой интерактивный радар осадков, 120+ лет климатического архива (1890–2026 гг.) и консенсус 4 мировых суперкомпьютеров (ECMWF, ICON, GFS, GEM). Нормы ВМО, тренды потепления, качество воздуха AQI и УФ-индекс.">
-  <meta name="keywords" content="погода в Москве, архив погоды 120 лет, климатический архив 1890 2026, радар осадков онлайн, метеостанция WMO, потепление климата, консенсус суперкомпьютеров ecmwf gfs icon gem, качество воздуха aqi">
+  <title>Погода в Москве — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF</title>
+  <meta name="description" content="Фактическая температура в Москве, живой интерактивный метеорадар и спутниковая карта облачности, архив погоды за 100+ лет (1890–2026 гг.) и консенсус мировых суперкомпьютеров (ECMWF, ICON, GFS).">
+  <meta name="keywords" content="погода в Москве, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf">
 
   
   <!-- Yandex.RTB Asynchronous Ad Manager Loader -->
@@ -332,56 +332,62 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-sm sm:text-base font-extrabold tracking-tight bg-gradient-to-r from-sky-400 via-cyan-200 to-indigo-300 bg-clip-text text-transparent">
-            МЕТЕОПОРТАЛ · КЛИМАТ & ПОГОДА
+          <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2">
+            <span>МЕТЕОЦЕНТР РОССИИ</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-950/80 border border-sky-600/40 text-sky-300 font-bold uppercase hidden md:inline">Опорная сеть ВМО</span>
           </h1>
-          <p class="text-[10px] sm:text-xs text-slate-400 hidden sm:block">Архив 120+ лет (1890–2026) · Радар осадков онлайн · Консенсус 4 суперкомпьютеров</p>
+          <p class="text-[10.5px] sm:text-xs text-slate-400 font-medium hidden sm:block">Синоптический мониторинг · Климатический архив 1890–2026 · Консенсус ECMWF IFS, ICON, GFS</p>
         </div>
       </div>
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Donation Button -->
-        <button onclick="openDonationModal()" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-rose-900/60 to-pink-900/60 hover:from-rose-800 hover:to-pink-800 text-rose-300 border border-rose-600/50 transition flex items-center space-x-1 font-semibold shadow-sm">
-          <span>💖</span><span class="hidden sm:inline">Поддержать</span>
+        <button onclick="openDonationModal()" class="px-2.5 py-1 rounded-lg bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border border-rose-600/40 transition flex items-center space-x-1 font-semibold shadow-sm" title="Фонд поддержки метеопортала">
+          <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+          <span class="hidden sm:inline">Поддержать</span>
         </button>
 
         <!-- 113-FZ Bulletproof Legal Status Button -->
         <button onclick="openLegalModal()" class="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 text-amber-300 border border-amber-600/50 transition flex items-center space-x-1 font-semibold" title="Правовой статус сервиса и отказ от ответственности">
-          <span>⚖️</span><span class="hidden sm:inline">113-ФЗ</span>
+          <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span class="hidden sm:inline">113-ФЗ</span>
         </button>
 
         <!-- Social Share Button -->
         <div class="relative inline-block text-left group">
           <button onclick="toggleShareDropdown()" class="px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-slate-700 transition flex items-center space-x-1 font-medium">
-            <span>📤</span><span class="hidden md:inline">Поделиться</span>
+            <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span class="hidden md:inline">Поделиться</span>
           </button>
           <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl bg-slate-900 border border-slate-700 shadow-2xl py-1 z-50 text-xs font-medium">
             <a href="javascript:void(0)" onclick="shareWeather('vk')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
-              <span class="mr-2">🔵</span> ВКонтакте
+              <span class="mr-2 text-sky-400">●</span> ВКонтакте
             </a>
             <a href="javascript:void(0)" onclick="shareWeather('tg')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
-              <span class="mr-2">✈️</span> Telegram
+              <span class="mr-2 text-sky-400">●</span> Telegram
             </a>
             <a href="javascript:void(0)" onclick="shareWeather('ok')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
-              <span class="mr-2">🟠</span> Одноклассники
+              <span class="mr-2 text-amber-400">●</span> Одноклассники
             </a>
             <a href="javascript:void(0)" onclick="shareWeather('copy')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300 border-t border-slate-800">
-              <span class="mr-2">🔗</span> Скопировать ссылку
+              <span class="mr-2 text-slate-400">🔗</span> Скопировать ссылку
             </a>
           </div>
         </div>
 
         <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-2.5 py-1 rounded-lg bg-sky-950/90 hover:bg-sky-900 border border-sky-600/50 text-sky-300 transition flex items-center space-x-1 font-semibold shadow-sm" title="Связаться с автором в Telegram">
-          <span>✈️</span><span class="hidden sm:inline">Telegram</span>
+          <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          <span class="hidden sm:inline">Telegram</span>
         </a>
         <a href="https://vk.com/club241257551" target="_blank" class="px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-sky-400 border border-slate-700/80 transition flex items-center space-x-1 font-medium">
-          <span>💬</span><span class="hidden lg:inline">Группа ВК</span>
+          <span class="text-xs font-bold text-sky-400">VK</span>
+          <span class="hidden lg:inline">Группа</span>
         </a>
         <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 font-mono text-[10px] font-bold" title="Знак информационной продукции (№ 436-ФЗ)">0+</span>
 
         <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/50 font-medium text-[11px]">
           <span class="w-1.5 h-1.5 mr-1 rounded-full bg-emerald-400 animate-pulse"></span>
-          Онлайн
+          Онлайн ВМО
         </span>
       </div>
     </div>
@@ -411,20 +417,20 @@
 
       <!-- Quick Metrics Strip (Middle) -->
       <div class="hidden lg:flex items-center space-x-4 font-mono text-xs text-slate-300">
-        <div class="flex items-center space-x-1" title="Ветер и направление">
-          <span class="text-teal-400">💨</span>
+        <div class="flex items-center space-x-1.5" title="Приземный ветер и румб">
+          <svg class="w-3.5 h-3.5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           <span id="ribbon-wind">3.2 м/с (СЗ)</span>
         </div>
-        <div class="flex items-center space-x-1" title="Атмосферное давление">
-          <span class="text-amber-400">🧭</span>
+        <div class="flex items-center space-x-1.5" title="Атмосферное давление (приведенное)">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span id="ribbon-press">752 мм</span>
         </div>
-        <div class="flex items-center space-x-1" title="Влажность и точка росы">
-          <span class="text-cyan-400">💧</span>
+        <div class="flex items-center space-x-1.5" title="Относительная влажность и точка росы">
+          <svg class="w-3.5 h-3.5 text-cyan-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 01.8.4l5.4 7.2A6 6 0 113.8 9.6L9.2 2.4A1 1 0 0110 2z" clip-rule="evenodd"/></svg>
           <span id="ribbon-hum">58% (+8.4° dp)</span>
         </div>
-        <div class="flex items-center space-x-1" title="УФ-индекс">
-          <span class="text-yellow-400">☀️</span>
+        <div class="flex items-center space-x-1.5" title="УФ-индекс инсоляции">
+          <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
           <span id="ribbon-uv">УФ 2</span>
         </div>
       </div>
@@ -433,10 +439,10 @@
       <div class="flex items-center space-x-2">
         <div id="ribbon-consensus-badge" class="px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono font-semibold text-[11px] flex items-center space-x-1 shadow-sm" title="Разброс прогнозов 4 суперкомпьютеров">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="ribbon-consensus-text">4 модели: ±0.5°C 🟢</span>
+          <span id="ribbon-consensus-text">4 модели: ±0.5°C</span>
         </div>
         <div id="ribbon-aqi-badge" class="px-2.5 py-1 rounded-full bg-sky-950/80 border border-sky-500/50 text-sky-300 font-mono font-medium text-[11px] hidden sm:flex items-center space-x-1" title="Качество воздуха (European AQI)">
-          <span>🍃</span>
+          <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span id="ribbon-aqi-text">AQI 32 (Хороший)</span>
         </div>
       </div>
@@ -464,20 +470,20 @@
         </button>
       </form>
 
-      <!-- Quick Badges (Horizontal scrollable on touch) -->
-      <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs">
-        <span class="text-slate-400 text-[11px] font-medium shrink-0">Выбор:</span>
-        <button onclick="setCity('Москва')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏛 Москва</button>
-        <button onclick="setCity('Санкт-Петербург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌊 Санкт-Петербург</button>
-        <button onclick="setCity('Краснодар')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌻 Краснодар</button>
-        <button onclick="setCity('Сочи')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏖 Сочи</button>
-        <button onclick="setCity('Воронеж')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌾 Воронеж</button>
-        <button onclick="setCity('Якутск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">❄️ Якутск</button>
-        <button onclick="setCity('Екатеринбург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏭 Екатеринбург</button>
-        <button onclick="setCity('Казань')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🕌 Казань</button>
-        <button onclick="setCity('Новосибирск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌲 Новосибирск</button>
-        <button onclick="setCity('Владивосток')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🚢 Владивосток</button>
-        <button onclick="setCity('Норильск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏔 Норильск</button>
+      <!-- Quick Stations Bar -->
+      <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-mono">
+        <span class="text-slate-400 text-[11px] font-sans font-semibold shrink-0">Станции:</span>
+        <button onclick="setCity('Москва')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Москва (ВДНХ)</button>
+        <button onclick="setCity('Санкт-Петербург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">СПб (Пулково)</button>
+        <button onclick="setCity('Краснодар')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Краснодар (Круглик)</button>
+        <button onclick="setCity('Сочи')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Сочи (Адлер)</button>
+        <button onclick="setCity('Воронеж')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Воронеж</button>
+        <button onclick="setCity('Екатеринбург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Екатеринбург (Кольцово)</button>
+        <button onclick="setCity('Казань')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Казань</button>
+        <button onclick="setCity('Новосибирск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Новосибирск (Толмачево)</button>
+        <button onclick="setCity('Владивосток')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Владивосток</button>
+        <button onclick="setCity('Якутск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Якутск</button>
+        <button onclick="setCity('Норильск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Норильск</button>
       </div>
 
     <!-- ================= AD SLOT 1: TOP BILLBOARD (YAN / FALLBACK) ================= -->
@@ -511,34 +517,44 @@
     <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (TOUCH / SWIPE) ================= -->
     <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
       <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active">
-        <span>☀️</span><span>Погода сейчас (48 ч)</span>
+        <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span>Фактическая погода (48 ч)</span>
       </button>
       <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🛰</span><span>Живой радар & Спутники</span>
+        <svg class="w-3.5 h-3.5 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Метеорадар и облака</span>
       </button>
       <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🧠</span><span>ИИ WeatherNext 3.0 (14 дн)</span>
+        <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span>Прогноз IFS & WeatherNext</span>
       </button>
       <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📈</span><span>30 дней: Гибрид ИИ+SEAS5</span>
+        <svg class="w-3.5 h-3.5 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+        <span>Сезонный тренд 30 дней</span>
       </button>
       <button onclick="switchTab('models')" id="tab-models" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🌐</span><span>5 Моделей & ИИ</span>
+        <svg class="w-3.5 h-3.5 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+        <span>Мультимодели ECMWF/ICON</span>
       </button>
       <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🏛</span><span>Архив 120+ лет (1890–2026)</span>
+        <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Климатический архив 1890–2026</span>
       </button>
       <button onclick="switchTab('week')" id="tab-week" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📅</span><span>Прогноз 7 дней</span>
+        <svg class="w-3.5 h-3.5 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Прогноз на 7 суток</span>
       </button>
       <button onclick="switchTab('14days')" id="tab-14days" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📆</span><span>Прогноз 14 дней</span>
+        <svg class="w-3.5 h-3.5 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <span>Прогноз на 14 суток</span>
       </button>
       <button onclick="switchTab('ecology')" id="tab-ecology" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🍃</span><span>Экология & УФ</span>
+        <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Качество воздуха и УФ</span>
       </button>
       <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📊</span><span>Почасовой анализ</span>
+        <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span>Почасовая аэросиноптика</span>
       </button>
     </div>
 
@@ -552,7 +568,7 @@
     <!-- ERROR BANNER -->
     <div id="error-box" class="hidden glass rounded-2xl p-5 border border-rose-500/40 bg-rose-950/20 text-rose-300 text-xs sm:text-sm">
       <div class="flex items-center space-x-2.5">
-        <span class="text-xl">⚠️</span>
+        <svg class="w-5 h-5 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         <span id="error-msg">Город не найден или метеосервер временно недоступен.</span>
       </div>
     </div>
@@ -566,7 +582,7 @@
     <details id="report-card" class="glass rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-700/60 group">
       <summary class="flex items-center justify-between cursor-pointer select-none">
         <div class="flex items-center space-x-2">
-          <span class="text-sky-400 text-sm">📋</span>
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <h2 class="text-xs font-bold text-slate-300 uppercase tracking-wider">МЕТЕОРОЛОГИЧЕСКИЙ ПРОТОКОЛ И СВОДКА ДАННЫХ</h2>
         </div>
         <div class="flex items-center space-x-2">
@@ -585,9 +601,9 @@
     <div class="glass rounded-2xl p-4 sm:p-5 border border-sky-500/40 bg-gradient-to-r from-slate-900/95 via-sky-950/20 to-slate-900/95 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xl">
       <div class="space-y-1 text-left">
         <div class="flex items-center space-x-2">
-          <span class="text-sky-400 text-base">💼</span>
+          <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           <h3 class="text-sm font-bold text-slate-200">Независимые аналитические выписки и архивные отчеты</h3>
-          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800/60">Для бизнеса и науки</span>
+          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800/60 font-mono">Для бизнеса и науки</span>
         </div>
         <p class="text-xs text-slate-400 max-w-2xl">
           Содействие и помощь в аналитической обработке и структурировании открытых данных ВМО (WMO), NOAA и климатических архивов за 120+ лет (Data Science): для научных исследований, агросектора, логистики и предварительного моделирования. Не является государственной экспертизой (официальные юридические справки для судов и проектной документации выдаются исключительно УГМС Росгидромета).
@@ -595,7 +611,8 @@
       </div>
       <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2">
         <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-sky-600/25 flex items-center space-x-1.5">
-          <span>✈️</span><span>Написать в Telegram</span>
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
+          <span>Написать в Telegram</span>
         </a>
         <a href="https://vk.me/id444630800" target="_blank" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-1">
           <span>ВКонтакте</span>
@@ -608,7 +625,8 @@
     <div class="glass rounded-2xl p-4 sm:p-5 border border-amber-500/30 bg-gradient-to-r from-slate-950/95 via-amber-950/15 to-slate-950/95 text-xs text-slate-400 leading-relaxed space-y-2">
       <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
         <div class="flex items-center space-x-2 font-bold text-amber-300 uppercase tracking-wide">
-          <span>⚖️</span><span>ПРАВОВОЙ РЕГЛАМЕНТ, БЕЗОПАСНОСТЬ И ПОЛНЫЙ ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</span>
+          <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+          <span>ПРАВОВОЙ РЕГЛАМЕНТ, БЕЗОПАСНОСТЬ И ПОЛНЫЙ ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</span>
         </div>
         <button onclick="openLegalModal()" class="px-2.5 py-1 rounded-lg bg-amber-950 border border-amber-500/40 text-amber-300 font-mono text-[11px] font-semibold hover:bg-amber-900 transition">
           Полный текст соглашения →
@@ -631,7 +649,7 @@
     <details class="rounded-xl border border-slate-800/60 bg-slate-950/60 group">
       <summary class="flex items-center justify-between cursor-pointer select-none px-4 py-3 text-xs text-slate-400 hover:text-slate-200 transition">
         <div class="flex items-center space-x-2 font-medium">
-          <span>🏛️</span>
+          <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
           <span>Каталог городов РФ и СНГ: архив 120 лет, радар и прогноз для всех регионов</span>
         </div>
         <span class="text-slate-500 group-open:rotate-180 transition-transform text-xs">▼</span>
@@ -1076,7 +1094,7 @@
       lastCoords = { lat, lon };
 
       // 2. Multi-Model 4-Ensemble Forecast API: ECMWF + ICON + GFS + GEM
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,surface_pressure,relative_humidity_2m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,surface_pressure,relative_humidity_2m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
@@ -1104,6 +1122,51 @@
       const dewP = (curr.temperature_2m != null && curr.relative_humidity_2m != null)
         ? Math.round((curr.temperature_2m - ((100 - curr.relative_humidity_2m) / 5)) * 10) / 10
         : 8.0;
+
+      // Cloud Cover & Stratification Calculations (WMO & ICAO Standards)
+      const cloudTotal = curr.cloud_cover != null ? Math.round(curr.cloud_cover) : 60;
+      const cloudLow = curr.cloud_cover_low != null ? Math.round(curr.cloud_cover_low) : 35;
+      const cloudMid = curr.cloud_cover_mid != null ? Math.round(curr.cloud_cover_mid) : 25;
+      const cloudHigh = curr.cloud_cover_high != null ? Math.round(curr.cloud_cover_high) : 15;
+      const visKm = curr.visibility != null ? Math.round((curr.visibility / 1000) * 10) / 10 : 10.0;
+
+      // Cloud Ceiling (ВГО) by Henning's thermodynamic formula H = 125 * (T - Td)
+      let cloudCeilingStr = '> 3000 м (ясно)';
+      if (cloudTotal >= 10 && curr.temperature_2m != null) {
+        const diff = Math.max(0.4, curr.temperature_2m - dewP);
+        const hMeters = Math.max(100, Math.round((125 * diff) / 50) * 50);
+        cloudCeilingStr = `${hMeters} м`;
+      }
+
+      // 3-hour Barometric tendency from hourly surface pressure series
+      const hPressArr = (hourly && (hourly['surface_pressure'] || hourly['surface_pressure_ecmwf_ifs025'])) || [];
+      let baroTendencyStr = '0.0 мм / 3ч (стабильно)';
+      if (hPressArr && hPressArr.length >= 4) {
+        const pNow = curr.surface_pressure || hPressArr[0];
+        const p3h = hPressArr[3] != null ? hPressArr[3] : pNow;
+        const deltaMm = Math.round((pNow - p3h) * 0.750062 * 10) / 10;
+        const sign = deltaMm > 0 ? `+${deltaMm}` : `${deltaMm}`;
+        if (deltaMm > 1.2) baroTendencyStr = `${sign} мм / 3ч (быстрый рост)`;
+        else if (deltaMm > 0.3) baroTendencyStr = `${sign} мм / 3ч (рост)`;
+        else if (deltaMm >= -0.3) baroTendencyStr = `${sign} мм / 3ч (стабильно)`;
+        else if (deltaMm >= -1.2) baroTendencyStr = `${sign} мм / 3ч (падение)`;
+        else baroTendencyStr = `${sign} мм / 3ч (резкое падение!)`;
+      }
+
+      // Air Mass Classification
+      let airMassStr = 'Умеренная континентальная (кВУ)';
+      const tCurr = curr.temperature_2m != null ? curr.temperature_2m : 10;
+      if (tCurr <= -10) {
+        airMassStr = 'Арктический континентальный воздух (кАВ)';
+      } else if (tCurr <= 2) {
+        airMassStr = 'Морской полярный воздух (мВУ / пВ)';
+      } else if (tCurr <= 16) {
+        airMassStr = 'Умеренная континентальная масса (кВУ)';
+      } else if (tCurr <= 24) {
+        airMassStr = 'Трансформированный умеренно-теплый воздух';
+      } else {
+        airMassStr = 'Субтропическая воздушная масса (кТВ)';
+      }
 
       // Universal multi-model field selector
       const getField = (obj, key) => (obj && (obj[key] || obj[`${key}_ecmwf_ifs025`] || obj[`${key}_icon_seamless`] || obj[`${key}_gfs_seamless`] || obj[`${key}_gem_seamless`])) || [];
@@ -1332,6 +1395,14 @@
           temp_min_today: (dMins && dMins[0] != null) ? Math.round(dMins[0]) : (curr.temperature_2m - 5),
           temp_max_today: (dMaxs && dMaxs[0] != null) ? Math.round(dMaxs[0]) : (curr.temperature_2m + 5),
           station_name: climate.station_name,
+          cloud_cover: cloudTotal,
+          cloud_cover_low: cloudLow,
+          cloud_cover_mid: cloudMid,
+          cloud_cover_high: cloudHigh,
+          visibility_km: visKm,
+          cloud_base_m: cloudCeilingStr,
+          baro_tendency: baroTendencyStr,
+          air_mass_type: airMassStr,
         },
         ensemble: {
           mean: consensusMean,
@@ -1423,7 +1494,7 @@
 
         // Dynamic Title and SEO
         const cName = data.city || currentCity;
-        document.title = `Погода в ${cName} — архив 120+ лет, радар осадков онлайн, метеостанции ВМО и 4 суперкомпьютера`;
+        document.title = `Погода в ${cName} — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF`;
         document.querySelectorAll('.seo-city-target').forEach(el => {
           if (el) el.innerText = cName.toUpperCase();
         });
@@ -1539,6 +1610,12 @@
       const uv = c.uv_index != null ? c.uv_index : '—';
       const p24 = numFmt(c.precipitation, 1);
 
+      const currMonthIdx = new Date().getMonth();
+      const normMonthVal = (d.climate && d.climate.t_norm && d.climate.t_norm[currMonthIdx] != null)
+        ? numFmt(d.climate.t_norm[currMonthIdx], 1, true) + ' °C'
+        : '+11.0 °C';
+      const normMonthName = MONTH_NAMES[currMonthIdx] || 'Месяц';
+
       card.innerHTML = `
         <!-- Station Header Badge -->
         <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-2 border border-slate-700/60">
@@ -1554,64 +1631,72 @@
         <!-- 8-Card Metrics Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ТОЧКА РОСЫ</span><span class="text-sky-400">💧</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>ТОЧКА РОСЫ</span>
+              <svg class="w-3.5 h-3.5 text-sky-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 01.8.4l5.4 7.2A6 6 0 113.8 9.6L9.2 2.4A1 1 0 0110 2z" clip-rule="evenodd"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${dp} °C</div>
             <div class="text-[10px] text-slate-400">Комфортная влажность</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЕТЕР И ПОРЫВЫ</span><span class="text-teal-400">💨</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>ВЕТЕР И ПОРЫВЫ</span>
+              <svg class="w-3.5 h-3.5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${w} м/с</div>
             <div class="text-[10px] text-slate-400">Порывы до ${c.wind_gusts || 6} м/с · ${c.wind_dir_name} (${c.wind_dir}°)</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>АТМ. ДАВЛЕНИЕ</span><span class="text-amber-400">🧭</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>АТМ. ДАВЛЕНИЕ</span>
+              <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${pr}</div>
             <div class="text-[10px] text-slate-400">Ртутный барометр</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЛАЖНОСТЬ</span><span class="text-cyan-400">💦</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>ВЛАЖНОСТЬ</span>
+              <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${hum}</div>
             <div class="text-[10px] text-slate-400">Психрометр Стивенсона</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>УФ-ИНДЕКС</span><span class="text-yellow-400">☀️</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>УФ-ИНДЕКС</span>
+              <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${uv}</div>
             <div class="text-[10px] text-slate-400">Безопасный уровень</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ОСАДКИ (24 Ч)</span><span class="text-indigo-400">🌧</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>ОСАДКИ (24 Ч)</span>
+              <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-white">${p24} мм</div>
             <div class="text-[10px] text-slate-400">Осадкомер Третьякова</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>НОРМА МЕСЯЦА</span><span class="text-purple-400">🍂</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>НОРМА (${normMonthName.toUpperCase()})</span>
+              <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
-            <div class="text-xl sm:text-2xl font-black font-mono text-white">+11.0 °C</div>
-            <div class="text-[10px] text-slate-400">ВМО 1961–1990</div>
+            <div class="text-xl sm:text-2xl font-black font-mono text-white">${normMonthVal}</div>
+            <div class="text-[10px] text-slate-400">Климат ВМО 1961–1990</div>
           </div>
 
           <div class="glass-card rounded-xl p-3.5 space-y-1">
-            <div class="flex justify-between text-slate-400 text-[11px]">
-              <span>ВЕКОВОЙ ТРЕНД</span><span class="text-rose-400">🌍</span>
+            <div class="flex justify-between items-center text-slate-400 text-[11px]">
+              <span>ВЕКОВОЙ ТРЕНД</span>
+              <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </div>
             <div class="text-xl sm:text-2xl font-black font-mono text-rose-300">+${d.climate.decadal_rate}°C</div>
             <div class="text-[10px] text-slate-400">за 10 лет (1890–2026)</div>
@@ -1623,11 +1708,11 @@
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
+              <span>ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
             </div>
             <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
               <span class="text-sky-400">ECMWF IFS 9km</span>
-              <span>· Листайте вправо 👉</span>
+              <span>· Листайте вправо</span>
             </div>
           </div>
           <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
@@ -1811,6 +1896,7 @@
     // TAB 2: ЖИВОЙ МЕТЕОРАДАР, СПУТНИКОВАЯ ОБСЕРВАТОРИЯ И ГРАДИЕНТЫ РФ & ГРУЗИИ
     // -------------------------------------------------------------------------
     function renderTabRadar(container, d) {
+      const c = d.current || {};
       const card = document.createElement('div');
       card.className = 'glass rounded-2xl p-3.5 sm:p-5 shadow-2xl space-y-3';
       card.innerHTML = `
@@ -1820,14 +1906,15 @@
             <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
             <div>
               <h2 class="font-bold uppercase tracking-wider text-slate-100 flex items-center space-x-2">
-                <span>🛰</span><span>МЕТЕОРАДАР, СПУТНИКИ И ВЕТЕР (РФ, СНГ И МИР)</span>
+                <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span>РАДИОЛОКАЦИОННЫЙ И СПУТНИКОВЫЙ МОНИТОРИНГ</span>
               </h2>
-              <p class="text-[11px] text-slate-400 font-mono">NASA AIRS Осадки РФ • Спутник ИК 24/7 • Windy ECMWF 60 FPS • НИЦ «Планета»</p>
+              <p class="text-[11px] text-slate-400 font-mono">NASA AIRS Осадки РФ • Спутник ИК 24/7 EUMETSAT • Windy ECMWF • НИЦ «Планета»</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
             <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold">
-              🛰 Спутниковые осадки NASA (РФ 100%)
+              Спутниковые осадки NASA (РФ 100%)
             </span>
             <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
               ⛶ Экран
@@ -1838,14 +1925,15 @@
         <!-- RF Radar Status & Direct Windy Toggle Strip -->
         <div class="px-3.5 py-2.5 rounded-xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
-            <span class="text-base">🇷🇺</span>
+            <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span class="text-[11.5px] leading-relaxed">
               <strong>Радарная обстановка в РФ:</strong> Наземные доплеровские радары ДМРЛ-С закрыты Росгидрометом для внешних сервисов. Для РФ работает <strong>Спутниковый радар осадков NASA</strong> (100% покрытие), <strong>ИК-мониторинг 24/7</strong> и официальный <strong>Windy ECMWF</strong>.
             </span>
           </div>
           <div class="flex items-center space-x-1.5 shrink-0">
             <button id="btn-windy-mode-switch" onclick="toggleWindyMode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5">
-              <span>🌪</span><span id="windy-btn-label">Режим Windy (Оригинал)</span>
+              <svg class="w-3.5 h-3.5 text-cyan-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              <span id="windy-btn-label">Режим Windy (Оригинал)</span>
             </button>
           </div>
         </div>
@@ -1853,47 +1941,47 @@
         <!-- Regional Quick-Preset Navigation Strip (Russia & Georgia Focused) -->
         <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-[11px] font-mono select-none">
           <span class="text-slate-400 shrink-0 text-xs font-sans font-semibold mr-1">Регионы:</span>
-          <button onclick="flyToPreset(${d.lat}, ${d.lon}, 8, '${d.city}')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-sky-950/70 hover:bg-sky-900 border border-sky-600/60 text-sky-200 transition">
-            📍 ${d.city}
+          <button onclick="flyToPreset(${d.lat}, ${d.lon}, 8, '${d.city}')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-sky-950/70 hover:bg-sky-900 border border-sky-600/60 text-sky-200 transition font-bold">
+            ${d.city}
           </button>
           <button onclick="flyToPreset(55.7558, 37.6173, 8, 'Москва')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Москва и ЦФО
+            Москва и ЦФО
           </button>
           <button onclick="flyToPreset(59.9343, 30.3351, 8, 'Санкт-Петербург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 СПб и СЗФО
+            СПб и СЗФО
           </button>
           <button onclick="flyToPreset(43.5855, 39.7231, 8, 'Сочи')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Сочи и Черноморье
+            Сочи и Черноморье
           </button>
           <button onclick="flyToPreset(45.0355, 38.9753, 9, 'Краснодар')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Краснодар (Кубань)
+            Краснодар (Кубань)
           </button>
           <button onclick="flyToPreset(55.7887, 49.1221, 8, 'Казань')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Поволжье
+            Поволжье
           </button>
           <button onclick="flyToPreset(56.8389, 60.6057, 8, 'Екатеринбург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Урал (Екб)
+            Урал (Екб)
           </button>
           <button onclick="flyToPreset(55.0084, 82.9357, 7, 'Новосибирск')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Сибирь (Нск)
+            Сибирь (Нск)
           </button>
           <button onclick="flyToPreset(43.1155, 131.8855, 7, 'Владивосток')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇷🇺 Дальний Восток
+            Дальний Восток
           </button>
           <button onclick="flyToPreset(41.7151, 44.8271, 9, 'Тбилиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇬🇪 Тбилиси
+            Тбилиси
           </button>
           <button onclick="flyToPreset(41.6423, 41.6339, 10, 'Батуми')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇬🇪 Батуми (Аджария)
+            Батуми (Аджария)
           </button>
           <button onclick="flyToPreset(42.2679, 42.6946, 9, 'Кутаиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇬🇪 Кутаиси
+            Кутаиси
           </button>
           <button onclick="flyToPreset(42.6593, 44.6418, 9, 'Казбеги')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🇬🇪 Казбеги (Кавказ)
+            Казбеги (Кавказ)
           </button>
           <button onclick="flyToPreset(53.0, 60.0, 4, 'Евразия')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            🌐 Обзор РФ и Евразии
+            Обзор РФ и Евразии
           </button>
         </div>
 
@@ -1902,29 +1990,29 @@
           <div class="flex flex-wrap items-center gap-1.5">
             <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Метеослой:</span>
             <button id="btn-layer-airs-precip" onclick="switchWeatherLayer('airs_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый радар осадков NASA: дождь и снегопады по всей России 24/7">
-              💧 Осадки РФ (NASA)
+              Осадки РФ (NASA)
             </button>
             <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый ИК-мониторинг облачности и грозовых фронтов день/ночь 24/7">
-              🛰 Спутник ИК 24/7
+              Спутник ИК 24/7
             </button>
             <button id="btn-layer-sat-planeta" onclick="switchWeatherLayer('sat_planeta')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Мультиспектральный композит воздушных масс Росгидромета и НИЦ «Планета»">
-              🇷🇺 НИЦ «Планета»
+              НИЦ «Планета»
             </button>
             <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Наземный доплеровский радар (страны СНГ и Европа)">
-              🌧 Наземный радар (СНГ)
+              Доплер-радар (СНГ)
             </button>
             <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              🌍 NASA VIIRS HD
+              NASA VIIRS HD
             </button>
             <button id="btn-layer-sat-modis" onclick="switchWeatherLayer('sat_modis')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_modis' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              🛰 NASA Terra
+              NASA Terra
             </button>
           </div>
 
           <!-- Windy FX Streamlines Toggle Button -->
           <div class="flex items-center">
             <button id="btn-windy-particles" onclick="toggleWindParticles()" class="px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 ${showWindParticles ? 'windy-stream-btn-active' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}" title="Включить/выключить живые линии тока ветра как на Windy">
-              <span class="animate-pulse text-cyan-400">💨</span>
+              <svg class="w-3.5 h-3.5 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
               <span>Частицы ветра</span>
             </button>
           </div>
@@ -1939,19 +2027,19 @@
               Без градиента
             </button>
             <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'temp' ? 'bg-rose-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌡️ Термокарта (°C)
+              Термокарта (°C)
             </button>
             <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌧️ Осадки (мм)
+              Осадки (мм)
             </button>
             <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'wind' ? 'bg-teal-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              💨 Ветер (м/с)
+              Ветер (м/с)
             </button>
             <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'clouds' ? 'bg-indigo-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              ☁️ Облачность
+              Облачность (%)
             </button>
             <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'press' ? 'bg-amber-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              🌀 Давление
+              Давление
             </button>
           </div>
 
@@ -1960,27 +2048,171 @@
             <span class="text-slate-400 text-[11px] px-1 font-semibold">Подложка:</span>
             <div class="flex items-center space-x-1">
               <button id="btn-base-sat" onclick="switchBasemap('satellite')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🛰 Спутник HD
+                Спутник HD
               </button>
               <button id="btn-base-dark" onclick="switchBasemap('dark')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🌌 Темная
+                Темная
               </button>
               <button id="btn-base-osm" onclick="switchBasemap('osm')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                🗺 OSM
+                OSM
               </button>
             </div>
             <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть опорные станции ВМО" class="px-2 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0">
-              📍 Станции
-            </button>
+              Станции
           </div>
         </div>
 
-        <!-- Radar Map Wrapper Container with Windy Canvas and Windy Embed -->
-        <div id="radar-map-wrapper" class="w-full h-[540px] sm:h-[600px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
+        <!-- Radar Map Wrapper Container with Side Telemetry Docks, Windy Canvas and Windy Embed -->
+        <div id="radar-map-wrapper" class="w-full h-[560px] sm:h-[620px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
           <div id="radar-map" class="w-full h-full z-0"></div>
           <iframe id="windy-embed-frame" class="hidden absolute inset-0 w-full h-full z-10 border-0 rounded-xl" src="" loading="lazy"></iframe>
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
           <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]"></canvas>
+
+          <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
+          <div id="radar-left-dock" class="absolute top-2.5 left-2.5 z-20 pointer-events-auto transition-all duration-300 max-w-[230px] sm:max-w-[270px]">
+            <div class="glass-card rounded-xl p-2.5 sm:p-3 border border-sky-500/30 bg-slate-950/90 shadow-2xl backdrop-blur-md space-y-2 text-[11px] font-mono">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-1 font-sans font-bold text-slate-200">
+                <div class="flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                  <span class="tracking-wide uppercase text-[10px] text-cyan-300">Облачность & ВГО</span>
+                </div>
+                <button onclick="toggleLeftDock()" id="btn-left-dock-toggle" class="text-slate-400 hover:text-white px-1 font-bold text-xs" title="Свернуть/развернуть панель">
+                  —
+                </button>
+              </div>
+
+              <div id="radar-left-dock-content" class="space-y-2">
+                <!-- Total Cloud Cover -->
+                <div class="space-y-1">
+                  <div class="flex justify-between items-center text-slate-300 text-[10.5px]">
+                    <span class="text-slate-400">Общая облачность:</span>
+                    <span id="dock-cloud-total" class="font-bold text-white">${c.cloud_cover != null ? c.cloud_cover : 60}%</span>
+                  </div>
+                  <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div id="dock-cloud-bar" class="bg-gradient-to-r from-sky-400 to-indigo-500 h-1.5 rounded-full" style="width: ${c.cloud_cover != null ? c.cloud_cover : 60}%"></div>
+                  </div>
+                </div>
+
+                <!-- 3-Tier Stratification Grid -->
+                <div class="grid grid-cols-3 gap-1 text-[9.5px] pt-1 border-t border-slate-800/80">
+                  <div class="bg-slate-900/80 p-1.5 rounded border border-slate-800 text-center">
+                    <div class="text-slate-400 text-[9px]">Низ (Sc)</div>
+                    <div id="dock-cloud-low" class="font-bold text-cyan-300">${c.cloud_cover_low != null ? c.cloud_cover_low : 35}%</div>
+                  </div>
+                  <div class="bg-slate-900/80 p-1.5 rounded border border-slate-800 text-center">
+                    <div class="text-slate-400 text-[9px]">Ср (Ac)</div>
+                    <div id="dock-cloud-mid" class="font-bold text-sky-300">${c.cloud_cover_mid != null ? c.cloud_cover_mid : 25}%</div>
+                  </div>
+                  <div class="bg-slate-900/80 p-1.5 rounded border border-slate-800 text-center">
+                    <div class="text-slate-400 text-[9px]">Верх (Ci)</div>
+                    <div id="dock-cloud-high" class="font-bold text-indigo-300">${c.cloud_cover_high != null ? c.cloud_cover_high : 15}%</div>
+                  </div>
+                </div>
+
+                <!-- Cloud Ceiling (ВГО) -->
+                <div class="flex justify-between items-center bg-slate-900/90 px-2 py-1 rounded-lg border border-slate-800 text-[10.5px]">
+                  <span class="text-slate-400">ВГО (граница):</span>
+                  <span id="dock-cloud-ceiling" class="font-bold text-amber-300">${c.cloud_base_m || '750 м'}</span>
+                </div>
+
+                <!-- 3h Barometric Tendency -->
+                <div class="flex justify-between items-center text-slate-300 text-[10px]">
+                  <span class="text-slate-400">Тенденция ΔP:</span>
+                  <span id="dock-baro-tendency" class="font-bold text-emerald-400 truncate max-w-[125px] text-right">${c.baro_tendency || '0.0 мм (стаб)'}</span>
+                </div>
+
+                <!-- Visibility -->
+                <div class="flex justify-between items-center text-slate-300 text-[10.5px]">
+                  <span class="text-slate-400">Видимость:</span>
+                  <span id="dock-visibility" class="font-bold text-white">${c.visibility_km != null ? c.visibility_km : '10.0'} км</span>
+                </div>
+
+                <!-- Dew Point Deficit -->
+                <div class="flex justify-between items-center text-slate-300 text-[10.5px]">
+                  <span class="text-slate-400">Точка росы Td:</span>
+                  <span id="dock-dew-deficit" class="font-bold text-cyan-300">${c.dew_point != null ? c.dew_point : 8}°C (Δ${Math.round(Math.abs((c.temp || 12) - (c.dew_point || 8)) * 10) / 10}°)</span>
+                </div>
+
+                <!-- Air Mass Type -->
+                <div class="pt-1 border-t border-slate-800/80 text-[9px] font-sans leading-tight">
+                  <span class="text-slate-500">Воздушная масса:</span>
+                  <div id="dock-air-mass" class="text-slate-300 font-medium">${c.air_mass_type || 'Умеренная континентальная (кВУ)'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ================= RIGHT DOCK: БЫСТРОЕ ПЕРЕКЛЮЧЕНИЕ СЛОЕВ ================= -->
+          <div id="radar-right-dock" class="absolute top-2.5 right-2.5 z-20 pointer-events-auto transition-all duration-300">
+            <div class="glass-card rounded-xl p-2 border border-slate-700/70 bg-slate-950/90 shadow-2xl backdrop-blur-md space-y-1 text-xs">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-1 px-1 font-sans font-bold text-slate-300">
+                <span class="text-[10px] uppercase tracking-wider text-slate-400">Слои карты</span>
+                <button onclick="toggleRightDock()" id="btn-right-dock-toggle" class="text-slate-400 hover:text-white px-1 font-bold text-xs" title="Свернуть/развернуть панель">
+                  —
+                </button>
+              </div>
+
+              <div id="radar-right-dock-content" class="flex flex-col space-y-1">
+                <button onclick="switchWeatherLayer('sat_live_ir')" id="dock-btn-sat_live_ir" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_live_ir' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                    <span>Спутник ИК 24/7</span>
+                  </span>
+                  <span class="text-[8.5px] opacity-75 font-sans">EUMETSAT</span>
+                </button>
+
+                <button onclick="switchWeatherLayer('airs_precip')" id="dock-btn-airs_precip" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'airs_precip' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                    <span>Осадки РФ</span>
+                  </span>
+                  <span class="text-[8.5px] opacity-75 font-sans">NASA</span>
+                </button>
+
+                <button onclick="switchWeatherLayer('sat_viirs')" id="dock-btn-sat_viirs" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_viirs' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                    <span>Облака HD</span>
+                  </span>
+                  <span class="text-[8.5px] opacity-75 font-sans">VIIRS 250м</span>
+                </button>
+
+                <button onclick="switchWeatherLayer('sat_planeta')" id="dock-btn-sat_planeta" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_planeta' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                    <span>НИЦ «Планета»</span>
+                  </span>
+                  <span class="text-[8.5px] opacity-75 font-sans">Airmass</span>
+                </button>
+
+                <button onclick="switchWeatherLayer('radar')" id="dock-btn-radar" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                  <span class="flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'radar' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                    <span>Доплер-радар</span>
+                  </span>
+                  <span class="text-[8.5px] opacity-75 font-sans">СНГ / ЕС</span>
+                </button>
+
+                <div class="pt-1 border-t border-slate-800 flex flex-col space-y-1">
+                  <button onclick="toggleWindyMode()" class="px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono font-bold bg-gradient-to-r from-sky-600 to-cyan-600 text-white flex items-center justify-between gap-2 shadow transition hover:brightness-110">
+                    <span>Режим Windy</span>
+                    <span class="text-[9px] opacity-90">60 FPS</span>
+                  </button>
+
+                  <button onclick="toggleWindParticles()" id="dock-btn-particles" class="px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showWindParticles ? 'bg-sky-950 text-sky-300 border border-sky-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
+                    <span>Линии ветра</span>
+                    <span id="dock-particles-status" class="font-bold">${showWindParticles ? 'ВКЛ' : 'ВЫКЛ'}</span>
+                  </button>
+
+                  <button onclick="toggleMeteoStations()" id="dock-btn-stations" class="px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showStations ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
+                    <span>Станции ВМО</span>
+                    <span id="dock-stations-status" class="font-bold">${showStations ? 'ВКЛ' : 'ВЫКЛ'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Loading Indicator -->
           <div id="radar-loading" class="absolute inset-0 z-20 flex items-center justify-center bg-slate-950/85 backdrop-blur-sm">
@@ -1990,10 +2222,10 @@
             </div>
           </div>
 
-          <!-- In-Map Floating Telemetry Overlay -->
-          <div class="absolute top-3 right-3 z-10 pointer-events-none hidden sm:block">
-            <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/80">
-              Спутниковые осадки NASA • 100% покрытие РФ • ВМО
+          <!-- In-Map Bottom Floating Telemetry Ribbon -->
+          <div class="absolute bottom-2.5 left-2.5 z-10 pointer-events-none hidden sm:block">
+            <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/85">
+              Спутниковые осадки NASA • 100% покрытие РФ • Опорная сеть ВМО
             </div>
           </div>
         </div>
@@ -2386,18 +2618,24 @@
     function toggleMeteoStations() {
       showStations = !showStations;
       const btn = document.getElementById('btn-stations-toggle');
+      const dockSBtn = document.getElementById('dock-btn-stations');
+      const dockSStat = document.getElementById('dock-stations-status');
       if (showStations) {
         if (stationsLayerGroup && radarMap) stationsLayerGroup.addTo(radarMap);
         if (btn) {
           btn.className = 'px-2 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0';
           btn.innerText = '📍 Станции: ВКЛ';
         }
+        if (dockSBtn) dockSBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-emerald-950/80 text-emerald-300 border border-emerald-600/50';
+        if (dockSStat) dockSStat.innerText = 'ВКЛ';
       } else {
         if (stationsLayerGroup && radarMap) radarMap.removeLayer(stationsLayerGroup);
         if (btn) {
           btn.className = 'px-2 py-1 rounded-lg text-[11px] font-medium bg-slate-800 border border-slate-700 text-slate-400 shrink-0';
           btn.innerText = '📍 Станции: ВЫКЛ';
         }
+        if (dockSBtn) dockSBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-slate-900 text-slate-400 hover:text-white';
+        if (dockSStat) dockSStat.innerText = 'ВЫКЛ';
       }
     }
 
@@ -2663,6 +2901,32 @@
       }
     }
 
+    function toggleLeftDock() {
+      const c = document.getElementById('radar-left-dock-content');
+      const b = document.getElementById('btn-left-dock-toggle');
+      if (!c || !b) return;
+      if (c.classList.contains('hidden')) {
+        c.classList.remove('hidden');
+        b.innerText = '—';
+      } else {
+        c.classList.add('hidden');
+        b.innerText = '+';
+      }
+    }
+
+    function toggleRightDock() {
+      const c = document.getElementById('radar-right-dock-content');
+      const b = document.getElementById('btn-right-dock-toggle');
+      if (!c || !b) return;
+      if (c.classList.contains('hidden')) {
+        c.classList.remove('hidden');
+        b.innerText = '—';
+      } else {
+        c.classList.add('hidden');
+        b.innerText = '+';
+      }
+    }
+
     function switchWeatherLayer(type) {
       activeWeatherLayer = type;
       const ctrlStrip = document.getElementById('radar-controls-strip');
@@ -2684,6 +2948,20 @@
           btn.className = 'px-3 py-1 rounded-lg font-medium transition bg-cyan-600 text-white shadow';
         } else {
           btn.className = 'px-3 py-1 rounded-lg font-medium transition text-slate-300 hover:bg-slate-800';
+        }
+      });
+
+      // Update Right Dock buttons & active LED dots
+      ['sat_live_ir', 'airs_precip', 'sat_viirs', 'sat_planeta', 'radar'].forEach(k => {
+        const dBtn = document.getElementById(`dock-btn-${k}`);
+        if (!dBtn) return;
+        const dot = dBtn.querySelector('span > span');
+        if (k === type) {
+          dBtn.className = 'dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition bg-cyan-600 text-white font-bold shadow';
+          if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff]';
+        } else {
+          dBtn.className = 'dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition bg-slate-900 text-slate-300 hover:bg-slate-800';
+          if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-slate-600';
         }
       });
 
@@ -3036,11 +3314,14 @@
       div.innerHTML = `
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
           <div class="flex items-center justify-between text-xs font-bold">
-            <span class="text-slate-200">🌈 КЛИМАТИЧЕСКИЕ ПОЛОСЫ ПОТЕПЛЕНИЯ (ED HAWKINS WARMING STRIPES)</span>
+            <div class="flex items-center space-x-2">
+              <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+              <span class="text-slate-200 uppercase tracking-wide">Климатические полосы потепления (Warming Stripes)</span>
+            </div>
             <span class="text-amber-400 font-mono">1890 ➔ 2026 гг. (136 лет)</span>
           </div>
           <p class="text-[11px] text-slate-400">
-            Каждая вертикальная полоса — один год. Синие оттенки — холоднее нормы ВМО 1961–1990 гг., красные — теплее. Нажмите на полосу для перехода к 12 месяцам года.
+            Каждая вертикальная полоса — один год непрерывных физических наблюдений. Синие оттенки — холоднее климатической нормы ВМО 1961–1990 гг., красные — аномально теплее. Нажмите на полосу для перехода к детальной разбивке по 12 месяцам.
           </p>
         </div>
 
@@ -3166,20 +3447,24 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div class="glass-card rounded-xl p-3 border border-rose-500/40 bg-rose-950/20 flex items-center justify-between">
             <div>
-              <div class="text-slate-400 font-medium">🔥 САМЫЙ ТЕПЛЫЙ ${mName.toUpperCase()} В ИСТОРИИ:</div>
+              <div class="text-slate-400 font-medium text-[11px] uppercase tracking-wider">Абсолютный максимум (${mName.toUpperCase()}):</div>
               <div class="text-xl font-black font-mono text-rose-300 my-0.5">${warmest.temp > 0 ? '+' : ''}${warmest.temp} °C</div>
               <div class="text-[11px] text-slate-400">Рекорд зафиксирован в <strong>${warmest.year} году</strong> (аномалия +${warmest.anom}°)</div>
             </div>
-            <span class="text-3xl">☀️</span>
+            <div class="w-9 h-9 rounded-lg bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </div>
           </div>
 
           <div class="glass-card rounded-xl p-3 border border-blue-500/40 bg-blue-950/20 flex items-center justify-between">
             <div>
-              <div class="text-slate-400 font-medium">❄️ САМЫЙ ХОЛОДНЫЙ ${mName.toUpperCase()} В ИСТОРИИ:</div>
+              <div class="text-slate-400 font-medium text-[11px] uppercase tracking-wider">Абсолютный минимум (${mName.toUpperCase()}):</div>
               <div class="text-xl font-black font-mono text-sky-300 my-0.5">${coldest.temp > 0 ? '+' : ''}${coldest.temp} °C</div>
               <div class="text-[11px] text-slate-400">Рекорд зафиксирован в <strong>${coldest.year} году</strong> (аномалия ${coldest.anom}°)</div>
             </div>
-            <span class="text-3xl">🧊</span>
+            <div class="w-9 h-9 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
+            </div>
           </div>
         </div>
 
@@ -3262,7 +3547,10 @@
       div.innerHTML = `
         <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1">
           <div class="flex items-center justify-between text-xs font-bold">
-            <span class="text-amber-300">🏆 РЕКОРДЫ ДНЯ: ${dateStr.toUpperCase()}</span>
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span class="text-amber-300 uppercase tracking-wide">Метеорологические рекорды суток: ${dateStr.toUpperCase()}</span>
+            </div>
             <span class="text-slate-400 font-mono">136 лет приборных замеров</span>
           </div>
           <p class="text-[11px] text-slate-400">
@@ -3274,8 +3562,8 @@
           <!-- Max Temp -->
           <div class="glass-card rounded-xl p-4 border border-rose-500/40 bg-rose-950/20 space-y-2">
             <div class="flex items-center justify-between text-rose-300 font-bold">
-              <span>АБСОЛЮТНЫЙ МАКСИМУМ</span>
-              <span>🔥</span>
+              <span class="text-[11px] uppercase tracking-wider">Абсолютный максимум</span>
+              <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </div>
             <div class="text-3xl font-black font-mono text-white">+${rec.max.t} °C</div>
             <div class="text-xs text-slate-300">Рекорд установлен в <strong>${rec.max.y} году</strong></div>
@@ -3285,8 +3573,8 @@
           <!-- Min Temp -->
           <div class="glass-card rounded-xl p-4 border border-blue-500/40 bg-blue-950/20 space-y-2">
             <div class="flex items-center justify-between text-sky-300 font-bold">
-              <span>АБСОЛЮТНЫЙ МИНИМУМ</span>
-              <span>❄️</span>
+              <span class="text-[11px] uppercase tracking-wider">Абсолютный минимум</span>
+              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
             </div>
             <div class="text-3xl font-black font-mono text-white">${rec.min.t > 0 ? '+' : ''}${rec.min.t} °C</div>
             <div class="text-xs text-slate-300">Рекорд установлен в <strong>${rec.min.y} году</strong></div>
@@ -3296,8 +3584,8 @@
           <!-- Max Precip -->
           <div class="glass-card rounded-xl p-4 border border-teal-500/40 bg-teal-950/20 space-y-2">
             <div class="flex items-center justify-between text-teal-300 font-bold">
-              <span>СУТОЧНЫЙ РЕКОРД ОСАДКОВ</span>
-              <span>🌧</span>
+              <span class="text-[11px] uppercase tracking-wider">Суточный рекорд осадков</span>
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-3xl font-black font-mono text-white">${rec.prcp.p} мм</div>
             <div class="text-xs text-slate-300">Рекорд установлен в <strong>${rec.prcp.y} году</strong></div>
@@ -3321,10 +3609,10 @@
       card.innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
           <div class="flex items-center space-x-2">
-            <span class="text-emerald-400 text-base">🌐</span>
+            <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
             <div>
-              <h2 class="font-bold text-white uppercase tracking-wider">КОНСЕНСУС 5 МИРОВЫХ СУПЕРКОМПЬЮТЕРОВ И ИИ (ДО 14 ДНЕЙ)</h2>
-              <p class="text-[11px] text-slate-400">Прямое сопоставление глобальных численных моделей погоды</p>
+              <h2 class="font-bold text-white uppercase tracking-wider">КОНСЕНСУС 5 ЧИСЛЕННЫХ МОДЕЛЕЙ И АНСАМБЛЯ (ДО 14 ДНЕЙ)</h2>
+              <p class="text-[11px] text-slate-400">Прямое сопоставление глобальных суперкомпьютеров: ECMWF IFS, ICON, GFS, GEM и WeatherNext</p>
             </div>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 font-mono font-bold text-[11px]">
@@ -3336,7 +3624,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
           <div class="glass-card rounded-xl p-3.5 border border-sky-500/30 bg-sky-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-sky-300 font-bold">
-              <span>🇪🇺 ECMWF IFS</span>
+              <span>ECMWF IFS</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-900/80">9 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—'}°C</div>
@@ -3345,8 +3633,8 @@
 
           <div class="glass-card rounded-xl p-3.5 border border-emerald-500/40 bg-emerald-950/25 space-y-1.5">
             <div class="flex items-center justify-between text-emerald-300 font-bold">
-              <span>🧠 WeatherNext 3.0</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/80">ИИ 64</span>
+              <span>WeatherNext 3.0</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/80">Ансамбль</span>
             </div>
             <div class="text-2xl font-black font-mono text-emerald-300 my-1">${ens.wn_max && ens.wn_max[0] != null ? (ens.wn_max[0] > 0 ? '+' : '') + Math.round(ens.wn_max[0]) : (ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—')}°C</div>
             <div class="text-[11px] text-slate-400">Google DeepMind ИИ-ансамбль</div>
@@ -3354,7 +3642,7 @@
 
           <div class="glass-card rounded-xl p-3.5 border border-amber-500/30 bg-amber-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-amber-300 font-bold">
-              <span>🇩🇪 DWD ICON</span>
+              <span>DWD ICON</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/80">13 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.ic_max[0] != null ? (ens.ic_max[0] > 0 ? '+' : '') + Math.round(ens.ic_max[0]) : '—'}°C</div>
@@ -3363,7 +3651,7 @@
 
           <div class="glass-card rounded-xl p-3.5 border border-indigo-500/30 bg-indigo-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-indigo-300 font-bold">
-              <span>🇺🇸 NOAA GFS</span>
+              <span>NOAA GFS</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-900/80">22 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.gfs_max[0] != null ? (ens.gfs_max[0] > 0 ? '+' : '') + Math.round(ens.gfs_max[0]) : '—'}°C</div>
@@ -3372,7 +3660,7 @@
 
           <div class="glass-card rounded-xl p-3.5 border border-teal-500/30 bg-teal-950/20 space-y-1.5">
             <div class="flex items-center justify-between text-teal-300 font-bold">
-              <span>🇨🇦 CMC GEM</span>
+              <span>CMC GEM</span>
               <span class="text-[10px] px-1.5 py-0.5 rounded bg-teal-900/80">25 км</span>
             </div>
             <div class="text-2xl font-black font-mono text-white my-1">${ens.gem_max[0] != null ? (ens.gem_max[0] > 0 ? '+' : '') + Math.round(ens.gem_max[0]) : '—'}°C</div>
@@ -3451,7 +3739,10 @@
 
       card.innerHTML = `
         <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
-          <span>📅 ДЕТАЛЬНЫЙ ПРОГНОЗ ПО ДНЯМ (${daysCount} ДНЕЙ)</span>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>ДЕТАЛЬНЫЙ ПРОГНОЗ ПО ДНЯМ (${daysCount} ДНЕЙ)</span>
+          </div>
           <span class="text-sky-400 font-mono">ECMWF IFS</span>
         </div>
         <div class="divide-y divide-slate-800/80">
@@ -3475,7 +3766,7 @@
                     <div class="h-full bg-gradient-to-r from-sky-400 via-amber-400 to-rose-500 rounded-full" style="width: 100%;"></div>
                   </div>
                   <span class="text-amber-400 font-bold">${mx}</span>
-                  <span class="text-slate-400 text-[11px] hidden md:inline">💨 ${day.wind || 3} м/с</span>
+                  <span class="text-slate-400 text-[11px] hidden md:inline font-mono">${day.wind || 3} м/с</span>
                   ${prec}
                 </div>
               </div>
@@ -3498,8 +3789,11 @@
 
       card.innerHTML = `
         <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-200">
-          <span>🍃 ЭКОЛОГИЧЕСКИЙ МОНИТОРИНГ И КАЧЕСТВО ВОЗДУХА</span>
-          <span class="text-sky-400">Copernicus CAMS</span>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>ЭКОЛОГИЧЕСКИЙ МОНИТОРИНГ И КАЧЕСТВО ВОЗДУХА</span>
+          </div>
+          <span class="text-sky-400 font-mono">Copernicus CAMS</span>
         </div>
 
         <!-- AQI Score Card -->
@@ -3545,7 +3839,10 @@
         <!-- UV Gauge & Protection Tips -->
         <div class="glass-card rounded-xl p-4 border border-yellow-500/30 bg-yellow-950/15 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div>
-            <div class="text-yellow-400 font-bold">☀️ УФ-ИНДЕКС СОЛНЦА СЕГОДНЯ: <strong class="text-white font-mono text-base">${aq.uv}</strong></div>
+            <div class="text-yellow-400 font-bold flex items-center space-x-1.5">
+              <svg class="w-4 h-4 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <span>УФ-ИНДЕКС СОЛНЦА СЕГОДНЯ: <strong class="text-white font-mono text-base">${aq.uv}</strong></span>
+            </div>
             <p class="text-slate-300 mt-1">
               ${aq.uv <= 2 ? 'Низкий уровень УФ. Защита кожи не требуется, безопасно для прогулок.' : 'Умеренный уровень. Рекомендуется использовать солнцезащитные очки.'}
             </p>
@@ -3576,10 +3873,12 @@
       card.innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
           <div class="flex items-center space-x-2.5">
-            <span class="text-emerald-400 text-2xl">🧠</span>
+            <div class="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
             <div>
-              <h2 class="font-bold text-white uppercase tracking-wider text-sm sm:text-base">НЕЙРОСЕТЕВОЙ АНСАМБЛЬ GOOGLE DEEPMIND WEATHERNEXT 3.0 (14 ДНЕЙ)</h2>
-              <p class="text-[11px] text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 ИИ-сценариев на 2 полные недели</p>
+              <h2 class="font-bold text-white uppercase tracking-wider text-sm sm:text-base">НЕЙРОСЕТЕВОЙ АНСАМБЛЬ WEATHERNEXT 3.0 (14 ДНЕЙ)</h2>
+              <p class="text-[11px] text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 сценариев на 2 полные недели</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
@@ -3625,7 +3924,7 @@
         <!-- SECTION 1: WEEK 1 SCENARIO CARDS -->
         <div class="space-y-2">
           <div class="flex items-center justify-between text-xs font-bold text-emerald-300 pb-1 border-b border-emerald-950">
-            <span>🗓 НЕДЕЛЯ 1 (ДНИ 1–7): ВЫСОКАЯ СХОДИМОСТЬ ИИ (${confW1}% НАДЕЖНОСТЬ)</span>
+            <span>НЕДЕЛЯ 1 (ДНИ 1–7): ВЫСОКАЯ СХОДИМОСТЬ (${confW1}% НАДЕЖНОСТЬ)</span>
             <span class="text-[10px] text-slate-400 font-mono">Детерминированная фаза</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2.5 text-xs">
@@ -3654,7 +3953,7 @@
                     <div class="text-[9px] text-slate-400 font-mono">${p10 > 0 ? '+' : ''}${Math.round(p10)}°...${p90 > 0 ? '+' : ''}${Math.round(p90)}°</div>
                   </div>
                   <div class="text-[10px] text-slate-300 pt-1 border-t border-slate-800/80">
-                    🌧 Осадки: <strong class="text-cyan-300 font-mono">${prec} мм</strong>
+                    Осадки: <strong class="text-cyan-300 font-mono">${prec} мм</strong>
                     <span class="text-[9px] text-slate-400">(${precProb}%)</span>
                   </div>
                 </div>
@@ -3667,7 +3966,7 @@
         ${week2.length > 0 ? `
         <div class="space-y-2 pt-2">
           <div class="flex items-center justify-between text-xs font-bold text-teal-300 pb-1 border-b border-teal-950">
-            <span>🗓 НЕДЕЛЯ 2 (ДНИ 8–14): АНСАМБЛЕВЫЙ ТРЕНД И ДИСПЕРСИЯ (${confW2}% СХОДИМОСТЬ)</span>
+            <span>НЕДЕЛЯ 2 (ДНИ 8–14): АНСАМБЛЕВЫЙ ТРЕНД (${confW2}% СХОДИМОСТЬ)</span>
             <span class="text-[10px] text-slate-400 font-mono">Стохастический ансамбль</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2.5 text-xs">
@@ -3697,7 +3996,7 @@
                     <div class="text-[9px] text-slate-400 font-mono">${p10 > 0 ? '+' : ''}${Math.round(p10)}°...${p90 > 0 ? '+' : ''}${Math.round(p90)}°</div>
                   </div>
                   <div class="text-[10px] text-slate-300 pt-1 border-t border-slate-800/80">
-                    🌧 Осадки: <strong class="text-cyan-300 font-mono">${prec} мм</strong>
+                    Осадки: <strong class="text-cyan-300 font-mono">${prec} мм</strong>
                     <span class="text-[9px] text-slate-400">(${precProb}%)</span>
                   </div>
                 </div>
@@ -3710,7 +4009,8 @@
         <!-- Technical Architecture Accordion -->
         <div class="glass-card rounded-xl p-4 border border-slate-800 text-xs space-y-2">
           <div class="text-slate-200 font-bold uppercase flex items-center space-x-2">
-            <span>🔬</span><span>ТЕХНОЛОГИЧЕСКИЙ СТЕК DEEPMIND WEATHERNEXT 3.0</span>
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+            <span>ТЕХНОЛОГИЧЕСКИЙ СТЕК DEEPMIND WEATHERNEXT 3.0</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-300 leading-relaxed">
             <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800">
@@ -3858,10 +4158,12 @@
       card.innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
           <div class="flex items-center space-x-2.5">
-            <span class="text-sky-400 text-2xl">📈</span>
+            <div class="w-8 h-8 rounded-lg bg-sky-950/80 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+            </div>
             <div>
               <h2 class="font-bold text-white uppercase tracking-wider text-sm sm:text-base">30 ДНЕЙ: ГИБРИДНЫЙ СУПЕРКОМПЬЮТЕРНЫЙ ПРОГНОЗ</h2>
-              <p class="text-[11px] text-slate-400">Дни 1–14: Google WeatherNext 3.0 (64 ансамбля) • Дни 15–30: ECMWF SEAS5 (50 сценариев)</p>
+              <p class="text-[11px] text-slate-400">Дни 1–14: WeatherNext 3.0 (64 ансамбля) • Дни 15–30: ECMWF SEAS5 (50 сценариев)</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
@@ -4339,12 +4641,18 @@
     function toggleWindParticles() {
       showWindParticles = !showWindParticles;
       const btn = document.getElementById('btn-windy-particles');
+      const dockPBtn = document.getElementById('dock-btn-particles');
+      const dockPStat = document.getElementById('dock-particles-status');
       if (showWindParticles) {
         if (btn) btn.className = 'px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 windy-stream-btn-active';
+        if (dockPBtn) dockPBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-sky-950 text-sky-300 border border-sky-600/50';
+        if (dockPStat) dockPStat.innerText = 'ВКЛ';
         if (windCanvas) windCanvas.style.display = 'block';
         animateWindParticles();
       } else {
         if (btn) btn.className = 'px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-slate-800/90 text-slate-300 hover:bg-slate-700';
+        if (dockPBtn) dockPBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-slate-900 text-slate-400 hover:text-white';
+        if (dockPStat) dockPStat.innerText = 'ВЫКЛ';
         if (windAnimId) cancelAnimationFrame(windAnimId);
         if (windCanvas && windCtx) {
           windCtx.clearRect(0, 0, windCanvas.width, windCanvas.height);
@@ -4686,12 +4994,12 @@
     // Dynamic SEO updater per city
     function updatePageDynamicSEO(city, tempVal, condDesc) {
       try {
-        const titleStr = `Погода в ${city} — архив погоды за 120+ лет (1890–2026), онлайн радар осадков, спутник Гидрометцентра и 4 суперкомпьютера`;
+        const titleStr = `Погода в ${city} — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF`;
         document.title = titleStr;
 
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
-          metaDesc.setAttribute('content', `Фактическая погода в ${city} (${tempVal}°C, ${condDesc}). Онлайн радар осадков, спутник Гидрометцентра, 120+ лет климатического архива (1890–2026) и консенсус 4 суперкомпьютеров.`);
+          metaDesc.setAttribute('content', `Фактическая погода в ${city} (${tempVal}°C, ${condDesc}). Онлайн радар осадков и облачности, климатический архив 1890–2026 и консенсус мировых суперкомпьютеров.`);
         }
       } catch(e) {}
     }
@@ -4753,7 +5061,7 @@
     <div id="yandex_rtb_R-A-112330199-3" class="hidden"></div>
     <div id="ad-slot-3-fallback" class="flex items-center justify-between w-full max-w-sm gap-2 text-xs">
       <div class="flex items-center space-x-2 truncate">
-        <span class="text-base">✈️</span>
+        <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
         <span class="text-slate-200 text-[11px] font-semibold truncate">Отели и билеты по России со скидкой</span>
       </div>
       <a href="https://travel.yandex.ru/" target="_blank" rel="noopener" class="px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-[10px] shrink-0">
@@ -4768,7 +5076,9 @@
     <div class="modal-card p-5 sm:p-7 space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-2.5">
-          <span class="text-2xl">⚖️</span>
+          <div class="w-8 h-8 rounded-lg bg-sky-950/80 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+          </div>
           <div>
             <h2 class="text-sm sm:text-base font-bold text-slate-100 uppercase tracking-wide">ПРАВОВОЙ РЕГЛАМЕНТ И ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</h2>
             <p class="text-[11px] text-slate-400 font-mono">Федеральный закон № 113-ФЗ • Регламент Open Science AS IS</p>
@@ -4837,10 +5147,12 @@
     <div class="modal-card p-5 sm:p-7 space-y-4 max-w-lg">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div class="flex items-center space-x-2">
-          <span class="text-2xl">💖</span>
+          <div class="w-8 h-8 rounded-lg bg-rose-950/80 border border-rose-500/40 flex items-center justify-center text-rose-400 shrink-0">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+          </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-100">ПОДДЕРЖКА НЕЗАВИСИМОГО МЕТЕОПОРТАЛА</h2>
-            <p class="text-[11px] text-slate-400">Помогите нам оплачивать сервера, архивы спутников и развивать сервис</p>
+            <h2 class="text-sm sm:text-base font-bold text-slate-100 uppercase tracking-wide">ПОДДЕРЖКА НЕЗАВИСИМОГО МЕТЕОЦЕНТРА</h2>
+            <p class="text-[11px] text-slate-400 font-mono">Поддержка серверной инфраструктуры и климатических архивов</p>
           </div>
         </div>
         <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-100 text-xl font-bold p-1">✕</button>
@@ -4848,7 +5160,7 @@
 
       <div class="space-y-3 text-xs">
         <p class="text-slate-300">
-          Сервис развивается без государственной поддержки на средства энтузиастов. Любой донат помогает поддерживать 120-летний климатический архив, высокоскоростной метеорадар и работу без навязчивой рекламы.
+          Сервис развивается без государственного финансирования силами независимых разработчиков. Любой вклад помогает оплачивать серверные мощности спутниковых карт, многолетних архивов ВМО и бесперебойную синхронизацию.
         </p>
 
         <!-- Amount Presets -->
@@ -4882,7 +5194,7 @@
   <div id="satellite-lightbox" class="modal-backdrop hidden" onclick="if(event.target===this) closeSatelliteLightbox()">
     <div class="modal-card p-3 sm:p-5 max-w-5xl space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
-        <span class="font-bold text-slate-100 uppercase" id="lightbox-title">Спутниковый снимок высокого разрешения</span>
+        <span class="font-bold text-slate-100 uppercase font-mono" id="lightbox-title">Спутниковый снимок высокого разрешения</span>
         <button onclick="closeSatelliteLightbox()" class="text-slate-400 hover:text-slate-100 text-xl font-bold p-1">✕</button>
       </div>
       <div class="rounded-xl overflow-hidden bg-black flex items-center justify-center max-h-[75vh]">
@@ -4894,7 +5206,7 @@
   <!-- ================= COOKIE & 152-FZ COMPLIANCE BANNER ================= -->
   <div id="cookie-notice" class="hidden fixed bottom-3 left-3 right-3 sm:left-auto sm:right-4 sm:max-w-md z-50 glass-card p-3.5 rounded-2xl border border-sky-500/40 shadow-2xl flex items-center justify-between gap-3 text-xs">
     <div class="text-slate-300 text-[11px] leading-relaxed">
-      <span>🍪 Мы используем файлы cookie и сервис веб-аналитики Яндекс.Метрика для сбора обезличенной статистики (№ 152-ФЗ). Продолжая просмотр, вы соглашаетесь с регламентом обработки данных.</span>
+      <span>Мы используем файлы cookie и сервис веб-аналитики Яндекс.Метрика для сбора обезличенной статистики в соответствии с Федеральным законом № 152-ФЗ. Продолжая использование, вы соглашаетесь с условиями.</span>
     </div>
     <button onclick="acceptCookieNotice()" class="px-3.5 py-1.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl text-xs shrink-0 shadow transition">
       Принять
