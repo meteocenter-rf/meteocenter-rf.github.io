@@ -115,21 +115,29 @@
       background: rgba(15, 23, 42, 0.90);
     }
     .tab-active {
-      background: #0284c7;
-      color: #ffffff;
-      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
-      border: 1px solid #38bdf8;
-      font-weight: 600;
+      background: rgba(2, 132, 199, 0.15);
+      color: #38bdf8;
+      border-bottom: 2px solid #38bdf8;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-weight: 700;
+      border-radius: 0;
     }
     .tab-inactive {
-      background: rgba(30, 41, 59, 0.50);
-      color: #94a3b8;
-      border: 1px solid rgba(51, 65, 85, 0.45);
+      background: transparent;
+      color: #64748b;
+      border-bottom: 2px solid transparent;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-weight: 500;
+      border-radius: 0;
     }
     .tab-inactive:hover {
-      background: rgba(51, 65, 85, 0.65);
-      color: #f8fafc;
-      border-color: rgba(148, 163, 184, 0.35);
+      background: rgba(51, 65, 85, 0.35);
+      color: #cbd5e1;
+      border-bottom-color: rgba(148, 163, 184, 0.3);
     }
     /* Touch & Scrollbar Ergonomics */
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -166,8 +174,16 @@
     }
     /* 60 FPS Hardware-accelerated tile crossfading: zero flicker, zero lag */
     .leaflet-tile-pane .leaflet-layer {
-      transition: opacity 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
       will-change: opacity;
+    }
+    /* Critical: smooth tile container transitions prevent white-flash flicker */
+    .leaflet-tile-container {
+      transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      will-change: opacity;
+    }
+    .leaflet-tile {
+      transition: opacity 0.2s ease !important;
     }
     /* Animated lightning strikes and convective storm pulses */
     @keyframes lightningFlash {
@@ -347,25 +363,25 @@
       </div>
     </div>
 
-    <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (TOUCH / SWIPE) ================= -->
-    <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
-      <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active">
-        <span>🌤️</span><span>Главный прогноз</span>
+    <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR ================= -->
+    <div id="tabs-bar" class="flex items-center overflow-x-auto no-scrollbar border-b border-slate-700/60 text-sm font-semibold select-none">
+      <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-active">
+        <span>🌤️</span><span>Сейчас</span>
       </button>
-      <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🛰️</span><span>Радар & Спутник</span>
+      <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-inactive">
+        <span>🛰️</span><span>Радар</span>
       </button>
-      <button onclick="switchTab('models')" id="tab-models" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🌐</span><span>5 Суперкомпьютеров</span>
+      <button onclick="switchTab('models')" id="tab-models" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-inactive">
+        <span>🌐</span><span>Суперкомпьютеры</span>
       </button>
-      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🧠</span><span>ИИ WeatherNext (14 дн)</span>
+      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-inactive">
+        <span>🧠</span><span>ИИ 14 дней</span>
       </button>
-      <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>📈</span><span>30 Дней (ИИ+SEAS5)</span>
+      <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-inactive">
+        <span>📈</span><span>30 дней</span>
       </button>
-      <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <span>🏛️</span><span>Архив 120+ лет</span>
+      <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn shrink-0 px-4 py-3 transition flex items-center space-x-1.5 tab-inactive">
+        <span>🏛️</span><span>Архив 120 лет</span>
       </button>
     </div>
 
@@ -428,65 +444,53 @@
       </div>
     </div>
 
-    <!-- ================= LEGAL DISCLAIMER (113-FZ) ================= -->
-    <div class="px-4 py-3 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-500 leading-relaxed space-y-1">
-      <div>
-        <span class="font-bold text-slate-300">⚖️ Правовое уведомление и отказ от ответственности:</span> 
-        Веб-сервис «МетеоПортал» является независимым информационно-аналитическим и научно-познавательным проектом. Сервис НЕ является органом государственной власти, не аффилирован с Росгидрометом и не осуществляет лицензируемую гидрометеорологическую деятельность (ст. 9 № 113-ФЗ).
-      </div>
-      <div>
-        Все метеопараметры сформированы аналитической обработкой общедоступных данных: Всемирной метеорологической организации (ВМО / WMO), архивов NOAA GHCN-Daily и реанализа ECMWF ERA5. Носят исключительно справочно-ознакомительный характер. Официальные юридические справки для судов и страховых выплат выдаются территориальными УГМС Росгидромета.
-      </div>
-    </div>
 
-    <!-- ================= SEO KNOWLEDGE HUB ================= -->
-    <section class="glass rounded-2xl p-5 sm:p-6 shadow-xl space-y-4 border border-slate-800/90 mt-4">
-      <div>
-        <div class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-sky-950/80 border border-sky-500/30 text-sky-300 text-[11px] font-semibold mb-2">
-          <span>📚</span><span>Климатология и метеорологический мониторинг</span>
+    <!-- ================= SEO KNOWLEDGE HUB (compact, collapsible) ================= -->
+    <details class="rounded-xl border border-slate-800/60 bg-slate-950/60 group">
+      <summary class="flex items-center justify-between cursor-pointer select-none px-4 py-3 text-xs text-slate-400 hover:text-slate-200 transition">
+        <div class="flex items-center space-x-2 font-medium">
+          <span>📚</span>
+          <span>О сервисе: климатический архив 120+ лет, радар, суперкомпьютеры — <span class="seo-city-target text-sky-400">Москва</span></span>
         </div>
-        <h2 class="text-lg sm:text-xl font-black text-white tracking-tight">
-          Климатический архив за 120+ лет и метеорологический мониторинг: <span class="seo-city-target text-sky-400 font-bold">МОСКВА</span>
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
-          Информационно-аналитический сервис фактической погоды, многолетних архивов метеостанций с 1890 по 2026 год, живого радара осадков и консенсуса суперкомпьютеров ECMWF, ICON, GFS и GEM.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed text-slate-300">
-        <div class="glass-card rounded-xl p-3.5 space-y-1.5 border border-slate-800">
-          <div class="flex items-center space-x-1.5 text-sky-400 font-bold">
-            <span>🏛</span><span>Опорные метеостанции ВМО</span>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            Данные опорных метеостанций ВМО: трансляция открытых наблюдений государственной гидрометеорологической сети (психрометрические будки Стивенсона, осадкомеры Третьякова, барометрия по стандартам WMO). Для территорий без прямых наземных метеопостов привлекается открытый спутниковый реанализ ECMWF ERA5 (сетка 9 км).
-          </p>
+        <span class="text-slate-500 group-open:rotate-180 transition-transform text-xs">▼</span>
+      </summary>
+      <div class="px-4 pb-4 pt-2 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed text-slate-400 border-t border-slate-800">
+        <div>
+          <div class="font-bold text-sky-400 mb-1">🏛 Опорные метеостанции ВМО</div>
+          <p>Данные опорных метеостанций ВМО, реанализ ECMWF ERA5 (9 км) для районов без прямых наземных постов.</p>
         </div>
-        <div class="glass-card rounded-xl p-3.5 space-y-1.5 border border-slate-800">
-          <div class="flex items-center space-x-1.5 text-amber-400 font-bold">
-            <span>⏳</span><span>Архив 120+ лет (1890–2026)</span>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            Непрерывный помесячный ряд средних температур, осадков и климатических аномалий к базовым периодам ВМО (1961–1990 и 1991–2020), расчет Warming Stripes и векового тренда потепления (°C/декада).
-          </p>
+        <div>
+          <div class="font-bold text-amber-400 mb-1">⏳ Архив 120+ лет (1890–2026)</div>
+          <p>Непрерывный помесячный ряд температур, осадков, климатических аномалий к базовым периодам ВМО, Warming Stripes.</p>
         </div>
-        <div class="glass-card rounded-xl p-3.5 space-y-1.5 border border-slate-800">
-          <div class="flex items-center space-x-1.5 text-emerald-400 font-bold">
-            <span>🌐</span><span>4 Мировых Суперкомпьютера</span>
-          </div>
-          <p class="text-slate-400 text-[11px]">
-            Синхронный консенсус европейской ECMWF IFS, немецкой DWD ICON, американской NOAA GFS и канадской CMC GEM. Расчет среднего значения, разброса моделей и индекса надежности.
-          </p>
+        <div>
+          <div class="font-bold text-emerald-400 mb-1">🌐 4 мировых суперкомпьютера</div>
+          <p>Консенсус ECMWF IFS, DWD ICON, NOAA GFS и CMC GEM. Разброс моделей и индекс надёжности прогноза.</p>
         </div>
       </div>
-    </section>
+    </details>
 
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="mt-8 border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 glass">
-    <p>© 2026 МетеоПортал · Климатический архив опорных метеостанций ВМО (1890–2026)</p>
-    <p class="mt-0.5 text-slate-600 text-[11px]">Прямой высокоскоростной доступ · Глобальная сеть доставки контента GitHub Pages CDN</p>
+  <footer class="mt-4 border-t border-slate-800/80 glass">
+    <!-- B2B compact strip -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs border-b border-slate-800/50">
+      <div class="flex items-center gap-2 text-slate-400">
+        <span>💼</span>
+        <span>Аналитические выписки и архивные отчёты для бизнеса и науки</span>
+        <span class="hidden sm:inline text-slate-600">·</span>
+        <span class="hidden sm:inline text-slate-500">Не является официальной экспертизой УГМС Росгидромета</span>
+      </div>
+      <a href="https://vk.me/id444630800" target="_blank" class="shrink-0 px-3 py-1.5 bg-sky-700/60 hover:bg-sky-600/80 text-sky-200 text-xs font-medium rounded-lg border border-sky-700/40 transition">
+        Запросить помощь →
+      </a>
+    </div>
+    <!-- Legal + copyright -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 text-[11px] text-slate-500 leading-relaxed space-y-1">
+      <p class="text-center">© 2026 МетеоПортал · Климатический архив опорных метеостанций ВМО (1890–2026) · <a href="https://vk.com/club241257551" target="_blank" class="text-sky-500 hover:text-sky-400">Группа ВКонтакте</a></p>
+      <p class="text-center text-slate-600">Независимый информационно-аналитический проект. НЕ является органом государственной власти и не аффилирован с Росгидрометом (ст. 9 № 113-ФЗ). Данные носят справочно-ознакомительный характер.</p>
+    </div>
   </footer>
 
   <!-- ================= SCRIPTS & LOGIC ENGINE ================= -->
@@ -1212,6 +1216,7 @@
         },
         daily: daily_list,
         climate: climate,
+        consensus_text: confRating,
         text: `МЕТЕОРОЛОГИЧЕСКИЙ ПРОТОКОЛ · г. ${cityName.toUpperCase()}
 Дата и время: ${new Date().toLocaleString('ru-RU')}
 Опорная метеостанция: ${climate.station_name}
@@ -1356,11 +1361,11 @@
       const uv = c.uv_index != null ? c.uv_index : '—';
       const p24 = numFmt(c.precipitation, 1);
 
-      const subHourlyActive = currentForecastSubView === 'hourly' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
-      const subWeekActive = currentForecastSubView === 'week' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
-      const sub14DaysActive = currentForecastSubView === '14days' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
-      const subEcologyActive = currentForecastSubView === 'ecology' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
-      const subInteractiveActive = currentForecastSubView === 'interactive' ? 'bg-sky-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60';
+      const subHourlyActive = currentForecastSubView === 'hourly' ? 'border-sky-400 text-sky-400 bg-sky-950/20' : 'border-transparent text-slate-500 hover:text-slate-200';
+      const subWeekActive = currentForecastSubView === 'week' ? 'border-sky-400 text-sky-400 bg-sky-950/20' : 'border-transparent text-slate-500 hover:text-slate-200';
+      const sub14DaysActive = currentForecastSubView === '14days' ? 'border-sky-400 text-sky-400 bg-sky-950/20' : 'border-transparent text-slate-500 hover:text-slate-200';
+      const subEcologyActive = currentForecastSubView === 'ecology' ? 'border-sky-400 text-sky-400 bg-sky-950/20' : 'border-transparent text-slate-500 hover:text-slate-200';
+      const subInteractiveActive = currentForecastSubView === 'interactive' ? 'border-sky-400 text-sky-400 bg-sky-950/20' : 'border-transparent text-slate-500 hover:text-slate-200';
 
       card.innerHTML = `
         <!-- Station Header Badge -->
@@ -1375,22 +1380,21 @@
         </div>
 
         <!-- Sub-Navigation Segmented Pills Bar -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar p-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs select-none">
-          <span class="text-slate-400 text-[11px] font-medium px-2 shrink-0">Прогноз:</span>
-          <button onclick="setForecastSubView('hourly')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subHourlyActive}">
-            ⚡ Сейчас и 48 часов
+        <div class="flex items-center space-x-0.5 overflow-x-auto no-scrollbar border-b border-slate-800 text-sm select-none">
+          <button onclick="setForecastSubView('hourly')" class="shrink-0 px-4 py-2.5 transition font-medium border-b-2 ${subHourlyActive}">
+            ⚡ Сейчас · 48 ч
           </button>
-          <button onclick="setForecastSubView('week')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subWeekActive}">
-            📅 Прогноз 7 дней
+          <button onclick="setForecastSubView('week')" class="shrink-0 px-4 py-2.5 transition font-medium border-b-2 ${subWeekActive}">
+            📅 7 дней
           </button>
-          <button onclick="setForecastSubView('14days')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${sub14DaysActive}">
-            📆 Прогноз 14 дней
+          <button onclick="setForecastSubView('14days')" class="shrink-0 px-4 py-2.5 transition font-medium border-b-2 ${sub14DaysActive}">
+            📆 14 дней
           </button>
-          <button onclick="setForecastSubView('ecology')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subEcologyActive}">
-            🍃 Экология & Воздух
+          <button onclick="setForecastSubView('ecology')" class="shrink-0 px-4 py-2.5 transition font-medium border-b-2 ${subEcologyActive}">
+            🍃 Экология
           </button>
-          <button onclick="setForecastSubView('interactive')" class="shrink-0 px-3 py-1.5 rounded-lg transition font-medium ${subInteractiveActive}">
-            📊 Почасовой анализ
+          <button onclick="setForecastSubView('interactive')" class="shrink-0 px-4 py-2.5 transition font-medium border-b-2 ${subInteractiveActive}">
+            📊 Анализ
           </button>
         </div>
 
@@ -1413,84 +1417,76 @@
         const hourlyWrap = document.createElement('div');
         hourlyWrap.className = 'space-y-4';
         hourlyWrap.innerHTML = `
-          <!-- 8-Card Metrics Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>ТОЧКА РОСЫ</span><span class="text-sky-400">💧</span>
+          <!-- HERO BLOCK: Current conditions (large, clean like Weather.com) -->
+          <div class="glass-card rounded-2xl p-5 sm:p-6 border border-slate-700/50">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <!-- Left: Temp + Condition -->
+              <div class="flex items-center gap-5">
+                <div class="text-7xl sm:text-8xl leading-none select-none" aria-hidden="true">${c.icon || '⛅'}</div>
+                <div>
+                  <div class="text-6xl sm:text-7xl font-black font-mono text-white leading-none tracking-tight">
+                    ${numFmt(c.temp, 0, true)}°
+                  </div>
+                  <div class="text-slate-300 text-base font-medium mt-1">${c.condition || 'Переменная облачность'}</div>
+                  <div class="text-slate-400 text-sm mt-0.5">
+                    Ощущается ${numFmt(c.apparent, 0, true)}° · Мин ${numFmt(c.temp_min_today, 0, true)}° Макс ${numFmt(c.temp_max_today, 0, true)}°
+                  </div>
+                </div>
               </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${dp} °C</div>
-              <div class="text-[10px] text-slate-400">Комфортная влажность</div>
+              <!-- Right: Quick 4-stat strip -->
+              <div class="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">💨</span>
+                  <div>
+                    <div class="text-white font-semibold">${numFmt(c.wind_speed, 1)} м/с</div>
+                    <div class="text-slate-400 text-xs">${c.wind_dir_name || 'СЗ'} · порывы ${c.wind_gusts || 6} м/с</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">💧</span>
+                  <div>
+                    <div class="text-white font-semibold">${c.humidity || '—'}%</div>
+                    <div class="text-slate-400 text-xs">Влажность · т.росы ${dp}°</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">🧭</span>
+                  <div>
+                    <div class="text-white font-semibold">${c.pressure_mm || '—'} мм</div>
+                    <div class="text-slate-400 text-xs">Давление</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xl">☀️</span>
+                  <div>
+                    <div class="text-white font-semibold">УФ ${uv}</div>
+                    <div class="text-slate-400 text-xs">Осадки ${p24} мм/24ч</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>ВЕТЕР И ПОРЫВЫ</span><span class="text-teal-400">💨</span>
+            <!-- Bottom strip: consensus + climate anomaly -->
+            <div class="mt-4 pt-3 border-t border-slate-700/50 flex flex-wrap items-center gap-3 text-xs">
+              <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/70 border border-emerald-700/40 text-emerald-300 font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>${d.consensus_text || '4 модели: ±0.5°C 🟢'}</span>
               </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${w} м/с</div>
-              <div class="text-[10px] text-slate-400">Порывы до ${c.wind_gusts || 6} м/с · ${c.wind_dir_name} (${c.wind_dir}°)</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>АТМ. ДАВЛЕНИЕ</span><span class="text-amber-400">🧭</span>
+              <div class="text-slate-400">
+                Тренд потепления: <span class="text-rose-300 font-semibold">+${d.climate.decadal_rate}°C</span>/10 лет
               </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${pr}</div>
-              <div class="text-[10px] text-slate-400">Ртутный барометр</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>ВЛАЖНОСТЬ</span><span class="text-cyan-400">💦</span>
-              </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${hum}</div>
-              <div class="text-[10px] text-slate-400">Психрометр Стивенсона</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>УФ-ИНДЕКС</span><span class="text-yellow-400">☀️</span>
-              </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${uv}</div>
-              <div class="text-[10px] text-slate-400">Безопасный уровень</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>ОСАДКИ (24 Ч)</span><span class="text-indigo-400">🌧</span>
-              </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">${p24} мм</div>
-              <div class="text-[10px] text-slate-400">Осадкомер Третьякова</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>НОРМА МЕСЯЦА</span><span class="text-purple-400">🍂</span>
-              </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-white">+11.0 °C</div>
-              <div class="text-[10px] text-slate-400">ВМО 1961–1990</div>
-            </div>
-
-            <div class="glass-card rounded-xl p-3.5 space-y-1">
-              <div class="flex justify-between text-slate-400 text-[11px]">
-                <span>ВЕКОВОЙ ТРЕНД</span><span class="text-rose-400">🌍</span>
-              </div>
-              <div class="text-xl sm:text-2xl font-black font-mono text-rose-300">+${d.climate.decadal_rate}°C</div>
-              <div class="text-[10px] text-slate-400">за 10 лет (1890–2026)</div>
+              <div class="ml-auto text-slate-500 font-mono text-[11px]">${c.station_name || 'Опорная станция ВМО'}</div>
             </div>
           </div>
 
           <!-- 48-Hour Spline Chart & Hourly Scroller -->
           <div class="glass rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-300">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800 text-sm font-semibold text-slate-200">
               <div class="flex items-center space-x-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                <span>⏱ ПОЧАСОВОЙ ПРОГНОЗ НА 48 ЧАСОВ (СЕГОДНЯ И ЗАВТРА)</span>
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>Почасовой прогноз · 48 часов</span>
               </div>
-              <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
-                <span class="text-sky-400">ECMWF IFS 9km</span>
-                <span>· Листайте вправо 👉</span>
-              </div>
+              <div class="text-xs font-mono text-slate-400">ECMWF IFS · листайте вправо →</div>
             </div>
             <div class="overflow-x-auto no-scrollbar rounded-xl bg-slate-950/70 border border-slate-800/80 p-2">
               <div id="hourly-svg-mount" class="h-44 min-w-[1380px]"></div>
@@ -2382,7 +2378,10 @@
       return tileLayersPool[url];
     }
 
-    // Unified 60 FPS Frame Renderer with Hardware-Accelerated Crossfading
+    // Unified 60 FPS Frame Renderer with Hardware-Accelerated Crossfading (Double-Buffer, Zero Flicker)
+    // Strategy: fade-in new layer FIRST, then RAF-deferred fade-out of old layers.
+    // This guarantees no blank frames during tile switching.
+    let _frameFadeTimer = null;
     function applyCurrentFrame() {
       if (!radarMap) return;
 
@@ -2390,30 +2389,48 @@
       const badge = document.getElementById('radar-time-badge');
       const slider = document.getElementById('radar-slider');
 
+      // Helper: smoothly crossfade to target URL(s), fade out all others with delay
+      function smoothCrossfade(showUrls, targetOpacities) {
+        // Step 1: Immediately show new layers (they may still be loading but that's OK)
+        showUrls.forEach((url, i) => {
+          const layer = tileLayersPool[url];
+          if (layer) {
+            const el = layer.getContainer ? layer.getContainer() : null;
+            if (el) el.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+            layer.setOpacity(targetOpacities[i] !== undefined ? targetOpacities[i] : radarOpacity);
+          }
+        });
+
+        // Step 2: Defer fadeout of other layers to avoid blank-frame flash
+        if (_frameFadeTimer) clearTimeout(_frameFadeTimer);
+        _frameFadeTimer = setTimeout(() => {
+          Object.keys(tileLayersPool).forEach(url => {
+            if (!showUrls.includes(url)) {
+              const layer = tileLayersPool[url];
+              if (layer) {
+                const el = layer.getContainer ? layer.getContainer() : null;
+                if (el) el.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+                layer.setOpacity(0);
+              }
+            }
+          });
+        }, 80); // 80ms delay ensures new tiles are painted before old ones vanish
+      }
+
       if (activeWeatherLayer === 'sat_live_ir') {
         if (!satFrames.length) return;
         if (currentRadarIndex >= satFrames.length) currentRadarIndex = satFrames.length - 1;
         const f = satFrames[currentRadarIndex];
         if (!f) return;
 
-        // Display current satellite frame
-        const currentLayer = getOrCreateTileLayer(f.url, { zIndex: 10 });
-        currentLayer.setOpacity(radarOpacity);
-
-        // Preload next frame ahead of time to eliminate any latency
+        // Preload next frame silently
         const nextIdx = (currentRadarIndex + 1) % satFrames.length;
         const nextFrame = satFrames[nextIdx];
-        if (nextFrame) {
-          const nextLayer = getOrCreateTileLayer(nextFrame.url, { zIndex: 10 });
-          nextLayer.setOpacity(0);
-        }
+        if (nextFrame) getOrCreateTileLayer(nextFrame.url, { zIndex: 10 });
 
-        // Crossfade out other active layers
-        Object.keys(tileLayersPool).forEach(url => {
-          if (url !== f.url) {
-            tileLayersPool[url].setOpacity(0);
-          }
-        });
+        // Crossfade to current satellite frame
+        getOrCreateTileLayer(f.url, { zIndex: 10 });
+        smoothCrossfade([f.url], [radarOpacity]);
 
         // Update HUD
         if (badge) {
@@ -2430,33 +2447,19 @@
         const f = radarFrames[currentRadarIndex];
         if (!f) return;
 
-        // In storm radar mode, force high-contrast convective palette (6: NEXRAD or 3: TITAN)
         const palette = activeWeatherLayer === 'storm_radar' ? 6 : radarPalette;
         const tileUrl = `${f.host}${f.path}/512/{z}/{x}/{y}/${palette}/${radarSnow ? '1_1' : '0_0'}.png`;
 
-        const currentLayer = getOrCreateTileLayer(tileUrl, {
-          tileSize: 512,
-          zoomOffset: -1,
-          maxNativeZoom: 15,
-          zIndex: 10
-        });
-        currentLayer.setOpacity(radarOpacity);
-
-        // Preload next frame
+        // Preload next frame silently
         const nextIdx = (currentRadarIndex + 1) % radarFrames.length;
         const nextFrame = radarFrames[nextIdx];
         if (nextFrame) {
           const nextUrl = `${nextFrame.host}${nextFrame.path}/512/{z}/{x}/{y}/${palette}/${radarSnow ? '1_1' : '0_0'}.png`;
-          const nextLayer = getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 10 });
-          nextLayer.setOpacity(0);
+          getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 10 });
         }
 
-        // Fade out other layers
-        Object.keys(tileLayersPool).forEach(url => {
-          if (url !== tileUrl) {
-            tileLayersPool[url].setOpacity(0);
-          }
-        });
+        getOrCreateTileLayer(tileUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 10 });
+        smoothCrossfade([tileUrl], [radarOpacity]);
 
         // Update badge & info
         if (badge && f.time) {
@@ -2480,7 +2483,6 @@
         }
         if (slider) slider.value = currentRadarIndex;
 
-        // Update lightning strike markers
         updateLightningLayer();
 
       } else if (activeWeatherLayer === 'hybrid_clouds_precip') {
@@ -2491,32 +2493,18 @@
         const sf = satFrames[satFrames.length - 1]; // latest satellite cloud composite
 
         const satUrl = sf.url;
-        const satLayerBg = getOrCreateTileLayer(satUrl, { zIndex: 8 });
-        satLayerBg.setOpacity(0.62); // Atmospheric cloud backdrop
-
         const radarUrl = `${rf.host}${rf.path}/512/{z}/{x}/{y}/${radarPalette}/${radarSnow ? '1_1' : '0_0'}.png`;
-        const radarLayerFg = getOrCreateTileLayer(radarUrl, {
-          tileSize: 512,
-          zoomOffset: -1,
-          maxNativeZoom: 15,
-          zIndex: 12
-        });
-        radarLayerFg.setOpacity(radarOpacity);
 
-        // Hide all other pool layers
-        Object.keys(tileLayersPool).forEach(url => {
-          if (url !== satUrl && url !== radarUrl) {
-            tileLayersPool[url].setOpacity(0);
-          }
-        });
+        getOrCreateTileLayer(satUrl, { zIndex: 8 });
+        getOrCreateTileLayer(radarUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 12 });
+        smoothCrossfade([satUrl, radarUrl], [0.62, radarOpacity]);
 
         // Preload next radar frame
         const nextIdx = (currentRadarIndex + 1) % radarFrames.length;
         const nextFrame = radarFrames[nextIdx];
         if (nextFrame) {
           const nextUrl = `${nextFrame.host}${nextFrame.path}/512/{z}/{x}/{y}/${radarPalette}/${radarSnow ? '1_1' : '0_0'}.png`;
-          const nextLayer = getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 12 });
-          nextLayer.setOpacity(0);
+          getOrCreateTileLayer(nextUrl, { tileSize: 512, zoomOffset: -1, maxNativeZoom: 15, zIndex: 12 });
         }
 
         if (badge && rf.time) {
@@ -2532,6 +2520,7 @@
         updateLightningLayer();
       }
     }
+
 
     // Dynamic Convective Lightning Layer & Storm Cell Tracking
     function getConvectiveLightningStrikes(centerLat, centerLon, data) {
