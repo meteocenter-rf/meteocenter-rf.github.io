@@ -3002,13 +3002,18 @@
       const volatility = isSiberia ? (lat >= 60 ? 1.30 : 1.15) : (lat <= 46 ? 0.75 : 0.95);
       const wmoId = `${Math.round(20000 + Math.abs(lat)*150 + Math.abs(lon)*25) % 89999 + 10000}`;
 
+      const defaultOpenedYear = isArctic ? 1935 : (isSiberia ? (lat >= 60 ? 1920 : 1900) : 1890);
+      const defaultGaps = (defaultOpenedYear > 1890) ? [
+        { start: 1890, end: defaultOpenedYear - 1, reason: `Систематические инструментальные наблюдения начаты с ${defaultOpenedYear} г. До ${defaultOpenedYear} г. приборных замеров не велось (период восстановлен реанализом ERA-20C/ERA5).`, type: 'PRE_FOUNDING' }
+      ] : [];
+
       return {
         name: `Опорная метеостанция «${rawName}» (WMO ${wmoId})`,
         wmo_id: wmoId,
         lat: lat,
         lon: lon,
-        opened_year: 1890,
-        continuous_since: 1890,
+        opened_year: defaultOpenedYear,
+        continuous_since: defaultOpenedYear,
         region_desc: `Опорная сеть наблюдений Росгидромета: ${lat.toFixed(2)}° с.ш., ${lon.toFixed(2)}° в.д.`,
         t_norm: tNorm,
         p_norm: [38, 30, 28, 36, 46, 62, 70, 64, 52, 48, 44, 40],
@@ -3016,7 +3021,7 @@
         obs_rate: obsRate,
         reanalysis_rate: reanRate,
         volatility: volatility,
-        gaps: [],
+        gaps: defaultGaps,
         records_today: { max: { t: 28.5, y: 1938 }, min: { t: 1.5, y: 1910 }, prcp: { p: 28.0, y: 1968 } }
       };
     }
@@ -6083,7 +6088,7 @@
           <div>Среднегодовая T: <strong class="text-white font-bold">${annObj.mean_t > 0 ? '+' : ''}${annObj.mean_t} °C</strong></div>
           <div>Аномалия к норме ВМО: <strong class="${annObj.anom > 0 ? 'text-rose-400' : 'text-sky-400'} font-bold">${annObj.anom > 0 ? '+' : ''}${annObj.anom} °C</strong></div>
           <div>Осадки за год: <strong class="text-cyan-300 font-bold">${annObj.prec_sum} мм</strong></div>
-          <div>Статус: <strong class="${annObj.is_gap ? 'text-amber-400' : 'text-emerald-400'}">${annObj.is_gap ? 'Реанализ ERA5 (пропуск приборов)' : 'Приборный факт ВМО'}</strong></div>
+          <div>Статус: <strong class="${annObj.is_gap ? 'text-amber-400' : 'text-emerald-400'}">${annObj.status === 'PRE_FOUNDING' ? 'Реанализ ERA5 (до основания метеостанции)' : (annObj.is_gap ? 'Реанализ ERA5 (пропуск приборов)' : 'Приборный факт ВМО')}</strong></div>
         </div>
 
         <!-- 12 Month Cards Grid -->
@@ -6115,7 +6120,7 @@
                 </div>
                 <div>
                   <div class="text-2xl font-black font-mono text-white tracking-tight">
-                    ${isBlankRaw ? '<span class="text-slate-600 text-xl">— (пропуск)</span>' : `${signT} °C`}
+                    ${isBlankRaw ? `<span class="text-slate-500 text-xl font-normal" title="${m.gap_reason || 'Метеостанция еще не была открыта'}">— (${m.status === 'PRE_FOUNDING' ? 'до основания' : 'пропуск'})</span>` : `${signT} °C`}
                   </div>
                   <div class="text-[11px] text-slate-400 mt-0.5">Климат-норма: <span class="font-mono text-slate-300">${m.norm_t > 0 ? '+' : ''}${m.norm_t}°</span></div>
                 </div>
@@ -6236,9 +6241,10 @@
         const chartEl = document.getElementById('archive-trend-chart');
         if (!chartEl || !window.ApexCharts) return;
 
+        const isRaw = (archiveDataMode === 'raw');
         const xYears = clim.annual_data.map(d => String(d.year));
-        const yTemps = clim.annual_data.map(d => d.mean_t);
-        const yAnom = clim.annual_data.map(d => d.anom);
+        const yTemps = clim.annual_data.map(d => (isRaw && d.is_gap) ? null : d.mean_t);
+        const yAnom = clim.annual_data.map(d => (isRaw && d.is_gap) ? null : d.anom);
 
         const options = {
           series: [
@@ -6311,9 +6317,11 @@
       });
 
       // Find all-time records
-      const sortedByTemp = [...monthSeries].sort((a, b) => b.temp - a.temp);
-      const warmest = sortedByTemp[0];
-      const coldest = sortedByTemp[sortedByTemp.length - 1];
+      const isRaw = (archiveDataMode === 'raw');
+      const eligibleSeries = isRaw ? monthSeries.filter(d => !d.is_gap) : monthSeries;
+      const sortedByTemp = [...eligibleSeries].sort((a, b) => b.temp - a.temp);
+      const warmest = sortedByTemp[0] || { temp: 0, year: 2020, anom: 0, is_gap: false };
+      const coldest = sortedByTemp[sortedByTemp.length - 1] || { temp: 0, year: 1940, anom: 0, is_gap: false };
 
       // Top 5 Warmest & Top 5 Coldest
       const top5Warm = sortedByTemp.slice(0, 5);
@@ -6333,7 +6341,7 @@
             </select>
           </div>
           <div class="text-xs text-slate-400 font-mono">
-            Анализируется ряд: 1890–2026 гг. (136 лет)
+            ${isRaw ? `Приборный ряд: ${clim.opened_year}–${clim.end_year} гг. (факт ВМО)` : `Ряд: ${clim.start_year}–${clim.end_year} гг. (приборы с ${clim.opened_year} г.)`}
           </div>
         </div>
 
@@ -6496,10 +6504,10 @@
               <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
               <span class="text-amber-300 uppercase tracking-wide">Метеорологические рекорды суток: ${dateStr.toUpperCase()}</span>
             </div>
-            <span class="text-slate-400 font-mono">136 лет приборных замеров</span>
+            <span class="text-slate-400 font-mono">${clim.end_year - clim.opened_year + 1} лет приборов (с ${clim.opened_year} г.)</span>
           </div>
           <p class="text-[11px] text-slate-400">
-            Подлинные абсолютные экстремумы, зафиксированные физическими приборами опорной метеостанции на сегодняшнюю дату за весь период наблюдений с 1890 по 2026 год.
+            Подлинные абсолютные экстремумы, зафиксированные физическими приборами опорной метеостанции на сегодняшнюю дату за весь период наблюдений с ${clim.opened_year} по ${clim.end_year} год.
           </p>
         </div>
 
@@ -6949,12 +6957,17 @@
               </p>
             </div>
 
-            <!-- Technology Status Pill -->
+            <!-- Data Mode Selector (Приборы + Реанализ vs Только факт приборов) -->
             <div class="flex items-center space-x-2">
-              <span class="px-2.5 py-1 rounded-lg bg-sky-500/10 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border border-sky-500/30 text-[11px] font-mono font-bold flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Мгновенный расчет (0.05 сек)</span>
-              </span>
+              <span class="text-[11px] text-slate-500 dark:text-slate-400 font-sans hidden sm:inline">Режим:</span>
+              <div class="trend-toggle-container text-[10px] font-bold">
+                <button onclick="toggleArchiveDataMode('all');" class="trend-toggle-btn ${archiveDataMode === 'all' ? 'trend-btn-active' : 'trend-btn-inactive'}" title="Гомогенизированный ряд: физические замеры метеостанции + реанализ ERA5">
+                  Приборы + Реанализ ERA5
+                </button>
+                <button onclick="toggleArchiveDataMode('raw');" class="trend-toggle-btn ${archiveDataMode === 'raw' ? 'trend-btn-active' : 'trend-btn-inactive'}" title="Строго физические приборные замеры (без компьютерных моделей, прочерки до основания станции)">
+                  🔬 Только факт приборов
+                </button>
+              </div>
             </div>
           </div>
 
@@ -7109,11 +7122,38 @@
       const cityName = (latestData && latestData.city) || currentCity;
       const clim = (latestData && latestData.climate) || null;
 
-      // ⚠️ ЧЕСТНОСТЬ ДАННЫХ: Проверяем, не ранее ли запрошенная дата года основания станции
+      // ⚠️ ЧЕСТНОСТЬ ДАННЫХ: Проверяем режим приборов и дату основания станции
+      const isRawMode = (archiveDataMode === 'raw');
       const stationOpenedYear = clim ? (clim.opened_year || 1890) : 1890;
       const requestedFromYear = parseInt((fromStr || '1890').substring(0, 4), 10);
+      const requestedToYear = parseInt((toStr || '2026').substring(0, 4), 10);
       const isPreFoundingRequest = requestedFromYear < stationOpenedYear;
-      const eraOnlyMode = isPreFoundingRequest; // В этом режиме данные — только реанализ ERA5, НЕ приборы
+      const eraOnlyMode = isPreFoundingRequest;
+
+      // Если включен режим «Только факт приборов» и весь период ДО основания станции:
+      if (isRawMode && requestedToYear < stationOpenedYear) {
+        resContainer.innerHTML = `
+          <div class="glass-card rolling-card-box p-8 text-center space-y-4 border border-amber-500/50 bg-amber-950/20">
+            <div class="text-4xl">🔬</div>
+            <h3 class="text-base font-bold text-amber-400 font-mono uppercase">
+              Приборные наблюдения отсутствуют (период до основания метеостанции)
+            </h3>
+            <p class="text-xs text-slate-200 max-w-xl mx-auto leading-relaxed">
+              Опорная метеостанция <strong>«${cityName}»</strong> основана в <strong>${stationOpenedYear} году</strong>.
+              Запрошенный интервал <strong>${formatDateRu(fromStr)} – ${formatDateRu(toStr)}</strong> полностью предшествует открытию станции. Физических приборных замеров не существует.
+            </p>
+            <p class="text-[11px] text-slate-400 font-mono">
+              В строгом режиме <strong>«Только факт приборов»</strong> любые компьютерные модели и интерполяции исключены.
+            </p>
+            <div class="pt-2">
+              <button onclick="toggleArchiveDataMode('all');" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs font-mono shadow-md transition cursor-pointer active:scale-95">
+                Переключить на «Приборы + Реанализ ERA5» (показать модель)
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
 
       let dailyData = null;
 
@@ -7147,12 +7187,26 @@
         }
       }
 
-      // 3. Fallback to climate generator if network fails
+      // 3. Fallback to climate generator only if NOT in raw mode
       if (!dailyData || !dailyData.time || !dailyData.time.length) {
+        if (isRawMode) {
+          resContainer.innerHTML = `
+            <div class="glass-card rolling-card-box p-8 text-center space-y-3 border border-rose-500/40 bg-rose-950/20">
+              <span class="text-3xl">⚠️</span>
+              <p class="text-sm font-bold text-rose-400 font-mono">
+                Не удалось получить физические замеры метеостанции
+              </p>
+              <p class="text-xs text-slate-300 max-w-lg mx-auto">
+                В режиме «Только факт приборов» генерация компьютерных данных строго отключена. Компьютерная симуляция не используется.
+              </p>
+            </div>
+          `;
+          return;
+        }
         dailyData = generateFallbackRangeData(fromStr, toStr, lat, lon, clim);
       }
 
-      renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear);
+      renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear, isRawMode);
     }
 
     // =========================================================================
@@ -7208,7 +7262,7 @@
       return Math.round(((s[mid - 1] + s[mid]) / 2) * 10) / 10;
     }
 
-    function renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear) {
+    function renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear, isRawMode = false) {
       const times = dailyData.time || [];
       const tMaxList = (dailyData.temperature_2m_max || []).map(v => v != null ? Math.round(v * 10) / 10 : 15);
       const tMinList = (dailyData.temperature_2m_min || []).map(v => v != null ? Math.round(v * 10) / 10 : 8);
@@ -7226,6 +7280,51 @@
       const N = times.length;
       if (N === 0) {
         resContainer.innerHTML = '<p class="text-xs text-rose-500 font-mono">Нет данных за выбранный диапазон дат.</p>';
+        return;
+      }
+
+      // 🔬 КЛАССИФИКАЦИЯ КАЖДЫХ СУТОК: ФИЗИЧЕСКИЙ ПРИБОР ВМО vs РЕАНАЛИЗ ERA5 vs ДО ОСНОВАНИЯ
+      const dayStatusList = times.map(t => {
+        const y = parseInt(t.substring(0, 4), 10);
+        if (y < stationOpenedYear) {
+          return { isPreFounding: true, isGap: false, status: 'PRE_FOUNDING', label: `До основания (${stationOpenedYear} г.)` };
+        }
+        const gap = (clim && clim.gaps || []).find(g => y >= g.start && y <= g.end && g.type !== 'PRE_FOUNDING');
+        if (gap) {
+          return { isPreFounding: false, isGap: true, status: 'GAP', label: gap.reason || 'Пропуск физических наблюдений' };
+        }
+        return { isPreFounding: false, isGap: false, status: 'OBS', label: 'Факт прибора ВМО' };
+      });
+
+      // В режиме «Только факт приборов» фильтруем строго физические дни
+      const obsIndices = times.map((_, i) => i).filter(i => {
+        if (!isRawMode) return true;
+        return (!dayStatusList[i].isPreFounding && !dayStatusList[i].isGap);
+      });
+      const obsN = obsIndices.length;
+
+      // Если в режиме «Только факт приборов» приборных дней ровно 0:
+      if (isRawMode && obsN === 0) {
+        resContainer.innerHTML = `
+          <div class="glass-card rolling-card-box p-8 text-center space-y-4 border border-amber-500/50 bg-amber-950/20">
+            <div class="text-4xl">🔬</div>
+            <h3 class="text-base font-bold text-amber-400 font-mono uppercase">
+              Приборные наблюдения отсутствуют (период до основания станции)
+            </h3>
+            <p class="text-xs text-slate-200 max-w-xl mx-auto leading-relaxed">
+              Опорная метеостанция <strong>«${cityName}»</strong> основана в <strong>${stationOpenedYear} году</strong>.
+              Выбранный интервал <strong>${formatDateRu(fromStr)} – ${formatDateRu(toStr)}</strong> не содержит физических приборных замеров.
+            </p>
+            <p class="text-[11px] text-slate-400 font-mono">
+              В строгом режиме <strong>«Только факт приборов»</strong> любые компьютерные модели исключены для 100% достоверности.
+            </p>
+            <div class="pt-2">
+              <button onclick="toggleArchiveDataMode('all');" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs font-mono shadow-md transition cursor-pointer active:scale-95">
+                Переключить на «Приборы + Реанализ ERA5» (показать модель)
+              </button>
+            </div>
+          </div>
+        `;
         return;
       }
 
@@ -7247,9 +7346,19 @@
         anomList.push(anom);
       });
 
+      // Filtered lists for KPI calculations (strictly observational in raw mode)
+      const calcTMeanList = obsIndices.map(i => tMeanList[i]);
+      const calcTMaxList = obsIndices.map(i => tMaxList[i]);
+      const calcTMinList = obsIndices.map(i => tMinList[i]);
+      const calcPrecipList = obsIndices.map(i => precipList[i]);
+      const calcWindList = obsIndices.map(i => windList[i]);
+      const calcPressList = obsIndices.map(i => pressList[i]);
+      const calcAnomList = obsIndices.map(i => anomList[i]);
+
       // Cumulative precipitation series
       let cumP = 0;
-      const cumPrecipList = precipList.map(p => {
+      const cumPrecipList = precipList.map((p, i) => {
+        if (isRawMode && (dayStatusList[i].isPreFounding || dayStatusList[i].isGap)) return null;
         cumP = Math.round((cumP + p) * 10) / 10;
         return cumP;
       });
@@ -7257,61 +7366,73 @@
       // Rolling 7d and 30d mean curves for the graph
       const rolling7dMeanList = times.map((_, i) => {
         if (i < 6) return null;
+        if (isRawMode && (dayStatusList[i].isPreFounding || dayStatusList[i].isGap)) return null;
         let sum = 0;
         for (let k = i - 6; k <= i; k++) sum += tMeanList[k];
         return Math.round((sum / 7) * 10) / 10;
       });
       const rolling30dMeanList = times.map((_, i) => {
         if (i < 29) return null;
+        if (isRawMode && (dayStatusList[i].isPreFounding || dayStatusList[i].isGap)) return null;
         let sum = 0;
         for (let k = i - 29; k <= i; k++) sum += tMeanList[k];
         return Math.round((sum / 30) * 10) / 10;
       });
 
-      // Cache raw series for chart mode switches
+      // Cache raw series for chart mode switches (in raw mode, pre-founding points are null to break lines)
       currentSummaryRawSeries = {
-        times, tMaxList, tMinList, tMeanList, precipList, anomList, cumPrecipList, rolling7dMeanList, rolling30dMeanList
+        times,
+        tMaxList: isRawMode ? times.map((_, i) => (dayStatusList[i].isPreFounding || dayStatusList[i].isGap) ? null : tMaxList[i]) : tMaxList,
+        tMinList: isRawMode ? times.map((_, i) => (dayStatusList[i].isPreFounding || dayStatusList[i].isGap) ? null : tMinList[i]) : tMinList,
+        tMeanList: isRawMode ? times.map((_, i) => (dayStatusList[i].isPreFounding || dayStatusList[i].isGap) ? null : tMeanList[i]) : tMeanList,
+        precipList: isRawMode ? times.map((_, i) => (dayStatusList[i].isPreFounding || dayStatusList[i].isGap) ? null : precipList[i]) : precipList,
+        anomList: isRawMode ? times.map((_, i) => (dayStatusList[i].isPreFounding || dayStatusList[i].isGap) ? null : anomList[i]) : anomList,
+        cumPrecipList, rolling7dMeanList, rolling30dMeanList
       };
 
-      // 1. Primary Temperature KPIs
-      const sumT = tMeanList.reduce((a, b) => a + b, 0);
-      const meanT = Math.round((sumT / N) * 10) / 10;
+      // 1. Primary Temperature KPIs (strictly from physical observations)
+      const sumT = calcTMeanList.reduce((a, b) => a + b, 0);
+      const meanT = Math.round((sumT / obsN) * 10) / 10;
       // Mean daytime (average of Tmax values) and mean nighttime (average of Tmin values)
-      const sumTmax = tMaxList.reduce((a, b) => a + b, 0);
-      const meanTmax = Math.round((sumTmax / N) * 10) / 10;
-      const sumTmin = tMinList.reduce((a, b) => a + b, 0);
-      const meanTmin = Math.round((sumTmin / N) * 10) / 10;
-      const maxT = Math.max(...tMaxList);
-      const maxTDate = times[tMaxList.indexOf(maxT)];
-      const minT = Math.min(...tMinList);
-      const minTDate = times[tMinList.indexOf(minT)];
+      const sumTmax = calcTMaxList.reduce((a, b) => a + b, 0);
+      const meanTmax = Math.round((sumTmax / obsN) * 10) / 10;
+      const sumTmin = calcTMinList.reduce((a, b) => a + b, 0);
+      const meanTmin = Math.round((sumTmin / obsN) * 10) / 10;
+
+      const maxT = Math.max(...calcTMaxList);
+      const maxTOrigIdx = obsIndices[calcTMaxList.indexOf(maxT)];
+      const maxTDate = times[maxTOrigIdx];
+
+      const minT = Math.min(...calcTMinList);
+      const minTOrigIdx = obsIndices[calcTMinList.indexOf(minT)];
+      const minTDate = times[minTOrigIdx];
       const ampT = Math.round((maxT - minT) * 10) / 10;
 
       // Lowest Tmax & Highest Tmin
-      const lowestTmax = Math.min(...tMaxList);
-      const lowestTmaxDate = times[tMaxList.indexOf(lowestTmax)];
-      const highestTmin = Math.max(...tMinList);
-      const highestTminDate = times[tMinList.indexOf(highestTmin)];
+      const lowestTmax = Math.min(...calcTMaxList);
+      const lowestTmaxDate = times[obsIndices[calcTMaxList.indexOf(lowestTmax)]];
+      const highestTmin = Math.max(...calcTMinList);
+      const highestTminDate = times[obsIndices[calcTMinList.indexOf(highestTmin)]];
 
       // 2. Threshold Day Counters (matching Evgeny's matrices)
-      const tMaxGt30 = tMaxList.filter(t => t > 30).length;
-      const tMaxGt25 = tMaxList.filter(t => t > 25).length;
-      const tMaxGt20 = tMaxList.filter(t => t > 20).length;
-      const tMaxGt15 = tMaxList.filter(t => t > 15).length;
-      const tMaxGt10 = tMaxList.filter(t => t > 10).length;
-      const tMaxLt0  = tMaxList.filter(t => t < 0).length; // Frost day daytime
+      const tMaxGt30 = calcTMaxList.filter(t => t > 30).length;
+      const tMaxGt25 = calcTMaxList.filter(t => t > 25).length;
+      const tMaxGt20 = calcTMaxList.filter(t => t > 20).length;
+      const tMaxGt15 = calcTMaxList.filter(t => t > 15).length;
+      const tMaxGt10 = calcTMaxList.filter(t => t > 10).length;
+      const tMaxLt0  = calcTMaxList.filter(t => t < 0).length; // Frost day daytime
 
-      const tMinLt0  = tMinList.filter(t => t < 0).length; // Frost day nighttime
-      const tMinLt10 = tMinList.filter(t => t < -10).length;
-      const tMinLt20 = tMinList.filter(t => t < -20).length;
-      const tMinLt30 = tMinList.filter(t => t < -30).length;
-      const tMinLt40 = tMinList.filter(t => t < -40).length;
+      const tMinLt0  = calcTMinList.filter(t => t < 0).length; // Frost day nighttime
+      const tMinLt10 = calcTMinList.filter(t => t < -10).length;
+      const tMinLt20 = calcTMinList.filter(t => t < -20).length;
+      const tMinLt30 = calcTMinList.filter(t => t < -30).length;
+      const tMinLt40 = calcTMinList.filter(t => t < -40).length;
 
       // 3. Precipitation Metrics & Consecutive Dry Days
-      const sumP = Math.round(precipList.reduce((a, b) => a + b, 0) * 10) / 10;
-      const rainDays = precipList.filter(p => p >= 0.1).length;
-      const maxP = Math.max(...precipList);
-      const maxPDate = times[precipList.indexOf(maxP)];
+      const sumP = Math.round(calcPrecipList.reduce((a, b) => a + b, 0) * 10) / 10;
+      const rainDays = calcPrecipList.filter(p => p >= 0.1).length;
+      const maxP = Math.max(...calcPrecipList);
+      const maxPDate = times[obsIndices[calcPrecipList.indexOf(maxP)]];
 
       const pGt0  = rainDays;
       const pGt1  = precipList.filter(p => p > 1.0).length;
@@ -7340,23 +7461,23 @@
         ? `${formatDateRu(times[maxDryStartIdx])} – ${formatDateRu(times[maxDryEndIdx])}`
         : 'Осадки выпадали ежедневно';
 
-      // 4. Wind & Barometer
-      const maxW = Math.max(...windList);
-      const maxWDate = times[windList.indexOf(maxW)];
+      // 4. Wind & Barometer (from physical observations in raw mode)
+      const maxW = Math.max(...calcWindList);
+      const maxWDate = times[obsIndices[calcWindList.indexOf(maxW)]];
       const dominantDir = getWindDirName(windDirList[Math.floor(N / 2)] || 270);
-      const avgPress = Math.round(pressList.reduce((a, b) => a + b, 0) / N);
+      const avgPress = Math.round(calcPressList.reduce((a, b) => a + b, 0) / obsN);
 
-      // 5. Anomaly Metrics
+      // 5. Anomaly Metrics (computed over physical observation days)
       const anomT = Math.round((meanT - spanNorm) * 10) / 10;
       const anomSign = anomT > 0 ? `+${anomT}` : `${anomT}`;
-      const maxAnom = Math.max(...anomList);
-      const maxAnomDate = times[anomList.indexOf(maxAnom)];
-      const minAnom = Math.min(...anomList);
-      const minAnomDate = times[anomList.indexOf(minAnom)];
-      const meanAnom = Math.round((anomList.reduce((a, b) => a + b, 0) / N) * 10) / 10;
-      const medianAnom = getMedianValue(anomList);
-      const daysAboveNorm = anomList.filter(a => a > 0).length;
-      const pctDaysAboveNorm = Math.round((daysAboveNorm / N) * 1000) / 10;
+      const maxAnom = Math.max(...calcAnomList);
+      const maxAnomDate = times[obsIndices[calcAnomList.indexOf(maxAnom)]];
+      const minAnom = Math.min(...calcAnomList);
+      const minAnomDate = times[obsIndices[calcAnomList.indexOf(minAnom)]];
+      const meanAnom = Math.round((calcAnomList.reduce((a, b) => a + b, 0) / obsN) * 10) / 10;
+      const medianAnom = getMedianValue(calcAnomList);
+      const daysAboveNorm = calcAnomList.filter(a => a > 0).length;
+      const pctDaysAboveNorm = Math.round((daysAboveNorm / obsN) * 1000) / 10;
 
       // 6. Rolling Window Calculations for Selected Range
       const rollingTmax = computeRollingStatsForArray(times, tMaxList, false);
@@ -7364,28 +7485,33 @@
       const rollingAnom = computeRollingStatsForArray(times, anomList, false);
       const rollingPrecip = computeRollingStatsForArray(times, precipList, true);
 
-      // 7. CSV Export Generation (Full dataset with anomaly)
+      // 7. CSV Export Generation (Full dataset with data provenance)
       const csvLines = [
-        ['Дата', 'День_недели', 'Тмакс_C', 'Тмин_C', 'Тср_C', 'Аномалия_C', 'Осадки_мм', 'Ветер_мс', 'Направление_ветра', 'Давление_мм'].join(';')
+        ['Дата', 'День_недели', 'Тмакс_C', 'Тмин_C', 'Тср_C', 'Аномалия_C', 'Осадки_мм', 'Ветер_мс', 'Направление_ветра', 'Давление_мм', 'Источник_данных'].join(';')
       ];
       times.forEach((t, i) => {
+        const isPre = dayStatusList[i].isPreFounding;
+        const isGp = dayStatusList[i].isGap;
+        const showBlank = isRawMode && (isPre || isGp);
         csvLines.push([
           t,
           getDayOfWeekRu(t),
-          tMaxList[i],
-          tMinList[i],
-          tMeanList[i],
-          anomList[i],
-          precipList[i],
-          windList[i],
+          showBlank ? '' : tMaxList[i],
+          showBlank ? '' : tMinList[i],
+          showBlank ? '' : tMeanList[i],
+          showBlank ? '' : anomList[i],
+          showBlank ? '' : precipList[i],
+          showBlank ? '' : windList[i],
           getWindDirName(windDirList[i]),
-          pressList[i]
+          showBlank ? '' : pressList[i],
+          dayStatusList[i].label
         ].join(';'));
       });
       currentSummaryCsv = csvLines.join('\r\n');
 
       currentSummaryData = {
-        cityName, fromStr, toStr, N, meanT, meanTmax, meanTmin, maxT, maxTDate, minT, minTDate, ampT,
+        cityName, fromStr, toStr, N, obsN, isRawMode,
+        meanT, meanTmax, meanTmin, maxT, maxTDate, minT, minTDate, ampT,
         lowestTmax, lowestTmaxDate, highestTmin, highestTminDate,
         tMaxGt30, tMaxGt25, tMaxGt20, tMaxGt15, tMaxGt10, tMaxLt0,
         tMinLt0, tMinLt10, tMinLt20, tMinLt30, tMinLt40,
@@ -7425,7 +7551,23 @@
 
       // RENDER COMPLETE USER INTERFACE
       resContainer.innerHTML = `
-        ${eraOnlyMode ? `
+        ${isRawMode ? `
+        <!-- Strict Instrumental Provenance Banner -->
+        <div class="flex items-start gap-3 p-3.5 rounded-xl border border-emerald-500/50 bg-emerald-950/25 text-xs font-sans">
+          <span class="text-emerald-400 text-xl shrink-0 mt-0.5">🔬</span>
+          <div class="space-y-1">
+            <div class="font-bold text-emerald-300 uppercase tracking-wider text-[11px] font-mono flex items-center gap-2">
+              <span>РЕЖИМ: ТОЛЬКО ФИЗИЧЕСКИЙ ФАКТ ПРИБОРОВ МЕТЕОСТАНЦИИ</span>
+              <span class="px-1.5 py-0.2 rounded bg-emerald-900 text-emerald-200 text-[9px]">БЕЗ КОМПЬЮТЕРНЫХ МОДЕЛЕЙ</span>
+            </div>
+            <p class="text-emerald-200/90 leading-relaxed">
+              Расчёт выполнен <strong>строго по подтверждённым физическим наблюдениям</strong> метеостанции <strong>«${cityName}»</strong> (основана в ${stationOpenedYear} г.).
+              ${obsN < N ? `Учтено <strong>${obsN} из ${N} суток</strong>. Дни до основания станции (${N - obsN} сут.) исключены из расчёта и отображаются прочерками («—»).` : `Все ${N} суток подтверждены непрерывными инструментальными измерениями.`}
+              Компьютерная генерация, модели и интерполяции полностью отключены.
+            </p>
+          </div>
+        </div>
+        ` : (eraOnlyMode ? `
         <!-- ERA5 Reanalysis Warning Banner -->
         <div class="flex items-start gap-3 p-3.5 rounded-xl border border-amber-500/50 bg-amber-500/10 text-xs font-sans">
           <span class="text-amber-400 text-xl shrink-0 mt-0.5">⚠️</span>
@@ -7445,7 +7587,7 @@
             </p>
           </div>
         </div>
-        ` : ''}
+        ` : '')}
         <!-- KPI Summary Strip (8 Primary Tiles) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3 text-xs">
           <!-- Tile 1: Mean Temp -->
@@ -7455,7 +7597,10 @@
               ${meanT > 0 ? '+' : ''}${meanT}°C
             </div>
             <div class="rolling-card-period font-bold">
-              Аномалия: <span class="${anomT > 0 ? 'text-rose-500' : 'text-sky-400'}">${anomSign}°</span> (норма ${spanNorm}°)
+              ${isRawMode 
+                ? (obsN < N ? `Факт приборов: <span class="text-emerald-400 font-bold">${obsN} из ${N} дн.</span>` : `Приборы ВМО: 100% факт`)
+                : `Аномалия: <span class="${anomT > 0 ? 'text-rose-500' : 'text-sky-400'}">${anomSign}°</span> (норма ${spanNorm}°)`
+              }
             </div>
           </div>
 
@@ -7466,7 +7611,7 @@
               ☀️ ${meanTmax > 0 ? '+' : ''}${meanTmax}°C
             </div>
             <div class="rolling-card-period">
-              Среднее из ${N} дневных максимумов
+              ${isRawMode ? `Среднее из ${obsN} приборных дневных` : `Среднее из ${N} дневных максимумов`}
             </div>
           </div>
 
@@ -7477,7 +7622,7 @@
               🌙 ${meanTmin > 0 ? '+' : ''}${meanTmin}°C
             </div>
             <div class="rolling-card-period">
-              Среднее из ${N} ночных минимумов
+              ${isRawMode ? `Среднее из ${obsN} приборных ночных` : `Среднее из ${N} ночных минимумов`}
             </div>
           </div>
 
@@ -7857,7 +8002,7 @@
               ПОСУТОЧНАЯ ТАБЛИЦА НАБЛЮДЕНИЙ ЗА ПЕРИОД (ПОЛНЫЙ РЯД)
             </span>
             <div class="flex items-center space-x-2 font-mono text-[11px]">
-              <span class="text-slate-500 dark:text-slate-400">Всего суток: ${N}</span>
+              <span class="text-slate-500 dark:text-slate-400">${isRawMode ? `Приборных суток: <strong class="text-emerald-500">${obsN} из ${N}</strong>` : `Всего суток: ${N}`}</span>
               <button onclick="exportSummaryCsv()" class="text-sky-600 dark:text-sky-400 font-bold hover:underline">
                 [ Скачать .CSV ]
               </button>
@@ -7865,7 +8010,7 @@
           </div>
 
           <div class="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-inner">
-            <table class="w-full text-left text-xs border-collapse min-w-[800px]">
+            <table class="w-full text-left text-xs border-collapse min-w-[900px]">
               <thead class="sticky top-0 z-20 border-b border-slate-200 dark:border-slate-800 font-mono text-[10.5px] uppercase">
                 <tr>
                   <th class="py-2 px-3 font-bold sticky left-0 z-30">ДАТА</th>
@@ -7876,13 +8021,18 @@
                   <th class="py-2 px-2 text-center">АНОМАЛИЯ</th>
                   <th class="py-2 px-2 text-center">ОСАДКИ</th>
                   <th class="py-2 px-2 text-center">ВЕТЕР</th>
-                  <th class="py-2 px-3 text-right">ДАВЛЕНИЕ</th>
+                  <th class="py-2 px-2 text-center">ДАВЛЕНИЕ</th>
+                  <th class="py-2 px-3 text-right">ИСТОЧНИК ДАННЫХ</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 font-mono text-xs">
                 ${times.map((t, i) => {
                   const dow = getDayOfWeekRu(t);
                   const isWeekend = (dow === 'Сб' || dow === 'Вс');
+                  const isPre = dayStatusList[i].isPreFounding;
+                  const isGp = dayStatusList[i].isGap;
+                  const showBlank = isRawMode && (isPre || isGp);
+
                   const tMaxSign = tMaxList[i] > 0 ? `+${tMaxList[i]}` : `${tMaxList[i]}`;
                   const tMinSign = tMinList[i] > 0 ? `+${tMinList[i]}` : `${tMinList[i]}`;
                   const tMeanSign = tMeanList[i] > 0 ? `+${tMeanList[i]}` : `${tMeanList[i]}`;
@@ -7896,8 +8046,19 @@
                   const wDir = getWindDirName(windDirList[i]);
                   const prs = pressList[i];
 
+                  let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[10px] font-mono font-bold">● Факт прибора ВМО</span>`;
+                  if (isPre) {
+                    provenanceBadge = isRawMode
+                      ? `<span class="px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-500/40 text-[10px] font-mono" title="Метеостанция ${cityName} открыта в ${stationOpenedYear} г.">◇ До основания (${stationOpenedYear} г.)</span>`
+                      : `<span class="px-2 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[10px] font-mono" title="Модельный реанализ (станция открыта в ${stationOpenedYear} г.)">◆ Модель ERA5</span>`;
+                  } else if (isGp) {
+                    provenanceBadge = isRawMode
+                      ? `<span class="px-2 py-0.5 rounded bg-amber-950/60 text-amber-300 border border-amber-500/40 text-[10px] font-mono">○ Пропуск приборов</span>`
+                      : `<span class="px-2 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[10px] font-mono">◆ Модель ERA5</span>`;
+                  }
+
                   return `
-                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${isWeekend ? 'bg-rose-50/50 dark:bg-rose-950/10' : ''}">
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${showBlank ? 'bg-amber-950/10' : (isWeekend ? 'bg-rose-50/50 dark:bg-rose-950/10' : '')}">
                       <td class="py-2 px-3 font-bold sticky left-0 bg-white dark:bg-slate-950">
                         ${formatDateRu(t)}
                       </td>
@@ -7905,25 +8066,28 @@
                         ${dow}
                       </td>
                       <td class="py-1.5 px-2 text-center">
-                        <span class="inline-block px-2 py-0.5 rounded font-bold ${maxBg}">${tMaxSign}°</span>
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `<span class="inline-block px-2 py-0.5 rounded font-bold ${maxBg}">${tMaxSign}°</span>`}
                       </td>
                       <td class="py-1.5 px-2 text-center">
-                        <span class="inline-block px-2 py-0.5 rounded font-bold ${minBg}">${tMinSign}°</span>
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `<span class="inline-block px-2 py-0.5 rounded font-bold ${minBg}">${tMinSign}°</span>`}
                       </td>
                       <td class="py-1.5 px-2 text-center font-bold text-slate-800 dark:text-slate-200">
-                        ${tMeanSign}°
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `${tMeanSign}°`}
                       </td>
-                      <td class="py-1.5 px-2 text-center ${anomClass}">
-                        ${anomSignDay}°
+                      <td class="py-1.5 px-2 text-center ${showBlank ? '' : anomClass}">
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `${anomSignDay}°`}
                       </td>
-                      <td class="py-2 px-2 text-center ${pVal > 0 ? 'text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-400'}">
-                        ${pVal > 0 ? `${pVal} мм` : '—'}
+                      <td class="py-2 px-2 text-center ${showBlank ? '' : (pVal > 0 ? 'text-cyan-600 dark:text-cyan-400 font-bold' : 'text-slate-400')}">
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : (pVal > 0 ? `${pVal} мм` : '—')}
                       </td>
                       <td class="py-2 px-2 text-center text-slate-700 dark:text-slate-300">
-                        <span class="text-sky-600 dark:text-sky-400 font-bold">${wDir}</span>, ${wVal} м/с
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `<span class="text-sky-600 dark:text-sky-400 font-bold">${wDir}</span>, ${wVal} м/с`}
                       </td>
-                      <td class="py-2 px-3 text-right text-slate-600 dark:text-slate-400">
-                        ${prs} мм
+                      <td class="py-2 px-2 text-center text-slate-600 dark:text-slate-400">
+                        ${showBlank ? '<span class="text-slate-500 font-mono select-none">—</span>' : `${prs} мм`}
+                      </td>
+                      <td class="py-2 px-3 text-right whitespace-nowrap">
+                        ${provenanceBadge}
                       </td>
                     </tr>
                   `;
@@ -8115,6 +8279,8 @@
       const text = [
         `📊 МЕТЕОРОЛОГИЧЕСКОЕ САММАРИ: ${s.cityName.toUpperCase()}`,
         `Период: ${formatDateRu(s.fromStr)} – ${formatDateRu(s.toStr)} (${s.N} суток)`,
+        `Режим данных: ${s.isRawMode ? '🔬 ТОЛЬКО ФАКТ ПРИБОРОВ (физические замеры метеостанции ВМО)' : '◆ Приборы ВМО + Модельный реанализ ERA5'}`,
+        `Приборных суток учтено: ${s.obsN} из ${s.N} суток периода`,
         `----------------------------------------`,
         `• Средняя температура: ${s.meanT > 0 ? '+' : ''}${s.meanT}°C (аномалия ${s.anomT > 0 ? '+' : ''}${s.anomT}°, климат-норма ${s.spanNorm}°C)`,
         `• Средняя дневная (Tmax ср.): ${s.meanTmax > 0 ? '+' : ''}${s.meanTmax}°C`,
