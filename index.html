@@ -1965,7 +1965,6 @@
     let archiveTableFilterTag = 'all';
     let currentArchiveDailyCsv = '';
     const DIARY_DAILY_CACHE = {}; // In-memory client cache for genuine ERA5 daily data
-    let isDiaryFetching = false;
 
     // Date Range Summary State (Client-Side Analytics)
     let currentSummaryData = null;
@@ -12166,45 +12165,72 @@
       applyTheme(isCurrentlyDark ? 'light' : 'dark');
     }
 
-    // Initial Startup
-    window.addEventListener('DOMContentLoaded', () => {
-      initTheme();
-      setupCityAutocomplete();
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('city')) {
-        const c = urlParams.get('city').trim();
-        if (c) {
-          currentCity = c;
-          const mainInp = document.getElementById('city-input');
-          if (mainInp) mainInp.value = c;
-          const sbInp = document.getElementById('sidebar-city-input');
-          if (sbInp) sbInp.value = c;
+    // Expose core navigation and interaction functions globally on window
+    window.switchTab = switchTab;
+    window.setCity = setCity;
+    window.handleSearch = handleSearch;
+    window.handleSidebarSearch = handleSidebarSearch;
+    window.toggleTheme = toggleTheme;
+    window.clearCityInput = clearCityInput;
+    window.selectCityItem = selectCityItem;
+    window.openLegalModal = openLegalModal;
+    window.closeLegalModal = closeLegalModal;
+    window.openDonationModal = openDonationModal;
+    window.closeDonationModal = closeDonationModal;
+
+    // Initial Robust Startup Engine (Handles file:///, http://, and GitHub Pages)
+    function startApp() {
+      try {
+        initTheme();
+        setupCityAutocomplete();
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('city')) {
+          const c = urlParams.get('city').trim();
+          if (c) {
+            currentCity = c;
+            const mainInp = document.getElementById('city-input');
+            if (mainInp) mainInp.value = c;
+            const sbInp = document.getElementById('sidebar-city-input');
+            if (sbInp) sbInp.value = c;
+          }
         }
-      }
-      if (urlParams.has('mode')) {
-        const m = urlParams.get('mode').trim();
-        if (tabButtons[m]) {
-          currentMode = m;
+        if (urlParams.has('mode')) {
+          const m = urlParams.get('mode').trim();
+          if (tabButtons[m]) {
+            currentMode = m;
+          }
         }
+      } catch (err) {
+        console.warn('Startup params parsing warning:', err);
       }
       // Initialize active mode and fetch data
       switchTab(currentMode);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', startApp);
+    } else {
+      startApp();
+    }
   
     function initCookieNotice() {
-      if (!localStorage.getItem('meteo_cookie_consent')) {
-        const el = document.getElementById('cookie-notice');
-        if (el) el.classList.remove('hidden');
-      }
+      try {
+        if (!localStorage.getItem('meteo_cookie_consent')) {
+          const el = document.getElementById('cookie-notice');
+          if (el) el.classList.remove('hidden');
+        }
+      } catch (e) {}
     }
     function acceptCookieNotice() {
-      localStorage.setItem('meteo_cookie_consent', 'true');
-      const el = document.getElementById('cookie-notice');
-      if (el) el.classList.add('hidden');
+      try {
+        localStorage.setItem('meteo_cookie_consent', 'true');
+        const el = document.getElementById('cookie-notice');
+        if (el) el.classList.add('hidden');
+      } catch (e) {}
     }
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(initCookieNotice, 1500);
-    });
+    window.initCookieNotice = initCookieNotice;
+    window.acceptCookieNotice = acceptCookieNotice;
+    setTimeout(initCookieNotice, 1500);
 
   </script>
 
