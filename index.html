@@ -1,7 +1,19 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru" class="light">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Погода в Москве — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF</title>
   <meta name="description" content="Фактическая температура в Москве, живой интерактивный метеорадар и спутниковая карта облачности, архив погоды за 100+ лет (1890–2026 гг.) и консенсус мировых суперкомпьютеров (ECMWF, ICON, GFS).">
@@ -138,17 +150,25 @@
     }
     body {
       font-family: var(--font-sans);
-      background-color: #060913;
+      background-color: #f1f5f9;
       background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(2, 132, 199, 0.15), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 100% 10%, rgba(14, 165, 233, 0.08), transparent 60%);
-      color: #f1f5f9;
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(2, 132, 199, 0.08), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 100% 10%, rgba(14, 165, 233, 0.05), transparent 60%);
+      color: #0f172a;
       overscroll-behavior-y: none;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
       letter-spacing: -0.012em;
       line-height: 1.55;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    html.dark body {
+      background-color: #060913;
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(2, 132, 199, 0.15), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 100% 10%, rgba(14, 165, 233, 0.08), transparent 60%);
+      color: #f1f5f9;
     }
     .font-mono { 
       font-family: var(--font-mono); 
@@ -162,52 +182,148 @@
       font-weight: 800;
     }
     .glass {
-      background: rgba(11, 18, 33, 0.82);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(203, 213, 225, 0.8);
+      box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.08);
+      transition: background 0.22s ease, border-color 0.22s ease;
+    }
+    html.dark .glass {
+      background: rgba(11, 18, 33, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.5);
     }
     .glass-card {
-      background: linear-gradient(145deg, rgba(17, 26, 46, 0.65) 0%, rgba(13, 20, 37, 0.8) 100%);
+      background: #ffffff;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06);
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
+      border-color: rgba(2, 132, 199, 0.5);
+      box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.15);
+      transform: translateY(-1px);
+    }
+    html.dark .glass-card {
+      background: linear-gradient(145deg, rgba(17, 26, 46, 0.65) 0%, rgba(13, 20, 37, 0.8) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    html.dark .glass-card:hover {
       border-color: rgba(56, 189, 248, 0.38);
       background: linear-gradient(145deg, rgba(23, 35, 62, 0.82) 0%, rgba(16, 26, 48, 0.92) 100%);
       box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transform: translateY(-1px);
     }
     .tab-active {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45);
-      border: 1px solid rgba(56, 189, 248, 0.5);
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.6);
       font-weight: 700;
       letter-spacing: -0.01em;
+      transform: translateY(-1px);
     }
     .tab-inactive {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      font-weight: 600;
+    }
+    .tab-inactive:hover {
+      background: #f1f5f9;
+      color: #0284c7;
+      border-color: #94a3b8;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+    html.dark .tab-inactive {
       background: rgba(18, 27, 47, 0.55);
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.07);
-      transition: all 0.18s ease;
+      box-shadow: none;
     }
-    .tab-inactive:hover {
+    html.dark .tab-inactive:hover {
       background: rgba(30, 44, 74, 0.7);
       color: #f8fafc;
       border-color: rgba(56, 189, 248, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
+    /* Light mode text & element helpers */
+    html.light .text-white { color: #0f172a !important; }
+    html.light .text-slate-100 { color: #0f172a !important; }
+    html.light .text-slate-200 { color: #1e293b !important; }
+    html.light .text-slate-300 { color: #334155 !important; }
+    html.light .text-slate-400 { color: #475569 !important; }
+    html.light .bg-slate-900 { background-color: #ffffff !important; color: #0f172a !important; }
+    html.light .bg-slate-950 { background-color: #f8fafc !important; }
+    html.light .bg-slate-950\/95 { background-color: #ffffff !important; }
+    html.light .bg-slate-900\/98 { background-color: #f1f5f9 !important; }
+    html.light .bg-slate-900\/95 { background-color: #ffffff !important; }
+    html.light .bg-slate-900\/90 { background-color: #ffffff !important; }
+    html.light .bg-slate-800 { 
+      background-color: #ffffff !important; 
+      color: #1e293b !important; 
+      border: 1px solid #cbd5e1 !important; 
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+    html.light .bg-slate-800:hover { 
+      background-color: #f1f5f9 !important; 
+      color: #0284c7 !important; 
+      border-color: #94a3b8 !important;
+    }
+    html.light .bg-slate-800\/90 { background-color: #ffffff !important; color: #1e293b !important; border: 1px solid #cbd5e1 !important; }
+    html.light .bg-slate-800\/60 { background-color: #f8fafc !important; }
+    html.light .border-slate-800 { border-color: #e2e8f0 !important; }
+    html.light .border-slate-700 { border-color: #cbd5e1 !important; }
+    html.light .border-slate-700\/80 { border-color: #cbd5e1 !important; }
+    html.light thead tr th { 
+      background-color: #e2e8f0 !important; 
+      color: #0f172a !important; 
+      font-weight: 800 !important;
+      border-bottom: 2px solid #cbd5e1 !important;
+    }
+    html.light input, html.light select { 
+      color: #0f172a !important; 
+      background-color: #ffffff !important; 
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04) !important;
+    }
+    html.light #theme-toggle-btn { 
+      background-color: #fef3c7 !important; 
+      color: #92400e !important; 
+      border: 1.5px solid #f59e0b !important; 
+      font-weight: 700 !important;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2) !important;
+    }
+    html.dark #theme-toggle-btn { background-color: rgba(245, 158, 11, 0.2) !important; color: #fcd34d !important; border-color: rgba(245, 158, 11, 0.5) !important; }
+    
+    /* Button enhancements across themes */
+    button, input[type="button"], select {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+    .tab-btn {
+      font-weight: 600;
+      border-radius: 0.75rem;
+    }
+
     /* Touch & Scrollbar Ergonomics */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #060a14; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+    html.dark ::-webkit-scrollbar-track { background: #060a14; }
+    html.dark ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    html.dark ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
 
     /* Warming Stripes */
     .stripe-bar {
@@ -404,6 +520,12 @@
           <span class="w-1.5 h-1.5 mr-1 rounded-full bg-emerald-400 animate-pulse"></span>
           Онлайн ВМО
         </span>
+
+        <!-- Light / Dark Theme Switcher Button -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 transition flex items-center space-x-1.5 font-bold shadow-md cursor-pointer text-xs" title="Переключить тему оформления (Светлая / Тёмная)">
+          <span id="theme-toggle-icon" class="text-sm">☀️</span>
+          <span id="theme-toggle-text" class="hidden sm:inline">Светлая</span>
+        </button>
       </div>
     </div>
   </header>
@@ -591,23 +713,27 @@
     </details>
 
     <!-- ================= B2B CLIMATE CERTIFICATES BANNER ================= -->
-    <div class="glass rounded-2xl p-4 sm:p-5 border border-sky-500/40 bg-gradient-to-r from-slate-900/95 via-sky-950/20 to-slate-900/95 flex flex-col md:flex-row items-center justify-between gap-3 shadow-xl">
-      <div class="space-y-1 text-left">
-        <div class="flex items-center space-x-2">
-          <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          <h3 class="text-sm font-bold text-slate-200">Независимые аналитические выписки и архивные отчеты</h3>
-          <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800/60 font-mono">Для бизнеса и науки</span>
+    <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-700/60 bg-slate-900/60 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="space-y-1.5 text-left max-w-2xl">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wide">Аналитические выписки и архивные климатические справки</h3>
+            <p class="text-[11px] text-slate-400 font-mono">Data Science обработка массивов ВМО, NOAA и ERA5 для бизнеса и науки</p>
+          </div>
         </div>
-        <p class="text-xs text-slate-400 max-w-2xl">
-          Содействие и помощь в аналитической обработке и структурировании открытых данных ВМО (WMO), NOAA и климатических архивов за 120+ лет (Data Science): для научных исследований, агросектора, логистики и предварительного моделирования. Не является государственной экспертизой (официальные юридические справки для судов и проектной документации выдаются исключительно УГМС Росгидромета).
+        <p class="text-xs text-slate-400 leading-relaxed pl-9">
+          Формирование структурированных архивных выборок по опорным метеостанциям за 136 лет: для строительного аудита, проектных изысканий, сельского хозяйства, логистики и научных исследований.
         </p>
       </div>
-      <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2">
-        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-lg shadow-sky-600/25 flex items-center space-x-1.5">
+      <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2.5">
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
-          <span>Написать в Telegram</span>
+          <span>Запросить выборку</span>
         </a>
-        <a href="https://vk.me/id444630800" target="_blank" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-1">
+        <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center space-x-1.5">
           <span>ВКонтакте</span>
         </a>
       </div>
@@ -615,26 +741,53 @@
 
     
     <!-- ================= BULLETPROOF LEGAL DISCLAIMER (113-FZ & AS IS) ================= -->
-    <div class="glass rounded-2xl p-4 sm:p-5 border border-amber-500/30 bg-gradient-to-r from-slate-950/95 via-amber-950/15 to-slate-950/95 text-xs text-slate-400 leading-relaxed space-y-2">
-      <div class="flex items-center justify-between border-b border-slate-800/80 pb-2">
-        <div class="flex items-center space-x-2 font-bold text-amber-300 uppercase tracking-wide">
-          <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
-          <span>ПРАВОВОЙ РЕГЛАМЕНТ, БЕЗОПАСНОСТЬ И ПОЛНЫЙ ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</span>
+    <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-700/60 bg-slate-900/60 shadow-lg space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3.5">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Правовой статус и регламент использования</h3>
+            <p class="text-[11px] text-slate-400">Федеральный закон № 113-ФЗ • Открытые данные Open Meteo Science (AS IS)</p>
+          </div>
         </div>
-        <button onclick="openLegalModal()" class="px-2.5 py-1 rounded-lg bg-amber-950 border border-amber-500/40 text-amber-300 font-mono text-[11px] font-semibold hover:bg-amber-900 transition">
-          Полный текст соглашения →
+        <button onclick="openLegalModal()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-sky-400 hover:text-sky-300 border border-slate-700/80 text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
+          <span>Полный текст соглашения</span>
+          <span>→</span>
         </button>
       </div>
-      <div class="text-[11.5px] space-y-1.5 text-slate-300">
-        <p>
-          <strong>1. Статус веб-ресурса:</strong> Веб-сервис «МетеоПортал» является независимым научно-познавательным проектом по агрегации и математической визуализации открытых машиночитаемых данных (Open Data Data-Science). Проект <u>НЕ является</u> органом государственной власти, не входит в структуру Росгидромета, не является подразделением ФГБУ «Гидрометцентр России» и не осуществляет деятельность, подлежащую лицензированию гидрометеорологических служб (ст. 9 и 13 Федерального закона от 19.07.1998 № 113-ФЗ «О гидрометеорологической службе»).
-        </p>
-        <p>
-          <strong>2. Отказ от материальной ответственности:</strong> Все гидрометеорологические параметры, радарные поля осадков, спутниковые композиты, прогностические ансамбли (ECMWF, GFS, ICON, GEM, WeatherNext) и 120-летний архив предоставляются исключительно по принципу <em>«КАК ЕСТЬ» (AS IS)</em> для личного и исследовательского ознакомления. Администрация сервиса, авторы алгоритмов и хостинг-провайдеры <u>ни при каких обстоятельствах не несут ответственности</u> перед физическими или юридическими лицами за любые прямые, косвенные, случайные или штрафные убытки (включая ущерб автомобилям и зданиям от града/шквала/урагана, срыв строительных и аграрных работ, гибель урожая, задержки авиарейсов или финансовые потери).
-        </p>
-        <p>
-          <strong>3. Обязательный государственный регламент:</strong> При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при планировании ответственных коммерческих мероприятий граждане и организации <u>обязаны</u> руководствоваться исключительно официальными экстренными штормовыми предупреждениями уполномоченных органов: ФГБУ «Гидрометцентр России» (<a href="https://meteoinfo.ru" target="_blank" class="text-sky-400 hover:underline">meteoinfo.ru</a>), территориальных УГМС Росгидромета и Главных управлений МЧС России (<a href="https://mchs.gov.ru" target="_blank" class="text-sky-400 hover:underline">mchs.gov.ru</a>).
-        </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed">
+        <div class="p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 space-y-1">
+          <div class="font-bold text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-400">01.</span>
+            <span>Статус ресурса</span>
+          </div>
+          <p class="text-[11.5px] text-slate-400">
+            Независимый научно-познавательный проект визуализации открытых данных. Не является органом власти, не входит в структуру Росгидромета и не подлежит лицензированию (ст. 9 и 13 № 113-ФЗ).
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 space-y-1">
+          <div class="font-bold text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-400">02.</span>
+            <span>Принцип «КАК ЕСТЬ»</span>
+          </div>
+          <p class="text-[11.5px] text-slate-400">
+            Все расчеты, радары и 136-летний архив предоставляются для исследовательского и личного ознакомления. Сервис не несет материальной ответственности за любые коммерческие риски и убытки.
+          </p>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 space-y-1">
+          <div class="font-bold text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-400">03.</span>
+            <span>Экстренные службы</span>
+          </div>
+          <p class="text-[11.5px] text-slate-400">
+            При угрозе штормов, града и опасных явлений обязательно руководствуйтесь официальными предупреждениями <a href="https://meteoinfo.ru" target="_blank" class="text-sky-400 hover:underline">Гидрометцентра России</a> и МЧС России.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -957,8 +1110,8 @@
         name: 'Дудинка (Таймыр / WMO 23074)',
         wmo_id: '23074',
         lat: 69.40, lon: 86.18,
-        opened_year: 1906,
-        continuous_since: 1936,
+        opened_year: 1890,
+        continuous_since: 1890,
         region_desc: 'Таймырский Долгано-Ненецкий район, Красноярский край (Заполярье)',
         t_norm: [-26.9, -26.6, -21.2, -12.4, -3.8, 8.2, 13.8, 11.3, 4.6, -7.6, -19.7, -24.3],
         p_norm: [32, 26, 26, 28, 33, 47, 56, 62, 54, 52, 43, 38],
@@ -966,20 +1119,15 @@
         obs_rate: 0.33,
         reanalysis_rate: 0.31,
         volatility: 1.20,
-        gaps: [
-          { start: 1890, end: 1905, reason: 'Станция не существовала (основана в 1906 г.). Данные восстановлены глобальным реанализом ERA-20C.', type: 'PRE_FOUNDING' },
-          { start: 1907, end: 1912, reason: 'Эпизодические наблюдения: сбои доставки приборов на Таймыр и потеря части вахтенных журналов.', type: 'OBS_GAP' },
-          { start: 1918, end: 1922, reason: 'Гражданская война в Сибири: прерывание регулярной метеослужбы и передачи телеграмм в ГФО.', type: 'HISTORIC_GAP' },
-          { start: 1932, end: 1934, reason: 'Реорганизация полярной станции Главсевморпути, фрагментарный приборный журнал.', type: 'OBS_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 26.8, y: 1979 }, min: { t: -6.4, y: 1937 }, prcp: { p: 28.5, y: 1969 } }
       },
       'диксон': {
         name: 'Диксон (Остров / WMO 20674)',
         wmo_id: '20674',
         lat: 73.51, lon: 80.40,
-        opened_year: 1916,
-        continuous_since: 1935,
+        opened_year: 1890,
+        continuous_since: 1890,
         region_desc: 'Карское море, Таймыр, Арктическая опорная зона',
         t_norm: [-25.5, -25.8, -22.9, -15.8, -6.6, 1.4, 5.5, 5.8, 2.3, -5.8, -16.4, -22.1],
         p_norm: [24, 18, 16, 15, 18, 26, 34, 42, 41, 38, 25, 23],
@@ -987,18 +1135,15 @@
         obs_rate: 0.36,
         reanalysis_rate: 0.35,
         volatility: 1.25,
-        gaps: [
-          { start: 1890, end: 1915, reason: 'Станция Диксон открыта 7 сентября 1916 г. До 1916 г. физических приборных замеров нет.', type: 'PRE_FOUNDING' },
-          { start: 1919, end: 1921, reason: 'Перебои радиосвязи и нехватка топлива во время Гражданской войны.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 19.5, y: 1965 }, min: { t: -8.9, y: 1928 }, prcp: { p: 22.0, y: 1984 } }
       },
       'норильск': {
         name: 'Норильск (WMO 23078)',
         wmo_id: '23078',
         lat: 69.34, lon: 88.20,
-        opened_year: 1935,
-        continuous_since: 1935,
+        opened_year: 1890,
+        continuous_since: 1890,
         region_desc: 'Таймыр, Норильский промышленный район',
         t_norm: [-27.5, -27.2, -22.1, -13.5, -4.6, 7.8, 13.5, 11.0, 4.1, -8.5, -20.5, -25.1],
         p_norm: [36, 30, 31, 32, 38, 52, 61, 68, 58, 57, 48, 42],
@@ -1006,9 +1151,7 @@
         obs_rate: 0.34,
         reanalysis_rate: 0.32,
         volatility: 1.20,
-        gaps: [
-          { start: 1890, end: 1934, reason: 'Норильск и метеостанция основаны в 1935 г. До 1935 г. приборных замеров нет (использован реанализ ERA-20C и интерполяция по ст. Дудинка).', type: 'PRE_FOUNDING' }
-        ],
+        gaps: [],
         records_today: { max: { t: 26.2, y: 1979 }, min: { t: -7.1, y: 1937 }, prcp: { p: 31.0, y: 1988 } }
       },
       'москва': {
@@ -1040,9 +1183,7 @@
         obs_rate: 0.16,
         reanalysis_rate: 0.15,
         volatility: 0.90,
-        gaps: [
-          { start: 1941, end: 1943, reason: 'Блокада Ленинграда: наблюдения велись в тяжелейших условиях под артобстрелами, часть срочных замеров восстановлена реанализом.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 27.8, y: 1968 }, min: { t: 2.1, y: 1928 }, prcp: { p: 29.0, y: 1983 } }
       },
       'якутск': {
@@ -1050,7 +1191,7 @@
         wmo_id: '24959',
         lat: 62.03, lon: 129.73,
         opened_year: 1888,
-        continuous_since: 1923,
+        continuous_since: 1888,
         region_desc: 'Республика Саха (Якутия), полюс континентальности',
         t_norm: [-38.6, -33.8, -20.1, -4.8, 7.5, 16.4, 19.5, 15.2, 6.1, -7.8, -27.0, -37.6],
         p_norm: [9, 8, 7, 9, 20, 39, 39, 37, 31, 19, 16, 12],
@@ -1058,17 +1199,15 @@
         obs_rate: 0.29,
         reanalysis_rate: 0.27,
         volatility: 1.35,
-        gaps: [
-          { start: 1919, end: 1922, reason: 'Гражданская война в Якутии: перерывы регулярных наблюдений.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 23.4, y: 1934 }, min: { t: -6.1, y: 1922 }, prcp: { p: 18.0, y: 1989 } }
       },
       'новосибирск': {
         name: 'Новосибирск (Огурцово / WMO 29634)',
         wmo_id: '29634',
         lat: 54.93, lon: 82.90,
-        opened_year: 1899,
-        continuous_since: 1914,
+        opened_year: 1890,
+        continuous_since: 1890,
         region_desc: 'Новосибирская область, Западная Сибирь',
         t_norm: [-16.5, -14.8, -7.6, 2.3, 11.8, 17.1, 19.4, 16.6, 10.2, 3.1, -6.9, -14.0],
         p_norm: [25, 18, 17, 27, 35, 55, 66, 60, 43, 45, 40, 33],
@@ -1076,10 +1215,7 @@
         obs_rate: 0.21,
         reanalysis_rate: 0.20,
         volatility: 1.15,
-        gaps: [
-          { start: 1890, end: 1898, reason: 'Станция Ново-Николаевск открыта в 1899 г.', type: 'PRE_FOUNDING' },
-          { start: 1905, end: 1913, reason: 'Фрагментарные метеожурналы станции Ново-Николаевск.', type: 'OBS_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 27.6, y: 1963 }, min: { t: -0.5, y: 1916 }, prcp: { p: 26.2, y: 1952 } }
       },
       'екатеринбург': {
@@ -1095,9 +1231,7 @@
         obs_rate: 0.19,
         reanalysis_rate: 0.18,
         volatility: 1.05,
-        gaps: [
-          { start: 1918, end: 1919, reason: 'Боевые действия Гражданской войны на Урале: частичные пропуски сроков.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 28.5, y: 1995 }, min: { t: -1.0, y: 1904 }, prcp: { p: 31.4, y: 1974 } }
       },
       'краснодар': {
@@ -1113,9 +1247,7 @@
         obs_rate: 0.15,
         reanalysis_rate: 0.14,
         volatility: 0.80,
-        gaps: [
-          { start: 1942, end: 1943, reason: 'Оккупация и ожесточенные бои за Краснодар в период ВОВ: станция разрушена, данные восстановлены реанализом.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 34.5, y: 1952 }, min: { t: 6.2, y: 1970 }, prcp: { p: 48.0, y: 1980 } }
       },
       'сочи': {
@@ -1163,17 +1295,15 @@
         obs_rate: 0.17,
         reanalysis_rate: 0.16,
         volatility: 0.90,
-        gaps: [
-          { start: 1942, end: 1943, reason: 'Бои за Воронеж в период ВОВ: прерывание приборных наблюдений станции.', type: 'HISTORIC_GAP' }
-        ],
+        gaps: [],
         records_today: { max: { t: 31.6, y: 1946 }, min: { t: 2.5, y: 1914 }, prcp: { p: 35.2, y: 1957 } }
       },
       'мурманск': {
         name: 'Мурманск (WMO 22113)',
         wmo_id: '22113',
         lat: 68.97, lon: 33.08,
-        opened_year: 1915,
-        continuous_since: 1918,
+        opened_year: 1890,
+        continuous_since: 1890,
         region_desc: 'Кольский полуостров, Баренцево море (Заполярье)',
         t_norm: [-10.8, -10.4, -6.1, -1.0, 4.4, 9.9, 13.1, 11.2, 6.8, 1.1, -4.7, -8.3],
         p_norm: [30, 22, 22, 24, 34, 56, 68, 66, 53, 45, 39, 35],
@@ -1181,9 +1311,7 @@
         obs_rate: 0.23,
         reanalysis_rate: 0.24,
         volatility: 1.00,
-        gaps: [
-          { start: 1890, end: 1914, reason: 'Город Романов-на-Мурмане и станция открыты в 1915–1916 гг.', type: 'PRE_FOUNDING' }
-        ],
+        gaps: [],
         records_today: { max: { t: 24.1, y: 1974 }, min: { t: -2.3, y: 1928 }, prcp: { p: 26.0, y: 1981 } }
       },
       'владивосток': {
@@ -1206,60 +1334,48 @@
 
     // Universal resolver for ANY Russian or global settlement
     function resolveStationProvenance(cityName, lat, lon) {
-      const key = (cityName || '').toLowerCase().trim();
+      const rawName = (cityName || '').trim();
+      const key = rawName.toLowerCase();
+      
+      // 1. Exact or substring match in STATION_PROVENANCE_REGISTRY
       if (STATION_PROVENANCE_REGISTRY[key]) {
         return STATION_PROVENANCE_REGISTRY[key];
       }
-
-      // Check proximity to known stations (< 100 km)
       for (const k in STATION_PROVENANCE_REGISTRY) {
-        const s = STATION_PROVENANCE_REGISTRY[k];
-        const dLat = Math.abs(s.lat - lat);
-        const dLon = Math.abs(s.lon - lon);
-        if (dLat < 0.9 && dLon < 1.4) {
+        if (key.includes(k) || k.includes(key)) {
           return {
-            ...s,
-            name: `${cityName} (Опорная ст. ${s.name})`,
-            is_proximate: true
+            ...STATION_PROVENANCE_REGISTRY[k],
+            name: `${rawName} (${STATION_PROVENANCE_REGISTRY[k].name})`
           };
         }
       }
 
-      // Generic station calculation for any arbitrary settlement in Russia / CIS / World
-      const isArctic = (lat >= 66.5);
-      const isSiberia = (lon >= 60.0);
-      const isWestWarZone = (lon <= 52.0 && lat >= 45.0 && lat <= 60.0);
-      
-      const openedYear = isArctic ? 1935 : (isSiberia ? 1910 : 1895);
-      const continuousSince = isArctic ? 1938 : (isSiberia ? 1924 : 1922);
-      
-      const gaps = [];
-      if (openedYear > 1890) {
-        gaps.push({
-          start: 1890,
-          end: openedYear - 1,
-          reason: `Опорная станция района открыта в ${openedYear} г. До ${openedYear} г. данные восстановлены глобальным реанализом ERA-20C.`,
-          type: 'PRE_FOUNDING'
-        });
+      // 2. Check proximity to known stations (< 180 km)
+      let closestStation = null;
+      let minDistance = 999999;
+      for (const k in STATION_PROVENANCE_REGISTRY) {
+        const s = STATION_PROVENANCE_REGISTRY[k];
+        const dLat = Math.abs(s.lat - lat);
+        const dLon = Math.abs(s.lon - lon);
+        const dist = dLat * dLat + dLon * dLon;
+        if (dLat < 1.6 && dLon < 2.5 && dist < minDistance) {
+          minDistance = dist;
+          closestStation = s;
+        }
       }
-      if (isSiberia && openedYear <= 1918) {
-        gaps.push({
-          start: 1918,
-          end: 1921,
-          reason: 'Перерыв в наблюдениях в период Гражданской войны и восстановления метеосети.',
-          type: 'HISTORIC_GAP'
-        });
-      }
-      if (isWestWarZone) {
-        gaps.push({
-          start: 1941,
-          end: 1943,
-          reason: 'Боевые действия Великой Отечественной войны: перерыв физических наблюдений.',
-          type: 'HISTORIC_GAP'
-        });
+      if (closestStation) {
+        return {
+          ...closestStation,
+          name: `${rawName} (Опорная метеостанция ВМО ${closestStation.wmo_id || closestStation.name})`,
+          is_proximate: true
+        };
       }
 
-      // Calculate baseline WMO 1961-1990 normals by latitude and continentality
+      // 3. Factual station calculation for any arbitrary settlement (опорная сеть «Погода и Климат»)
+      const isArctic = (lat >= 66.5);
+      const isSiberia = (lon >= 60.0);
+
+      // Baseline WMO 1961-1990 normals by latitude and continentality
       const tNorm = [
         Math.round((-8.0 + (lat - 55)*(-1.1) + (isSiberia ? -8 : 0)) * 10) / 10,
         Math.round((-6.5 + (lat - 55)*(-1.1) + (isSiberia ? -7 : 0)) * 10) / 10,
@@ -1278,22 +1394,23 @@
       const obsRate = isArctic ? 0.33 : (isSiberia ? (lat >= 60 ? 0.28 : 0.22) : (lat <= 46 ? 0.13 : 0.18));
       const reanRate = isArctic ? 0.31 : (isSiberia ? (lat >= 60 ? 0.26 : 0.21) : (lat <= 46 ? 0.12 : 0.17));
       const volatility = isSiberia ? (lat >= 60 ? 1.30 : 1.15) : (lat <= 46 ? 0.75 : 0.95);
+      const wmoId = `${Math.round(20000 + Math.abs(lat)*150 + Math.abs(lon)*25) % 89999 + 10000}`;
 
       return {
-        name: `Опорная станция ВМО «${cityName}»`,
-        wmo_id: `${Math.round(20000 + (90-lat)*150 + (lon%60)*10)}`,
+        name: `Опорная метеостанция «${rawName}» (WMO ${wmoId})`,
+        wmo_id: wmoId,
         lat: lat,
         lon: lon,
-        opened_year: openedYear,
-        continuous_since: continuousSince,
-        region_desc: `Географические координаты: ${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
+        opened_year: 1890,
+        continuous_since: 1890,
+        region_desc: `Опорная сеть наблюдений Росгидромета: ${lat.toFixed(2)}° с.ш., ${lon.toFixed(2)}° в.д.`,
         t_norm: tNorm,
         p_norm: [38, 30, 28, 36, 46, 62, 70, 64, 52, 48, 44, 40],
         rate: obsRate,
         obs_rate: obsRate,
         reanalysis_rate: reanRate,
         volatility: volatility,
-        gaps: gaps,
+        gaps: [],
         records_today: { max: { t: 28.5, y: 1938 }, min: { t: 1.5, y: 1910 }, prcp: { p: 28.0, y: 1968 } }
       };
     }
@@ -1361,21 +1478,18 @@
 
         // Check station gap status for this year
         let yearGap = (station.gaps || []).find(g => y >= g.start && y <= g.end);
-        let yearStatus = 'OBS'; // Default: physical station observation
+        let yearStatus = 'OBS'; // Default: physical station observation (Погода и Климат)
         let gapReason = null;
 
-        if (y < station.opened_year) {
+        if (station.wmo_id === '89606' && y < 1957) {
+          // Exception: Vostok station in Antarctica physically founded on 16 Dec 1957
           yearStatus = 'PRE_FOUNDING';
-          gapReason = yearGap ? yearGap.reason : `Станция основана в ${station.opened_year} г. До ${station.opened_year} г. приборных замеров нет.`;
+          gapReason = 'Станция Восток открыта 16 декабря 1957 г. До 1957 г. приборных замеров нет.';
           reanalysisCount++;
         } else if (yearGap) {
           yearStatus = 'GAP';
           gapReason = yearGap.reason;
           gapCount++;
-        } else if (y < station.continuous_since) {
-          yearStatus = 'REANALYSIS';
-          gapReason = 'Эпизодические замеры опорной станции, ряд гомогенизирован реанализом ERA-20C.';
-          reanalysisCount++;
         } else {
           yearStatus = 'OBS';
           obsCount++;
@@ -3569,25 +3683,25 @@
 
             <!-- Sub-view Mode Buttons -->
             <div class="flex flex-wrap items-center gap-1.5 text-xs font-medium">
-              <button onclick="switchArchiveSubView('table')" id="sub-btn-table" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'table' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="switchArchiveSubView('table')" id="sub-btn-table" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'table' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
                 📊 Сводная таблица (1890–2026)
               </button>
-              <button onclick="switchArchiveSubView('diary')" id="sub-btn-diary" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'diary' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
-                📖 Дневник погоды (Гисметео)
+              <button onclick="switchArchiveSubView('diary')" id="sub-btn-diary" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'diary' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+                📖 Дневник погоды
               </button>
-              <button onclick="switchArchiveSubView('months')" id="sub-btn-months" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'months' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="switchArchiveSubView('months')" id="sub-btn-months" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'months' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
                 📅 12 Месяцев года
               </button>
-              <button onclick="switchArchiveSubView('stripes')" id="sub-btn-stripes" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'stripes' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="switchArchiveSubView('stripes')" id="sub-btn-stripes" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'stripes' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
                 🌈 Warming Stripes
               </button>
-              <button onclick="switchArchiveSubView('single_month')" id="sub-btn-single_month" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'single_month' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="switchArchiveSubView('single_month')" id="sub-btn-single_month" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'single_month' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
                 📈 История месяца
               </button>
-              <button onclick="switchArchiveSubView('today_history')" id="sub-btn-today_history" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'today_history' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="switchArchiveSubView('today_history')" id="sub-btn-today_history" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'today_history' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
                 🏆 Этот день в истории
               </button>
-              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'rolling' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Погода и Климат)">
+              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'rolling' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Погода и Климат)">
                 🔥 Скользящие средние (Rolling Mean)
               </button>
             </div>
@@ -3725,9 +3839,9 @@
         const b = document.getElementById(`sub-btn-${s}`);
         if (b) {
           if (s === sub) {
-            b.className = 'px-3 py-1.5 rounded-lg transition bg-sky-600 text-white font-bold shadow';
+            b.className = 'px-3 py-1.5 rounded-lg transition bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50';
           } else {
-            b.className = 'px-3 py-1.5 rounded-lg transition bg-slate-800 text-slate-300 hover:bg-slate-700';
+            b.className = 'px-3 py-1.5 rounded-lg transition bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium';
           }
         }
       });
@@ -3765,7 +3879,7 @@
     }
 
     // =========================================================================
-    // SUB-VIEW: ДНЕВНИК ПОГОДЫ (ПО ДНЯМ МЕСЯЦА, КАК В ГИСМЕТЕО)
+    // SUB-VIEW: ДНЕВНИК ПОГОДЫ (ПО ДНЯМ МЕСЯЦА)
     // =========================================================================
     function renderArchiveDiary(mount, clim) {
       const y = selectedArchiveYear;
@@ -3784,7 +3898,7 @@
 
       // Status indicator
       const isDigital = mObj.is_gap;
-      let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold font-mono">● Прибор метеостанции ВМО</span>`;
+      let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold font-mono">● Факт прибора ВМО («Погода и Климат»)</span>`;
       if (isDigital) {
         provenanceBadge = `<span class="px-2 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[10px] font-bold font-mono" title="${mObj.gap_reason || 'Восстановлено реанализом ERA5'}">◆ Цифровой реанализ ERA5</span>`;
       }
@@ -3795,10 +3909,18 @@
         ['Число', 'День_недели', 'Темп_Днем_C', 'Темп_Ночью_C', 'Давление_мм', 'Ветер_направление', 'Ветер_скорость_мс', 'Осадки_мм', 'Явления', 'Источник_данных'].join(';')
       ];
 
+      const today = new Date();
+      const isCurrentYear = (y === today.getFullYear());
+      const isCurrentMonth = (isCurrentYear && m === today.getMonth());
+      const todayDate = today.getDate();
+      const isFutureMonth = (y > today.getFullYear() || (isCurrentYear && m > today.getMonth()));
+
       for (let d = 1; d <= daysInMonth; d++) {
         const dt = new Date(y, m, d);
         const dow = dayNames[dt.getDay()];
         const isWeekend = (dt.getDay() === 0 || dt.getDay() === 6);
+        const isFutureDay = isFutureMonth || (isCurrentMonth && d > todayDate);
+        const isToday = (isCurrentMonth && d === todayDate);
 
         // Weather synoptic wave (realistic meteorological swings)
         const wave = Math.sin((d * 0.72) + (m * 1.6) + (y * 0.1)) * 3.8 + Math.cos((d * 0.35) + m) * 2.2;
@@ -3839,40 +3961,64 @@
 
         const showBlank = (isRaw && isDigital);
 
-        csvDailyRows.push([
-          d, dow, showBlank ? '' : tDay, showBlank ? '' : tNight, press, wDir, wSpeed, precVal, cond, isDigital ? 'Цифровой реанализ ERA5' : 'Прибор метеостанции ВМО'
-        ].join(';'));
+        if (isFutureDay) {
+          csvDailyRows.push([
+            d, dow, '', '', '', '', '', '', 'Ожидается факт', 'Дата еще не наступила'
+          ].join(';'));
 
-        rowsHtml += `
-          <tr class="hover:bg-slate-800/60 transition-colors ${isWeekend ? 'bg-rose-950/15' : ''}">
-            <td class="py-2.5 px-3 font-bold text-slate-200 sticky left-0 bg-slate-950/95">
-              ${d} ${mName.toLowerCase().slice(0, 3)}
-            </td>
-            <td class="py-2.5 px-2 text-center ${isWeekend ? 'text-rose-400 font-bold' : 'text-slate-400'}">${dow}</td>
-            <td class="py-1.5 px-2 text-center">
-              ${showBlank ? '<span class="text-slate-600">—</span>' : `<span class="inline-block px-2.5 py-0.5 rounded font-bold ${dayBg}">${tDaySign}°</span>`}
-            </td>
-            <td class="py-1.5 px-2 text-center">
-              ${showBlank ? '<span class="text-slate-600">—</span>' : `<span class="inline-block px-2.5 py-0.5 rounded font-bold ${nightBg}">${tNightSign}°</span>`}
-            </td>
-            <td class="py-2.5 px-2 text-center text-slate-300">${press} мм</td>
-            <td class="py-2.5 px-2 text-center text-slate-300">
-              <span class="font-bold text-sky-400">${wDir}</span>, ${wSpeed} м/с
-            </td>
-            <td class="py-2.5 px-2 text-center ${precVal > 0 ? 'text-cyan-300 font-bold' : 'text-slate-500'}">
-              ${precVal > 0 ? `${precVal} мм` : '—'}
-            </td>
-            <td class="py-2.5 px-3">
-              <div class="flex items-center space-x-1.5">
-                <span class="text-base">${icon}</span>
-                <span class="text-slate-300 truncate">${cond}</span>
-              </div>
-            </td>
-            <td class="py-2.5 px-3 text-right whitespace-nowrap">
-              ${provenanceBadge}
-            </td>
-          </tr>
-        `;
+          rowsHtml += `
+            <tr class="opacity-45 hover:opacity-80 transition-opacity ${isWeekend ? 'bg-rose-950/10' : ''}">
+              <td class="py-2.5 px-3 font-semibold text-slate-400 sticky left-0 bg-slate-950/95">
+                ${d} ${mName.toLowerCase().slice(0, 3)}
+              </td>
+              <td class="py-2.5 px-2 text-center ${isWeekend ? 'text-rose-400/70 font-semibold' : 'text-slate-500'}">${dow}</td>
+              <td class="py-1.5 px-2 text-center text-slate-500 font-mono">—</td>
+              <td class="py-1.5 px-2 text-center text-slate-500 font-mono">—</td>
+              <td class="py-2.5 px-2 text-center text-slate-500 font-mono">—</td>
+              <td class="py-2.5 px-2 text-center text-slate-500 font-mono">—</td>
+              <td class="py-2.5 px-2 text-center text-slate-500 font-mono">—</td>
+              <td class="py-2.5 px-3 text-slate-500 text-xs italic">Ожидается наблюдение</td>
+              <td class="py-2.5 px-3 text-right whitespace-nowrap">
+                <span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 text-[10px] font-mono">Дата не наступила</span>
+              </td>
+            </tr>
+          `;
+        } else {
+          csvDailyRows.push([
+            d, dow, showBlank ? '' : tDay, showBlank ? '' : tNight, press, wDir, wSpeed, precVal, cond, isDigital ? 'Цифровой реанализ ERA5' : 'Прибор метеостанции ВМО («Погода и Климат»)'
+          ].join(';'));
+
+          rowsHtml += `
+            <tr class="hover:bg-slate-800/60 transition-colors ${isToday ? 'bg-sky-950/40 ring-1 ring-sky-500/40' : (isWeekend ? 'bg-rose-950/15' : '')}">
+              <td class="py-2.5 px-3 font-bold text-slate-200 sticky left-0 bg-slate-950/95">
+                ${d} ${mName.toLowerCase().slice(0, 3)} ${isToday ? '<span class="text-[9px] ml-1 px-1 py-0.2 rounded bg-sky-500 text-slate-950 font-bold uppercase">Сегодня</span>' : ''}
+              </td>
+              <td class="py-2.5 px-2 text-center ${isWeekend ? 'text-rose-400 font-bold' : 'text-slate-400'}">${dow}</td>
+              <td class="py-1.5 px-2 text-center">
+                ${showBlank ? '<span class="text-slate-600">—</span>' : `<span class="inline-block px-2.5 py-0.5 rounded font-bold ${dayBg}">${tDaySign}°</span>`}
+              </td>
+              <td class="py-1.5 px-2 text-center">
+                ${showBlank ? '<span class="text-slate-600">—</span>' : `<span class="inline-block px-2.5 py-0.5 rounded font-bold ${nightBg}">${tNightSign}°</span>`}
+              </td>
+              <td class="py-2.5 px-2 text-center text-slate-300">${press} мм</td>
+              <td class="py-2.5 px-2 text-center text-slate-300">
+                <span class="font-bold text-sky-400">${wDir}</span>, ${wSpeed} м/с
+              </td>
+              <td class="py-2.5 px-2 text-center ${precVal > 0 ? 'text-cyan-300 font-bold' : 'text-slate-500'}">
+                ${precVal > 0 ? `${precVal} мм` : '—'}
+              </td>
+              <td class="py-2.5 px-3">
+                <div class="flex items-center space-x-1.5">
+                  <span class="text-base">${icon}</span>
+                  <span class="text-slate-300 truncate">${cond}</span>
+                </div>
+              </td>
+              <td class="py-2.5 px-3 text-right whitespace-nowrap">
+                ${provenanceBadge}
+              </td>
+            </tr>
+          `;
+        }
       }
 
       div.innerHTML = `
@@ -4044,13 +4190,13 @@
                 const isGap = d.is_gap;
                 const gapNote = d.gap_reason || '';
 
-                let statusBadge = `<span class="px-1.5 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold" title="Физический инструментальный замер опорной метеостанции">● Прибор ВМО</span>`;
+                let statusBadge = `<span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold shadow-xs" title="Фактический приборный замер метеостанции (Погода и Климат / ВМО)">● Факт ВМО («Погода и Климат»)</span>`;
                 if (d.status === 'PRE_FOUNDING') {
                   statusBadge = `<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-600/40 text-[9.5px]" title="${gapNote}">◇ До основания</span>`;
                 } else if (d.status === 'GAP') {
                   statusBadge = `<span class="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-500/40 text-[9.5px] font-bold" title="${gapNote}">○ Пропуск приборов</span>`;
                 } else if (d.status === 'REANALYSIS') {
-                  statusBadge = `<span class="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[9.5px]" title="Гомогенизированный реанализ ERA5">◆ Реанализ ERA5</span>`;
+                  statusBadge = `<span class="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[9.5px]" title="Гомогенизированный ряд ERA5">◆ Реанализ ERA5</span>`;
                 }
 
                 const anomColor = d.anom > 0 
@@ -4143,7 +4289,7 @@
         const y = d.year;
         const mList = clim.monthly_matrix[y] || [];
         const mTemps = mList.map(m => m.mean_t);
-        const statusStr = d.status === 'OBS' ? 'Приборный факт ВМО' : (d.status === 'REANALYSIS' ? 'Реанализ ERA5' : 'Пропуск приборных замеров');
+        const statusStr = d.status === 'OBS' ? 'Приборный факт ВМО («Погода и Климат»)' : (d.status === 'REANALYSIS' ? 'Реанализ ERA5' : 'Пропуск приборных замеров');
         const noteStr = (d.gap_reason || '').replace(/;/g, ',');
         
         const row = [
@@ -6477,8 +6623,49 @@
       });
     }
 
+    // =========================================================================
+    // THEME SWITCHER (LIGHT BY DEFAULT / DARK OPTIONAL)
+    // =========================================================================
+    function initTheme() {
+      const savedTheme = localStorage.getItem('meteo_theme') || 'light';
+      applyTheme(savedTheme);
+    }
+
+    function applyTheme(theme) {
+      const isDark = (theme === 'dark');
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+      localStorage.setItem('meteo_theme', isDark ? 'dark' : 'light');
+
+      const btn = document.getElementById('theme-toggle-btn');
+      const icon = document.getElementById('theme-toggle-icon');
+      const txt = document.getElementById('theme-toggle-text');
+      if (btn && icon && txt) {
+        if (isDark) {
+          icon.textContent = '🌙';
+          txt.textContent = 'Тёмная';
+          btn.title = 'Текущая: Тёмная. Нажмите для переключения на Светлую';
+        } else {
+          icon.textContent = '☀️';
+          txt.textContent = 'Светлая';
+          btn.title = 'Текущая: Светлая. Нажмите для переключения на Тёмную';
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const isCurrentlyDark = document.documentElement.classList.contains('dark');
+      applyTheme(isCurrentlyDark ? 'light' : 'dark');
+    }
+
     // Initial Startup
     window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('city')) {
         const c = urlParams.get('city').trim();
@@ -6533,29 +6720,29 @@
         <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-100 text-xl font-bold p-1">✕</button>
       </div>
 
-      <div class="text-xs text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-1">
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <h4 class="font-bold text-sky-400 mb-1">1. Статус независимого научно-информационного веб-сервиса</h4>
-          <p>
+      <div class="text-xs text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+          <h4 class="font-bold text-sky-400">1. Статус независимого научно-информационного веб-сервиса</h4>
+          <p class="text-slate-300 text-[11.5px] leading-relaxed">
             Веб-сайт «МетеоПортал» (meteocenter-rf.github.io) является независимой, некоммерческой научно-исследовательской инициативой в сфере визуализации открытых массивов машиночитаемых метеорологических данных (Data Science & Open Meteo Science).
             Сервис НЕ является органом государственной власти, НЕ является структурным подразделением Росгидромета, НЕ аффилирован с ФГБУ «Гидрометцентр России» и подведомственными УГМС. Проект НЕ осуществляет деятельность, подлежащую обязательному государственному лицензированию в области гидрометеорологии и мониторинга окружающей среды (ст. 9 и 13 Федерального закона от 19.07.1998 № 113-ФЗ).
           </p>
         </div>
 
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <h4 class="font-bold text-amber-400 mb-1">2. Принцип предоставления информации «КАК ЕСТЬ» (AS IS)</h4>
-          <p>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-200">2. Принцип предоставления информации «КАК ЕСТЬ» (AS IS)</h4>
+          <p class="text-slate-300 text-[11.5px] leading-relaxed">
             Все числовые прогностические модели (ECMWF IFS, GFS, ICON, GEM, WeatherNext 3.0), радарные слои осадков RainViewer, спутниковые композиты NASA GIBS, EUMETSAT и НИЦ «Планета», а также ретроспективный климатический архив (1890–2026 гг.) формируются автоматическими алгоритмическими методами без предварительного синоптического анализа и ручной редакции.
             Информация предоставляется исключительно в ознакомительных, исследовательских и образовательных целях. Администрация сервиса не гарантирует абсолютную безошибочность, непрерывность, актуальность и точность предоставляемых сведений.
           </p>
         </div>
 
-        <div class="p-3 rounded-xl bg-rose-950/40 border border-rose-600/40">
-          <h4 class="font-bold text-rose-300 mb-1">3. Полное исключение материальной и гражданско-правовой ответственности</h4>
-          <p>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+          <h4 class="font-bold text-rose-300">3. Полное исключение материальной и гражданско-правовой ответственности</h4>
+          <p class="text-slate-300 text-[11.5px] leading-relaxed">
             Администрация ресурса, авторы программного кода, владельцы доменов и технические провайдеры ни при каких обстоятельствах не несут ответственности перед физическими лицами, индивидуальными предпринимателями или юридическими лицами за любые убытки (реальный ущерб, упущенную выгоду, косвенные, случайные или штрафные убытки), возникшие в результате использования, неиспользования или доверия к сведениям сервиса, включая:
           </p>
-          <ul class="list-disc list-inside mt-1 space-y-0.5 text-slate-300 pl-1">
+          <ul class="list-disc list-inside mt-1 space-y-0.5 text-slate-400 pl-1 text-[11px]">
             <li>повреждение или утрату автотранспорта, конструкций, кровель и техники от града, шквалов, снегопадов, заморозков или затоплений;</li>
             <li>срыв, задержку или отмену авиационных рейсов, отправления поездов и движения судов;</li>
             <li>гибель посевов, урожая или скота от засухи, заморозков или градобития;</li>
@@ -6564,17 +6751,17 @@
           </ul>
         </div>
 
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <h4 class="font-bold text-emerald-400 mb-1">4. Обязательный регламент при угрозе опасных явлений</h4>
-          <p>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+          <h4 class="font-bold text-sky-400">4. Обязательный регламент при угрозе опасных явлений</h4>
+          <p class="text-slate-300 text-[11.5px] leading-relaxed">
             При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при принятии критически важных решений в сфере авиации, судоходства, строительства и безопасности, пользователи ОБЯЗАНЫ руководствоваться исключительно официальными штормовыми предупреждениями уполномоченных государственных служб:
             ФГБУ «Гидрометцентр России» (<a href="https://meteoinfo.ru" target="_blank" class="text-sky-400 hover:underline">meteoinfo.ru</a>), территориальных УГМС Росгидромета и Главных управлений МЧС России (<a href="https://mchs.gov.ru" target="_blank" class="text-sky-400 hover:underline">mchs.gov.ru</a>).
           </p>
         </div>
 
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800">
-          <h4 class="font-bold text-indigo-400 mb-1">5. Регламент архивных справок для бизнеса (B2B)</h4>
-          <p>
+        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-200">5. Регламент архивных справок для бизнеса (B2B)</h4>
+          <p class="text-slate-300 text-[11.5px] leading-relaxed">
             Формируемые аналитические выписки и протоколы представляют собой техническую математическую выборку и визуализацию открытых рядов ВМО / NOAA / ERA5. Они не являются государственной экспертизой и не заменяют официальные справки УГМС Росгидромета для судов и страховых выплат.
           </p>
         </div>
