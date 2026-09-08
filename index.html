@@ -299,6 +299,28 @@
       box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.6);
     }
 
+    /* ================= SIDEBAR & MODERN WORKSTATION STYLES ================= */
+    .sidebar-nav-btn {
+      color: #94a3b8;
+      background: transparent;
+      transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar-nav-btn:hover {
+      background: rgba(30, 41, 59, 0.75);
+      color: #f8fafc;
+    }
+    .sidebar-nav-active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+    }
+    .sidebar-nav-active svg {
+      color: #ffffff !important;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 
   <!-- Yandex.Metrika counter -->
@@ -450,72 +472,169 @@
     </div>
   </div>
 
-  <!-- ================= MAIN VIEWPORT CONTAINER ================= -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-5 flex-1 w-full space-y-3 sm:space-y-4">
+  <!-- ================= MASTER PORTAL CONTAINER: SIDEBAR + MAIN CONTENT ================= -->
+  <div class="max-w-[1580px] mx-auto px-2 sm:px-5 py-3 sm:py-4 flex-1 w-full flex flex-col md:flex-row gap-4 items-start">
 
-    <!-- SEARCH BAR & QUICK CITIES -->
-    <div class="glass rounded-2xl p-3 sm:p-4 shadow-xl">
-      <form id="search-form" onsubmit="handleSearch(event)" class="flex gap-2">
-        <div class="relative flex-1">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </div>
-          <input type="text" id="city-input" placeholder="Введите город (напр. Москва, Санкт-Петербург, Воронеж, Якутск, Норильск)..." 
-            class="w-full pl-9 pr-3 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 text-xs sm:text-sm transition"
-            value="Москва" />
-        </div>
-        <button type="submit" class="px-4 sm:px-5 py-2 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow-md shadow-sky-600/30 flex items-center space-x-1.5 shrink-0">
-          <span>Найти</span>
-          <svg class="w-3.5 h-3.5 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-        </button>
-      </form>
-
-      <!-- Quick Stations Bar -->
-      <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-mono">
-        <span class="text-slate-400 text-[11px] font-sans font-semibold shrink-0">Станции:</span>
-        <button onclick="setCity('Москва')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Москва (ВДНХ)</button>
-        <button onclick="setCity('Санкт-Петербург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">СПб (Пулково)</button>
-        <button onclick="setCity('Краснодар')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Краснодар (Круглик)</button>
-        <button onclick="setCity('Сочи')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Сочи (Адлер)</button>
-        <button onclick="setCity('Воронеж')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Воронеж</button>
-        <button onclick="setCity('Екатеринбург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Екатеринбург (Кольцово)</button>
-        <button onclick="setCity('Казань')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Казань</button>
-        <button onclick="setCity('Новосибирск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Новосибирск (Толмачево)</button>
-        <button onclick="setCity('Владивосток')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Владивосток</button>
-        <button onclick="setCity('Якутск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Якутск</button>
-        <button onclick="setCity('Норильск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">Норильск</button>
-      </div>
-
-    <!-- ================= AD SLOT 1: TOP BILLBOARD (YAN / FALLBACK) ================= -->
-    <div class="ad-container my-2">
-      <!-- Real Yandex.RTB Slot -->
-      <div id="yandex_rtb_R-A-112330199-1" class="hidden w-full text-center"></div>
-      
-      <!-- High-CTR Native Monetization Fallback -->
-      <div id="ad-slot-1-fallback" class="ad-fallback-banner">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-950/80 border border-sky-500/40 flex items-center justify-center text-xl shrink-0">
-            ✈️
-          </div>
-          <div>
-            <div class="text-xs sm:text-sm font-bold text-slate-100 flex items-center gap-1.5">
-              <span>Погода для поездок и отдыха: сравните цены на отели и авиабилеты</span>
-              <span class="text-[9px] uppercase px-1.5 py-0.2 rounded bg-sky-900/60 text-sky-300 font-mono font-bold">Партнер</span>
+    <!-- ================= LEFT SIDEBAR (НАСТОЯЩАЯ БОКОВАЯ ПАНЕЛЬ ПОРТАЛА) ================= -->
+    <aside id="portal-sidebar" class="w-full md:w-64 lg:w-72 shrink-0 md:sticky md:top-14 z-20 space-y-3">
+      <div class="glass-card rounded-2xl p-3 sm:p-3.5 border border-slate-700/80 shadow-2xl space-y-3">
+        
+        <!-- Search & City Input in Sidebar -->
+        <div>
+          <form id="sidebar-search-form" onsubmit="handleSearch(event)" class="relative">
+            <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
-            <p class="text-[11px] text-slate-400">Лучшие цены на отели, ЖД и авиабилеты по всей России без наценок и комиссий.</p>
+            <input type="text" id="city-input" placeholder="Поиск города..." 
+              class="w-full pl-8 pr-16 py-1.5 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 text-xs transition"
+              value="Москва" />
+            <button type="submit" class="absolute right-1 top-1 bottom-1 px-2.5 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg text-[10.5px] transition shadow">
+              Найти
+            </button>
+          </form>
+
+          <!-- Quick Station Chips -->
+          <div class="mt-2 flex items-center space-x-1 overflow-x-auto no-scrollbar py-0.5 text-[10.5px] font-mono">
+            <button onclick="setCity('Москва')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">Москва</button>
+            <button onclick="setCity('Санкт-Петербург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">СПб</button>
+            <button onclick="setCity('Сочи')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">Сочи</button>
+            <button onclick="setCity('Краснодар')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">Кубань</button>
+            <button onclick="setCity('Екатеринбург')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">Урал</button>
+            <button onclick="setCity('Новосибирск')" class="shrink-0 px-2 py-0.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 transition">Сибирь</button>
           </div>
         </div>
-        <div class="shrink-0 flex items-center space-x-2">
-          <a href="https://travel.yandex.ru/" target="_blank" rel="noopener" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-sky-600/30 transition flex items-center space-x-1">
-            <span>Яндекс Путешествия →</span>
+
+        <!-- Sidebar Navigation Sections Menu -->
+        <nav class="space-y-1 text-xs select-none">
+          <div class="px-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">МОНИТОРИНГ & РАДАР</div>
+
+          <button onclick="switchTab('current')" id="nav-btn-current" class="sidebar-nav-btn sidebar-nav-active w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              <span>Погода сейчас (48 ч)</span>
+            </span>
+            <span class="text-[10px] font-mono text-slate-400">ВМО</span>
+          </button>
+
+          <button onclick="switchTab('radar')" id="nav-btn-radar" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              <span class="font-bold text-cyan-300">Метеорадар и спутники</span>
+            </span>
+            <span class="px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/50 text-[9px] font-mono font-bold animate-pulse">LIVE</span>
+          </button>
+
+          <button onclick="switchTab('interactive')" id="nav-btn-interactive" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <span>Почасовая аэросиноптика</span>
+            </span>
+          </button>
+
+          <div class="px-2 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">ПРОГНОЗЫ & МОДЕЛИ</div>
+
+          <button onclick="switchTab('weathernext')" id="nav-btn-weathernext" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+              <span>ECMWF IFS & WeatherNext</span>
+            </span>
+            <span class="text-[9px] px-1.5 py-0.2 rounded bg-sky-950 text-sky-300 font-mono font-bold">AI</span>
+          </button>
+
+          <button onclick="switchTab('models')" id="nav-btn-models" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              <span>4 Суперкомпьютера</span>
+            </span>
+          </button>
+
+          <button onclick="switchTab('week')" id="nav-btn-week" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              <span>Прогноз на 7 суток</span>
+            </span>
+          </button>
+
+          <button onclick="switchTab('14days')" id="nav-btn-14days" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              <span>Прогноз на 14 суток</span>
+            </span>
+          </button>
+
+          <div class="px-2 pt-2.5 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">КЛИМАТ & ЭКОЛОГИЯ</div>
+
+          <button onclick="switchTab('month')" id="nav-btn-month" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+              <span>Сезонный тренд 30 дней</span>
+            </span>
+          </button>
+
+          <button onclick="switchTab('archive')" id="nav-btn-archive" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Архив 120+ лет</span>
+            </span>
+            <span class="text-[9px] text-amber-400 font-mono font-bold">1890–2026</span>
+          </button>
+
+          <button onclick="switchTab('ecology')" id="nav-btn-ecology" class="sidebar-nav-btn w-full px-3 py-2 rounded-xl flex items-center justify-between text-left transition font-medium">
+            <span class="flex items-center space-x-2.5">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Качество воздуха и УФ</span>
+            </span>
+          </button>
+        </nav>
+
+        <!-- Sidebar Footer Action Badges -->
+        <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
+          <button onclick="openLegalModal()" class="text-amber-400 hover:text-amber-300 transition flex items-center space-x-1 font-medium">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>113-ФЗ</span>
+          </button>
+          <button onclick="openDonateModal()" class="text-rose-400 hover:text-rose-300 transition flex items-center space-x-1 font-medium">
+            <span>💖 Поддержать</span>
+          </button>
+          <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="text-sky-400 hover:underline font-medium">
+            Автор TG
           </a>
         </div>
       </div>
-    </div>
-    </div>
+    </aside>
 
-    <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (TOUCH / SWIPE) ================= -->
-    <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
+    <!-- ================= MAIN VIEWPORT CONTENT ================= -->
+    <main class="flex-1 min-w-0 w-full space-y-3 sm:space-y-4">
+
+      <!-- ================= AD SLOT 1: TOP BILLBOARD (YAN / FALLBACK) ================= -->
+      <div class="ad-container my-1">
+        <!-- Real Yandex.RTB Slot -->
+        <div id="yandex_rtb_R-A-112330199-1" class="hidden w-full text-center"></div>
+        
+        <!-- High-CTR Native Monetization Fallback -->
+        <div id="ad-slot-1-fallback" class="ad-fallback-banner">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-950/80 border border-sky-500/40 flex items-center justify-center text-xl shrink-0">
+              ✈️
+            </div>
+            <div>
+              <div class="text-xs sm:text-sm font-bold text-slate-100 flex items-center gap-1.5">
+                <span>Погода для поездок и отдыха: сравните цены на отели и авиабилеты</span>
+                <span class="text-[9px] uppercase px-1.5 py-0.2 rounded bg-sky-900/60 text-sky-300 font-mono font-bold">Партнер</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Лучшие цены на отели, ЖД и авиабилеты по всей России без наценок и комиссий.</p>
+            </div>
+          </div>
+          <div class="shrink-0 flex items-center space-x-2">
+            <a href="https://travel.yandex.ru/" target="_blank" rel="noopener" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-sky-600/30 transition flex items-center space-x-1">
+              <span>Яндекс Путешествия →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MOBILE HORIZONTALLY SCROLLABLE TABS BAR ================= -->
+      <div id="tabs-bar" class="md:hidden flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
       <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active">
         <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <span>Фактическая погода (48 ч)</span>
@@ -713,8 +832,8 @@
           <a href="?city=Батуми" class="text-slate-300 hover:text-sky-400 transition py-0.5">🇬🇪 Батуми</a>
         </div>
       </div>
-    </details>
   </main>
+  </div>
 
   <!-- ================= FOOTER ================= -->
   <footer class="mt-8 border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 glass">
@@ -835,6 +954,11 @@
         }
       }
 
+      // Update sidebar nav buttons
+      document.querySelectorAll('.sidebar-nav-btn').forEach(btn => btn.classList.remove('sidebar-nav-active'));
+      const activeNavBtn = document.getElementById(`nav-btn-${mode}`);
+      if (activeNavBtn) activeNavBtn.classList.add('sidebar-nav-active');
+
       // Scroll active tab into view in tabs bar
       const activeBtn = tabButtons[mode];
       if (activeBtn) {
@@ -856,9 +980,21 @@
     }
 
     function setCity(name) {
-      document.getElementById('city-input').value = name;
+      const mainInput = document.getElementById('city-input');
+      if (mainInput) mainInput.value = name;
+      const sbInput = document.getElementById('sidebar-city-input');
+      if (sbInput) sbInput.value = name;
       currentCity = name;
       fetchData();
+    }
+
+    function handleSidebarSearch(e) {
+      if (e) e.preventDefault();
+      const sbInput = document.getElementById('sidebar-city-input');
+      const val = sbInput ? sbInput.value.trim() : '';
+      if (val) {
+        setCity(val);
+      }
     }
 
     function handleSearch(e) {
@@ -1616,15 +1752,72 @@
         : '+11.0 °C';
       const normMonthName = MONTH_NAMES[currMonthIdx] || 'Месяц';
 
+      // Hero Temperature Metrics
+      const tVal = c.temp != null ? Math.round(c.temp) : 15;
+      const tSign = tVal > 0 ? `+${tVal}` : `${tVal}`;
+      const appVal = c.apparent != null ? Math.round(c.apparent) : tVal;
+      const appSign = appVal > 0 ? `+${appVal}` : `${appVal}`;
+      const minToday = c.temp_min_today != null ? Math.round(c.temp_min_today) : (tVal - 5);
+      const maxToday = c.temp_max_today != null ? Math.round(c.temp_max_today) : (tVal + 5);
+      const minSign = minToday > 0 ? `+${minToday}` : `${minToday}`;
+      const maxSign = maxToday > 0 ? `+${maxToday}` : `${maxToday}`;
+      const normValNum = (d.climate && d.climate.t_norm && d.climate.t_norm[currMonthIdx] != null) ? d.climate.t_norm[currMonthIdx] : 11.0;
+      const anomDiff = Math.round((tVal - normValNum) * 10) / 10;
+      const anomSign = anomDiff > 0 ? `+${anomDiff}` : `${anomDiff}`;
+      const anomText = anomDiff > 0 
+        ? `Выше нормы на ${anomSign}°C 🔥` 
+        : (anomDiff < 0 ? `Ниже нормы на ${anomSign}°C ❄️` : `В пределах климатической нормы ВМО 🟢`);
+      const anomColor = anomDiff > 0 ? 'text-rose-400' : (anomDiff < 0 ? 'text-sky-400' : 'text-emerald-400');
+
       card.innerHTML = `
-        <!-- Station Header Badge -->
-        <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-2 border border-slate-700/60">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="text-xs font-bold text-emerald-300 font-mono uppercase">${c.station_name || 'Опорная станция ВМО'}</span>
-          </div>
-          <div class="text-[11px] text-slate-400 font-mono">
-            ${d.coords} · Синхронизация: только что
+        <!-- ================= HERO CURRENT WEATHER & TEMPERATURE BANNER ================= -->
+        <div class="glass-card rounded-2xl p-5 sm:p-7 border border-sky-500/40 bg-gradient-to-br from-slate-900/95 via-slate-950/98 to-sky-950/35 shadow-2xl relative overflow-hidden">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
+            <!-- Left: City, Condition, Comfort, Min/Max -->
+            <div class="space-y-2.5">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs font-bold text-emerald-300 font-mono uppercase tracking-wider">${c.station_name || 'Опорная станция ВМО'}</span>
+                <span class="text-slate-500 text-xs font-mono">· ${d.coords}</span>
+              </div>
+
+              <div class="flex items-center space-x-3">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">${d.city}</h1>
+                <span class="text-4xl sm:text-5xl drop-shadow-md">${c.icon || '⛅'}</span>
+              </div>
+
+              <div class="text-base sm:text-lg text-slate-200 font-medium flex items-center space-x-2">
+                <span class="text-cyan-300 font-bold">${c.condition || 'Переменная облачность'}</span>
+                <span class="text-slate-600">•</span>
+                <span class="text-slate-300 font-mono text-sm sm:text-base">Ощущается как <strong class="text-white">${appSign}°C</strong></span>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2.5 pt-1 text-xs font-mono">
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-300 flex items-center space-x-2 shadow-sm">
+                  <span class="text-sky-400 font-bold">↓ Мин ${minSign}°</span>
+                  <span class="text-slate-600">/</span>
+                  <span class="text-amber-400 font-bold">↑ Макс ${maxSign}°</span>
+                </div>
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/80 ${anomColor} font-semibold flex items-center space-x-1.5 shadow-sm">
+                  <span>${anomText}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Giant High-Contrast Temperature Display -->
+            <div class="flex items-start md:items-end flex-col justify-center shrink-0 border-t md:border-t-0 md:border-l border-slate-800/80 pt-4 md:pt-0 md:pl-8">
+              <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">Фактическая температура</div>
+              <div class="flex items-baseline">
+                <span class="text-6xl sm:text-7xl lg:text-8xl font-black font-mono tracking-tighter text-white drop-shadow-[0_0_35px_rgba(56,189,248,0.28)]">
+                  ${tSign}
+                </span>
+                <span class="text-3xl sm:text-4xl lg:text-5xl font-light text-cyan-400 font-mono ml-1">°C</span>
+              </div>
+              <div class="text-xs text-slate-400 font-mono mt-1 flex items-center space-x-1.5">
+                <span>Климат-норма ${normMonthName}:</span>
+                <strong class="text-slate-200 font-bold">${normMonthVal}</strong>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1878,12 +2071,11 @@
           const precBadge = (h.precip && h.precip >= 0.1) ? `<div class="text-[10px] text-cyan-400 font-bold mt-0.5">${h.precip} мм</div>` : '';
           const dayColor = (currentDayTag === 'Сегодня') ? 'text-sky-400' : 'text-amber-400';
           return `
-            <div class="shrink-0 w-16 px-2 py-2 rounded-xl ${isNow ? 'bg-sky-950/90 border border-sky-500/60 shadow-lg' : (h.is_midnight ? 'bg-amber-950/40 border border-amber-500/50' : 'bg-slate-900/60 border border-slate-800')}">
+            <div class="shrink-0 w-16 px-2 py-2 rounded-xl text-center ${isNow ? 'bg-sky-950/90 border border-sky-500/60 shadow-lg' : (h.is_midnight ? 'bg-amber-950/40 border border-amber-500/50' : 'bg-slate-900/60 border border-slate-800')}">
               <div class="text-[9px] font-bold uppercase ${dayColor}">${currentDayTag}</div>
               <div class="text-[10px] font-medium text-slate-400">${isNow ? 'Сейчас' : h.time_lbl}</div>
               <div class="text-xl my-1">${h.icon || '⛅'}</div>
-              <div class="text-xs font-bold font-mono text-white">${tSign}</div>
-              <div class="text-[9px] text-slate-500">${h.wind || 3} м/с</div>
+              <div class="text-sm font-bold font-mono text-white">${tSign}</div>
               ${precBadge}
             </div>
           `;
@@ -1900,178 +2092,65 @@
       const card = document.createElement('div');
       card.className = 'glass rounded-2xl p-3.5 sm:p-5 shadow-2xl space-y-3';
       card.innerHTML = `
-        <!-- Observatory Header & Realtime Telemetry -->
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-800 text-xs">
-          <div class="flex items-center space-x-2.5">
+        <!-- Compact Observatory Header & Modern Controls Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 sm:p-4 rounded-2xl bg-slate-900/90 border border-slate-800 text-xs shadow-lg">
+          <div class="flex items-center space-x-3">
             <span class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
             <div>
               <h2 class="font-bold uppercase tracking-wider text-slate-100 flex items-center space-x-2">
                 <svg class="w-4 h-4 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                <span>РАДИОЛОКАЦИОННЫЙ И СПУТНИКОВЫЙ МОНИТОРИНГ</span>
+                <span>РАДИОЛОКАЦИОННЫЙ & СПУТНИКОВЫЙ МОНИТОРИНГ</span>
               </h2>
               <p class="text-[11px] text-slate-400 font-mono">NASA AIRS Осадки РФ • Спутник ИК 24/7 EUMETSAT • Windy ECMWF • НИЦ «Планета»</p>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <span id="observatory-status-pill" class="px-2.5 py-1 rounded-lg bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 font-mono text-[11px] font-bold">
+
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="observatory-status-pill" class="px-2.5 py-1.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-mono text-[11px] font-bold">
               Спутниковые осадки NASA (РФ 100%)
             </span>
-            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
+
+            <!-- Region Presets Dropdown Selector (Replaces flat buttons) -->
+            <select id="radar-region-preset-select" onchange="onSelectPresetRegion(this.value)" class="bg-slate-950 text-slate-200 border border-sky-500/40 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-cyan-400 outline-none cursor-pointer">
+              <option value="current">📍 ${d.city} (Текущий)</option>
+              <option value="moscow">🇷🇺 Москва и ЦФО</option>
+              <option value="spb">🇷🇺 Санкт-Петербург и СЗФО</option>
+              <option value="sochi">🇷🇺 Сочи и Черноморье</option>
+              <option value="krasnodar">🇷🇺 Краснодар (Кубань)</option>
+              <option value="kazan">🇷🇺 Казань и Поволжье</option>
+              <option value="ekb">🇷🇺 Екатеринбург (Урал)</option>
+              <option value="nsk">🇷🇺 Новосибирск (Сибирь)</option>
+              <option value="vladivostok">🇷🇺 Владивосток (Дальний Восток)</option>
+              <option value="tbilisi">🇬🇪 Тбилиси</option>
+              <option value="batumi">🇬🇪 Батуми (Аджария)</option>
+              <option value="kutaisi">🇬🇪 Кутаиси</option>
+              <option value="kazbegi">🇬🇪 Казбеги (Кавказ)</option>
+              <option value="eurasia">🌍 Обзор всей РФ и Евразии</option>
+            </select>
+
+            <!-- Windy Switch -->
+            <button id="btn-windy-mode-switch" onclick="toggleWindyMode()" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5">
+              <svg class="w-3.5 h-3.5 text-cyan-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              <span id="windy-btn-label">Режим Windy</span>
+            </button>
+
+            <!-- Fullscreen Toggle -->
+            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-mono transition">
               ⛶ Экран
             </button>
           </div>
         </div>
 
-        <!-- RF Radar Status & Direct Windy Toggle Strip -->
-        <div class="px-3.5 py-2.5 rounded-xl bg-sky-950/40 border border-sky-500/30 text-xs text-sky-200 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center space-x-2">
-            <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span class="text-[11.5px] leading-relaxed">
-              <strong>Радарная обстановка в РФ:</strong> Наземные доплеровские радары ДМРЛ-С закрыты Росгидрометом для внешних сервисов. Для РФ работает <strong>Спутниковый радар осадков NASA</strong> (100% покрытие), <strong>ИК-мониторинг 24/7</strong> и официальный <strong>Windy ECMWF</strong>.
-            </span>
-          </div>
-          <div class="flex items-center space-x-1.5 shrink-0">
-            <button id="btn-windy-mode-switch" onclick="toggleWindyMode()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center space-x-1.5">
-              <svg class="w-3.5 h-3.5 text-cyan-200 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-              <span id="windy-btn-label">Режим Windy (Оригинал)</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Regional Quick-Preset Navigation Strip (Russia & Georgia Focused) -->
-        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-[11px] font-mono select-none">
-          <span class="text-slate-400 shrink-0 text-xs font-sans font-semibold mr-1">Регионы:</span>
-          <button onclick="flyToPreset(${d.lat}, ${d.lon}, 8, '${d.city}')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-sky-950/70 hover:bg-sky-900 border border-sky-600/60 text-sky-200 transition font-bold">
-            ${d.city}
-          </button>
-          <button onclick="flyToPreset(55.7558, 37.6173, 8, 'Москва')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Москва и ЦФО
-          </button>
-          <button onclick="flyToPreset(59.9343, 30.3351, 8, 'Санкт-Петербург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            СПб и СЗФО
-          </button>
-          <button onclick="flyToPreset(43.5855, 39.7231, 8, 'Сочи')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Сочи и Черноморье
-          </button>
-          <button onclick="flyToPreset(45.0355, 38.9753, 9, 'Краснодар')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Краснодар (Кубань)
-          </button>
-          <button onclick="flyToPreset(55.7887, 49.1221, 8, 'Казань')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Поволжье
-          </button>
-          <button onclick="flyToPreset(56.8389, 60.6057, 8, 'Екатеринбург')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Урал (Екб)
-          </button>
-          <button onclick="flyToPreset(55.0084, 82.9357, 7, 'Новосибирск')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Сибирь (Нск)
-          </button>
-          <button onclick="flyToPreset(43.1155, 131.8855, 7, 'Владивосток')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Дальний Восток
-          </button>
-          <button onclick="flyToPreset(41.7151, 44.8271, 9, 'Тбилиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Тбилиси
-          </button>
-          <button onclick="flyToPreset(41.6423, 41.6339, 10, 'Батуми')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Батуми (Аджария)
-          </button>
-          <button onclick="flyToPreset(42.2679, 42.6946, 9, 'Кутаиси')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Кутаиси
-          </button>
-          <button onclick="flyToPreset(42.6593, 44.6418, 9, 'Казбеги')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Казбеги (Кавказ)
-          </button>
-          <button onclick="flyToPreset(53.0, 60.0, 4, 'Евразия')" class="preset-btn shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">
-            Обзор РФ и Евразии
-          </button>
-        </div>
-
-        <!-- Weather Layers Switcher Bar (Row 1: Radars, Windy Wind & Satellites) -->
-        <div class="flex flex-wrap items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
-          <div class="flex flex-wrap items-center gap-1.5">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold shrink-0">Метеослой:</span>
-            <button id="btn-layer-airs-precip" onclick="switchWeatherLayer('airs_precip')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый радар осадков NASA: дождь и снегопады по всей России 24/7">
-              Осадки РФ (NASA)
-            </button>
-            <button id="btn-layer-sat-live-ir" onclick="switchWeatherLayer('sat_live_ir')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Спутниковый ИК-мониторинг облачности и грозовых фронтов день/ночь 24/7">
-              Спутник ИК 24/7
-            </button>
-            <button id="btn-layer-sat-planeta" onclick="switchWeatherLayer('sat_planeta')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Мультиспектральный композит воздушных масс Росгидромета и НИЦ «Планета»">
-              НИЦ «Планета»
-            </button>
-            <button id="btn-layer-radar" onclick="switchWeatherLayer('radar')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}" title="Наземный доплеровский радар (страны СНГ и Европа)">
-              Доплер-радар (СНГ)
-            </button>
-            <button id="btn-layer-sat-viirs" onclick="switchWeatherLayer('sat_viirs')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              NASA VIIRS HD
-            </button>
-            <button id="btn-layer-sat-modis" onclick="switchWeatherLayer('sat_modis')" class="px-3 py-1 rounded-lg font-medium transition ${activeWeatherLayer === 'sat_modis' ? 'bg-cyan-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
-              NASA Terra
-            </button>
-          </div>
-
-          <!-- Windy FX Streamlines Toggle Button -->
-          <div class="flex items-center">
-            <button id="btn-windy-particles" onclick="toggleWindParticles()" class="px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 ${showWindParticles ? 'windy-stream-btn-active' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}" title="Включить/выключить живые линии тока ветра как на Windy">
-              <svg class="w-3.5 h-3.5 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-              <span>Частицы ветра</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Row 2: Weather Gradients & Basemaps Bar -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-2 text-xs">
-          <!-- Weather Gradients Toolbar (7 cols on md) -->
-          <div class="md:col-span-7 flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold">Градиент:</span>
-            <button id="btn-grad-none" onclick="switchWeatherGradient('none')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'none' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-              Без градиента
-            </button>
-            <button id="btn-grad-temp" onclick="switchWeatherGradient('temp')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'temp' ? 'bg-rose-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              Термокарта (°C)
-            </button>
-            <button id="btn-grad-precip" onclick="switchWeatherGradient('precip')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'precip' ? 'bg-sky-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              Осадки (мм)
-            </button>
-            <button id="btn-grad-wind" onclick="switchWeatherGradient('wind')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'wind' ? 'bg-teal-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              Ветер (м/с)
-            </button>
-            <button id="btn-grad-clouds" onclick="switchWeatherGradient('clouds')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'clouds' ? 'bg-indigo-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              Облачность (%)
-            </button>
-            <button id="btn-grad-press" onclick="switchWeatherGradient('press')" class="px-2 py-0.5 rounded text-[11px] transition ${activeWeatherGradient === 'press' ? 'bg-amber-600 text-white font-bold shadow' : 'text-slate-400 hover:text-slate-200'}">
-              Давление
-            </button>
-          </div>
-
-          <!-- Basemap Selector & Stations toggle (5 cols on md) -->
-          <div class="md:col-span-5 flex items-center justify-between gap-1.5 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800">
-            <span class="text-slate-400 text-[11px] px-1 font-semibold">Подложка:</span>
-            <div class="flex items-center space-x-1">
-              <button id="btn-base-sat" onclick="switchBasemap('satellite')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                Спутник HD
-              </button>
-              <button id="btn-base-dark" onclick="switchBasemap('dark')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                Темная
-              </button>
-              <button id="btn-base-osm" onclick="switchBasemap('osm')" class="px-2.5 py-1 rounded-lg text-[11px] font-medium transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-bold' : 'text-slate-400 hover:text-slate-200'}">
-                OSM
-              </button>
-            </div>
-            <button id="btn-stations-toggle" onclick="toggleMeteoStations()" title="Показать/скрыть опорные станции ВМО" class="px-2 py-1 rounded-lg text-[11px] font-medium bg-emerald-950/80 border border-emerald-500/50 text-emerald-300 shrink-0">
-              Станции
-          </div>
-        </div>
-
         <!-- Radar Map Wrapper Container with Side Telemetry Docks, Windy Canvas and Windy Embed -->
-        <div id="radar-map-wrapper" class="w-full h-[560px] sm:h-[620px] rounded-xl border border-slate-800 relative overflow-hidden bg-slate-950">
+        <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
           <div id="radar-map" class="w-full h-full z-0"></div>
-          <iframe id="windy-embed-frame" class="hidden absolute inset-0 w-full h-full z-10 border-0 rounded-xl" src="" loading="lazy"></iframe>
+          <iframe id="windy-embed-frame" class="hidden absolute inset-0 w-full h-full z-10 border-0 rounded-2xl" src="" loading="lazy"></iframe>
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
           <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]"></canvas>
 
           <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
-          <div id="radar-left-dock" class="absolute top-2.5 left-2.5 z-20 pointer-events-auto transition-all duration-300 max-w-[230px] sm:max-w-[270px]">
-            <div class="glass-card rounded-xl p-2.5 sm:p-3 border border-sky-500/30 bg-slate-950/90 shadow-2xl backdrop-blur-md space-y-2 text-[11px] font-mono">
+          <div id="radar-left-dock" class="absolute top-3 left-3 z-20 pointer-events-auto transition-all duration-300 max-w-[240px] sm:max-w-[280px]">
+            <div class="glass-card rounded-2xl p-3 border border-sky-500/30 bg-slate-950/92 shadow-2xl backdrop-blur-md space-y-2 text-[11px] font-mono">
               <div class="flex items-center justify-between border-b border-slate-800 pb-1 font-sans font-bold text-slate-200">
                 <div class="flex items-center space-x-1.5">
                   <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
@@ -2143,72 +2222,112 @@
             </div>
           </div>
 
-          <!-- ================= RIGHT DOCK: БЫСТРОЕ ПЕРЕКЛЮЧЕНИЕ СЛОЕВ ================= -->
-          <div id="radar-right-dock" class="absolute top-2.5 right-2.5 z-20 pointer-events-auto transition-all duration-300">
-            <div class="glass-card rounded-xl p-2 border border-slate-700/70 bg-slate-950/90 shadow-2xl backdrop-blur-md space-y-1 text-xs">
+          <!-- ================= RIGHT DOCK: HUD CONTROL RAIL (СЛОИ, ГРАДИЕНТЫ, ПОДЛОЖКИ) ================= -->
+          <div id="radar-right-dock" class="absolute top-3 right-3 z-20 pointer-events-auto transition-all duration-300 w-[205px]">
+            <div class="glass-card rounded-2xl p-2.5 border border-slate-700/70 bg-slate-950/92 shadow-2xl backdrop-blur-md space-y-2 text-xs">
               <div class="flex items-center justify-between border-b border-slate-800 pb-1 px-1 font-sans font-bold text-slate-300">
-                <span class="text-[10px] uppercase tracking-wider text-slate-400">Слои карты</span>
+                <span class="text-[10px] uppercase tracking-wider text-slate-400 flex items-center space-x-1">
+                  <span>⚙️</span>
+                  <span>Управление</span>
+                </span>
                 <button onclick="toggleRightDock()" id="btn-right-dock-toggle" class="text-slate-400 hover:text-white px-1 font-bold text-xs" title="Свернуть/развернуть панель">
                   —
                 </button>
               </div>
 
-              <div id="radar-right-dock-content" class="flex flex-col space-y-1">
-                <button onclick="switchWeatherLayer('sat_live_ir')" id="dock-btn-sat_live_ir" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_live_ir' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                    <span>Спутник ИК 24/7</span>
-                  </span>
-                  <span class="text-[8.5px] opacity-75 font-sans">EUMETSAT</span>
-                </button>
-
-                <button onclick="switchWeatherLayer('airs_precip')" id="dock-btn-airs_precip" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'airs_precip' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                    <span>Осадки РФ</span>
-                  </span>
-                  <span class="text-[8.5px] opacity-75 font-sans">NASA</span>
-                </button>
-
-                <button onclick="switchWeatherLayer('sat_viirs')" id="dock-btn-sat_viirs" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_viirs' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                    <span>Облака HD</span>
-                  </span>
-                  <span class="text-[8.5px] opacity-75 font-sans">VIIRS 250м</span>
-                </button>
-
-                <button onclick="switchWeatherLayer('sat_planeta')" id="dock-btn-sat_planeta" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_planeta' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                    <span>НИЦ «Планета»</span>
-                  </span>
-                  <span class="text-[8.5px] opacity-75 font-sans">Airmass</span>
-                </button>
-
-                <button onclick="switchWeatherLayer('radar')" id="dock-btn-radar" class="dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
-                  <span class="flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'radar' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                    <span>Доплер-радар</span>
-                  </span>
-                  <span class="text-[8.5px] opacity-75 font-sans">СНГ / ЕС</span>
-                </button>
-
-                <div class="pt-1 border-t border-slate-800 flex flex-col space-y-1">
-                  <button onclick="toggleWindyMode()" class="px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono font-bold bg-gradient-to-r from-sky-600 to-cyan-600 text-white flex items-center justify-between gap-2 shadow transition hover:brightness-110">
-                    <span>Режим Windy</span>
-                    <span class="text-[9px] opacity-90">60 FPS</span>
+              <div id="radar-right-dock-content" class="flex flex-col space-y-2">
+                <!-- Метеослои -->
+                <div class="space-y-1">
+                  <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold px-1">Метеослой</div>
+                  <button onclick="switchWeatherLayer('airs_precip')" id="dock-btn-airs_precip" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'airs_precip' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'airs_precip' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">Осадки РФ (NASA)</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">100%</span>
                   </button>
 
-                  <button onclick="toggleWindParticles()" id="dock-btn-particles" class="px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showWindParticles ? 'bg-sky-950 text-sky-300 border border-sky-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
-                    <span>Линии ветра</span>
+                  <button onclick="switchWeatherLayer('sat_live_ir')" id="dock-btn-sat_live_ir" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'sat_live_ir' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_live_ir' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">Спутник ИК 24/7</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">EUM</span>
+                  </button>
+
+                  <button onclick="switchWeatherLayer('sat_planeta')" id="dock-btn-sat_planeta" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_planeta' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">НИЦ «Планета»</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">РФ</span>
+                  </button>
+
+                  <button onclick="switchWeatherLayer('radar')" id="dock-btn-radar" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'radar' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'radar' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">Доплер-радар</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">СНГ</span>
+                  </button>
+
+                  <button onclick="switchWeatherLayer('sat_viirs')" id="dock-btn-sat_viirs" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'sat_viirs' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_viirs' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">Облака VIIRS HD</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">250м</span>
+                  </button>
+
+                  <button onclick="switchWeatherLayer('sat_modis')" id="dock-btn-sat_modis" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'sat_modis' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
+                    <span class="flex items-center gap-1.5 truncate">
+                      <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_modis' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
+                      <span class="truncate">NASA Terra</span>
+                    </span>
+                    <span class="text-[8.5px] opacity-75 font-sans shrink-0">MODIS</span>
+                  </button>
+                </div>
+
+                <!-- Потоки ветра & Станции -->
+                <div class="pt-1 border-t border-slate-800 space-y-1">
+                  <button onclick="toggleWindParticles()" id="dock-btn-particles" class="w-full px-2 py-1.5 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showWindParticles ? 'bg-sky-950 text-sky-300 border border-sky-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
+                    <span class="flex items-center gap-1">💨 Линии ветра</span>
                     <span id="dock-particles-status" class="font-bold">${showWindParticles ? 'ВКЛ' : 'ВЫКЛ'}</span>
                   </button>
 
-                  <button onclick="toggleMeteoStations()" id="dock-btn-stations" class="px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showStations ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
-                    <span>Станции ВМО</span>
+                  <button onclick="toggleMeteoStations()" id="dock-btn-stations" class="w-full px-2 py-1.5 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showStations ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-600/50' : 'bg-slate-900 text-slate-400 hover:text-white'}">
+                    <span class="flex items-center gap-1">📍 Станции ВМО</span>
                     <span id="dock-stations-status" class="font-bold">${showStations ? 'ВКЛ' : 'ВЫКЛ'}</span>
                   </button>
+                </div>
+
+                <!-- Выбор Градиента -->
+                <div class="pt-1 border-t border-slate-800 space-y-1">
+                  <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold px-1">Градиент карты</div>
+                  <select id="radar-gradient-select" onchange="switchWeatherGradient(this.value)" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-[10.5px] rounded-lg p-1.5 outline-none font-mono cursor-pointer">
+                    <option value="none" ${activeWeatherGradient === 'none' ? 'selected' : ''}>Без градиента</option>
+                    <option value="temp" ${activeWeatherGradient === 'temp' ? 'selected' : ''}>🌡️ Температура (°C)</option>
+                    <option value="precip" ${activeWeatherGradient === 'precip' ? 'selected' : ''}>🌧️ Осадки (мм)</option>
+                    <option value="wind" ${activeWeatherGradient === 'wind' ? 'selected' : ''}>💨 Ветер (м/с)</option>
+                    <option value="clouds" ${activeWeatherGradient === 'clouds' ? 'selected' : ''}>☁️ Облачность (%)</option>
+                    <option value="press" ${activeWeatherGradient === 'press' ? 'selected' : ''}>🧭 Давление (мм)</option>
+                  </select>
+                </div>
+
+                <!-- Выбор Подложки -->
+                <div class="pt-1 border-t border-slate-800 space-y-1">
+                  <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold px-1">Подложка</div>
+                  <div class="grid grid-cols-3 gap-1">
+                    <button onclick="switchBasemap('dark')" id="dock-base-dark" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
+                      Темная
+                    </button>
+                    <button onclick="switchBasemap('satellite')" id="dock-base-sat" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
+                      Спутник
+                    </button>
+                    <button onclick="switchBasemap('osm')" id="dock-base-osm" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
+                      OSM
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2223,8 +2342,8 @@
           </div>
 
           <!-- In-Map Bottom Floating Telemetry Ribbon -->
-          <div class="absolute bottom-2.5 left-2.5 z-10 pointer-events-none hidden sm:block">
-            <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-lg border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/85">
+          <div class="absolute bottom-3 left-3 z-10 pointer-events-none hidden sm:block">
+            <div id="radar-info-box" class="glass-card px-3 py-1.5 rounded-xl border border-slate-700/80 shadow-lg text-[11px] font-mono text-slate-300 bg-slate-950/85">
               Спутниковые осадки NASA • 100% покрытие РФ • Опорная сеть ВМО
             </div>
           </div>
@@ -2547,10 +2666,10 @@
           attribution: '© Esri World Imagery'
         }).addTo(radarMap);
       } else if (activeBasemap === 'dark') {
-        basemapLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          maxZoom: 19,
-          subdomains: 'abcd',
-          attribution: '© CartoDB, © OpenStreetMap'
+        // High-speed, official Esri World Dark Gray Canvas (ZERO watermarks, NO API key required, pure dark theme)
+        basemapLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 16,
+          attribution: '© Esri World Dark Gray Canvas'
         }).addTo(radarMap);
       } else {
         basemapLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -2566,12 +2685,17 @@
       applyBasemapLayer();
       ['dark', 'sat', 'osm'].forEach(k => {
         const btn = document.getElementById(`btn-base-${k}`);
-        if (!btn) return;
+        const dBtn = document.getElementById(`dock-base-${k}`);
         const matches = (k === 'sat' && type === 'satellite') || (k === type);
-        if (matches) {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition bg-slate-700 text-white font-bold';
-        } else {
-          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition text-slate-400 hover:text-slate-200';
+        if (btn) {
+          btn.className = matches
+            ? 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition bg-slate-700 text-white font-bold'
+            : 'px-2.5 py-1 rounded-lg text-[11px] font-medium transition text-slate-400 hover:text-slate-200';
+        }
+        if (dBtn) {
+          dBtn.className = matches
+            ? 'px-1.5 py-1 rounded text-[10px] font-mono text-center transition bg-slate-700 text-white font-bold'
+            : 'px-1.5 py-1 rounded text-[10px] font-mono text-center transition bg-slate-900 text-slate-400 hover:text-slate-200';
         }
       });
     }
@@ -2642,6 +2766,9 @@
     // Weather Gradients Engine (Dynamic Regional Interpolation over Russia & Georgia)
     function switchWeatherGradient(gradType) {
       activeWeatherGradient = gradType;
+
+      const gradSel = document.getElementById('radar-gradient-select');
+      if (gradSel && gradSel.value !== gradType) gradSel.value = gradType;
 
       ['none', 'temp', 'precip', 'wind', 'clouds', 'press'].forEach(k => {
         const btn = document.getElementById(`btn-grad-${k}`);
@@ -2952,15 +3079,15 @@
       });
 
       // Update Right Dock buttons & active LED dots
-      ['sat_live_ir', 'airs_precip', 'sat_viirs', 'sat_planeta', 'radar'].forEach(k => {
+      ['sat_live_ir', 'airs_precip', 'sat_viirs', 'sat_planeta', 'radar', 'sat_modis'].forEach(k => {
         const dBtn = document.getElementById(`dock-btn-${k}`);
         if (!dBtn) return;
         const dot = dBtn.querySelector('span > span');
         if (k === type) {
-          dBtn.className = 'dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition bg-cyan-600 text-white font-bold shadow';
+          dBtn.className = 'dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition bg-cyan-600 text-white font-bold shadow';
           if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff]';
         } else {
-          dBtn.className = 'dock-layer-btn px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-2 transition bg-slate-900 text-slate-300 hover:bg-slate-800';
+          dBtn.className = 'dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition bg-slate-900 text-slate-300 hover:bg-slate-800';
           if (dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-slate-600';
         }
       });
@@ -3071,6 +3198,35 @@
     function flyToPreset(lat, lon, zoom, name) {
       if (!radarMap) return;
       radarMap.flyTo([lat, lon], zoom, { duration: 1.2 });
+    }
+
+    const REGION_PRESETS = {
+      'current': { getCoords: () => (latestData ? [latestData.lat, latestData.lon, 8] : [55.75, 37.62, 8]) },
+      'moscow': { lat: 55.7558, lon: 37.6173, zoom: 8 },
+      'spb': { lat: 59.9343, lon: 30.3351, zoom: 8 },
+      'sochi': { lat: 43.5855, lon: 39.7231, zoom: 8 },
+      'krasnodar': { lat: 45.0355, lon: 38.9753, zoom: 9 },
+      'kazan': { lat: 55.7887, lon: 49.1221, zoom: 8 },
+      'ekb': { lat: 56.8389, lon: 60.6057, zoom: 8 },
+      'nsk': { lat: 55.0084, lon: 82.9357, zoom: 7 },
+      'vladivostok': { lat: 43.1155, lon: 131.8855, zoom: 7 },
+      'tbilisi': { lat: 41.7151, lon: 44.8271, zoom: 9 },
+      'batumi': { lat: 41.6423, lon: 41.6339, zoom: 10 },
+      'kutaisi': { lat: 42.2679, lon: 42.6946, zoom: 9 },
+      'kazbegi': { lat: 42.6593, lon: 44.6418, zoom: 9 },
+      'eurasia': { lat: 53.0, lon: 60.0, zoom: 4 }
+    };
+
+    function onSelectPresetRegion(key) {
+      if (!radarMap) return;
+      const preset = REGION_PRESETS[key];
+      if (!preset) return;
+      if (preset.getCoords) {
+        const [lt, ln, z] = preset.getCoords();
+        radarMap.flyTo([lt, ln], z, { duration: 1.2 });
+      } else {
+        radarMap.flyTo([preset.lat, preset.lon], preset.zoom, { duration: 1.2 });
+      }
     }
 
     function toggleRadarFullscreen() {
@@ -3766,7 +3922,6 @@
                     <div class="h-full bg-gradient-to-r from-sky-400 via-amber-400 to-rose-500 rounded-full" style="width: 100%;"></div>
                   </div>
                   <span class="text-amber-400 font-bold">${mx}</span>
-                  <span class="text-slate-400 text-[11px] hidden md:inline font-mono">${day.wind || 3} м/с</span>
                   ${prec}
                 </div>
               </div>
@@ -4486,7 +4641,7 @@
     let windCtx = null;
     let windParticles = [];
     let windAnimId = null;
-    let showWindParticles = true;
+    let showWindParticles = false;
     const NUM_WIND_PARTICLES = 1600;
 
     class WindStreamParticle {
@@ -4527,7 +4682,10 @@
 
       if (windAnimId) cancelAnimationFrame(windAnimId);
       if (showWindParticles) {
+        windCanvas.style.display = 'block';
         animateWindParticles();
+      } else {
+        windCanvas.style.display = 'none';
       }
     }
 
@@ -5027,7 +5185,10 @@
         const c = urlParams.get('city').trim();
         if (c) {
           currentCity = c;
-          document.getElementById('city-input').value = c;
+          const mainInp = document.getElementById('city-input');
+          if (mainInp) mainInp.value = c;
+          const sbInp = document.getElementById('sidebar-city-input');
+          if (sbInp) sbInp.value = c;
         }
       }
       if (urlParams.has('mode')) {
@@ -5036,7 +5197,8 @@
           currentMode = m;
         }
       }
-      fetchData();
+      // Initialize active mode and fetch data
+      switchTab(currentMode);
     });
   
     function initCookieNotice() {
