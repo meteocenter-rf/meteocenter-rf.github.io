@@ -1915,7 +1915,7 @@
 
   <!-- ================= FOOTER ================= -->
   <footer class="mt-8 border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 glass">
-    <p>© 2026 МетеоПортал · Климатический архив опорных метеостанций ВМО (1890–2026)</p>
+    <p>© 2026 МетеоПортал · Климатический архив опорных метеостанций ВМО (ERA5 1890–2026 · Приборы с года основания)</p>
     <p class="mt-0.5 text-slate-600 text-[11px]">Прямой высокоскоростной доступ · Глобальная сеть доставки контента GitHub Pages CDN</p>
   </footer>
 
@@ -2678,8 +2678,8 @@
         name: 'Диксон (Остров / WMO 20674)',
         wmo_id: '20674',
         lat: 73.51, lon: 80.40,
-        opened_year: 1890,
-        continuous_since: 1890,
+        opened_year: 1916,
+        continuous_since: 1916,
         region_desc: 'Карское море, Таймыр, Арктическая опорная зона',
         t_norm: [-25.5, -25.8, -22.9, -15.8, -6.6, 1.4, 5.5, 5.8, 2.3, -5.8, -16.4, -22.1],
         p_norm: [24, 18, 16, 15, 18, 26, 34, 42, 41, 38, 25, 23],
@@ -2687,15 +2687,17 @@
         obs_rate: 0.36,
         reanalysis_rate: 0.35,
         volatility: 1.25,
-        gaps: [],
+        gaps: [
+          { start: 1890, end: 1915, reason: 'Полярная метеостанция на острове Диксон открыта в 1916 г. Гидрографической экспедицией Северного Ледовитого океана. До 1916 г. приборных замеров не было (период восстановлен реанализом ERA-20C).', type: 'PRE_FOUNDING' }
+        ],
         records_today: { max: { t: 19.5, y: 1965 }, min: { t: -8.9, y: 1928 }, prcp: { p: 22.0, y: 1984 } }
       },
       'норильск': {
         name: 'Норильск (WMO 23078)',
         wmo_id: '23078',
         lat: 69.34, lon: 88.20,
-        opened_year: 1890,
-        continuous_since: 1890,
+        opened_year: 1936,
+        continuous_since: 1936,
         region_desc: 'Таймыр, Норильский промышленный район',
         t_norm: [-27.5, -27.2, -22.1, -13.5, -4.6, 7.8, 13.5, 11.0, 4.1, -8.5, -20.5, -25.1],
         p_norm: [36, 30, 31, 32, 38, 52, 61, 68, 58, 57, 48, 42],
@@ -2703,7 +2705,9 @@
         obs_rate: 0.34,
         reanalysis_rate: 0.32,
         volatility: 1.20,
-        gaps: [],
+        gaps: [
+          { start: 1890, end: 1935, reason: 'Норильск основан как рабочий посёлок в 1935 г. Метеостанция WMO 23078 открыта в 1936 г. До этого приборных наблюдений не велось (период восстановлен реанализом ERA-20C/ERA5).', type: 'PRE_FOUNDING' }
+        ],
         records_today: { max: { t: 26.2, y: 1979 }, min: { t: -7.1, y: 1937 }, prcp: { p: 31.0, y: 1988 } }
       },
       'москва': {
@@ -2854,8 +2858,8 @@
         name: 'Мурманск (WMO 22113)',
         wmo_id: '22113',
         lat: 68.97, lon: 33.08,
-        opened_year: 1890,
-        continuous_since: 1890,
+        opened_year: 1921,
+        continuous_since: 1921,
         region_desc: 'Кольский полуостров, Баренцево море (Заполярье)',
         t_norm: [-10.8, -10.4, -6.1, -1.0, 4.4, 9.9, 13.1, 11.2, 6.8, 1.1, -4.7, -8.3],
         p_norm: [30, 22, 22, 24, 34, 56, 68, 66, 53, 45, 39, 35],
@@ -2863,7 +2867,9 @@
         obs_rate: 0.23,
         reanalysis_rate: 0.24,
         volatility: 1.00,
-        gaps: [],
+        gaps: [
+          { start: 1890, end: 1920, reason: 'Мурманск основан в 1916 г. Систематические приборные наблюдения на метеостанции WMO 22113 начаты с 1921 г. До этого замеров не велось (период восстановлен реанализом ERA-20C).', type: 'PRE_FOUNDING' }
+        ],
         records_today: { max: { t: 24.1, y: 1974 }, min: { t: -2.3, y: 1928 }, prcp: { p: 26.0, y: 1981 } }
       },
       'владивосток': {
@@ -2895,13 +2901,41 @@
       }
       if (typeof WMO_STATIONS_CATALOG_MAP !== 'undefined' && WMO_STATIONS_CATALOG_MAP[key]) {
         const cs = WMO_STATIONS_CATALOG_MAP[key];
+        // Real station opening years based on historical records (WMO / Roshydromet)
+        const WMO_REAL_OPENING_YEARS = {
+          '89606': { year: 1957, note: 'Станция Восток открыта 16 декабря 1957 г. 2-й Советской Антарктической экспедицией.' },
+          '20674': { year: 1916, note: 'Метеостанция Диксон открыта в 1916 г. Гидрографической экспедицией Северного Ледовитого океана.' },
+          '23074': { year: 1876, note: 'Метеостанция Дудинка основана в 1876 г. как гидрографический пост на Енисее.' },
+          '23078': { year: 1936, note: 'Метеостанция Норильск WMO 23078 открыта в 1936 г. (после основания города в 1935 г.).' },
+          '22113': { year: 1921, note: 'Метеостанция Мурманск открыта в 1921 г. (город основан в 1916 г.).' },
+          '21824': { year: 1933, note: 'Метеостанция Тикси открыта в 1933 г. с основанием полярного порта.' },
+          '25051': { year: 1934, note: 'Метеостанция Певек открыта в 1934 г. с образованием заполярного посёлка.' },
+          '25563': { year: 1930, note: 'Метеостанция Анадырь открыта около 1930 г.' },
+          '23330': { year: 1878, note: 'Метеостанция Салехард (Обдорск) — одна из старейших сибирских, с 1878 г.' },
+          '23205': { year: 1931, note: 'Метеостанция Нарьян-Мар открыта в 1931 г. с основанием города.' },
+          '24688': { year: 1920, note: 'Метеостанция Оймякон / Томтор с 1920-х годов.' },
+          '24266': { year: 1885, note: 'Метеостанция Верхоянск с 1885 г.' },
+          '24959': { year: 1888, note: 'Метеостанция Якутск основана в 1888 г.' },
+          '89592': { year: 1956, note: 'Станция Мирный открыта 13 февраля 1956 г. первой Советской Антарктической экспедицией.' },
+          '89512': { year: 1961, note: 'Станция Новолазаревская открыта в 1961 г.' },
+          '89574': { year: 1988, note: 'Станция Прогресс открыта в 1988 г. (временная с 1976 г.).' },
+          '26063': { year: 1743, note: 'Метеостанция Санкт-Петербург — старейшая в России, с 1743 г.' },
+          '27612': { year: 1879, note: 'Метеостанция Москва (ВДНХ) с 1879 г. (старейшая систематическая в Москве с 1779 г.).' },
+          '27595': { year: 1812, note: 'Метеостанция Казань с 1812 г. (Казанский университет).' },
+        };
+        const wmoYearInfo = WMO_REAL_OPENING_YEARS[cs.wmo];
+        const realYear = wmoYearInfo ? wmoYearInfo.year : 1890;
+        const gapNote = wmoYearInfo ? wmoYearInfo.note : '';
+        const stationGaps = (realYear > 1890) ? [
+          { start: 1890, end: realYear - 1, reason: gapNote || `Приборные наблюдения на станции ${cs.fullName || cs.name} начаты с ${realYear} г. До этого данных нет (период восстановлен реанализом ERA-20C/ERA5).`, type: 'PRE_FOUNDING' }
+        ] : [];
         return {
           name: `${cs.fullName || cs.name} (WMO ${cs.wmo})`,
           wmo_id: cs.wmo,
           lat: cs.lat,
           lon: cs.lon,
-          opened_year: 1890,
-          continuous_since: 1890,
+          opened_year: realYear,
+          continuous_since: realYear,
           region_desc: cs.region,
           t_norm: [-10, -9, -3, 5, 13, 17, 19, 17, 11, 4, -2, -7],
           p_norm: [40, 30, 30, 35, 45, 65, 75, 65, 55, 50, 45, 45],
@@ -2909,7 +2943,7 @@
           obs_rate: 0.18,
           reanalysis_rate: 0.17,
           volatility: 1.0,
-          gaps: [],
+          gaps: stationGaps,
           records_today: { max: { t: 30.0, y: 1980 }, min: { t: -2.0, y: 1920 }, prcp: { p: 30.0, y: 1970 } }
         };
       }
@@ -3053,13 +3087,13 @@
         let yearStatus = 'OBS'; // Default: physical station observation (Погода и Климат)
         let gapReason = null;
 
-        if (station.wmo_id === '89606' && y < 1957) {
-          // Exception: Vostok station in Antarctica physically founded on 16 Dec 1957
+        if (y < (station.opened_year || 1890)) {
+          // Years before station founding: strictly ERA-20C / ERA5 reanalysis, NOT instrumental observations
           yearStatus = 'PRE_FOUNDING';
-          gapReason = 'Станция Восток открыта 16 декабря 1957 г. До 1957 г. приборных замеров нет.';
+          gapReason = (yearGap && yearGap.reason) || `Метеостанция «${station.name}» открыта в ${station.opened_year} г. До ${station.opened_year} г. приборных замеров не велось (восстановлено реанализом ERA-20C / ERA5).`;
           reanalysisCount++;
         } else if (yearGap) {
-          yearStatus = 'GAP';
+          yearStatus = (yearGap.type === 'PRE_FOUNDING') ? 'PRE_FOUNDING' : 'GAP';
           gapReason = yearGap.reason;
           gapCount++;
         } else {
@@ -3168,13 +3202,23 @@
       const warmestYear = sortedByT[0];
       const coldestYear = sortedByT[sortedByT.length - 1];
 
+      const allGaps = [...(station.gaps || [])];
+      if (station.opened_year > 1890 && !allGaps.some(g => g.type === 'PRE_FOUNDING')) {
+        allGaps.unshift({
+          start: 1890,
+          end: station.opened_year - 1,
+          reason: `Метеостанция «${station.name}» открыта в ${station.opened_year} г. До ${station.opened_year} г. приборных наблюдений не велось (период восстановлен реанализом ERA-20C / ERA5).`,
+          type: 'PRE_FOUNDING'
+        });
+      }
+
       return {
         station_name: station.name,
         wmo_id: station.wmo_id,
         opened_year: station.opened_year,
         continuous_since: station.continuous_since,
         region_desc: station.region_desc,
-        gaps: station.gaps || [],
+        gaps: allGaps,
         records_today: station.records_today,
         start_year: startYear,
         end_year: endYear,
@@ -3630,7 +3674,7 @@
 Атмосферное давление: ${pressMm} мм рт. ст., влажность: ${curr.relative_humidity_2m}%, точка росы: ${dewP}°C
 Ветер: ${curr.wind_speed_10m} м/с (${getWindDirName(curr.wind_direction_10m)}), порывы до ${curr.wind_gusts_10m || 5} м/с
 Консенсус 4 суперкомпьютеров: ECMWF IFS, ICON, GFS, GEM (разброс: ±${spreadDelta}°C)
-Климатический ряд: 120+ лет (1890–2026), скорость векового потепления: +${climate.decadal_rate}°C/10 лет.`
+Климатический ряд: ${climate.opened_year > 1890 ? `приборы с ${climate.opened_year} г. (${climate.start_year}–${climate.end_year} с реанализом ERA5)` : `${climate.start_year}–${climate.end_year} гг.`}, скорость потепления по приборам: +${climate.decadal_rate}°C/10 лет.`
       };
     }
 
@@ -3916,7 +3960,7 @@
               <svg class="w-4 h-4 text-rose-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-rose-300 tracking-tight">+${d.climate.decadal_rate}°C</div>
-            <div class="text-[11px] text-slate-400">за 10 лет (1890–2026)</div>
+            <div class="text-[11px] text-slate-400">за 10 лет (${d.climate.opened_year > 1890 ? `приборы с ${d.climate.opened_year} г.` : '1890–2026'})</div>
           </div>
         </div>
         </div>
@@ -5335,19 +5379,20 @@
               <div class="flex items-center space-x-2">
                 <span class="text-amber-400 text-base">🏛</span>
                 <h2 class="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
-                  КЛИМАТИЧЕСКИЙ АРХИВ 120+ ЛЕТ (${clim.start_year}–${clim.end_year} гг.)
+                  КЛИМАТИЧЕСКИЙ АРХИВ (${clim.opened_year > 1890 ? `${clim.start_year} ERA5 + ${clim.opened_year} ОБС` : clim.start_year}–${clim.end_year} гг.)
                 </h2>
                 <span class="px-2 py-0.5 rounded-full bg-emerald-950 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-bold">WMO ${clim.wmo_id || 'ID'}</span>
               </div>
               <p class="text-[11px] text-slate-400 mt-0.5">
                 ${clim.station_name} · ${clim.region_desc || ''}
+                ${clim.opened_year > 1890 ? `<span class="text-amber-400 font-mono ml-2">⚠️ Приборные замеры с ${clim.opened_year} г. · до ${clim.opened_year} г. — реанализ ERA5</span>` : ''}
               </p>
             </div>
 
             <!-- Sub-view Mode Buttons -->
             <div class="flex flex-wrap items-center gap-1.5 text-xs font-medium">
               <button onclick="switchArchiveSubView('table')" id="sub-btn-table" class="sub-tab-btn ${archiveSubView === 'table' ? 'sub-tab-active' : 'sub-tab-inactive'}">
-                📊 Сводная таблица (1890–2026)
+                📊 Сводная таблица (${clim.start_year}–${clim.end_year})
               </button>
               <button onclick="switchArchiveSubView('diary')" id="sub-btn-diary" class="sub-tab-btn ${archiveSubView === 'diary' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 📖 Дневник погоды
@@ -6928,6 +6973,13 @@
                 <input type="date" id="summary-to-date" value="${summaryToDate}" class="summary-input-date" />
               </div>
 
+              <!-- Station Opening Info Badge -->
+              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700">
+                <span>Приборы ВМО:</span>
+                <span class="font-bold text-emerald-600 dark:text-emerald-400">с ${(clim && clim.opened_year) || 1890} г.</span>
+                ${(clim && clim.opened_year > 1890) ? `<span class="text-amber-500 dark:text-amber-400" title="До ${(clim && clim.opened_year)} г. приборных замеров не велось — используется модель ERA5">· ранее — ERA5</span>` : ''}
+              </div>
+
               <!-- Primary Load Data Action Button -->
               <button onclick="runDateRangeSummary()" id="btn-load-summary-data" class="px-5 py-2 rounded-xl bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-bold text-xs shadow-md hover:shadow-lg transition flex items-center space-x-2 cursor-pointer active:scale-95">
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
@@ -7057,6 +7109,12 @@
       const cityName = (latestData && latestData.city) || currentCity;
       const clim = (latestData && latestData.climate) || null;
 
+      // ⚠️ ЧЕСТНОСТЬ ДАННЫХ: Проверяем, не ранее ли запрошенная дата года основания станции
+      const stationOpenedYear = clim ? (clim.opened_year || 1890) : 1890;
+      const requestedFromYear = parseInt((fromStr || '1890').substring(0, 4), 10);
+      const isPreFoundingRequest = requestedFromYear < stationOpenedYear;
+      const eraOnlyMode = isPreFoundingRequest; // В этом режиме данные — только реанализ ERA5, НЕ приборы
+
       let dailyData = null;
 
       // 1. Try Open-Meteo Archive API
@@ -7094,7 +7152,7 @@
         dailyData = generateFallbackRangeData(fromStr, toStr, lat, lon, clim);
       }
 
-      renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim);
+      renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear);
     }
 
     // =========================================================================
@@ -7150,7 +7208,7 @@
       return Math.round(((s[mid - 1] + s[mid]) / 2) * 10) / 10;
     }
 
-    function renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim) {
+    function renderSummaryResults(resContainer, dailyData, fromStr, toStr, cityName, clim, eraOnlyMode, stationOpenedYear) {
       const times = dailyData.time || [];
       const tMaxList = (dailyData.temperature_2m_max || []).map(v => v != null ? Math.round(v * 10) / 10 : 15);
       const tMinList = (dailyData.temperature_2m_min || []).map(v => v != null ? Math.round(v * 10) / 10 : 8);
@@ -7218,6 +7276,11 @@
       // 1. Primary Temperature KPIs
       const sumT = tMeanList.reduce((a, b) => a + b, 0);
       const meanT = Math.round((sumT / N) * 10) / 10;
+      // Mean daytime (average of Tmax values) and mean nighttime (average of Tmin values)
+      const sumTmax = tMaxList.reduce((a, b) => a + b, 0);
+      const meanTmax = Math.round((sumTmax / N) * 10) / 10;
+      const sumTmin = tMinList.reduce((a, b) => a + b, 0);
+      const meanTmin = Math.round((sumTmin / N) * 10) / 10;
       const maxT = Math.max(...tMaxList);
       const maxTDate = times[tMaxList.indexOf(maxT)];
       const minT = Math.min(...tMinList);
@@ -7322,7 +7385,7 @@
       currentSummaryCsv = csvLines.join('\r\n');
 
       currentSummaryData = {
-        cityName, fromStr, toStr, N, meanT, maxT, maxTDate, minT, minTDate, ampT,
+        cityName, fromStr, toStr, N, meanT, meanTmax, meanTmin, maxT, maxTDate, minT, minTDate, ampT,
         lowestTmax, lowestTmaxDate, highestTmin, highestTminDate,
         tMaxGt30, tMaxGt25, tMaxGt20, tMaxGt15, tMaxGt10, tMaxLt0,
         tMinLt0, tMinLt10, tMinLt20, tMinLt30, tMinLt40,
@@ -7362,8 +7425,29 @@
 
       // RENDER COMPLETE USER INTERFACE
       resContainer.innerHTML = `
-        <!-- KPI Summary Strip (6 Primary Tiles) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 text-xs">
+        ${eraOnlyMode ? `
+        <!-- ERA5 Reanalysis Warning Banner -->
+        <div class="flex items-start gap-3 p-3.5 rounded-xl border border-amber-500/50 bg-amber-500/10 text-xs font-sans">
+          <span class="text-amber-400 text-xl shrink-0 mt-0.5">⚠️</span>
+          <div class="space-y-1">
+            <div class="font-bold text-amber-300 uppercase tracking-wider text-[11px] font-mono">
+              Данные из реанализа ERA5 — НЕ приборные наблюдения
+            </div>
+            <p class="text-amber-200/90 leading-relaxed">
+              Метеостанция <strong>${cityName}</strong> основана в <strong>${stationOpenedYear} г.</strong>
+              Запрошенный период <strong>${formatDateRu(fromStr)}</strong> — раньше открытия станции.
+              Все данные до ${stationOpenedYear} г. являются <strong>модельным реанализом ECMWF ERA-20C / ERA5</strong>,
+              а не физическими приборными замерами. Результаты ниже — расчётные.
+            </p>
+            <p class="text-amber-300/80 text-[11px] font-mono">
+              ◆ ERA5 — глобальная ретроспективная модель атмосферы ECMWF (1940–2026) с разрешением 25 км.
+              ERA-20C — её предшественник с 1900 г. До 1900 г. — только ERA-20C и модельные реконструкции.
+            </p>
+          </div>
+        </div>
+        ` : ''}
+        <!-- KPI Summary Strip (8 Primary Tiles) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3 text-xs">
           <!-- Tile 1: Mean Temp -->
           <div class="rolling-card-item">
             <div class="rolling-card-label">Средняя температура</div>
@@ -7372,6 +7456,28 @@
             </div>
             <div class="rolling-card-period font-bold">
               Аномалия: <span class="${anomT > 0 ? 'text-rose-500' : 'text-sky-400'}">${anomSign}°</span> (норма ${spanNorm}°)
+            </div>
+          </div>
+
+          <!-- Tile 1b: Mean Daytime Temp -->
+          <div class="rolling-card-item">
+            <div class="rolling-card-label">Средняя дневная (Tmax ср.)</div>
+            <div class="rolling-card-val ${meanTmax > 0 ? 'text-rose-500 dark:text-rose-400' : 'text-sky-500 dark:text-sky-400'}">
+              ☀️ ${meanTmax > 0 ? '+' : ''}${meanTmax}°C
+            </div>
+            <div class="rolling-card-period">
+              Среднее из ${N} дневных максимумов
+            </div>
+          </div>
+
+          <!-- Tile 1c: Mean Nighttime Temp -->
+          <div class="rolling-card-item">
+            <div class="rolling-card-label">Средняя ночная (Tmin ср.)</div>
+            <div class="rolling-card-val ${meanTmin > 0 ? 'text-indigo-500 dark:text-indigo-400' : 'text-cyan-500 dark:text-cyan-400'}">
+              🌙 ${meanTmin > 0 ? '+' : ''}${meanTmin}°C
+            </div>
+            <div class="rolling-card-period">
+              Среднее из ${N} ночных минимумов
             </div>
           </div>
 
@@ -8011,6 +8117,8 @@
         `Период: ${formatDateRu(s.fromStr)} – ${formatDateRu(s.toStr)} (${s.N} суток)`,
         `----------------------------------------`,
         `• Средняя температура: ${s.meanT > 0 ? '+' : ''}${s.meanT}°C (аномалия ${s.anomT > 0 ? '+' : ''}${s.anomT}°, климат-норма ${s.spanNorm}°C)`,
+        `• Средняя дневная (Tmax ср.): ${s.meanTmax > 0 ? '+' : ''}${s.meanTmax}°C`,
+        `• Средняя ночная (Tmin ср.): ${s.meanTmin > 0 ? '+' : ''}${s.meanTmin}°C`,
         `• Медианная аномалия: ${s.medianAnom > 0 ? '+' : ''}${s.medianAnom}°C (${s.pctDaysAboveNorm}% дней теплее нормы)`,
         `• Абсолютный максимум (Tmax): ${s.maxT > 0 ? '+' : ''}${s.maxT}°C (${formatDateRu(s.maxTDate)})`,
         `• Абсолютный минимум (Tmin): ${s.minT > 0 ? '+' : ''}${s.minT}°C (${formatDateRu(s.minTDate)})`,
