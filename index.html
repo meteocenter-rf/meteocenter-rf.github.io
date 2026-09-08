@@ -7750,6 +7750,15 @@
       if (contactEl) {
         contactEl.textContent = payerReceiptContact ? payerReceiptContact : 'на контакт, привязанный к вашему банковскому счёту СБП';
       }
+
+      // 1-Click Telegram confirmation for instant receipt issuance
+      const tgBtn = document.getElementById('step3-tg-btn');
+      if (tgBtn) {
+        const amtText = selectedDonationAmount > 0 ? `${selectedDonationAmount} ₽` : 'взнос';
+        const contactText = payerReceiptContact ? payerReceiptContact : 'не указан (привязан к СБП)';
+        const msg = encodeURIComponent(`Здравствуйте, Данила Владимирович! Оплачен взнос на МетеоПортал: ${amtText}. Код операции: ${txCode}. Контакт для направления чека ФНС: ${contactText}.`);
+        tgBtn.href = `https://t.me/Danila_Vladimirovich_Ru?text=${msg}`;
+      }
     }
 
     function resetDonationModal() {
@@ -8081,7 +8090,7 @@
             <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clip-rule="evenodd"/></svg>
             <div>
               <span class="font-bold">Безопасный прямой платёж через СберБанк / СБП (без комиссии).</span>
-              <p class="text-[10.5px] opacity-90 mt-0.5">Получатель зарегистрирован в ФНС РФ как самозанятый плательщик НПД (Данил Александрович В.). Налоги уплачиваются официально.</p>
+              <p class="text-[10.5px] opacity-90 mt-0.5">Получатель зарегистрирован в ФНС РФ как самозанятый плательщик НПД (Данила Владимирович Р.). Налоги уплачиваются официально.</p>
             </div>
           </div>
         </div>
@@ -8121,7 +8130,7 @@
             </div>
             <div class="flex items-center justify-between text-[11px] border-b border-slate-200 dark:border-slate-800 pb-2">
               <span class="text-slate-500 dark:text-slate-400">Получатель:</span>
-              <span class="font-bold text-slate-800 dark:text-slate-200">Данил Александрович В. (Самозанятый)</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200">Данила Владимирович Р. (Самозанятый плательщик НПД)</span>
             </div>
             <div class="flex items-center justify-between text-[11px] border-b border-slate-200 dark:border-slate-800 pb-2">
               <span class="text-slate-500 dark:text-slate-400">Номер для перевода (СБП):</span>
@@ -8195,22 +8204,28 @@
             </div>
             <div class="flex items-center justify-between text-[11.5px]">
               <span class="text-slate-600 dark:text-slate-300">Получатель:</span>
-              <span class="font-bold text-slate-800 dark:text-slate-200">Данил Александрович В. (НПД)</span>
+              <span class="font-bold text-slate-800 dark:text-slate-200">Данила Владимирович Р. (Самозанятый плательщик НПД)</span>
             </div>
           </div>
 
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-2 text-slate-600 dark:text-slate-300 text-[11px] leading-relaxed">
             <h4 class="font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide text-[10.5px]">Регламент направления фискального чека (422-ФЗ РФ):</h4>
             <p>
-              В соответствии с частью 3 статьи 14 Федерального закона от 27.11.2018 № 422-ФЗ «О проведении эксперимента по установлению специального налогового режима...» официальный фискальный чек формируется в мобильном приложении ФНС России «Мой налог».
+              В соответствии с частью 3 статьи 14 Федерального закона от 27.11.2018 № 422-ФЗ «О проведении эксперимента по установлению специального налогового режима...» официальный электронный фискальный чек формируется в мобильном приложении ФНС России «Мой налог».
             </p>
             <p>
-              Электронный чек с фискальным QR-кодом будет направлен: <strong id="step3-contact-val" class="text-sky-600 dark:text-sky-400">...</strong> сразу после зачисления средств банком. Все доходы декларируются официально, налог на профессиональный доход уплачивается в бюджет.
+              Электронный чек с фискальным QR-кодом ФНС будет направлен: <strong id="step3-contact-val" class="text-sky-600 dark:text-sky-400">...</strong> сразу после зачисления средств. Все доходы декларируются официально, налог на профессиональный доход уплачивается в бюджет РФ.
             </p>
           </div>
 
-          <div class="pt-2">
-            <button onclick="closeDonationModal()" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-sky-600 dark:hover:bg-sky-500 font-bold text-center transition text-xs shadow-md">
+          <!-- 1-Click Telegram Confirmation & Instant Receipt Action -->
+          <div class="space-y-2 pt-1">
+            <a id="step3-tg-btn" href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-center flex items-center justify-center gap-2 transition text-xs shadow-md">
+              <svg class="w-4 h-4 fill-currentColor shrink-0" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+              <span>Отправить подтверждение и запросить чек в Telegram</span>
+            </a>
+
+            <button onclick="closeDonationModal()" class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 font-bold text-center transition text-xs border border-slate-200 dark:border-slate-700">
               Вернуться к просмотру погоды
             </button>
           </div>
