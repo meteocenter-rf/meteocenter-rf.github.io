@@ -150,10 +150,10 @@
     }
     body {
       font-family: var(--font-sans);
-      background-color: #f1f5f9;
+      background-color: #f8fafc;
       background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(2, 132, 199, 0.08), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 100% 10%, rgba(14, 165, 233, 0.05), transparent 60%);
+        radial-gradient(ellipse 90% 60% at 50% -15%, rgba(2, 132, 199, 0.05), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 100% 5%, rgba(99, 102, 241, 0.03), transparent 60%);
       color: #0f172a;
       overscroll-behavior-y: none;
       -webkit-font-smoothing: antialiased;
@@ -164,11 +164,11 @@
       transition: background-color 0.25s ease, color 0.25s ease;
     }
     html.dark body {
-      background-color: #060913;
+      background-color: #070b14;
       background-image: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(2, 132, 199, 0.15), transparent 70%),
-        radial-gradient(ellipse 60% 40% at 100% 10%, rgba(14, 165, 233, 0.08), transparent 60%);
-      color: #f1f5f9;
+        radial-gradient(ellipse 90% 60% at 50% -15%, rgba(2, 132, 199, 0.12), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 100% 5%, rgba(99, 102, 241, 0.06), transparent 60%);
+      color: #f8fafc;
     }
     .font-mono { 
       font-family: var(--font-mono); 
@@ -181,79 +181,819 @@
       letter-spacing: -0.03em;
       font-weight: 800;
     }
+    
+    /* Luxury Glass & Surface Architecture */
     .glass {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(203, 213, 225, 0.8);
-      box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.08);
-      transition: background 0.22s ease, border-color 0.22s ease;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 8px 24px -6px rgba(15, 23, 42, 0.04);
+      transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
     }
     html.dark .glass {
-      background: rgba(11, 18, 33, 0.82);
+      background: rgba(12, 18, 33, 0.82);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 36px -4px rgba(0, 0, 0, 0.55);
     }
     .glass-card {
       background: #ffffff;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03), 0 4px 14px -2px rgba(15, 23, 42, 0.04);
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .glass-card:hover {
-      border-color: rgba(2, 132, 199, 0.5);
-      box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.15);
+      border-color: rgba(2, 132, 199, 0.35);
+      box-shadow: 0 4px 18px -2px rgba(2, 132, 199, 0.08);
       transform: translateY(-1px);
     }
     html.dark .glass-card {
-      background: linear-gradient(145deg, rgba(17, 26, 46, 0.65) 0%, rgba(13, 20, 37, 0.8) 100%);
+      background: linear-gradient(145deg, rgba(16, 25, 45, 0.72) 0%, rgba(12, 19, 36, 0.85) 100%);
       border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
     }
     html.dark .glass-card:hover {
-      border-color: rgba(56, 189, 248, 0.38);
-      background: linear-gradient(145deg, rgba(23, 35, 62, 0.82) 0%, rgba(16, 26, 48, 0.92) 100%);
-      box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-color: rgba(56, 189, 248, 0.35);
+      background: linear-gradient(145deg, rgba(22, 34, 60, 0.82) 0%, rgba(15, 24, 44, 0.92) 100%);
+      box-shadow: 0 10px 26px -4px rgba(2, 132, 199, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
-    .tab-active {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff !important;
-      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-      border: 1px solid rgba(56, 189, 248, 0.6);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      transform: translateY(-1px);
-    }
-    .tab-inactive {
-      background: #ffffff;
-      color: #334155;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* ================= UNIFIED EXECUTIVE NAVIGATION BUTTONS ================= */
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.32rem 0.65rem;
+      font-size: 0.75rem;
       font-weight: 600;
+      border-radius: 0.625rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
     }
-    .tab-inactive:hover {
-      background: #f1f5f9;
-      color: #0284c7;
-      border-color: #94a3b8;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    html.light .nav-btn {
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    html.light .nav-btn:hover {
+      background-color: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
       transform: translateY(-1px);
     }
-    html.dark .tab-inactive {
-      background: rgba(18, 27, 47, 0.55);
+    html.dark .nav-btn {
+      background-color: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    html.dark .nav-btn:hover {
+      background-color: rgba(30, 41, 59, 0.88);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Support / Donate Button */
+    html.light .nav-btn-donate {
+      background-color: #fff1f2;
+      color: #be123c;
+      border-color: #fecdd3;
+    }
+    html.light .nav-btn-donate:hover {
+      background-color: #ffe4e6;
+      color: #9f1239;
+      border-color: #fda4af;
+    }
+    html.dark .nav-btn-donate {
+      background-color: rgba(159, 18, 57, 0.25);
+      color: #fda4af;
+      border-color: rgba(244, 63, 94, 0.35);
+    }
+    html.dark .nav-btn-donate:hover {
+      background-color: rgba(159, 18, 57, 0.4);
+      color: #ffe4e6;
+      border-color: rgba(244, 63, 94, 0.6);
+    }
+
+    /* Live Status Badge */
+    .nav-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+    }
+    html.light .nav-status-badge {
+      background-color: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    html.dark .nav-status-badge {
+      background-color: rgba(6, 78, 59, 0.45);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+
+    /* Age Badge (0+) */
+    .nav-badge-age {
+      padding: 0.15rem 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 0.35rem;
+      font-family: var(--font-mono);
+    }
+    html.light .nav-badge-age {
+      background-color: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+    }
+    html.dark .nav-badge-age {
+      background-color: rgba(15, 23, 42, 0.8);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Theme Switcher Button */
+    html.light .nav-btn-theme {
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    }
+    html.light .nav-btn-theme:hover {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #94a3b8 !important;
+    }
+    html.dark .nav-btn-theme {
+      background-color: rgba(15, 23, 42, 0.8) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    html.dark .nav-btn-theme:hover {
+      background-color: rgba(30, 41, 59, 0.9) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+    }
+
+    /* Dropdown Menu */
+    .dropdown-panel {
+      border-radius: 0.875rem;
+      overflow: hidden;
+    }
+    html.light .dropdown-panel {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.12);
+    }
+    html.dark .dropdown-panel {
+      background-color: #0d1424;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 14px 40px -4px rgba(0, 0, 0, 0.6);
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+    html.light .dropdown-item {
+      color: #334155;
+    }
+    html.light .dropdown-item:hover {
+      background-color: #f1f5f9;
+      color: #0284c7;
+    }
+    html.dark .dropdown-item {
+      color: #cbd5e1;
+    }
+    html.dark .dropdown-item:hover {
+      background-color: rgba(2, 132, 199, 0.15);
+      color: #38bdf8;
+    }
+
+    /* ================= QUICK STATION CHIPS ================= */
+    .station-chip {
+      flex-shrink: 0;
+      padding: 0.32rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: 0.55rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      white-space: nowrap;
+    }
+    html.light .station-chip {
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+    html.light .station-chip:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 5px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
+    html.dark .station-chip {
+      background-color: rgba(15, 23, 42, 0.65);
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: none;
     }
-    html.dark .tab-inactive:hover {
-      background: rgba(30, 44, 74, 0.7);
+    html.dark .station-chip:hover {
+      background-color: rgba(30, 41, 59, 0.85);
       color: #f8fafc;
       border-color: rgba(56, 189, 248, 0.3);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-1px);
     }
-    /* Light mode text & element helpers */
+    html.light .station-chip-accent {
+      background-color: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    }
+    html.light .station-chip-accent:hover {
+      background-color: #1e293b;
+      color: #ffffff;
+    }
+    html.dark .station-chip-accent {
+      background: linear-gradient(135deg, rgba(8, 145, 178, 0.3) 0%, rgba(2, 132, 199, 0.4) 100%);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.55);
+    }
+    html.dark .station-chip-accent:hover {
+      background: linear-gradient(135deg, rgba(8, 145, 178, 0.45) 0%, rgba(2, 132, 199, 0.6) 100%);
+      color: #ffffff;
+      border-color: rgba(56, 189, 248, 0.8);
+    }
+
+    /* ================= PRIMARY CTA BUTTON ================= */
+    .btn-primary {
+      padding: 0.55rem 1.35rem;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    html.light .btn-primary {
+      background-color: #0f172a;
+      color: #ffffff;
+      border: 1px solid #0f172a;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15);
+    }
+    html.light .btn-primary:hover {
+      background-color: #1e293b;
+      border-color: #1e293b;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
+      transform: translateY(-1px);
+    }
+    html.dark .btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+    }
+    html.dark .btn-primary:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      border-color: rgba(56, 189, 248, 0.8);
+      box-shadow: 0 6px 20px rgba(2, 132, 199, 0.55);
+      transform: translateY(-1px);
+    }
+
+    /* ================= MAIN NAVIGATION TABS ================= */
+    .tab-btn {
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 0.5rem 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+    }
+    
+    html.light .tab-active {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+      border: 1px solid #0f172a !important;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.18) !important;
+      font-weight: 700 !important;
+      transform: translateY(-1px);
+    }
+    html.light .tab-active * {
+      color: #ffffff !important;
+    }
+    html.light .tab-active svg {
+      color: #38bdf8 !important;
+    }
+    html.light .tab-active .tab-badge {
+      background-color: #1e293b !important;
+      color: #38bdf8 !important;
+      border: 1px solid #334155 !important;
+    }
+
+    html.dark .tab-active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+      border: 1px solid rgba(56, 189, 248, 0.6) !important;
+      font-weight: 700 !important;
+      transform: translateY(-1px);
+    }
+    html.dark .tab-active .tab-badge {
+      background-color: rgba(12, 74, 110, 0.8) !important;
+      color: #bae6fd !important;
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+    }
+
+    html.light .tab-inactive {
+      background-color: #ffffff !important;
+      color: #475569 !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+    }
+    html.light .tab-inactive:hover {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06) !important;
+      transform: translateY(-1px);
+    }
+
+    html.dark .tab-inactive {
+      background-color: rgba(15, 23, 42, 0.55) !important;
+      color: #94a3b8 !important;
+      border: 1px solid rgba(255, 255, 255, 0.07) !important;
+      box-shadow: none !important;
+    }
+    html.dark .tab-inactive:hover {
+      background-color: rgba(30, 41, 59, 0.75) !important;
+      color: #f8fafc !important;
+      border-color: rgba(56, 189, 248, 0.3) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+      transform: translateY(-1px);
+    }
+
+    /* ================= ARCHIVE SUB-TABS ================= */
+    .sub-tab-btn {
+      padding: 0.38rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 0.625rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+    }
+    html.light .sub-tab-active {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+      border: 1px solid #0f172a !important;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15) !important;
+      font-weight: 700 !important;
+    }
+    html.light .sub-tab-inactive {
+      background-color: #ffffff !important;
+      color: #475569 !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
+    }
+    html.light .sub-tab-inactive:hover {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    html.dark .sub-tab-active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(56, 189, 248, 0.6) !important;
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.4) !important;
+      font-weight: 700 !important;
+    }
+    html.dark .sub-tab-inactive {
+      background-color: rgba(15, 23, 42, 0.7) !important;
+      color: #94a3b8 !important;
+      border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    }
+    html.dark .sub-tab-inactive:hover {
+      background-color: rgba(30, 41, 59, 0.85) !important;
+      color: #f8fafc !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* ================= CLIMATE TREND CARD & TOGGLE ================= */
+    .climate-trend-card {
+      border-radius: 0.875rem;
+      padding: 0.75rem 1rem;
+      transition: all 0.2s ease;
+    }
+    html.light .climate-trend-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    html.dark .climate-trend-card {
+      background-color: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    .trend-badge {
+      padding: 0.2rem 0.55rem;
+      border-radius: 0.45rem;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    html.light .trend-badge {
+      background-color: #fff1f2;
+      color: #be123c;
+      border: 1px solid #fecdd3;
+    }
+    html.dark .trend-badge {
+      background-color: rgba(159, 18, 57, 0.3);
+      color: #fda4af;
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+    .trend-toggle-container {
+      display: inline-flex;
+      border-radius: 0.6rem;
+      padding: 0.15rem;
+    }
+    html.light .trend-toggle-container {
+      background-color: #e2e8f0;
+      border: 1px solid #cbd5e1;
+    }
+    html.dark .trend-toggle-container {
+      background-color: #030712;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .trend-toggle-btn {
+      padding: 0.25rem 0.65rem;
+      border-radius: 0.45rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    html.light .trend-btn-active {
+      background-color: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+    }
+    html.light .trend-btn-inactive {
+      color: #64748b;
+    }
+    html.light .trend-btn-inactive:hover {
+      color: #0f172a;
+    }
+    html.dark .trend-btn-active {
+      background-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+    }
+    html.dark .trend-btn-inactive {
+      color: #94a3b8;
+    }
+    html.dark .trend-btn-inactive:hover {
+      color: #ffffff;
+    }
+
+    /* ================= TEMPERATURE HEATMAP CELLS (DUAL THEME) ================= */
+    .temp-cell-null { border: 1px solid transparent; }
+    html.light .temp-cell-null { background-color: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; }
+    html.dark .temp-cell-null { background-color: rgba(15, 23, 42, 0.5); color: #64748b; border-color: rgba(255,255,255,0.05); }
+
+    html.light .temp-cell-extreme-cold { background-color: #ede9fe; color: #4c1d95; border: 1px solid #ddd6fe; font-weight: 700; }
+    html.dark .temp-cell-extreme-cold { background-color: rgba(76, 29, 149, 0.45); color: #c4b5fd; border: 1px solid rgba(167, 139, 250, 0.4); font-weight: 700; }
+
+    html.light .temp-cell-severe-cold { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; font-weight: 700; }
+    html.dark .temp-cell-severe-cold { background-color: rgba(12, 74, 110, 0.45); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); font-weight: 700; }
+
+    html.light .temp-cell-cold { background-color: #f0f9ff; color: #0284c7; border: 1px solid #e0f2fe; font-weight: 600; }
+    html.dark .temp-cell-cold { background-color: rgba(7, 89, 133, 0.35); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); font-weight: 600; }
+
+    html.light .temp-cell-zero { background-color: #f8fafc; color: #475569; border: 1px solid #e2e8f0; font-weight: 600; }
+    html.dark .temp-cell-zero { background-color: rgba(30, 41, 59, 0.5); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; }
+
+    html.light .temp-cell-mild { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; font-weight: 600; }
+    html.dark .temp-cell-mild { background-color: rgba(6, 78, 59, 0.35); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.3); font-weight: 600; }
+
+    html.light .temp-cell-warm { background-color: #fefce8; color: #854d0e; border: 1px solid #fef08a; font-weight: 600; }
+    html.dark .temp-cell-warm { background-color: rgba(113, 63, 18, 0.35); color: #fde047; border: 1px solid rgba(250, 204, 21, 0.3); font-weight: 600; }
+
+    html.light .temp-cell-warmer { background-color: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; font-weight: 700; }
+    html.dark .temp-cell-warmer { background-color: rgba(124, 45, 18, 0.4); color: #fdba74; border: 1px solid rgba(251, 146, 60, 0.35); font-weight: 700; }
+
+    html.light .temp-cell-hot { background-color: #fff1f2; color: #be123c; border: 1px solid #fecdd3; font-weight: 800; }
+    html.dark .temp-cell-hot { background-color: rgba(159, 18, 57, 0.45); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.45); font-weight: 800; }
+
+    /* ================= OBSERVATION STATUS BADGES (DUAL THEME) ================= */
+    .status-badge-obs {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.375rem;
+      font-size: 0.625rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    html.light .status-badge-obs {
+      background-color: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    html.dark .status-badge-obs {
+      background-color: rgba(6, 78, 59, 0.45);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+
+    .status-badge-reanalysis {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.375rem;
+      font-size: 0.625rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    html.light .status-badge-reanalysis {
+      background-color: #f0f9ff;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+    html.dark .status-badge-reanalysis {
+      background-color: rgba(12, 74, 110, 0.45);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .status-badge-gap {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 0.375rem;
+      font-size: 0.625rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    html.light .status-badge-gap {
+      background-color: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    html.dark .status-badge-gap {
+      background-color: rgba(120, 53, 15, 0.45);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    /* ================= EXPORT BUTTON ================= */
+    .export-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.625rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    html.light .export-btn {
+      background-color: #0f172a;
+      color: #ffffff;
+      border: 1px solid #0f172a;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+    }
+    html.light .export-btn:hover {
+      background-color: #1e293b;
+      box-shadow: 0 3px 8px rgba(15, 23, 42, 0.18);
+      transform: translateY(-1px);
+    }
+    html.dark .export-btn {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      box-shadow: 0 2px 10px rgba(5, 150, 105, 0.35);
+    }
+    html.dark .export-btn:hover {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      transform: translateY(-1px);
+    }
+
+    /* ================= ROLLING MEAN STATISTICS (DUAL THEME) ================= */
+    .rolling-card-box {
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      transition: all 0.2s ease;
+    }
+    html.light .rolling-card-box {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05);
+    }
+    html.dark .rolling-card-box {
+      background-color: #0b1329;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    .rolling-card-item {
+      border-radius: 0.875rem;
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    html.light .rolling-card-item {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+    }
+    html.light .rolling-card-item:hover {
+      background-color: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1);
+      transform: translateY(-2px);
+    }
+    html.dark .rolling-card-item {
+      background-color: #0f1b38;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+    html.dark .rolling-card-item:hover {
+      background-color: #132247;
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .rolling-card-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-family: var(--font-sans);
+    }
+    html.light .rolling-card-label { color: #475569; }
+    html.dark .rolling-card-label { color: #cbd5e1; }
+
+    .rolling-card-val {
+      font-size: 1.625rem;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      letter-spacing: -0.03em;
+      padding: 0.2rem 0;
+    }
+    html.light .rolling-card-val { color: #0284c7; }
+    html.dark .rolling-card-val { color: #38bdf8; }
+
+    .rolling-card-period {
+      font-size: 0.65rem;
+      font-family: var(--font-mono);
+    }
+    html.light .rolling-card-period { color: #64748b; }
+    html.dark .rolling-card-period { color: #94a3b8; }
+
+    .rolling-card-special {
+      position: relative;
+    }
+    html.light .rolling-card-special {
+      border: 2px solid #0284c7 !important;
+      background-color: #f0f9ff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.15) !important;
+    }
+    html.dark .rolling-card-special {
+      border: 2px solid #38bdf8 !important;
+      box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    .rolling-banner {
+      border-radius: 0.875rem;
+      padding: 0.85rem 1.15rem;
+      border-width: 1px;
+      border-style: solid;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    @media (min-width: 768px) {
+      .rolling-banner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    html.light .rolling-banner {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-color: #bae6fd;
+      color: #0c4a6e;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.08);
+    }
+    html.dark .rolling-banner {
+      background: linear-gradient(135deg, rgba(8, 47, 73, 0.8) 0%, rgba(15, 23, 42, 0.85) 100%);
+      border-color: rgba(56, 189, 248, 0.4);
+      color: #e0f2fe;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .rolling-filter-btn {
+      padding: 0.28rem 0.65rem;
+      border-radius: 0.55rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      font-family: var(--font-mono);
+    }
+    html.light .rolling-filter-btn {
+      background-color: #ffffff;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    html.light .rolling-filter-btn:hover {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    html.light .rolling-filter-active {
+      background-color: #0f172a !important;
+      color: #ffffff !important;
+      border-color: #0f172a !important;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2) !important;
+    }
+    html.dark .rolling-filter-btn {
+      background-color: rgba(15, 23, 42, 0.8);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    html.dark .rolling-filter-btn:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      color: #ffffff;
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+    html.dark .rolling-filter-active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+      color: #ffffff !important;
+      border-color: rgba(56, 189, 248, 0.6) !important;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4) !important;
+    }
+
+    /* ================= FORM CONTROLS & TABLES ================= */
+    html.light input[type="text"], html.light input[type="number"], html.light select {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+      border-radius: 0.625rem !important;
+    }
+    html.light input[type="text"]:focus, html.light input[type="number"]:focus, html.light select:focus {
+      border-color: #0284c7 !important;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15) !important;
+      outline: none !important;
+    }
+    html.dark input[type="text"], html.dark input[type="number"], html.dark select {
+      background-color: rgba(15, 23, 42, 0.85) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 0.625rem !important;
+    }
+    html.dark input[type="text"]:focus, html.dark input[type="number"]:focus, html.dark select:focus {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+      outline: none !important;
+    }
+    html.light thead tr th {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+      border-bottom: 2px solid #cbd5e1 !important;
+    }
+
+    /* General Light Mode Text Hierarchy */
     html.light .text-white { color: #0f172a !important; }
     html.light .text-slate-100 { color: #0f172a !important; }
     html.light .text-slate-200 { color: #1e293b !important; }
@@ -269,10 +1009,10 @@
       background-color: #ffffff !important; 
       color: #1e293b !important; 
       border: 1px solid #cbd5e1 !important; 
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     }
     html.light .bg-slate-800:hover { 
-      background-color: #f1f5f9 !important; 
+      background-color: #f8fafc !important; 
       color: #0284c7 !important; 
       border-color: #94a3b8 !important;
     }
@@ -281,37 +1021,110 @@
     html.light .border-slate-800 { border-color: #e2e8f0 !important; }
     html.light .border-slate-700 { border-color: #cbd5e1 !important; }
     html.light .border-slate-700\/80 { border-color: #cbd5e1 !important; }
-    html.light thead tr th { 
-      background-color: #e2e8f0 !important; 
-      color: #0f172a !important; 
-      font-weight: 800 !important;
-      border-bottom: 2px solid #cbd5e1 !important;
+
+    /* Tinted Card Backgrounds & Accents for Light Mode */
+    html.light .bg-rose-950\/10,
+    html.light .bg-rose-950\/15,
+    html.light .bg-rose-950\/20,
+    html.light .bg-rose-950\/30,
+    html.light .bg-rose-950\/40,
+    html.light .bg-rose-950\/80 {
+      background-color: #fff1f2 !important;
+      border-color: #fecdd3 !important;
     }
-    html.light input, html.light select { 
-      color: #0f172a !important; 
-      background-color: #ffffff !important; 
-      border: 1px solid #cbd5e1 !important;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04) !important;
+    html.light .bg-blue-950\/20,
+    html.light .bg-blue-950\/30,
+    html.light .bg-blue-950\/80,
+    html.light .bg-sky-950\/20,
+    html.light .bg-sky-950\/30,
+    html.light .bg-sky-950\/40,
+    html.light .bg-sky-950\/60,
+    html.light .bg-sky-950\/80 {
+      background-color: #f0f9ff !important;
+      border-color: #bae6fd !important;
     }
-    html.light #theme-toggle-btn { 
-      background-color: #fef3c7 !important; 
-      color: #92400e !important; 
-      border: 1.5px solid #f59e0b !important; 
-      font-weight: 700 !important;
-      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2) !important;
+    html.light .bg-teal-950\/20,
+    html.light .bg-emerald-950,
+    html.light .bg-emerald-950\/20,
+    html.light .bg-emerald-950\/30,
+    html.light .bg-emerald-950\/70,
+    html.light .bg-emerald-950\/80 {
+      background-color: #ecfdf5 !important;
+      border-color: #a7f3d0 !important;
     }
-    html.dark #theme-toggle-btn { background-color: rgba(245, 158, 11, 0.2) !important; color: #fcd34d !important; border-color: rgba(245, 158, 11, 0.5) !important; }
-    
-    /* Button enhancements across themes */
+    html.light .bg-amber-950\/10,
+    html.light .bg-amber-950\/15,
+    html.light .bg-amber-950\/20,
+    html.light .bg-amber-950\/30,
+    html.light .bg-amber-950\/40,
+    html.light .bg-amber-950\/60,
+    html.light .bg-amber-950\/70,
+    html.light .bg-amber-950\/80 {
+      background-color: #fffbeb !important;
+      border-color: #fde68a !important;
+    }
+    html.light .bg-indigo-950\/20,
+    html.light .bg-indigo-950\/30 {
+      background-color: #f5f3ff !important;
+      border-color: #ddd6fe !important;
+    }
+
+    /* Semantic Text Color Tuning for Light Mode */
+    html.light .text-rose-300,
+    html.light .text-rose-400 {
+      color: #be123c !important;
+    }
+    html.light .text-sky-300,
+    html.light .text-sky-400 {
+      color: #0284c7 !important;
+    }
+    html.light .text-emerald-300,
+    html.light .text-emerald-400 {
+      color: #047857 !important;
+    }
+    html.light .text-amber-300,
+    html.light .text-amber-400 {
+      color: #b45309 !important;
+    }
+    html.light .text-teal-300,
+    html.light .text-teal-400 {
+      color: #0f766e !important;
+    }
+    html.light .text-cyan-300,
+    html.light .text-cyan-400 {
+      color: #0e7490 !important;
+    }
+
+    /* Ensure Dark Theme & Primary Buttons preserve white text in Light Mode */
+    html.light .btn-primary,
+    html.light .btn-primary *,
+    html.light .tab-active,
+    html.light .tab-active *,
+    html.light .sub-tab-active,
+    html.light .sub-tab-active *,
+    html.light .export-btn,
+    html.light .export-btn *,
+    html.light .station-chip-accent,
+    html.light .station-chip-accent *,
+    html.light .rolling-filter-active,
+    html.light .rolling-filter-active *,
+    html.light .trend-btn-active,
+    html.light .trend-btn-active *,
+    html.light .bg-sky-600,
+    html.light .bg-sky-600 *,
+    html.light .bg-emerald-600,
+    html.light .bg-emerald-600 *,
+    html.light .bg-emerald-700,
+    html.light .bg-emerald-700 * {
+      color: #ffffff !important;
+    }
+
+    /* Button animations */
     button, input[type="button"], select {
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     button:active {
       transform: scale(0.97);
-    }
-    .tab-btn {
-      font-weight: 600;
-      border-radius: 0.75rem;
     }
 
     /* Touch & Scrollbar Ergonomics */
@@ -443,7 +1256,7 @@
   </script>
   <noscript><div><img src="https://mc.yandex.ru/watch/112330199" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
 
   <!-- ================= TOP HEADER ================= -->
   <header class="glass border-b border-slate-800/80 z-40">
@@ -473,58 +1286,58 @@
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Donation Button -->
-        <button onclick="openDonationModal()" class="px-2.5 py-1 rounded-lg bg-rose-950/60 hover:bg-rose-900/70 text-rose-300 border border-rose-600/40 transition flex items-center space-x-1 font-semibold shadow-sm" title="Фонд поддержки метеопортала">
-          <svg class="w-3.5 h-3.5 text-rose-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+        <button onclick="openDonationModal()" class="nav-btn nav-btn-donate" title="Фонд поддержки метеопортала">
+          <svg class="w-3.5 h-3.5 text-rose-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
           <span class="hidden sm:inline">Поддержать</span>
         </button>
 
         <!-- 113-FZ Bulletproof Legal Status Button -->
-        <button onclick="openLegalModal()" class="px-2.5 py-1 rounded-lg bg-amber-950/60 hover:bg-amber-900/70 text-amber-300 border border-amber-600/50 transition flex items-center space-x-1 font-semibold" title="Правовой статус сервиса и отказ от ответственности">
-          <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        <button onclick="openLegalModal()" class="nav-btn" title="Правовой статус сервиса и отказ от ответственности">
+          <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           <span class="hidden sm:inline">113-ФЗ</span>
         </button>
 
         <!-- Social Share Button -->
         <div class="relative inline-block text-left group">
-          <button onclick="toggleShareDropdown()" class="px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-sky-300 border border-slate-700 transition flex items-center space-x-1 font-medium">
-            <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <button onclick="toggleShareDropdown()" class="nav-btn">
+            <svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
             <span class="hidden md:inline">Поделиться</span>
           </button>
-          <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl bg-slate-900 border border-slate-700 shadow-2xl py-1 z-50 text-xs font-medium">
-            <a href="javascript:void(0)" onclick="shareWeather('vk')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
+          <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl dropdown-panel shadow-2xl py-1 z-50 text-xs font-medium">
+            <a href="javascript:void(0)" onclick="shareWeather('vk')" class="flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-sky-400">●</span> ВКонтакте
             </a>
-            <a href="javascript:void(0)" onclick="shareWeather('tg')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
+            <a href="javascript:void(0)" onclick="shareWeather('tg')" class="flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-sky-400">●</span> Telegram
             </a>
-            <a href="javascript:void(0)" onclick="shareWeather('ok')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300">
+            <a href="javascript:void(0)" onclick="shareWeather('ok')" class="flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-amber-400">●</span> Одноклассники
             </a>
-            <a href="javascript:void(0)" onclick="shareWeather('copy')" class="flex items-center px-3 py-1.5 text-slate-200 hover:bg-sky-950 hover:text-sky-300 border-t border-slate-800">
+            <a href="javascript:void(0)" onclick="shareWeather('copy')" class="flex items-center px-3 py-1.5 dropdown-item border-t border-slate-200 dark:border-slate-800">
               <span class="mr-2 text-slate-400">🔗</span> Скопировать ссылку
             </a>
           </div>
         </div>
 
-        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-2.5 py-1 rounded-lg bg-sky-950/90 hover:bg-sky-900 border border-sky-600/50 text-sky-300 transition flex items-center space-x-1 font-semibold shadow-sm" title="Связаться с автором в Telegram">
-          <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="nav-btn" title="Связаться с автором в Telegram">
+          <svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
           <span class="hidden sm:inline">Telegram</span>
         </a>
-        <a href="https://vk.com/club241257551" target="_blank" class="px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-slate-700 text-sky-400 border border-slate-700/80 transition flex items-center space-x-1 font-medium">
-          <span class="text-xs font-bold text-sky-400">VK</span>
+        <a href="https://vk.com/club241257551" target="_blank" class="nav-btn">
+          <span class="text-xs font-bold text-sky-500">VK</span>
           <span class="hidden lg:inline">Группа</span>
         </a>
-        <span class="inline-flex items-center px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 font-mono text-[10px] font-bold" title="Знак информационной продукции (№ 436-ФЗ)">0+</span>
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded nav-badge-age font-mono text-[10px] font-bold" title="Знак информационной продукции (№ 436-ФЗ)">0+</span>
 
-        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-700/50 font-medium text-[11px]">
-          <span class="w-1.5 h-1.5 mr-1 rounded-full bg-emerald-400 animate-pulse"></span>
-          Онлайн ВМО
+        <span class="nav-status-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Онлайн ВМО</span>
         </span>
 
         <!-- Light / Dark Theme Switcher Button -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/50 transition flex items-center space-x-1.5 font-bold shadow-md cursor-pointer text-xs" title="Переключить тему оформления (Светлая / Тёмная)">
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
           <span id="theme-toggle-icon" class="text-sm">☀️</span>
-          <span id="theme-toggle-text" class="hidden sm:inline">Светлая</span>
+          <span id="theme-toggle-text" class="hidden sm:inline font-bold">Светлая</span>
         </button>
       </div>
     </div>
@@ -590,18 +1403,18 @@
   <!-- ================= MASTER MAIN VIEWPORT CONTAINER (ПРЕМИУМ ШИРОКИЙ ИНТЕРФЕЙС) ================= -->
   <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-5 flex-1 w-full space-y-3 sm:space-y-4">
 
-    <!-- ================= SEARCH BAR & QUICK CITIES (ДЛИННОЕ ПОЛЕ ПО ЦЕНТРУ ВВЕРХУ) ================= -->
-    <div class="glass rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-800/80">
+    <!-- ================= SEARCH BAR & QUICK CITIES ================= -->
+    <div class="glass rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200/80 dark:border-slate-800/80">
       <form id="search-form" onsubmit="handleSearch(event)" class="flex gap-2">
         <div class="relative flex-1">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-            <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
           <input type="text" id="city-input" placeholder="Введите город или поселок (напр. Москва, Санкт-Петербург, Дудинка, Норильск, Якутск, Диксон, Сочи, Краснодар)..." 
-            class="w-full pl-10 pr-4 py-2.5 bg-slate-900/90 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 text-xs sm:text-sm font-medium transition"
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition"
             value="Москва" />
         </div>
-        <button type="submit" class="px-5 sm:px-6 py-2.5 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-bold rounded-xl text-xs sm:text-sm transition shadow-md shadow-sky-600/30 flex items-center space-x-1.5 shrink-0">
+        <button type="submit" class="btn-primary">
           <span>Найти</span>
           <svg class="w-3.5 h-3.5 hidden sm:inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
@@ -610,65 +1423,65 @@
       <!-- Quick Station Badges -->
       <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-mono">
         <span class="text-slate-400 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
-        <button onclick="setCity('Восток')" class="shrink-0 px-2.5 py-1 rounded-lg bg-indigo-950/90 hover:bg-indigo-900 border border-cyan-500/60 text-cyan-300 font-bold transition shadow-sm">❄️ Восток (Антарктида)</button>
-        <button onclick="setCity('Москва')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏛 Москва</button>
-        <button onclick="setCity('Санкт-Петербург')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌊 Санкт-Петербург</button>
-        <button onclick="setCity('Дудинка')" class="shrink-0 px-2.5 py-1 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/50 text-amber-300 font-bold transition">❄️ Дудинка (Таймыр)</button>
-        <button onclick="setCity('Норильск')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏔 Норильск</button>
-        <button onclick="setCity('Диксон')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🧭 Диксон</button>
-        <button onclick="setCity('Якутск')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🧊 Якутск</button>
-        <button onclick="setCity('Сочи')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏖 Сочи</button>
-        <button onclick="setCity('Краснодар')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌻 Краснодар</button>
-        <button onclick="setCity('Екатеринбург')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🏭 Екатеринбург</button>
-        <button onclick="setCity('Казань')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🕌 Казань</button>
-        <button onclick="setCity('Новосибирск')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌲 Новосибирск</button>
-        <button onclick="setCity('Воронеж')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🌾 Воронеж</button>
-        <button onclick="setCity('Владивосток')" class="shrink-0 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 border border-slate-700/60 text-slate-300 transition">🚢 Владивосток</button>
+        <button onclick="setCity('Восток')" class="station-chip station-chip-accent">❄️ Восток (Антарктида)</button>
+        <button onclick="setCity('Москва')" class="station-chip">🏛 Москва</button>
+        <button onclick="setCity('Санкт-Петербург')" class="station-chip">🌊 Санкт-Петербург</button>
+        <button onclick="setCity('Дудинка')" class="station-chip">❄️ Дудинка (Таймыр)</button>
+        <button onclick="setCity('Норильск')" class="station-chip">🏔 Норильск</button>
+        <button onclick="setCity('Диксон')" class="station-chip">🧭 Диксон</button>
+        <button onclick="setCity('Якутск')" class="station-chip">🧊 Якутск</button>
+        <button onclick="setCity('Сочи')" class="station-chip">🏖 Сочи</button>
+        <button onclick="setCity('Краснодар')" class="station-chip">🌻 Краснодар</button>
+        <button onclick="setCity('Екатеринбург')" class="station-chip">🏭 Екатеринбург</button>
+        <button onclick="setCity('Казань')" class="station-chip">🕌 Казань</button>
+        <button onclick="setCity('Новосибирск')" class="station-chip">🌲 Новосибирск</button>
+        <button onclick="setCity('Воронеж')" class="station-chip">🌾 Воронеж</button>
+        <button onclick="setCity('Владивосток')" class="station-chip">🚢 Владивосток</button>
       </div>
     </div>
 
     <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (ВСЕ 10 ВКЛАДОК ДЛЯ ВСЕХ ЭКРАНОВ) ================= -->
-    <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-semibold select-none">
-      <button onclick="switchTab('current')" id="tab-current" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active">
-        <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+    <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs select-none">
+      <button onclick="switchTab('current')" id="tab-current" class="tab-btn tab-active">
+        <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <span>Погода сейчас (48 ч)</span>
       </button>
-      <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Метеорадар & Спутники</span>
         <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse ml-0.5"></span>
       </button>
-      <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span>Архив погоды (1890–2026)</span>
-        <span class="text-[9.5px] px-1.5 py-0.2 rounded bg-amber-950 text-amber-300 border border-amber-500/40 font-mono font-bold">Таблица</span>
+        <span class="tab-badge text-[9.5px] px-1.5 py-0.2 rounded font-mono font-bold">Таблица</span>
       </button>
-      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         <span>ИИ WeatherNext 3.0 (14 дн)</span>
       </button>
-      <button onclick="switchTab('models')" id="tab-models" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-teal-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+      <button onclick="switchTab('models')" id="tab-models" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-teal-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
         <span>4 Суперкомпьютера</span>
       </button>
-      <button onclick="switchTab('month')" id="tab-month" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-indigo-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+      <button onclick="switchTab('month')" id="tab-month" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
         <span>30 дней: SEAS5 + ИИ</span>
       </button>
-      <button onclick="switchTab('week')" id="tab-week" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>Прогноз 7 дней</span>
       </button>
-      <button onclick="switchTab('14days')" id="tab-14days" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-slate-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      <button onclick="switchTab('14days')" id="tab-14days" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         <span>Прогноз 14 дней</span>
       </button>
-      <button onclick="switchTab('ecology')" id="tab-ecology" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <button onclick="switchTab('ecology')" id="tab-ecology" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span>Экология & УФ</span>
       </button>
-      <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive">
-        <svg class="w-3.5 h-3.5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Почасовой анализ</span>
       </button>
     </div>
@@ -3683,35 +4496,35 @@
 
             <!-- Sub-view Mode Buttons -->
             <div class="flex flex-wrap items-center gap-1.5 text-xs font-medium">
-              <button onclick="switchArchiveSubView('table')" id="sub-btn-table" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'table' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('table')" id="sub-btn-table" class="sub-tab-btn ${archiveSubView === 'table' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 📊 Сводная таблица (1890–2026)
               </button>
-              <button onclick="switchArchiveSubView('diary')" id="sub-btn-diary" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'diary' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('diary')" id="sub-btn-diary" class="sub-tab-btn ${archiveSubView === 'diary' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 📖 Дневник погоды
               </button>
-              <button onclick="switchArchiveSubView('months')" id="sub-btn-months" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'months' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('months')" id="sub-btn-months" class="sub-tab-btn ${archiveSubView === 'months' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 📅 12 Месяцев года
               </button>
-              <button onclick="switchArchiveSubView('stripes')" id="sub-btn-stripes" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'stripes' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('stripes')" id="sub-btn-stripes" class="sub-tab-btn ${archiveSubView === 'stripes' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 🌈 Warming Stripes
               </button>
-              <button onclick="switchArchiveSubView('single_month')" id="sub-btn-single_month" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'single_month' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('single_month')" id="sub-btn-single_month" class="sub-tab-btn ${archiveSubView === 'single_month' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 📈 История месяца
               </button>
-              <button onclick="switchArchiveSubView('today_history')" id="sub-btn-today_history" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'today_history' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}">
+              <button onclick="switchArchiveSubView('today_history')" id="sub-btn-today_history" class="sub-tab-btn ${archiveSubView === 'today_history' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 🏆 Этот день в истории
               </button>
-              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="px-3 py-1.5 rounded-lg transition ${archiveSubView === 'rolling' ? 'bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Погода и Климат)">
+              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="sub-tab-btn ${archiveSubView === 'rolling' ? 'sub-tab-active' : 'sub-tab-inactive'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Погода и Климат)">
                 🔥 Скользящие средние (Rolling Mean)
               </button>
             </div>
           </div>
 
           <!-- Compact Climate Warming Trend & Data Switcher Bar -->
-          <div class="flex flex-wrap items-center justify-between gap-3 text-xs font-mono bg-slate-900/95 p-3 rounded-xl border border-slate-800 shadow-md">
+          <div class="climate-trend-card flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
             <div class="space-y-1.5">
               <div class="flex items-center space-x-2">
-                <span class="px-2 py-0.5 rounded bg-rose-950/80 text-rose-300 border border-rose-500/40 text-[10px] font-bold uppercase tracking-wider">
+                <span class="trend-badge">
                   📈 ТРЕНД ПОТЕПЛЕНИЯ КЛИМАТА ЗА ВСЮ ИСТОРИЮ
                 </span>
                 <span class="text-[11px] text-slate-400 font-sans hidden sm:inline">
@@ -3719,19 +4532,19 @@
                 </span>
               </div>
               <div class="flex flex-wrap items-center gap-3 text-xs">
-                <span class="text-emerald-400 font-bold flex items-center space-x-1" title="Линейный вековой тренд потепления по физическим приборам опорной метеостанции с года основания">
+                <span class="text-emerald-500 font-bold flex items-center space-x-1" title="Линейный вековой тренд потепления по физическим приборам опорной метеостанции с года основания">
                   <span>● По приборам станции (ВМО):</span>
-                  <strong class="text-emerald-300 text-sm font-black">+${clim.obs_total_warming}°C</strong>
+                  <strong class="text-emerald-600 dark:text-emerald-300 text-sm font-black">+${clim.obs_total_warming}°C</strong>
                   <span class="text-[10.5px] text-slate-400 font-normal font-sans">(темп: +${clim.obs_decadal_rate}°C / 10 лет с ${clim.opened_year || 1935} г.)</span>
                 </span>
-                <span class="text-slate-600">|</span>
-                <span class="text-sky-400 font-bold flex items-center space-x-1" title="Вековой климатический тренд по непрерывному глобальному реанализу ECMWF Copernicus ERA5 за 136 лет">
+                <span class="text-slate-400">|</span>
+                <span class="text-sky-500 font-bold flex items-center space-x-1" title="Вековой климатический тренд по непрерывному глобальному реанализу ECMWF Copernicus ERA5 за 136 лет">
                   <span>◆ По реанализу ERA5 (1890–2026):</span>
-                  <strong class="text-sky-300 text-sm font-black">+${clim.reanalysis_total_warming}°C</strong>
+                  <strong class="text-sky-600 dark:text-sky-300 text-sm font-black">+${clim.reanalysis_total_warming}°C</strong>
                   <span class="text-[10.5px] text-slate-400 font-normal font-sans">(темп: +${clim.reanalysis_decadal_rate}°C / 10 лет)</span>
                 </span>
-                <span class="text-slate-600 hidden md:inline">|</span>
-                <span class="text-orange-400 text-[11px] hidden md:inline" title="Самый теплый календарный год за историю">
+                <span class="text-slate-400 hidden md:inline">|</span>
+                <span class="text-amber-500 text-[11px] hidden md:inline font-bold" title="Самый теплый календарный год за историю">
                   🔥 Рекорд: <strong>${clim.warmest_year.year} г.</strong> (${clim.warmest_year.mean_t > 0 ? '+' : ''}${clim.warmest_year.mean_t}°)
                 </span>
               </div>
@@ -3739,11 +4552,11 @@
 
             <div class="flex items-center space-x-2 shrink-0">
               <span class="text-[10.5px] text-slate-400 font-sans hidden xl:inline">Режим данных:</span>
-              <div class="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-700 text-[10px] font-bold">
-                <button onclick="toggleArchiveDataMode('all')" class="px-2.5 py-1 rounded transition ${archiveDataMode === 'all' ? 'bg-sky-600 text-white shadow' : 'text-slate-400 hover:text-white'}" title="Гомогенизированный ряд: физические замеры + реанализ ERA5 для заполнения пробелов">
+              <div class="trend-toggle-container text-[10px] font-bold">
+                <button onclick="toggleArchiveDataMode('all')" class="trend-toggle-btn ${archiveDataMode === 'all' ? 'trend-btn-active' : 'trend-btn-inactive'}" title="Гомогенизированный ряд: физические замеры + реанализ ERA5 для заполнения пробелов">
                   Приборы + Реанализ ERA5
                 </button>
-                <button onclick="toggleArchiveDataMode('raw')" class="px-2.5 py-1 rounded transition ${archiveDataMode === 'raw' ? 'bg-amber-600 text-white shadow' : 'text-slate-400 hover:text-white'}" title="Только физические инструментальные замеры (с прочерками — в годы перерывов)">
+                <button onclick="toggleArchiveDataMode('raw')" class="trend-toggle-btn ${archiveDataMode === 'raw' ? 'trend-btn-active' : 'trend-btn-inactive'}" title="Только физические инструментальные замеры (с прочерками — в годы перерывов)">
                   Только факт приборов
                 </button>
               </div>
@@ -3839,9 +4652,9 @@
         const b = document.getElementById(`sub-btn-${s}`);
         if (b) {
           if (s === sub) {
-            b.className = 'px-3 py-1.5 rounded-lg transition bg-gradient-to-r from-sky-600 to-cyan-600 text-white font-bold shadow-md ring-1 ring-sky-400/50';
+            b.className = 'sub-tab-btn sub-tab-active';
           } else {
-            b.className = 'px-3 py-1.5 rounded-lg transition bg-slate-800 text-slate-400 hover:bg-slate-700 font-medium';
+            b.className = 'sub-tab-btn sub-tab-inactive';
           }
         }
       });
@@ -4048,11 +4861,11 @@
 
           <!-- Actions -->
           <div class="flex items-center space-x-2">
-            <button onclick="exportArchiveDiaryCsv('${mName}', ${y})" class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-bold transition flex items-center space-x-1 shadow-sm">
+            <button onclick="exportArchiveDiaryCsv('${mName}', ${y})" class="export-btn">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Экспорт дневника в CSV</span>
             </button>
-            <button onclick="switchArchiveSubView('table')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-bold transition flex items-center space-x-1">
+            <button onclick="switchArchiveSubView('table')" class="sub-tab-btn sub-tab-inactive font-bold">
               <span>📊 Сводная таблица (1890–2026)</span>
             </button>
           </div>
@@ -4111,17 +4924,17 @@
       document.body.removeChild(link);
     }
 
-    // Heat map background color for temperature table cells
+    // Heat map background color for temperature table cells (Unified dual-theme)
     function getTempCellBg(t) {
-      if (t == null || isNaN(t)) return 'bg-slate-900/60 text-slate-500 border border-slate-800';
-      if (t <= -25) return 'bg-indigo-950/90 text-cyan-200 border border-indigo-700/50';
-      if (t <= -15) return 'bg-blue-950/90 text-sky-200 border border-blue-700/50';
-      if (t <= -5) return 'bg-sky-950/80 text-sky-300 border border-sky-800/40';
-      if (t <= 0) return 'bg-slate-900/90 text-slate-300 border border-slate-700/40';
-      if (t <= 10) return 'bg-emerald-950/70 text-emerald-300 border border-emerald-700/40';
-      if (t <= 18) return 'bg-amber-950/70 text-amber-200 border border-amber-700/40';
-      if (t <= 24) return 'bg-orange-950/80 text-orange-200 border border-orange-700/40';
-      return 'bg-rose-950/90 text-rose-200 border border-rose-700/50 font-black';
+      if (t == null || isNaN(t)) return 'temp-cell-null';
+      if (t <= -25) return 'temp-cell-extreme-cold';
+      if (t <= -15) return 'temp-cell-severe-cold';
+      if (t <= -5) return 'temp-cell-cold';
+      if (t <= 0) return 'temp-cell-zero';
+      if (t <= 10) return 'temp-cell-mild';
+      if (t <= 18) return 'temp-cell-warm';
+      if (t <= 24) return 'temp-cell-warmer';
+      return 'temp-cell-hot font-bold';
     }
 
     // SUB-VIEW: ПРОФЕССИОНАЛЬНАЯ СВОДНАЯ ТАБЛИЦА (1890–2026 ГГ.)
@@ -4151,7 +4964,7 @@
           </div>
 
           <div class="flex items-center space-x-2">
-            <button onclick="exportArchiveTableCsv(latestData.climate)" class="px-3 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-600 text-white font-bold transition flex items-center space-x-1 shadow-sm">
+            <button onclick="exportArchiveTableCsv(latestData.climate)" class="export-btn">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Экспорт в CSV</span>
             </button>
@@ -4190,13 +5003,13 @@
                 const isGap = d.is_gap;
                 const gapNote = d.gap_reason || '';
 
-                let statusBadge = `<span class="px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[9.5px] font-bold shadow-xs" title="Фактический приборный замер метеостанции (Погода и Климат / ВМО)">● Факт ВМО («Погода и Климат»)</span>`;
+                let statusBadge = `<span class="status-badge-obs" title="Фактический приборный замер метеостанции (Погода и Климат / ВМО)">● Факт ВМО</span>`;
                 if (d.status === 'PRE_FOUNDING') {
-                  statusBadge = `<span class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-600/40 text-[9.5px]" title="${gapNote}">◇ До основания</span>`;
+                  statusBadge = `<span class="status-badge-gap" title="${gapNote}">◇ До основания</span>`;
                 } else if (d.status === 'GAP') {
-                  statusBadge = `<span class="px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 border border-amber-500/40 text-[9.5px] font-bold" title="${gapNote}">○ Пропуск приборов</span>`;
+                  statusBadge = `<span class="status-badge-gap" title="${gapNote}">○ Пропуск</span>`;
                 } else if (d.status === 'REANALYSIS') {
-                  statusBadge = `<span class="px-1.5 py-0.5 rounded bg-sky-950/80 text-sky-300 border border-sky-500/40 text-[9.5px]" title="Гомогенизированный ряд ERA5">◆ Реанализ ERA5</span>`;
+                  statusBadge = `<span class="status-badge-reanalysis" title="Гомогенизированный ряд ERA5">◆ Реанализ ERA5</span>`;
                 }
 
                 const anomColor = d.anom > 0 
@@ -4538,30 +5351,30 @@
             background: 'transparent',
             toolbar: { show: false }
           },
-          theme: { mode: 'dark' },
-          colors: ['#38bdf8', '#f43f5e'],
+          theme: { mode: document.documentElement.classList.contains('dark') ? 'dark' : 'light' },
+          colors: ['#0284c7', '#e11d48'],
           stroke: { width: [2.5, 0], curve: 'smooth' },
           plotOptions: { bar: { columnWidth: '40%' } },
           xaxis: {
             categories: xYears,
             tickAmount: 12,
-            labels: { style: { colors: '#94a3b8', fontSize: '10px' } }
+            labels: { style: { colors: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#475569', fontSize: '10px' } }
           },
           yaxis: [
             {
               forceNiceScale: true,
-              title: { text: 'T (°C)', style: { color: '#38bdf8' } },
-              labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#38bdf8' } }
+              title: { text: 'T (°C)', style: { color: '#0284c7' } },
+              labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#0284c7' } }
             },
             {
               opposite: true,
               forceNiceScale: true,
-              title: { text: 'Аномалия (°C)', style: { color: '#f43f5e' } },
-              labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#f43f5e' } }
+              title: { text: 'Аномалия (°C)', style: { color: '#e11d48' } },
+              labels: { formatter: v => `${v > 0 ? '+' : ''}${v.toFixed(1)}°`, style: { colors: '#e11d48' } }
             }
           ],
           grid: {
-            borderColor: 'rgba(51, 65, 85, 0.35)',
+            borderColor: document.documentElement.classList.contains('dark') ? 'rgba(51, 65, 85, 0.35)' : '#e2e8f0',
             padding: { left: 10, right: 15 }
           }
         };
@@ -5053,7 +5866,7 @@
 
       div.innerHTML = `
         <!-- Top Banner & Station Header -->
-        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-700/80 bg-[#0a1226] space-y-3.5 shadow-xl">
+        <div class="glass-card rolling-card-box space-y-3.5 shadow-xl">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
             <div>
               <div class="flex items-center space-x-2">
@@ -5074,36 +5887,36 @@
             <!-- Quick Station Switcher Pills -->
             <div class="flex items-center flex-wrap gap-1.5 text-xs font-mono">
               <span class="text-slate-400 text-[11px] font-sans mr-1">Станции:</span>
-              <button onclick="setCity('Восток'); switchArchiveSubView('rolling');" class="px-2.5 py-1 rounded-lg transition ${isVostok ? 'bg-indigo-600 text-white font-bold ring-2 ring-cyan-400 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setCity('Восток'); switchArchiveSubView('rolling');" class="station-chip ${isVostok ? 'station-chip-accent' : ''}">
                 ❄️ Восток (Антарктида)
               </button>
-              <button onclick="setCity('Москва'); switchArchiveSubView('rolling');" class="px-2.5 py-1 rounded-lg transition ${stKey.includes('москва') ? 'bg-sky-600 text-white font-bold ring-2 ring-sky-400 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setCity('Москва'); switchArchiveSubView('rolling');" class="station-chip ${stKey.includes('москва') ? 'station-chip-accent' : ''}">
                 🏛 Москва
               </button>
-              <button onclick="setCity('Дудинка'); switchArchiveSubView('rolling');" class="px-2.5 py-1 rounded-lg transition ${stKey.includes('дудинка') ? 'bg-amber-600 text-white font-bold ring-2 ring-amber-400 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setCity('Дудинка'); switchArchiveSubView('rolling');" class="station-chip ${stKey.includes('дудинка') ? 'station-chip-accent' : ''}">
                 ❄️ Дудинка
               </button>
-              <button onclick="setCity('Якутск'); switchArchiveSubView('rolling');" class="px-2.5 py-1 rounded-lg transition ${stKey.includes('якутск') ? 'bg-cyan-700 text-white font-bold ring-2 ring-cyan-400 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setCity('Якутск'); switchArchiveSubView('rolling');" class="station-chip ${stKey.includes('якутск') ? 'station-chip-accent' : ''}">
                 🧊 Якутск
               </button>
             </div>
           </div>
 
-          <!-- Highlight Banner (Special Callout as Евгений noticed) -->
-          <div class="p-3 sm:p-4 rounded-xl bg-gradient-to-r from-sky-950/90 via-blue-950/70 to-slate-900 border border-sky-500/50 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-lg">
+          <!-- Highlight Banner -->
+          <div class="rolling-banner">
             <div class="space-y-1">
               <div class="flex items-center space-x-2">
                 <span class="px-2 py-0.5 rounded bg-sky-900/80 text-sky-200 border border-sky-400/40 text-[10px] font-bold uppercase font-mono">
                   ${isVostok ? '🏆 МИРОВОЙ РЕКОРД ХОЛОДА' : '📌 КЛЮЧЕВОЙ ЭКСТРЕМУМ'}
                 </span>
-                <span class="text-xs sm:text-sm font-bold text-white">${stData.highlight_record}</span>
+                <span class="text-xs sm:text-sm font-bold">${stData.highlight_record}</span>
               </div>
-              <p class="text-xs text-slate-300 max-w-3xl">
+              <p class="text-xs opacity-90 max-w-3xl">
                 ${stData.highlight_desc}
               </p>
             </div>
             <div class="shrink-0 flex items-center space-x-2">
-              <button onclick="exportRollingStatsCsv('${stData.title}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 hover:border-sky-500/60 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow">
+              <button onclick="exportRollingStatsCsv('${stData.title}')" class="export-btn">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Скачать CSV</span>
               </button>
@@ -5114,32 +5927,32 @@
           <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-xs">
             <div class="flex flex-wrap items-center gap-1">
               <span class="text-[11px] text-slate-400 mr-1">Период окна:</span>
-              <button onclick="setRollingFilter('all')" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 'all' ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter('all')" class="rolling-filter-btn ${rollingFilter === 'all' ? 'rolling-filter-active' : ''}">
                 Все 20 показателей
               </button>
-              <button onclick="setRollingFilter(7)" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 7 ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter(7)" class="rolling-filter-btn ${rollingFilter === 7 ? 'rolling-filter-active' : ''}">
                 7 дней
               </button>
-              <button onclick="setRollingFilter(30)" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 30 ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter(30)" class="rolling-filter-btn ${rollingFilter === 30 ? 'rolling-filter-active' : ''}">
                 30 дней
               </button>
-              <button onclick="setRollingFilter(90)" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 90 ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter(90)" class="rolling-filter-btn ${rollingFilter === 90 ? 'rolling-filter-active' : ''}">
                 90 дней
               </button>
-              <button onclick="setRollingFilter(180)" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 180 ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter(180)" class="rolling-filter-btn ${rollingFilter === 180 ? 'rolling-filter-active' : ''}">
                 180 дней
               </button>
-              <button onclick="setRollingFilter(365)" class="px-2.5 py-1 rounded-lg transition font-mono ${rollingFilter === 365 ? 'bg-sky-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}">
+              <button onclick="setRollingFilter(365)" class="rolling-filter-btn ${rollingFilter === 365 ? 'rolling-filter-active' : ''}">
                 365 дней
               </button>
             </div>
 
             <div class="flex items-center space-x-1 font-mono">
               <span class="text-[11px] text-slate-400 mr-1">Тип:</span>
-              <button onclick="setRollingFilter('tmax')" class="px-2.5 py-1 rounded-lg transition ${rollingFilter === 'tmax' ? 'bg-orange-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}" title="Только максимумы дневных температур">
+              <button onclick="setRollingFilter('tmax')" class="rolling-filter-btn ${rollingFilter === 'tmax' ? 'rolling-filter-active' : ''}" title="Только максимумы дневных температур">
                 ☀️ Дневные (Tmax)
               </button>
-              <button onclick="setRollingFilter('tmin')" class="px-2.5 py-1 rounded-lg transition ${rollingFilter === 'tmin' ? 'bg-indigo-600 text-white font-bold shadow' : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700'}" title="Только минимумы ночных температур">
+              <button onclick="setRollingFilter('tmin')" class="rolling-filter-btn ${rollingFilter === 'tmin' ? 'rolling-filter-active' : ''}" title="Только минимумы ночных температур">
                 🌙 Ночные (Tmin)
               </button>
             </div>
@@ -5147,7 +5960,7 @@
         </div>
 
         <!-- 20-CARD GRID IDENTICAL TO THE SCREENSHOT -->
-        <div class="rounded-2xl p-4 sm:p-5 bg-[#0b1329] border border-slate-800/80 shadow-2xl space-y-3">
+        <div class="rolling-card-box space-y-3">
           <div class="flex items-center justify-between text-xs text-slate-400 font-mono px-1">
             <span class="uppercase tracking-wider font-bold text-slate-300 font-sans">ROLLING MEAN STATISTICS · КАРТОЧКИ ЭКСТРЕМУМОВ</span>
             <span>Показано: ${filteredCards.length} из ${stData.cards.length}</span>
@@ -5157,17 +5970,17 @@
             ${filteredCards.map(c => {
               const isSpecialRecord = (c.label === 'Tmin 365-Day Low' && isVostok);
               return `
-                <div class="rounded-xl p-3.5 sm:p-4 bg-[#0f1b38] border ${isSpecialRecord ? 'border-sky-400 ring-2 ring-sky-400/50 shadow-sky-500/20 shadow-lg' : 'border-slate-800/90'} hover:border-sky-500/60 hover:bg-[#132247] transition flex flex-col justify-between text-center space-y-1.5 shadow-md">
-                  <div class="text-[12px] sm:text-[12.5px] font-medium text-slate-300 font-sans tracking-wide">
+                <div class="rolling-card-item ${isSpecialRecord ? 'rolling-card-special' : ''}">
+                  <div class="rolling-card-label">
                     ${c.label}
                   </div>
-                  <div class="text-2xl sm:text-[28px] font-black font-mono text-[#38bdf8] tracking-tight py-0.5">
+                  <div class="rolling-card-val">
                     ${c.val}
                   </div>
-                  <div class="text-[10.5px] font-mono text-slate-400">
+                  <div class="rolling-card-period">
                     ${c.period}
                   </div>
-                  ${isSpecialRecord ? '<div class="text-[9.5px] font-bold text-cyan-300 uppercase tracking-wide bg-sky-950/90 py-0.5 rounded border border-sky-500/50 mt-1">Рекорд Евгения (-60.8°)</div>' : ''}
+                  ${isSpecialRecord ? '<div class="text-[9.5px] font-bold text-sky-600 dark:text-cyan-300 uppercase tracking-wide bg-sky-100 dark:bg-sky-950/90 py-0.5 rounded border border-sky-400/50 mt-1">Рекорд Евгения (-60.8°)</div>' : ''}
                 </div>
               `;
             }).join('')}
@@ -6655,6 +7468,9 @@
           txt.textContent = 'Светлая';
           btn.title = 'Текущая: Светлая. Нажмите для переключения на Тёмную';
         }
+      }
+      if (latestData) {
+        renderCurrentTab(latestData);
       }
     }
 
