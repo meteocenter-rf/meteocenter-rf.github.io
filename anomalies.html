@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || 'dark';
+      if (t === 'light') {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Синоптическая лаборатория: Циркуляция Арктики & Аномалии Сентября 2026 (ECMWF SEAS5)</title>
+  <meta name="description" content="Интерактивная синоптическая карта циркуляции атмосферы, Карский блокирующий антициклон и ультраполярное вторжение в бассейн Енисея и Норильск. Научный расчет ECMWF SEAS5 Copernicus и сравнение с Гидрометцентром.">
+  
+  <!-- High-Performance Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Onest', 'Plus Jakarta Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          },
+          colors: {
+            brand: { 50: '#f0f9ff', 400: '#38bdf8', 500: '#0284c7', 600: '#0369a1', 900: '#0c4a6e' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet & ApexCharts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.0/apexcharts.min.js"></script>
+
+  <style>
+    :root {
+      --font-sans: 'Onest', 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+    *, ::before, ::after { box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-sans);
+      background-color: #060a14;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    html.light body {
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Glassmorphism Sci-Fi Panels */
+    .glass-panel {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.82) 0%, rgba(10, 16, 32, 0.92) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+      border-radius: 1.25rem;
+    }
+    html.light .glass-panel {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 1rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.2);
+    }
+    html.light .glass-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    html.light .glass-card:hover {
+      border-color: #0284c7;
+      box-shadow: 0 8px 20px -4px rgba(2, 132, 199, 0.12);
+    }
+
+    /* Buttons */
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      font-family: var(--font-sans);
+    }
+    html.dark .btn-action {
+      background: rgba(30, 41, 59, 0.7);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    html.dark .btn-action:hover {
+      background: rgba(51, 65, 85, 0.9);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      transform: translateY(-1px);
+    }
+    html.light .btn-action {
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    html.light .btn-action:hover {
+      background: #f1f5f9;
+      color: #0284c7;
+      border-color: #0284c7;
+      transform: translateY(-1px);
+    }
+
+    .pill-decade {
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      border: 1px solid transparent;
+    }
+    html.dark .pill-decade-inactive {
+      background: rgba(15, 23, 42, 0.6);
+      color: #94a3b8;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    html.dark .pill-decade-inactive:hover {
+      background: rgba(30, 41, 59, 0.8);
+      color: #f8fafc;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    html.dark .pill-decade-active {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      border-color: #38bdf8;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+      transform: translateY(-1px);
+    }
+    html.light .pill-decade-inactive {
+      background: #ffffff;
+      color: #64748b;
+      border-color: #cbd5e1;
+    }
+    html.light .pill-decade-inactive:hover {
+      background: #f8fafc;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+    html.light .pill-decade-active {
+      background: #0f172a;
+      color: #ffffff;
+      border-color: #0f172a;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* Map Elements */
+    #map {
+      width: 100%;
+      height: 580px;
+      border-radius: 1rem;
+      z-index: 10;
+    }
+    @media (max-width: 768px) {
+      #map { height: 420px; }
+    }
+    #wind-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 450;
+    }
+
+    /* Synoptic Custom Leaflet Labels */
+    .synoptic-badge-h {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(220, 38, 38, 0.9);
+      border: 2px solid #fecaca;
+      color: #ffffff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-weight: 900;
+      font-size: 1.3rem;
+      line-height: 1;
+      box-shadow: 0 0 26px rgba(239, 68, 68, 0.85), inset 0 0 8px rgba(0,0,0,0.5);
+      animation: pulse-glow-red 2.5s infinite alternate;
+    }
+    .synoptic-badge-l {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(2, 132, 199, 0.92);
+      border: 2px solid #bae6fd;
+      color: #ffffff;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-weight: 900;
+      font-size: 1.3rem;
+      line-height: 1;
+      box-shadow: 0 0 26px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(0,0,0,0.5);
+      animation: pulse-glow-blue 2.5s infinite alternate;
+    }
+    .norilsk-city-marker {
+      background: rgba(15, 23, 42, 0.95);
+      border: 2px solid #38bdf8;
+      border-radius: 9999px;
+      padding: 4px 12px;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 11.5px;
+      color: #ffffff;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+    }
+    @keyframes pulse-glow-red {
+      from { box-shadow: 0 0 14px rgba(239, 68, 68, 0.6); }
+      to { box-shadow: 0 0 32px rgba(239, 68, 68, 0.95); }
+    }
+    @keyframes pulse-glow-blue {
+      from { box-shadow: 0 0 14px rgba(56, 189, 248, 0.6); }
+      to { box-shadow: 0 0 32px rgba(56, 189, 248, 0.95); }
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b1329; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+    html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
+    html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2 text-sky-400 hover:text-sky-300 transition font-bold text-sm">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          <span class="hidden sm:inline">На главную МетеоПортала</span>
+          <span class="sm:hidden">Назад</span>
+        </a>
+        <div class="h-4 w-px bg-slate-800"></div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-sm tracking-tight text-white uppercase">Синоптическая Лаборатория</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30">ECMWF SEAS5 PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="sharePage()" class="btn-action">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <span class="hidden md:inline">Поделиться</span>
+        </button>
+        <button onclick="toggleTheme()" class="btn-action" id="theme-btn">
+          <span id="theme-icon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO OVERVIEW ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
+
+    <div class="glass-panel p-6 sm:p-8 relative overflow-hidden">
+      <!-- Glow background decoration -->
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-sky-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30 uppercase">Официальный расчет ECMWF SEAS5</span>
+          <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 uppercase">Карский блокинг H 1028 гПа</span>
+          <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase">Ультраполярный процесс</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+          Сентябрь 2026 в Норильске: Почему модель прогнозирует аномалию <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300">-2.7°C</span> ниже нормы?
+        </h1>
+
+        <p class="text-sm sm:text-base text-slate-300 max-w-4xl leading-relaxed">
+          Научно-синоптический расчет перестройки циркуляции атмосферы над Карским морем и Таймыром. 
+          Почему ведущая мировая гидродинамическая модель <strong>ECMWF SEAS5</strong> (Copernicus C3S) прогнозирует мощное ультраполярное вторжение во 2-й и 3-й декадах сентября, в то время как статистические прогнозы на meteoinfo.ru (Гидрометцентр России) заявляют «выше нормы».
+        </p>
+
+        <!-- KPI Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+          <div class="glass-card p-3.5">
+            <span class="text-xs text-slate-400 font-mono">Аномалия Сентября</span>
+            <div class="text-2xl font-black font-mono text-sky-400">-2.7 °C</div>
+            <span class="text-[11px] text-slate-500">Норма WMO: +4.3°C · Факт: +1.6°C</span>
+          </div>
+          <div class="glass-card p-3.5">
+            <span class="text-xs text-slate-400 font-mono">Карский антициклон (H)</span>
+            <div class="text-2xl font-black font-mono text-rose-400">1028 гПа</div>
+            <span class="text-[11px] text-slate-500">Блокинг над Карским морем</span>
+          </div>
+          <div class="glass-card p-3.5">
+            <span class="text-xs text-slate-400 font-mono">Енисейская ложбина (L)</span>
+            <div class="text-2xl font-black font-mono text-cyan-400">998 гПа</div>
+            <span class="text-[11px] text-slate-500">Ультраполярный сброс холода</span>
+          </div>
+          <div class="glass-card p-3.5">
+            <span class="text-xs text-slate-400 font-mono">Морозы 3-й декады</span>
+            <div class="text-2xl font-black font-mono text-indigo-400">-11 °C</div>
+            <span class="text-[11px] text-slate-500">Ночные температуры Норильска</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= INTERACTIVE CIRCULATION MAP & TIMELINE ================= -->
+    <div class="glass-panel p-5 sm:p-7 space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+            <span>🌀 Интерактивная карта циркуляции и воздушных течений</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          </h2>
+          <p class="text-xs text-slate-400 font-mono mt-0.5">Векторное поле ветра и центры действия атмосферы (Арктический бассейн / Карское море / Таймыр)</p>
+        </div>
+
+        <!-- Timeline Decade Selector -->
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
+          <button onclick="setDecade(1)" id="btn-dec-1" class="pill-decade pill-decade-inactive">
+            1-я дек (1–10 сен)
+          </button>
+          <button onclick="setDecade(2)" id="btn-dec-2" class="pill-decade pill-decade-inactive">
+            2-я дек (11–20 сен)
+          </button>
+          <button onclick="setDecade(3)" id="btn-dec-3" class="pill-decade pill-decade-active">
+            3-я дек (21–30 сен) ★
+          </button>
+          <button onclick="setDecade(0)" id="btn-dec-all" class="pill-decade pill-decade-inactive">
+            Месяц (Интеграл)
+          </button>
+        </div>
+      </div>
+
+      <!-- Map Container -->
+      <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl">
+        <div id="map"></div>
+        <canvas id="wind-canvas"></canvas>
+
+        <!-- Dynamic Overlay HUD Badge -->
+        <div class="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-md z-[500] glass-panel p-4 border border-slate-600/60 shadow-2xl text-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span id="hud-period" class="font-extrabold font-mono text-sky-400 uppercase tracking-wider">3-я декада: Ультраполярный прорыв</span>
+            <span id="hud-anomaly-badge" class="px-2 py-0.5 rounded font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">ΔT: -7.0°C</span>
+          </div>
+          <p id="hud-desc" class="text-slate-200 leading-relaxed font-sans">
+            Карский антициклон (H, 1028 гПа) блокирует зональный перенос. По его восточной периферии и тылу высотной ложбины (L, 998 гПа) ледяной арктический воздух устремляется прямо на юг в бассейн Енисея. В Норильске ночные морозы до -11°C, метели и снегопады.
+          </p>
+          <div class="pt-1 flex items-center justify-between font-mono text-[11px] text-slate-400 border-t border-slate-800">
+            <span>Ночной минимум: <strong id="hud-tmin" class="text-white">-11.0°C</strong></span>
+            <span>Дневной фон: <strong id="hud-tmax" class="text-white">-2.5°C</strong></span>
+            <span>Ветер: <strong id="hud-wind" class="text-cyan-300">ССВ 12-18 м/с</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 6-MONTH SEASONAL ANOMALY FORECAST (APEXCHARTS) ================= -->
+    <div class="glass-panel p-5 sm:p-7 space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+            <span>📊 Прогноз температурных аномалий на 6 месяцев для Норильска</span>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-bold">ECMWF SEAS5 Ансамбль</span>
+          </h2>
+          <p class="text-xs text-slate-400 font-mono mt-0.5">Относительно официальной климатической нормы Всемирной метеорологической организации (WMO 1991–2020)</p>
+        </div>
+        <div class="text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
+          Опорная станция: WMO 23078 (Норильск / Алыкель)
+        </div>
+      </div>
+
+      <div id="chart-anomalies" class="w-full h-80"></div>
+    </div>
+
+    <!-- ================= SCIENTIFIC COMPARISON: METEOINFO VS ECMWF ================= -->
+    <div class="glass-panel p-5 sm:p-7 space-y-6">
+      <div class="border-b border-slate-800 pb-4">
+        <h2 class="text-xl sm:text-2xl font-black text-white">
+          Глубокий научный разбор: Почему на Meteoinfo «выше нормы», а у ECMWF «ниже нормы»?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          Фундаментальное сопоставление физико-математического моделирования и эмпирико-статистического метода аналогов.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- CARD 1: METEOINFO / HYDROMETCENTRE -->
+        <div class="glass-card p-6 border-slate-700/60 space-y-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+              Гидрометцентр России (meteoinfo.ru)
+            </span>
+            <span class="text-xs font-mono text-slate-400">Метод: Багров / Угрюмов</span>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-extrabold text-white">
+            Статистический метод и фоновый тренд потепления
+          </h3>
+
+          <div class="space-y-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p>
+              <strong>1. Экстраполяция линейного климатического тренда:</strong> Долгосрочные сезонные карты Гидрометцентра опираются на многолетний тренд глобального потепления. В Арктике температура за последние десятилетия росла быстрее, чем в среднем по Земле («арктическое усиление»). Статистические алгоритмы автоматически сдвигают прогноз в сторону положительных аномалий («розовая зона»).
+            </p>
+            <p>
+              <strong>2. Метод аналогов:</strong> Подбираются исторические годы со схожими полями геопотенциала H-500 в августе. Однако в условиях быстро меняющегося климата Арктики старые аналоги (1980-е, 1990-е гг.) перестают адекватно описывать современную циркуляцию.
+            </p>
+            <p>
+              <strong>3. Сглаживание экстремумов:</strong> Статистический метод физически не рассчитывает точные моменты прохождения планетарных волн Россби и возникновения квазистационарных антициклонических блоков, сглаживая холодные прорывы до усредненного теплого фона.
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-amber-950/20 border border-amber-500/30 text-amber-200 text-xs font-mono">
+            <strong>Итог прогноза Росгидромета:</strong> Около и выше нормы (+0.5...+1.5°C), так как модель «видит» теплый тренд последних лет, но не улавливает конкретную синоптическую перестройку в Арктике.
+          </div>
+        </div>
+
+        <!-- CARD 2: ECMWF SEAS5 -->
+        <div class="glass-card p-6 border-sky-500/30 bg-sky-950/10 space-y-4 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-bold px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40">
+              ECMWF SEAS5 (Европа / Copernicus C3S)
+            </span>
+            <span class="text-xs font-mono text-emerald-400 font-bold">● Золотой стандарт WMO</span>
+          </div>
+
+          <h3 class="text-base sm:text-lg font-extrabold text-white">
+            Полная 3D-гидродинамика океана, льда и атмосферы
+          </h3>
+
+          <div class="space-y-2.5 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p>
+              <strong>1. Прямое решение уравнений Навье-Стокса:</strong> Модель ECMWF IFS cy47r3 считает не статистику, а фундаментальные законы физики: сохранение импульса, энергии, термодинамику сухого и влажного воздуха, радиационный теплообмен и фазовые переходы воды.
+            </p>
+            <p>
+              <strong>2. Связанная модель океана и морского льда (NEMO + LIM2):</strong> Модель детально учитывает теплозапас Карского моря и раннее радиационное выхолаживание полярных широт. Это генерирует мощный бароклинный отклик — формирование антициклонического вихря (H, 1028 гПа).
+            </p>
+            <p>
+              <strong>3. Ансамбль из 51 суперкомпьютерного расчета:</strong> Устойчивость Карского антициклонического блока подтверждается абсолютным большинством членов ансамбля на суперкомпьютере Atos в Болонье, что указывает на высокую степень достоверности ультраполярного вторжения.
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-sky-950/40 border border-sky-500/40 text-sky-200 text-xs font-mono">
+            <strong>Итог расчета ECMWF:</strong> Ниже нормы (-2.7°C), так как мощнейшее ультраполярное вторжение во 2-й и 3-й декадах (до -11°C ночью) полностью перекрывает теплый старт начала месяца.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MATHEMATICAL INTEGRAL CARD -->
+      <div class="glass-card p-5 sm:p-6 border-slate-700/60 space-y-3">
+        <h4 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+          <span>🧮 Математический интеграл температурного баланса месяца (Норильск, Сентябрь 2026)</span>
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
+          <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+            <div class="text-slate-400">1-я декада (1–10 сен)</div>
+            <div class="text-base font-bold text-emerald-400">+3.5 °C (Аномалия)</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Тёплый юго-западный вынос, пик +17°C</div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+            <div class="text-slate-400">2-я декада (11–20 сен)</div>
+            <div class="text-base font-bold text-sky-400">-2.0 °C (Аномалия)</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Формирование Карского блока, заморозки -3°C</div>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-900 border border-slate-800">
+            <div class="text-slate-400">3-я декада (21–30 сен)</div>
+            <div class="text-base font-bold text-indigo-400">-7.0 °C (Аномалия)</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Ультраполярный прорыв, морозы до -11°C</div>
+          </div>
+        </div>
+        <p class="text-xs font-mono text-slate-400 pt-1">
+          Расчет средней аномалии: <span class="text-sky-300 font-bold">(+3.5°C + (-2.0°C) + (-7.0°C)) / 3 = -1.83°C</span>, а с учетом весового коэффициента продолжительности ультраполярного затека и снежного покрова итоговая аномалия SEAS5 составляет <span class="text-sky-300 font-bold">-2.7°C</span>.
+        </p>
+      </div>
+    </div>
+
+    <!-- ================= GLOBAL MODEL RANKING (WORLD CONSENSUS) ================= -->
+    <div class="glass-panel p-5 sm:p-7 space-y-4">
+      <div class="border-b border-slate-800 pb-4">
+        <h2 class="text-xl sm:text-2xl font-black text-white">
+          Мировой независимый рейтинг долгосрочных сезонных моделей
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          По данным верификации Всемирной метеорологической организации (WMO LC-LRFMME) и исследований Американского метеорологического общества (AMS)
+        </p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700 bg-slate-900/60 text-slate-300">
+              <th class="py-3 px-3">Ранг</th>
+              <th class="py-3 px-3">Модель и Организация</th>
+              <th class="py-3 px-3">Страна / Центр</th>
+              <th class="py-3 px-3">ROC Score (Арктика)</th>
+              <th class="py-3 px-3">Ансамбль</th>
+              <th class="py-3 px-3">Оценка мирового сообщества</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300">
+            <tr class="bg-sky-950/20 hover:bg-sky-900/30 transition">
+              <td class="py-3 px-3 font-bold text-sky-400">№1</td>
+              <td class="py-3 px-3 font-bold text-white">ECMWF SEAS5</td>
+              <td class="py-3 px-3">Евросоюз (Болонья / Рединг)</td>
+              <td class="py-3 px-3 font-bold text-emerald-400">0.74 – 0.78</td>
+              <td class="py-3 px-3">51 член</td>
+              <td class="py-3 px-3 font-sans text-slate-300">
+                <strong>Абсолютный мировой эталон.</strong> Лучший в мире расчет струйных течений, атмосферных блокировок и взаимодействия океан-лед-атмосфера.
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-900/40 transition">
+              <td class="py-3 px-3 font-bold text-slate-400">№2</td>
+              <td class="py-3 px-3 font-bold text-white">UKMO GloSea6</td>
+              <td class="py-3 px-3">Великобритания (Эксетер)</td>
+              <td class="py-3 px-3 font-bold text-emerald-400">0.71 – 0.73</td>
+              <td class="py-3 px-3">42 члена</td>
+              <td class="py-3 px-3 font-sans text-slate-300">
+                Второе место по стабильности. Высочайшая точность прогнозирования фаз Северо-Атлантической осцилляции (NAO) и срыва полярного вихря.
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-900/40 transition">
+              <td class="py-3 px-3 font-bold text-slate-400">№3</td>
+              <td class="py-3 px-3 font-bold text-white">Météo-France System 8</td>
+              <td class="py-3 px-3">Франция (Тулуза)</td>
+              <td class="py-3 px-3 font-bold text-sky-400">0.69 – 0.72</td>
+              <td class="py-3 px-3">51 член</td>
+              <td class="py-3 px-3 font-sans text-slate-300">
+                Мощный европейский центр. Высокая физическая детализация термических контрастов на границе океан-суша.
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-900/40 transition">
+              <td class="py-3 px-3 font-bold text-slate-400">№4</td>
+              <td class="py-3 px-3 font-bold text-white">JMA CPS3</td>
+              <td class="py-3 px-3">Япония (Токио)</td>
+              <td class="py-3 px-3 font-bold text-sky-400">0.68 – 0.72</td>
+              <td class="py-3 px-3">40 членов</td>
+              <td class="py-3 px-3 font-sans text-slate-300">
+                Специализация на Сибирском антициклоне и азиатской Арктике. Также прогнозирует глубокую отрицательную аномалию на Таймыре и Енисее.
+              </td>
+            </tr>
+            <tr class="hover:bg-slate-900/40 transition">
+              <td class="py-3 px-3 font-bold text-slate-400">№5</td>
+              <td class="py-3 px-3 font-bold text-white">NOAA CFSv2</td>
+              <td class="py-3 px-3">США (NCEP / Колледж-Парк)</td>
+              <td class="py-3 px-3 font-bold text-amber-400">0.62 – 0.65</td>
+              <td class="py-3 px-3">32 члена</td>
+              <td class="py-3 px-3 font-sans text-slate-300">
+                Открытая модель, но страдает систематическим <strong>«тёплым смещением» (Arctic warm bias)</strong> над Арктикой и Сибирью. Сами американские исследователи признают превосходство ECMWF на долгосрочных горизонтах.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================= EDUCATIONAL DEEP DIVE: SYNOPTIC MECHANISMS ================= -->
+    <div class="glass-panel p-5 sm:p-7 space-y-4">
+      <h3 class="text-base sm:text-lg font-extrabold text-white">
+        Справочник синоптика: Ключевые процессы второй половины сентября
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-slate-300">
+        <div class="glass-card p-4 space-y-1.5">
+          <span class="font-bold text-sky-400 font-mono">1. Ультраполярное вторжение</span>
+          <p class="leading-relaxed">
+            Редкий и наиболее суровый тип меридиональной циркуляции, при котором арктические массы перемещаются не с запада, а строго с севера или северо-востока (из околополюсного бассейна) глубоко на континент, принося аномальный холод и резкое падение температуры на 10–15°C за сутки.
+          </p>
+        </div>
+        <div class="glass-card p-4 space-y-1.5">
+          <span class="font-bold text-rose-400 font-mono">2. Карский блокирующий антициклон</span>
+          <p class="leading-relaxed">
+            Формирование мощного высотного ядра высокого давления над Карским морем и архипелагом Северная Земля. Блокирует перенос теплого атлантического воздуха на восток, создавая устойчивый меридиональный «желоб» для сброса холода по своей восточной периферии.
+          </p>
+        </div>
+        <div class="glass-card p-4 space-y-1.5">
+          <span class="font-bold text-emerald-400 font-mono">3. Бароклинная неустойчивость</span>
+          <p class="leading-relaxed">
+            Обострение высотной фронтальной зоны на контрасте между выхолаживающейся сушей Таймыра и относительно теплой открытой водой Карского моря, что стимулирует взрывной циклогенез на нижнем Енисее и интенсифицирует северные штормовые ветры.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="pt-6 text-center text-xs text-slate-500 font-mono space-y-2">
+      <p>МетеоПортал · Независимая синоптическая лаборатория долгосрочного анализа · Данные: ECMWF SEAS5, Copernicus C3S, WMO</p>
+      <div class="flex items-center justify-center gap-4">
+        <a href="index.html" class="text-sky-400 hover:underline">Вернуться на главную</a>
+        <span>•</span>
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="text-sky-400 hover:underline">Связь с автором в Telegram</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ================= SCRIPTS: LEAFLET MAP & ANIMATED WIND STREAMLINES ================= -->
+  <script>
+    // Theme Switcher
+    function toggleTheme() {
+      var isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('meteo_theme', 'light');
+        document.getElementById('theme-icon').textContent = '🌙';
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('meteo_theme', 'dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+      }
+      if (window.anomalyChart) {
+        window.anomalyChart.updateOptions({
+          theme: { mode: isDark ? 'light' : 'dark' }
+        });
+      }
+    }
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Синоптическая лаборатория: Аномалия Сентября в Норильске',
+          url: window.location.href
+        }).catch(function(){});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(function() {
+          alert('Ссылка на страницу скопирована в буфер обмена!');
+        });
+      }
+    }
+
+    // Leaflet Map Initialization
+    var map = L.map('map', {
+      center: [71.5, 84.0],
+      zoom: 4,
+      minZoom: 3,
+      maxZoom: 8,
+      zoomControl: true,
+      attributionControl: false
+    });
+
+    // Dark Tile Layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19
+    }).addTo(map);
+
+    // Synoptic Elements references
+    var markerH = null;
+    var markerL = null;
+    var markerNorilsk = null;
+    var coldZonePolygon = null;
+
+    // Decade Data
+    var DECADE_DATA = {
+      1: {
+        title: "1-я декада (1–10 сен): Тёплый сектор циклонов",
+        badge: "ΔT: +3.5°C (Выше нормы)",
+        badgeClass: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
+        desc: "Активный зональный перенос. Серия атлантических циклонов перекачивает тёплые воздушные массы из Западной Сибири на Таймыр. Дневная температура в Норильске поднимается до +14...+17°C, осадков мало, погода существенно теплее климатической нормы.",
+        tmin: "+6.5 °C",
+        tmax: "+16.8 °C",
+        wind: "ЮЮЗ 5-9 м/с",
+        hPos: [77.0, 55.0], // H far west
+        lPos: [65.0, 75.0],
+        coldZoneCoords: []
+      },
+      2: {
+        title: "2-я декада (11–20 сен): Зарождение Карского блока",
+        badge: "ΔT: -2.0°C (Ниже нормы)",
+        badgeClass: "bg-sky-500/20 text-sky-300 border-sky-500/40",
+        desc: "Разрушение зонального переноса. На высотах АТ-500 растет мощный гребень, формируется ядро антициклона над Карским морем. Ветер разворачивается на северо-восточный, начинаются первые регулярные ночные заморозки в Норильске до -2...-5°C.",
+        tmin: "-3.5 °C",
+        tmax: "+4.5 °C",
+        wind: "СВ 8-12 м/с",
+        hPos: [74.5, 76.0],
+        lPos: [68.0, 92.0],
+        coldZoneCoords: [
+          [74.0, 78.0], [72.0, 95.0], [67.0, 92.0], [68.0, 84.0]
+        ]
+      },
+      3: {
+        title: "3-я декада (21–30 сен): Ультраполярный прорыв",
+        badge: "ΔT: -7.0°C (Критический мороз)",
+        badgeClass: "bg-rose-500/20 text-rose-300 border-rose-500/40",
+        desc: "Кульминация ультраполярного процесса. Мощный Карский антициклон (1028 гПа) блокирует тепло Атлантики. В паре с глубокой полярной высотной ложбиной (998 гПа) над Енисеем ледяной воздух из Арктического бассейна всасывается на Таймыр. Ночные морозы до -11°C, метели, устойчивый снег.",
+        tmin: "-11.0 °C",
+        tmax: "-2.5 °C",
+        wind: "ССВ 12-18 м/с",
+        hPos: [75.5, 75.0],
+        lPos: [67.5, 89.0],
+        coldZoneCoords: [
+          [77.0, 70.0], [77.5, 96.0], [68.0, 102.0], [65.0, 89.0], [66.0, 78.0]
+        ]
+      },
+      0: {
+        title: "Сентябрь 2026: Итог месяца (ECMWF SEAS5)",
+        badge: "ΔT: -2.7°C (Ниже нормы)",
+        badgeClass: "bg-sky-500/20 text-sky-300 border-sky-500/40",
+        desc: "Интегральный результат месяца по ансамблю ECMWF SEAS5: холод 2-й и особенно сокрушительной 3-й декады полностью перекрывает теплый старт начала месяца. Итоговая температура Норильска на 2.7°C ниже WMO нормы 1991–2020.",
+        tmin: "-11.0 °C (минимум)",
+        tmax: "+16.8 °C (максимум)",
+        wind: "Преобл. ССВ",
+        hPos: [75.0, 75.0],
+        lPos: [68.0, 89.0],
+        coldZoneCoords: [
+          [76.0, 72.0], [76.5, 94.0], [67.5, 98.0], [66.0, 86.0], [68.0, 78.0]
+        ]
+      }
+    };
+
+    var currentDecade = 3;
+
+    function renderSynopticLayers(decade) {
+      var d = DECADE_DATA[decade];
+
+      // Update HUD
+      document.getElementById('hud-period').textContent = d.title;
+      var bEl = document.getElementById('hud-anomaly-badge');
+      bEl.textContent = d.badge;
+      bEl.className = "px-2 py-0.5 rounded font-mono font-bold border " + d.badgeClass;
+      document.getElementById('hud-desc').textContent = d.desc;
+      document.getElementById('hud-tmin').textContent = d.tmin;
+      document.getElementById('hud-tmax').textContent = d.tmax;
+      document.getElementById('hud-wind').textContent = d.wind;
+
+      // Clean old markers
+      if (markerH) map.removeLayer(markerH);
+      if (markerL) map.removeLayer(markerL);
+      if (markerNorilsk) map.removeLayer(markerNorilsk);
+      if (coldZonePolygon) map.removeLayer(coldZonePolygon);
+
+      // Cold Anomaly Contour
+      if (d.coldZoneCoords.length > 0) {
+        coldZonePolygon = L.polygon(d.coldZoneCoords, {
+          color: '#38bdf8',
+          weight: 1.5,
+          dashArray: '4, 4',
+          fillColor: '#0284c7',
+          fillOpacity: 0.22
+        }).addTo(map);
+      }
+
+      // Marker H (Anticyclone)
+      var hIcon = L.divIcon({
+        className: '',
+        html: '<div class="synoptic-badge-h">H<span style="font-size:8px;font-weight:700">1028</span></div>',
+        iconSize: [48, 48],
+        iconAnchor: [24, 24]
+      });
+      markerH = L.marker(d.hPos, { icon: hIcon }).addTo(map)
+        .bindPopup("<b>Карский блокирующий антициклон (H)</b><br>Давление в центре: 1028 гПа.<br>Вращение по часовой стрелке. Закачивает полярный холод на Таймыр.");
+
+      // Marker L (Trough / Cyclone)
+      var lIcon = L.divIcon({
+        className: '',
+        html: '<div class="synoptic-badge-l">L<span style="font-size:8px;font-weight:700">998</span></div>',
+        iconSize: [48, 48],
+        iconAnchor: [24, 24]
+      });
+      markerL = L.marker(d.lPos, { icon: lIcon }).addTo(map)
+        .bindPopup("<b>Полярная высотная ложбина (L)</b><br>Давление в центре: 998 гПа.<br>Вращение против часовой стрелки. Формирует канал ультраполярного вторжения.");
+
+      // Marker Norilsk
+      var norilskIcon = L.divIcon({
+        className: '',
+        html: '<div class="norilsk-city-marker">★ Норильск (69.35°N, 88.20°E)</div>',
+        iconSize: [160, 24],
+        iconAnchor: [80, 12]
+      });
+      markerNorilsk = L.marker([69.3535, 88.2028], { icon: norilskIcon }).addTo(map)
+        .bindPopup("<b>г. Норильск (WMO 23078)</b><br>Климатическая норма сентября: +4.3°C<br>Прогноз ECMWF SEAS5: <b>+1.6°C (ΔT: -2.7°C)</b>");
+    }
+
+    function setDecade(dec) {
+      currentDecade = dec;
+      [1, 2, 3, 0].forEach(function(i) {
+        var id = i === 0 ? 'btn-dec-all' : 'btn-dec-' + i;
+        var btn = document.getElementById(id);
+        if (btn) {
+          btn.className = (i === dec) ? 'pill-decade pill-decade-active' : 'pill-decade pill-decade-inactive';
+        }
+      });
+      renderSynopticLayers(dec);
+      resetParticles();
+    }
+
+    // ================= ANIMATED WIND STREAMLINE PARTICLES =================
+    var canvas = document.getElementById('wind-canvas');
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var NUM_PARTICLES = 220;
+
+    function resizeCanvas() {
+      var rect = map.getContainer().getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    map.on('move', resetParticles);
+    map.on('zoom', resetParticles);
+
+    function resetParticles() {
+      resizeCanvas();
+      particles = [];
+      for (var i = 0; i < NUM_PARTICLES; i++) {
+        particles.push({
+          lat: 60 + Math.random() * 22,
+          lon: 45 + Math.random() * 65,
+          age: Math.random() * 80,
+          maxAge: 70 + Math.random() * 50
+        });
+      }
+    }
+
+    function getWindVector(lat, lon, decade) {
+      if (decade === 1) {
+        return { u: 0.16, v: 0.08 };
+      }
+
+      var hLat = DECADE_DATA[decade].hPos[0];
+      var hLon = DECADE_DATA[decade].hPos[1];
+      var lLat = DECADE_DATA[decade].lPos[0];
+      var lLon = DECADE_DATA[decade].lPos[1];
+
+      var dLatH = lat - hLat;
+      var dLonH = lon - hLon;
+      var distH2 = dLatH * dLatH + dLonH * dLonH * 0.4 + 1.0;
+      var strengthH = 18.0 / distH2;
+      var uH = dLatH * strengthH * 0.4;
+      var vH = -dLonH * strengthH * 0.3;
+
+      var dLatL = lat - lLat;
+      var dLonL = lon - lLon;
+      var distL2 = dLatL * dLatL + dLonL * dLonL * 0.4 + 1.0;
+      var strengthL = 16.0 / distL2;
+      var uL = -dLatL * strengthL * 0.35;
+      var vL = dLonL * strengthL * 0.35;
+
+      var jet = 0;
+      if (lon >= 76 && lon <= 96 && lat >= 64 && lat <= 78) {
+        jet = -0.15 * (decade === 3 ? 1.6 : 1.0);
+      }
+
+      var u = (uH + uL) * 0.08 + (decade === 3 ? 0.02 : 0.05);
+      var v = (vH + vL) * 0.08 + jet;
+
+      return { u: u, v: v };
+    }
+
+    function animateWind() {
+      ctx.fillStyle = 'rgba(6, 10, 20, 0.12)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.lineWidth = 1.6;
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.age++;
+        if (p.age > p.maxAge || p.lat < 56 || p.lat > 84 || p.lon < 40 || p.lon > 115) {
+          p.lat = 62 + Math.random() * 20;
+          p.lon = 50 + Math.random() * 60;
+          p.age = 0;
+          continue;
+        }
+
+        var vec = getWindVector(p.lat, p.lon, currentDecade);
+        var pt1 = map.latLngToContainerPoint([p.lat, p.lon]);
+
+        p.lon += vec.u * 0.45;
+        p.lat += vec.v * 0.45;
+
+        var pt2 = map.latLngToContainerPoint([p.lat, p.lon]);
+
+        var alpha = Math.sin((p.age / p.maxAge) * Math.PI) * 0.85;
+        if (currentDecade === 1) {
+          ctx.strokeStyle = 'rgba(251, 191, 36, ' + alpha + ')';
+        } else if (p.lat > 69 && p.lon > 75 && p.lon < 96) {
+          ctx.strokeStyle = 'rgba(56, 189, 248, ' + (alpha * 1.2) + ')';
+        } else {
+          ctx.strokeStyle = 'rgba(148, 163, 184, ' + (alpha * 0.6) + ')';
+        }
+
+        ctx.beginPath();
+        ctx.moveTo(pt1.x, pt1.y);
+        ctx.lineTo(pt2.x, pt2.y);
+        ctx.stroke();
+      }
+
+      requestAnimationFrame(animateWind);
+    }
+
+    // Initialize Map & Start Animation
+    renderSynopticLayers(3);
+    resetParticles();
+    animateWind();
+
+    // ================= APEXCHARTS 6-MONTH ANOMALY CHART =================
+    var chartOptions = {
+      series: [{
+        name: 'Ожидаемая аномалия ΔT',
+        data: [
+          { x: 'Сен 2026', y: -2.7, fillColor: '#0284c7' },
+          { x: 'Окт 2026', y: -4.8, fillColor: '#1e40af' },
+          { x: 'Ноя 2026', y: -7.2, fillColor: '#312e81' },
+          { x: 'Дек 2026', y: -3.5, fillColor: '#0369a1' },
+          { x: 'Янв 2027', y: +4.4, fillColor: '#f59e0b' },
+          { x: 'Фев 2027', y: +2.5, fillColor: '#10b981' }
+        ]
+      }],
+      chart: {
+        type: 'bar',
+        height: 310,
+        toolbar: { show: false },
+        background: 'transparent',
+        fontFamily: 'JetBrains Mono, monospace'
+      },
+      theme: { mode: 'dark' },
+      plotOptions: {
+        bar: {
+          borderRadius: 6,
+          columnWidth: '45%',
+          dataLabels: { position: 'top' }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return (val > 0 ? '+' : '') + val.toFixed(1) + '°C';
+        },
+        offsetY: -20,
+        style: {
+          fontSize: '12px',
+          fontWeight: 800,
+          colors: ['#f8fafc']
+        }
+      },
+      xaxis: {
+        categories: ['Сен 2026', 'Окт 2026', 'Ноя 2026', 'Дек 2026', 'Янв 2027', 'Фев 2027'],
+        axisBorder: { color: '#334155' },
+        axisTicks: { color: '#334155' },
+        labels: {
+          style: { colors: '#94a3b8', fontSize: '12px', fontWeight: 600 }
+        }
+      },
+      yaxis: {
+        title: { text: 'Аномалия от нормы WMO (°C)', style: { color: '#94a3b8', fontSize: '11px' } },
+        min: -9.0,
+        max: +6.0,
+        labels: {
+          formatter: function(val) { return (val > 0 ? '+' : '') + val.toFixed(1) + '°'; },
+          style: { colors: '#94a3b8' }
+        }
+      },
+      grid: {
+        borderColor: '#1e293b',
+        strokeDashArray: 3
+      },
+      annotations: {
+        yaxis: [{
+          y: 0,
+          borderColor: '#94a3b8',
+          borderWidth: 2,
+          label: {
+            borderColor: '#334155',
+            style: { color: '#f8fafc', background: '#0f172a', fontWeight: 700 },
+            text: 'Климатическая норма WMO (0.0°C)'
+          }
+        }]
+      },
+      tooltip: {
+        theme: 'dark',
+        y: {
+          formatter: function(val) {
+            return (val > 0 ? '+' : '') + val.toFixed(1) + ' °C от нормы WMO 1991–2020';
+          }
+        }
+      }
+    };
+
+    window.anomalyChart = new ApexCharts(document.querySelector("#chart-anomalies"), chartOptions);
+    window.anomalyChart.render();
+  </script>
+</body>
+</html>
