@@ -4954,7 +4954,7 @@
                   <button onclick="switchWeatherLayer('sat_planeta')" id="dock-btn-sat_planeta" class="dock-layer-btn w-full px-2.5 py-1.5 rounded-lg text-[10.5px] font-mono flex items-center justify-between gap-1.5 transition ${activeWeatherLayer === 'sat_planeta' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-900 text-slate-300 hover:bg-slate-800'}">
                     <span class="flex items-center gap-1.5 truncate">
                       <span class="w-1.5 h-1.5 rounded-full ${activeWeatherLayer === 'sat_planeta' ? 'bg-white shadow-[0_0_6px_#fff]' : 'bg-slate-600'}"></span>
-                      <span class="truncate">НИЦ «Планета»</span>
+                      <span class="truncate">Спутник Airmass</span>
                     </span>
                     <span class="text-[8.5px] opacity-75 font-sans shrink-0">РФ</span>
                   </button>
@@ -5135,9 +5135,9 @@
               <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
               <div>
                 <h3 class="font-bold text-slate-100 uppercase tracking-wide">
-                  СПУТНИКОВАЯ ОНЛАЙН-ОБСЕРВАТОРИЯ (НИЦ «ПЛАНЕТА» И EUMETSAT)
+                  СПУТНИКОВАЯ ОНЛАЙН-ОБСЕРВАТОРИЯ (EUMETSAT & NASA)
                 </h3>
-                <p class="text-[11px] text-slate-400 font-mono">Оперативные снимки «Электро-Л №3/№4», «Метеор-М №2» и композиты EUMETSAT (ИК 10.8 мкм, Airmass RGB)</p>
+                <p class="text-[11px] text-slate-400 font-mono">Открытые геостационарные и орбитальные снимки облачности 24/7 (ИК 10.8 мкм, Airmass RGB, True Color 250м)</p>
               </div>
             </div>
             <div class="flex items-center space-x-2">
@@ -5150,35 +5150,35 @@
           <!-- Channel Selection Badges -->
           <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs select-none">
             <button onclick="switchPlanetaChannel('etr')" id="sat-chan-etr" class="shrink-0 px-3 py-1 rounded-lg bg-slate-100 text-slate-900 border border-slate-200 font-bold transition">
-              ЕТР (Европейская Россия)
+              Евразия и ЕТР (Airmass)
             </button>
             <button onclick="switchPlanetaChannel('elektro')" id="sat-chan-elektro" class="shrink-0 px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition">
-              «Электро-Л №3» (Диск Евразии 24/7)
+              Геостационарный диск ИК 24/7
             </button>
             <button onclick="switchPlanetaChannel('ural_sib')" id="sat-chan-ural_sib" class="shrink-0 px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition">
               Урал и Западная Сибирь
             </button>
             <button onclick="switchPlanetaChannel('dv')" id="sat-chan-dv" class="shrink-0 px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition">
-              Дальний Восток и Приморье
+              Дальний Восток (NASA VIIRS)
             </button>
             <button onclick="switchPlanetaChannel('arctic')" id="sat-chan-arctic" class="shrink-0 px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition">
-              «Метеор-М» (Арктика и СМП)
+              Арктика и СМП (NASA MODIS)
             </button>
             <button onclick="switchPlanetaChannel('eumetsat_airmass')" id="sat-chan-eumetsat_airmass" class="shrink-0 px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700 transition">
-              EUMETSAT Airmass RGB
+              Воздушные массы RGB
             </button>
           </div>
 
           <!-- Satellite Display Frame with Interactive Playback Controls -->
           <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 aspect-[16/9] sm:aspect-[21/9] flex items-center justify-center">
             <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" 
-              alt="Спутниковый снимок НИЦ Планета и EUMETSAT" 
+              alt="Спутниковый снимок EUMETSAT и NASA" 
               class="w-full h-full object-cover transition-opacity duration-300" 
               onerror="handleSatelliteImgError(this)" />
             
             <!-- In-Frame Telemetry Badge -->
             <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-700/80 text-[11px] font-mono text-slate-200">
-              <span id="planeta-sat-caption">Канал: ЕТР Мультиспектральный композит облачности • НИЦ «Планета»</span>
+              <span id="planeta-sat-caption">Канал: Евразия & ЕТР (Мультиспектральный композит облачности 24/7)</span>
               <span id="planeta-sat-timestamp" class="ml-2 text-slate-400 font-bold">Обновлено: 15 мин назад</span>
             </div>
 
@@ -5208,11 +5208,11 @@
 
             <div class="flex items-center space-x-2 text-[11px] text-slate-400 font-mono">
               <span>Источники:</span>
-              <a href="http://planet.iitp.ru/" target="_blank" class="text-slate-300 hover:text-white hover:underline">НИЦ «Планета»</a>
+              <a href="https://www.eumetsat.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">EUMETSAT Open Data</a>
               <span>•</span>
-              <a href="https://meteoinfo.ru/radars-sat" target="_blank" class="text-slate-300 hover:text-white hover:underline">Гидрометцентр РФ</a>
+              <a href="https://earthdata.nasa.gov/" target="_blank" class="text-slate-300 hover:text-white hover:underline">NASA GIBS</a>
               <span>•</span>
-              <a href="https://www.eumetsat.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">EUMETSAT</a>
+              <a href="https://wmo.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">Опорная сеть ВМО</a>
             </div>
           </div>
         </div>
@@ -5657,9 +5657,9 @@
           maxZoom: 18,
           opacity: 0.85,
           zIndex: 10,
-          attribution: 'НИЦ «Планета» / EUMETSAT Airmass'
+          attribution: 'EUMETSAT Airmass RGB / Open Data'
         }).addTo(radarMap);
-        if (infoBox) infoBox.innerText = 'Спутниковый монитор НИЦ «Планета»: циклогенез и фронты';
+        if (infoBox) infoBox.innerText = 'Спутниковый монитор облачности: циклогенез и фронты';
         return;
       }
 
@@ -5806,7 +5806,7 @@
         }
         if (type === 'airs_precip' && statusPill) statusPill.innerText = 'Спутниковые осадки NASA (РФ 100%)';
         else if (type === 'sat_live_ir' && statusPill) statusPill.innerText = 'Спутник ИК 24/7 (Облачность и фронты)';
-        else if (type === 'sat_planeta' && statusPill) statusPill.innerText = 'НИЦ «Планета» (Airmass RGB)';
+        else if (type === 'sat_planeta' && statusPill) statusPill.innerText = 'Спутник Airmass RGB (Воздушные массы)';
         else if (type === 'sat_viirs' && statusPill) statusPill.innerText = 'NASA VIIRS HD (250м)';
         else if (type === 'sat_modis' && statusPill) statusPill.innerText = 'NASA Terra MODIS (250м)';
         updateSatelliteLayer();
@@ -11781,7 +11781,7 @@
 
     const PLANETA_CHANNELS = {
       'etr': {
-        title: 'ЕТР (Европейская Россия) • Мультиспектральный композит НИЦ «Планета»',
+        title: 'Евразия & ЕТР • Мультиспектральный композит облачности (EUMETSAT)',
         baseUrl: 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
         frames: [
           'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
@@ -11790,7 +11790,7 @@
         ]
       },
       'elektro': {
-        title: '«Электро-Л №3» (НИЦ «Планета» 76°E) • Полный диск Евразии ИК 10.5–12.5 мкм',
+        title: 'Геостационарный диск Евразии • Инфракрасный спектр ИК 10.5–12.5 мкм 24/7',
         baseUrl: 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:ir108&styles=&bbox=-10,20,110,75&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
         frames: [
           'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:ir108&styles=&bbox=-10,20,110,75&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
@@ -11806,7 +11806,7 @@
         ]
       },
       'dv': {
-        title: 'Дальний Восток и Приморье • Охотское море, Камчатка и Курилы',
+        title: 'Дальний Восток и Приморье • Спутниковый скан NASA VIIRS True Color (250м)',
         baseUrl: 'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/default/250m/6/15/45.jpg',
         frames: [
           'https://gibs.earthdata.nasa.gov/wmts/epsg4326/best/VIIRS_SNPP_CorrectedReflectance_TrueColor/default/default/250m/6/15/45.jpg',
@@ -11814,7 +11814,7 @@
         ]
       },
       'arctic': {
-        title: '«Метеор-М №2» / НИЦ «Планета» • Арктический бассейн и Севморпуть',
+        title: 'Арктический бассейн и Севморпуть • Спутниковый скан NASA MODIS (250м)',
         baseUrl: 'https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/default/250m/3/3/3.jpg',
         frames: [
           'https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/default/250m/3/3/3.jpg',
