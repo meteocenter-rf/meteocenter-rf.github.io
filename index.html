@@ -4429,6 +4429,8 @@
           cloud_base_m: cloudCeilingStr,
           baro_tendency: baroTendencyStr,
           air_mass_type: airMassStr,
+          snow_depth_cm: currentSnowDepthCm,
+          snowfall_today: ecSnow[0] != null ? ecSnow[0] : 0,
         },
         ensemble: {
           mean: consensusMean,
@@ -4704,6 +4706,8 @@
       const hum = c.humidity ? `${c.humidity}%` : '—';
       const uv = c.uv_index != null ? c.uv_index : '—';
       const p24 = numFmt(c.precipitation, 1);
+      const snDepth = (c.snow_depth_cm != null && c.snow_depth_cm > 0) ? `${c.snow_depth_cm} см` : '0 см';
+      const snToday = (c.snowfall_today != null && c.snowfall_today > 0) ? `${c.snowfall_today.toFixed(1)} см` : '0 см';
 
       const currMonthIdx = new Date().getMonth();
       const normMonthVal = (d.climate && d.climate.t_norm && d.climate.t_norm[currMonthIdx] != null)
@@ -4852,6 +4856,31 @@
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight">+${d.climate.decadal_rate}°C</div>
             <div class="text-[11px] text-slate-500 dark:text-slate-400">за 10 лет (${d.climate.opened_year > 1890 ? `приборы с ${d.climate.opened_year} г.` : '1890–2026'})</div>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 space-y-1.5 border border-blue-200 dark:border-blue-900/50 bg-blue-50/30 dark:bg-blue-950/20 col-span-2 sm:col-span-4">
+            <div class="flex justify-between items-center text-blue-600 dark:text-blue-400 text-[10.5px] font-bold uppercase tracking-wider font-mono">
+              <span class="flex items-center space-x-1.5"><span>❄️</span><span>СНЕЖНЫЙ ПОКРОВ И СНЕГОПАД</span></span>
+              <span class="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-mono text-[10px]">Снегомерная рейка / Модели</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+              <div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400">Высота снега сейчас:</div>
+                <div class="text-xl sm:text-2xl font-black font-mono text-blue-700 dark:text-blue-300">${snDepth}</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400">Снегопад за сутки:</div>
+                <div class="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white">${snToday}</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400">Снег 14 дней (консенсус):</div>
+                <div class="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white">${d.ensemble && d.ensemble.snow_totals ? d.ensemble.snow_totals.consensus + ' см' : '0 см'}</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400">Плотность / тип:</div>
+                <div class="text-xs font-semibold text-slate-700 dark:text-slate-300 pt-1">${parseFloat(snDepth) > 0 ? 'Сезонный покров' : 'Покров отсутствует'}</div>
+              </div>
+            </div>
           </div>
         </div>
         </div>
@@ -10842,6 +10871,8 @@
     function renderTabModels(container, d) {
       const ens = d.ensemble || {};
       const totals = ens.precip_totals || { ec: 0, wn: 0, ic: 0, gfs: 0, gem: 0, consensus: 0, spread: 0 };
+      const snowTotals = ens.snow_totals || { ec: 0, wn: 0, ic: 0, gfs: 0, gem: 0, consensus: 0 };
+      const snowDepth = (d.snow_depth_cm != null && d.snow_depth_cm > 0) ? `${d.snow_depth_cm} см` : '0 см';
       const card = document.createElement('div');
       card.className = 'glass rounded-2xl p-4 sm:p-6 shadow-2xl space-y-5';
 
@@ -10970,6 +11001,50 @@
               <span class="text-[11px] text-slate-500 font-mono">ECMWF • WeatherNext • ICON • GFS • GEM</span>
             </div>
             <div id="models-precip-chart-mount" class="w-full h-64"></div>
+          </div>
+
+          <!-- Multi-Model Snowfall & Snow Depth Section -->
+          <div class="glass-card rounded-xl p-4 border border-blue-200 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-950/20 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="text-[11px] font-bold text-blue-700 dark:text-blue-300 uppercase flex items-center space-x-1.5">
+                <span>❄️ СНЕГ И СНЕЖНЫЙ ПОКРОВ ПО 5 МОДЕЛЯМ (14 ДНЕЙ)</span>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-mono text-[11px] font-bold">
+                Высота покрова сейчас: ${snowDepth}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-xs">
+              <div class="p-2.5 rounded-lg bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-0.5">
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">ECMWF IFS:</div>
+                <div class="text-lg font-black font-mono text-slate-900 dark:text-white">${snowTotals.ec} см</div>
+                <div class="text-[9px] text-slate-400">Европа IFS 9km</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 space-y-0.5">
+                <div class="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">WeatherNext 3.0:</div>
+                <div class="text-lg font-black font-mono text-emerald-700 dark:text-emerald-300">${snowTotals.wn} см</div>
+                <div class="text-[9px] text-emerald-600/70">64 ансамбля DeepMind</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-0.5">
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">DWD ICON:</div>
+                <div class="text-lg font-black font-mono text-slate-900 dark:text-white">${snowTotals.ic} см</div>
+                <div class="text-[9px] text-slate-400">Германия DWD</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-0.5">
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">NOAA GFS:</div>
+                <div class="text-lg font-black font-mono text-slate-900 dark:text-white">${snowTotals.gfs} см</div>
+                <div class="text-[9px] text-slate-400">США NCEP</div>
+              </div>
+              <div class="p-2.5 rounded-lg bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-0.5">
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">CMC GEM:</div>
+                <div class="text-lg font-black font-mono text-slate-900 dark:text-white">${snowTotals.gem} см</div>
+                <div class="text-[9px] text-slate-400">Канада GEM</div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-blue-200/50 dark:border-blue-900/30 text-slate-600 dark:text-slate-400 font-mono">
+              <span>Консенсус моделей по свежему снегу (14д): <strong class="text-blue-600 dark:text-blue-300 font-bold">${snowTotals.consensus} см</strong></span>
+              <span>Мониторинг снежной кромки: ERA5 / ECMWF</span>
+            </div>
           </div>
         </div>
       `;
