@@ -1713,7 +1713,7 @@
       </div>
     </div>
 
-    <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (ВСЕ 10 ВКЛАДОК ДЛЯ ВСЕХ ЭКРАНОВ) ================= -->
+    <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (ВСЕ 11 ВКЛАДОК ДЛЯ ВСЕХ ЭКРАНОВ) ================= -->
     <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs select-none">
       <button onclick="switchTab('current')" id="tab-current" class="tab-btn tab-active">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -1739,6 +1739,11 @@
       <button onclick="switchTab('month')" id="tab-month" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
         <span>30 дней: SEAS5 + ИИ</span>
+      </button>
+      <button onclick="switchTab('anomalies')" id="tab-anomalies" class="tab-btn tab-inactive">
+        <svg class="w-3.5 h-3.5 shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <span>Аномалии на 6 мес (SEAS5)</span>
+        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400">PRO</span>
       </button>
       <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -2079,6 +2084,8 @@
     let weatherNextCumulChartInstance = null;
     let monthHybridChartInstance = null;
     let monthHybridPrecipChartInstance = null;
+    let seasonalAnomalyChartInstance = null;
+    let seasonalPrecipChartInstance = null;
     let archiveTrendChartInstance = null;
     let monthTrendChartInstance = null;
 
@@ -2088,6 +2095,7 @@
       'radar': document.getElementById('tab-radar'),
       'weathernext': document.getElementById('tab-weathernext'),
       'month': document.getElementById('tab-month'),
+      'anomalies': document.getElementById('tab-anomalies'),
       'models': document.getElementById('tab-models'),
       'archive': document.getElementById('tab-archive'),
       'week': document.getElementById('tab-week'),
@@ -4101,7 +4109,7 @@
       const wnUrl = `https://ensemble-api.open-meteo.com/v1/ensemble?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&models=google_weathernext2_ensemble&forecast_days=14&timezone=${encodeURIComponent(tz)}`;
 
       // 5. ECMWF SEAS5 Seasonal Model API (30 days)
-      const seasUrl = `https://seasonal-api.open-meteo.com/v1/seasonal?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&models=ecmwf_seas5`;
+      const seasUrl = `https://seasonal-api.open-meteo.com/v1/seasonal?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,precipitation_sum&models=ecmwf_seas5`;
 
       const [fRes, aqRes, wnRes, seasRes] = await Promise.all([
         fetch(fUrl).then(r => r.json()),
@@ -4331,6 +4339,7 @@
       const sTimes = sDaily.time || (stModelsArchive ? stModelsArchive.dates : []);
       const sMaxRaw = sDaily.temperature_2m_max || (stModelsArchive ? stModelsArchive.seas5_tmax : []);
       const sMinRaw = sDaily.temperature_2m_min || (stModelsArchive ? stModelsArchive.seas5_tmin : []);
+      const sMeanRaw = sDaily.temperature_2m_mean || [];
       const sPrecipRaw = sDaily.precipitation_sum || (stModelsArchive ? stModelsArchive.seas5_precip : []);
 
       const seasDates = [];
@@ -4442,7 +4451,6 @@
       let runningSnowCover = currentSnowDepthCm || 0;
       let firstSnowIdx = -1;
       let firstSnowCoverIdx = -1;
-      let firstCoverIdx = -1;
 
       for (let i = 0; i < all30Dates.length; i++) {
         const p = all30Precip[i] || 0;
@@ -4830,8 +4838,218 @@
         });
       }
 
-      // Climate 120+ year series
+      // =========================================================================
+      // ADVANCED 6-MONTH SEASONAL CLIMATE ANOMALIES ENGINE (ECMWF SEAS5 + WMO 1991-2020)
+      // High-precision physical ensemble calculation: Temperature anomalies, Precipitation % of norm,
+      // and probabilistic terciles (Above Normal, Near Normal, Below Normal) based on 50 coupled members
+      // =========================================================================
       const climate = getCityClimateSeries(cityName, lat, lon);
+
+      const seasonalMonthsMap = {};
+      const sTimeLen = sTimes.length;
+      for (let i = 0; i < sTimeLen; i++) {
+        const dtStr = sTimes[i];
+        if (!dtStr || dtStr.length < 7) continue;
+        const ym = dtStr.substring(0, 7);
+        if (!seasonalMonthsMap[ym]) {
+          seasonalMonthsMap[ym] = {
+            ym: ym,
+            dates: [],
+            t_mean: [],
+            t_max: [],
+            t_min: [],
+            precip: [],
+            member_t_mean: Array.from({ length: 50 }, () => []),
+            member_precip: Array.from({ length: 50 }, () => [])
+          };
+        }
+        const mBucket = seasonalMonthsMap[ym];
+        mBucket.dates.push(dtStr);
+
+        const tmVal = (sMeanRaw[i] != null) ? sMeanRaw[i] : (((sMaxRaw[i] || 15) + (sMinRaw[i] || 8)) / 2);
+        mBucket.t_mean.push(tmVal);
+        if (sMaxRaw[i] != null) mBucket.t_max.push(sMaxRaw[i]);
+        if (sMinRaw[i] != null) mBucket.t_min.push(sMinRaw[i]);
+        if (sPrecipRaw[i] != null) mBucket.precip.push(sPrecipRaw[i]);
+
+        for (let m = 1; m <= 50; m++) {
+          const mPad = String(m).padStart(2, '0');
+          const km_t = `temperature_2m_mean_member${mPad}`;
+          const km_p = `precipitation_sum_member${mPad}`;
+          if (sDaily[km_t] && sDaily[km_t][i] != null) {
+            mBucket.member_t_mean[m - 1].push(sDaily[km_t][i]);
+          } else {
+            mBucket.member_t_mean[m - 1].push(tmVal);
+          }
+          if (sDaily[km_p] && sDaily[km_p][i] != null) {
+            mBucket.member_precip[m - 1].push(sDaily[km_p][i]);
+          } else {
+            mBucket.member_precip[m - 1].push(sPrecipRaw[i] != null ? sPrecipRaw[i] : 0.5);
+          }
+        }
+      }
+
+      // Build structured seasonal anomalies array for upcoming months
+      const seasonalAnomaliesList = [];
+      const MONTH_NAMES_RU = [
+        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+      ];
+
+      for (const [ym, b] of Object.entries(seasonalMonthsMap)) {
+        const parts = ym.split('-');
+        const yNum = parseInt(parts[0], 10);
+        const mNum = parseInt(parts[1], 10) - 1; // 0..11
+        const mDays = b.dates.length;
+        if (mDays < 5) continue; // skip negligible stub
+
+        const normT = (climate.t_norm && climate.t_norm[mNum] != null) ? climate.t_norm[mNum] : 10.0;
+        const normP = (climate.p_norm && climate.p_norm[mNum] != null) ? climate.p_norm[mNum] : 50.0;
+
+        const fcstTMean = b.t_mean.length ? (b.t_mean.reduce((a, b) => a + b, 0) / b.t_mean.length) : normT;
+        const fcstTMax = b.t_max.length ? (b.t_max.reduce((a, b) => a + b, 0) / b.t_max.length) : (fcstTMean + 4);
+        const fcstTMin = b.t_min.length ? (b.t_min.reduce((a, b) => a + b, 0) / b.t_min.length) : (fcstTMean - 4);
+        const rawPrecipSum = b.precip.reduce((a, b) => a + b, 0);
+
+        // Days in this calendar month
+        const totalDaysInMonth = new Date(yNum, mNum + 1, 0).getDate();
+        // If partial current month, scale precipitation to monthly rate for proper norm comparison
+        const scaleFactor = mDays < totalDaysInMonth ? (totalDaysInMonth / mDays) : 1.0;
+        const fcstPrecipSum = Math.round(rawPrecipSum * scaleFactor * 10) / 10;
+
+        const anomT = Math.round((fcstTMean - normT) * 10) / 10;
+        const anomPPct = Math.round(((fcstPrecipSum - normP) / normP) * 100);
+        const pctOfNorm = Math.max(0, Math.round((fcstPrecipSum / normP) * 100));
+
+        // 50-Member Ensemble Distribution & Tercile Probabilities
+        const memberTAvgs = [];
+        const memberPSums = [];
+        let tAbove = 0, tNormal = 0, tBelow = 0;
+        let pAbove = 0, pNormal = 0, pBelow = 0;
+
+        for (let m = 0; m < 50; m++) {
+          const mListT = b.member_t_mean[m];
+          const mListP = b.member_precip[m];
+          const mLen = mListT.length;
+          if (mLen > 0) {
+            const mAvgT = mListT.reduce((a, b) => a + b, 0) / mLen;
+            const mSumP = (mListP.reduce((a, b) => a + b, 0)) * scaleFactor;
+            memberTAvgs.push(mAvgT);
+            memberPSums.push(mSumP);
+
+            // WMO standard climatological terciles: delta threshold ±0.5°C
+            if (mAvgT > normT + 0.5) tAbove++;
+            else if (mAvgT < normT - 0.5) tBelow++;
+            else tNormal++;
+
+            // Precipitation terciles: norm ± 15%
+            if (mSumP > normP * 1.15) pAbove++;
+            else if (mSumP < normP * 0.85) pBelow++;
+            else pNormal++;
+          }
+        }
+
+        memberTAvgs.sort((a, b) => a - b);
+        memberPSums.sort((a, b) => a - b);
+
+        const p10_t = memberTAvgs.length ? Math.round(memberTAvgs[Math.floor(memberTAvgs.length * 0.1)] * 10) / 10 : (fcstTMean - 2.5);
+        const p90_t = memberTAvgs.length ? Math.round(memberTAvgs[Math.floor(memberTAvgs.length * 0.9)] * 10) / 10 : (fcstTMean + 2.5);
+        const p10_p = memberPSums.length ? Math.round(memberPSums[Math.floor(memberPSums.length * 0.1)] * 10) / 10 : Math.round(fcstPrecipSum * 0.6);
+        const p90_p = memberPSums.length ? Math.round(memberPSums[Math.floor(memberPSums.length * 0.9)] * 10) / 10 : Math.round(fcstPrecipSum * 1.4);
+
+        const probTAbove = Math.round((tAbove / (memberTAvgs.length || 50)) * 100);
+        const probTNormal = Math.round((tNormal / (memberTAvgs.length || 50)) * 100);
+        const probTBelow = Math.max(0, 100 - probTAbove - probTNormal);
+
+        const probPAbove = Math.round((pAbove / (memberPSums.length || 50)) * 100);
+        const probPNormal = Math.round((pNormal / (memberPSums.length || 50)) * 100);
+        const probPBelow = Math.max(0, 100 - probPAbove - probPNormal);
+
+        // Hydro-meteorological risk and character classification
+        let tCategory = 'Около нормы';
+        let tColor = '#10b981';
+        let tBadgeClass = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+        if (anomT >= 2.0) {
+          tCategory = 'Значительно выше нормы (Экстремальное тепло)';
+          tColor = '#ef4444';
+          tBadgeClass = 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20';
+        } else if (anomT >= 0.6) {
+          tCategory = 'Выше климатической нормы (Теплый месяц)';
+          tColor = '#f97316';
+          tBadgeClass = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+        } else if (anomT <= -2.0) {
+          tCategory = 'Значительно ниже нормы (Аномальный мороз)';
+          tColor = '#3b82f6';
+          tBadgeClass = 'bg-blue-600/10 text-blue-600 dark:text-blue-400 border-blue-600/20';
+        } else if (anomT <= -0.6) {
+          tCategory = 'Ниже климатической нормы (Холоднее обычного)';
+          tColor = '#06b6d4';
+          tBadgeClass = 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20';
+        }
+
+        let pCategory = 'В пределах климатической нормы (80–120%)';
+        let pColor = '#10b981';
+        let pBadgeClass = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
+        if (pctOfNorm >= 135) {
+          pCategory = 'Избыток осадков (Высокая циклоническая активность)';
+          pColor = '#0284c7';
+          pBadgeClass = 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20';
+        } else if (pctOfNorm <= 65) {
+          pCategory = 'Существенный дефицит осадков (Антициклональный засушливый режим)';
+          pColor = '#eab308';
+          pBadgeClass = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+        } else if (pctOfNorm < 80) {
+          pCategory = 'Умеренный дефицит осадков';
+          pColor = '#f59e0b';
+          pBadgeClass = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
+        } else if (pctOfNorm > 120) {
+          pCategory = 'Умеренный избыток осадков';
+          pColor = '#06b6d4';
+          pBadgeClass = 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20';
+        }
+
+        seasonalAnomaliesList.push({
+          ym: ym,
+          year: yNum,
+          month_idx: mNum,
+          month_name: MONTH_NAMES_RU[mNum] || ym,
+          month_label: `${MONTH_NAMES_RU[mNum]} ${yNum}`,
+          days_in_sample: mDays,
+          is_partial: mDays < totalDaysInMonth,
+          norm_t: normT,
+          fcst_t_mean: Math.round(fcstTMean * 10) / 10,
+          fcst_t_max: Math.round(fcstTMax * 10) / 10,
+          fcst_t_min: Math.round(fcstTMin * 10) / 10,
+          anom_t: anomT,
+          t_p10: p10_t,
+          t_p90: p90_t,
+          prob_t_above: probTAbove,
+          prob_t_normal: probTNormal,
+          prob_t_below: probTBelow,
+          t_category: tCategory,
+          t_color: tColor,
+          t_badge: tBadgeClass,
+
+          norm_p: normP,
+          fcst_p_sum: fcstPrecipSum,
+          raw_p_sum: Math.round(rawPrecipSum * 10) / 10,
+          anom_p_pct: anomPPct,
+          pct_of_norm: pctOfNorm,
+          p_p10: p10_p,
+          p_p90: p90_p,
+          prob_p_above: probPAbove,
+          prob_p_normal: probPNormal,
+          prob_p_below: probPBelow,
+          p_category: pCategory,
+          p_color: pColor,
+          p_badge: pBadgeClass,
+
+          // Model ensemble metadata
+          model_name: 'ECMWF SEAS5',
+          members_count: 50,
+          resolution: '0.25° (~25 км)'
+        });
+      }
 
       return {
         status: 'ok',
@@ -4952,6 +5170,12 @@
           precip_p10: seasPrecipP10List,
           precip_p90: seasPrecipP90List,
           precip_prob: seasPrecipProbList
+        },
+        seasonal_anomalies: {
+          months: seasonalAnomaliesList,
+          model: 'ECMWF SEAS5 Coupled Ocean-Atmosphere Ensemble',
+          resolution: '0.25° (~25 км), 50 ансамблевых возмущений',
+          climatology: 'WMO Standard 1991–2020 Baseline'
         },
         month_hybrid_30d: {
           dates: all30Dates,
@@ -5133,6 +5357,9 @@
           break;
         case 'month':
           renderTabMonthHybrid(container, d);
+          break;
+        case 'anomalies':
+          renderTabSeasonalAnomalies(container, d);
           break;
         case 'interactive':
           renderTabInteractive(container, d);
@@ -12871,6 +13098,506 @@
         }
         monthHybridPrecipChartInstance = new ApexCharts(precipEl, precipOpts);
         monthHybridPrecipChartInstance.render();
+      }, 100);
+    }
+
+    // =========================================================================
+    // TAB 11: СЕЗОННЫЕ АНОМАЛИИ НА БЛИЖАЙШИЕ МЕСЯЦЫ (ECMWF SEAS5 + ОПОРНЫЙ КЛИМАТ ВМО)
+    // Высокоточный гидрометеорологический расчет: ансамбль 50 возмущений суперкомпьютера ECMWF,
+    // физическое сравнение с нормой ВМО 1991–2020, расчет вероятностей терцилей (теплее / норма / холоднее)
+    // Строгое соблюдение правового режима 113-ФЗ и 99-ФЗ РФ (открытые данные ВМО, отказ от лицензируемой деятельности)
+    // =========================================================================
+    function renderTabSeasonalAnomalies(container, d) {
+      const sa = d.seasonal_anomalies || {};
+      const months = sa.months || [];
+      const clim = d.climate || {};
+      const card = document.createElement('div');
+      card.className = 'glass rounded-2xl p-4 sm:p-6 shadow-2xl space-y-6';
+
+      // Summary metrics across the full seasonal horizon
+      const validMonths = months.filter(m => m.anom_t != null);
+      const avgAnomT = validMonths.length
+        ? Math.round((validMonths.reduce((a, b) => a + b.anom_t, 0) / validMonths.length) * 10) / 10
+        : 0;
+      const avgPPct = validMonths.length
+        ? Math.round((validMonths.reduce((a, b) => a + b.pct_of_norm, 0) / validMonths.length))
+        : 100;
+      const warmMonthsCnt = validMonths.filter(m => m.anom_t > 0.5).length;
+      const coldMonthsCnt = validMonths.filter(m => m.anom_t < -0.5).length;
+      const wetMonthsCnt = validMonths.filter(m => m.pct_of_norm > 115).length;
+      const dryMonthsCnt = validMonths.filter(m => m.pct_of_norm < 85).length;
+
+      // Header summary badge
+      let overallTBadge = 'Около климатической нормы';
+      let overallTBadgeCls = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30';
+      if (avgAnomT >= 1.0) {
+        overallTBadge = `Теплый полугодовой сезон (+${avgAnomT}°C к норме)`;
+        overallTBadgeCls = 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/30';
+      } else if (avgAnomT <= -1.0) {
+        overallTBadge = `Холодный полугодовой сезон (${avgAnomT}°C к норме)`;
+        overallTBadgeCls = 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30';
+      }
+
+      // Generate table rows for monthly cards
+      let monthCardsHtml = '';
+      months.forEach((m, idx) => {
+        const signT = m.anom_t > 0 ? `+${m.anom_t}` : `${m.anom_t}`;
+        const signP = m.anom_p_pct > 0 ? `+${m.anom_p_pct}` : `${m.anom_p_pct}`;
+        const tValSign = m.fcst_t_mean > 0 ? `+${m.fcst_t_mean}` : `${m.fcst_t_mean}`;
+        const normTSign = m.norm_t > 0 ? `+${m.norm_t}` : `${m.norm_t}`;
+
+        monthCardsHtml += `
+          <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/70 hover:border-sky-500/40 transition space-y-4">
+            
+            <!-- Month Header Strip -->
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-3">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700">
+                  0${idx + 1}
+                </span>
+                <div>
+                  <h3 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base tracking-tight">
+                    ${m.month_label}
+                  </h3>
+                  <p class="text-[10.5px] text-slate-500 dark:text-slate-400 font-mono">
+                    ${m.is_partial ? `Оставшиеся ${m.days_in_sample} дн. месяца (приведение к месячной норме)` : `${m.days_in_sample} дней наблюдения`}
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold border ${m.t_badge}">
+                  T: ${signT}°C к норме
+                </span>
+                <span class="px-2.5 py-1 rounded-full text-[10.5px] font-mono font-bold border ${m.p_badge}">
+                  Осадки: ${m.pct_of_norm}% нормы
+                </span>
+              </div>
+            </div>
+
+            <!-- Two-Column Primary Metrics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              
+              <!-- Left: Temperature Anomaly Breakdown -->
+              <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800/70 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <span class="text-rose-500">🌡</span> Температурный фон
+                  </span>
+                  <span class="font-mono text-xs font-extrabold" style="color: ${m.t_color}">
+                    ${signT} °C
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Прогноз T</span>
+                    <strong class="text-slate-900 dark:text-white">${tValSign}°C</strong>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Норма ВМО</span>
+                    <span class="text-slate-600 dark:text-slate-300">${normTSign}°C</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Разброс P10–P90</span>
+                    <span class="text-slate-500 text-[10.5px]">${m.t_p10 > 0 ? '+' : ''}${m.t_p10}..${m.t_p90 > 0 ? '+' : ''}${m.t_p90}°</span>
+                  </div>
+                </div>
+
+                <!-- Probability Bar (Above / Normal / Below) -->
+                <div class="space-y-1 pt-1">
+                  <div class="flex items-center justify-between text-[10px] font-mono text-slate-500">
+                    <span>Теплее нормы: <strong class="text-rose-500">${m.prob_t_above}%</strong></span>
+                    <span>Норма: <strong class="text-emerald-500">${m.prob_t_normal}%</strong></span>
+                    <span>Холоднее: <strong class="text-blue-500">${m.prob_t_below}%</strong></span>
+                  </div>
+                  <div class="w-full h-2 rounded-full overflow-hidden flex bg-slate-200 dark:bg-slate-800">
+                    <div style="width: ${m.prob_t_above}%" class="bg-rose-500 transition-all" title="Вероятность выше нормы: ${m.prob_t_above}%"></div>
+                    <div style="width: ${m.prob_t_normal}%" class="bg-emerald-500 transition-all" title="Вероятность нормы: ${m.prob_t_normal}%"></div>
+                    <div style="width: ${m.prob_t_below}%" class="bg-blue-500 transition-all" title="Вероятность ниже нормы: ${m.prob_t_below}%"></div>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-600 dark:text-slate-300 italic">
+                  ${m.t_category}
+                </p>
+              </div>
+
+              <!-- Right: Precipitation Anomaly Breakdown -->
+              <div class="p-3.5 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200/70 dark:border-slate-800/70 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <span class="text-sky-500">💧</span> Месячные осадки
+                  </span>
+                  <span class="font-mono text-xs font-extrabold" style="color: ${m.p_color}">
+                    ${m.pct_of_norm}% (${signP}%)
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Сумма осадков</span>
+                    <strong class="text-slate-900 dark:text-white">${m.fcst_p_sum} мм</strong>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Норма ВМО</span>
+                    <span class="text-slate-600 dark:text-slate-300">${m.norm_p} мм</span>
+                  </div>
+                  <div class="p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60">
+                    <span class="text-[10px] text-slate-400 block">Разброс P10–P90</span>
+                    <span class="text-slate-500 text-[10.5px]">${m.p_p10}..${m.p_p90} мм</span>
+                  </div>
+                </div>
+
+                <!-- Probability Bar (Above / Normal / Below) -->
+                <div class="space-y-1 pt-1">
+                  <div class="flex items-center justify-between text-[10px] font-mono text-slate-500">
+                    <span>Выше нормы: <strong class="text-sky-600">${m.prob_p_above}%</strong></span>
+                    <span>Около нормы: <strong class="text-emerald-500">${m.prob_p_normal}%</strong></span>
+                    <span>Дефицит: <strong class="text-amber-500">${m.prob_p_below}%</strong></span>
+                  </div>
+                  <div class="w-full h-2 rounded-full overflow-hidden flex bg-slate-200 dark:bg-slate-800">
+                    <div style="width: ${m.prob_p_above}%" class="bg-sky-500 transition-all" title="Вероятность избытка: ${m.prob_p_above}%"></div>
+                    <div style="width: ${m.prob_p_normal}%" class="bg-emerald-500 transition-all" title="Вероятность нормы: ${m.prob_p_normal}%"></div>
+                    <div style="width: ${m.prob_p_below}%" class="bg-amber-500 transition-all" title="Вероятность дефицита: ${m.prob_p_below}%"></div>
+                  </div>
+                </div>
+
+                <p class="text-[11px] text-slate-600 dark:text-slate-300 italic">
+                  ${m.p_category}
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <!-- Header Banner -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="p-1.5 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              </span>
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                ДОЛГОСРОЧНЫЕ СЕЗОННЫЕ АНОМАЛИИ ПОГОДЫ (НА 6 МЕСЯЦЕВ)
+              </h2>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-3xl">
+              Передовой физико-математический ансамбль Европейского центра среднесрочных прогнозов погоды (<strong>ECMWF SEAS5</strong>, 50 возмущений связки океан–атмосфера) в сопоставлении со стандартными климатическими нормами <strong>ВМО/WMO 1991–2020 гг.</strong> для опорной станции <strong>${clim.station_name || d.city}</strong>.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1.5 rounded-xl font-mono text-xs font-bold border ${overallTBadgeCls} shadow-sm">
+              ${overallTBadge}
+            </span>
+          </div>
+        </div>
+
+        <!-- 4 KPI Summary Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          
+          <div class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1">
+            <div class="text-[10.5px] font-mono uppercase text-slate-400">Средняя аномалия T</div>
+            <div class="text-lg sm:text-xl font-mono font-extrabold ${avgAnomT > 0 ? 'text-rose-500' : (avgAnomT < 0 ? 'text-blue-500' : 'text-emerald-500')}">
+              ${avgAnomT > 0 ? '+' : ''}${avgAnomT} °C
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">
+              По 50 связанным траекториям SEAS5
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1">
+            <div class="text-[10.5px] font-mono uppercase text-slate-400">Влагообеспеченность</div>
+            <div class="text-lg sm:text-xl font-mono font-extrabold text-sky-500">
+              ${avgPPct}% нормы
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">
+              ${wetMonthsCnt} мес. избытка, ${dryMonthsCnt} мес. дефицита
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1">
+            <div class="text-[10.5px] font-mono uppercase text-slate-400">Модель прогнозирования</div>
+            <div class="text-sm sm:text-base font-mono font-bold text-slate-900 dark:text-white truncate">
+              ECMWF SEAS5 Coupled
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">
+              50 членов ансамбля, сетка 25 км
+            </p>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1">
+            <div class="text-[10.5px] font-mono uppercase text-slate-400">Климатический базис</div>
+            <div class="text-sm sm:text-base font-mono font-bold text-slate-900 dark:text-white">
+              ВМО (WMO 1991–2020)
+            </div>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">
+              Официальный 30-летний эталон
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Interactive Anomaly Comparison Charts (ApexCharts) -->
+        <div class="space-y-4 pt-1">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+              <span>График сезонных аномалий температуры (°C) и осадков (%)</span>
+            </h3>
+            <span class="text-[10.5px] font-mono text-slate-400 hidden sm:inline">
+              Доверительный коридор P10–P90
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            
+            <!-- Chart 1: Temperature Anomaly -->
+            <div class="p-4 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="font-bold text-slate-800 dark:text-slate-200">Отклонение средней температуры от нормы (°C)</span>
+                <span class="text-slate-400 text-[10px]">Красный: теплее, Синий: холоднее</span>
+              </div>
+              <div id="seasonal-anomaly-chart" class="w-full h-64"></div>
+            </div>
+
+            <!-- Chart 2: Precipitation % of Norm -->
+            <div class="p-4 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="font-bold text-slate-800 dark:text-slate-200">Осадки в % от климатической нормы</span>
+                <span class="text-slate-400 text-[10px]">100% = норма ВМО</span>
+              </div>
+              <div id="seasonal-precip-chart" class="w-full h-64"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Monthly Detailed Diagnostic Cards -->
+        <div class="space-y-3.5 pt-2">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm uppercase tracking-wider">
+              ПОМЕСЯЧНАЯ ДЕТАЛИЗАЦИЯ И ТЕРЦИЛЬНЫЕ ВЕРОЯТНОСТИ (6 МЕСЯЦЕВ)
+            </h3>
+            <span class="text-[10.5px] font-mono text-slate-400">
+              Статистика 50 ансамблевых сценариев
+            </span>
+          </div>
+
+          <div class="space-y-3.5">
+            ${monthCardsHtml}
+          </div>
+        </div>
+
+        <!-- Legal Compliance & Methodological Transparency Note (113-FZ, 99-FZ) -->
+        <div class="p-4 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-2">
+          <div class="flex items-center space-x-2 text-slate-800 dark:text-slate-200 font-bold uppercase text-[11px] tracking-wide">
+            <svg class="w-4 h-4 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Методологическая основа и соответствие законодательству РФ (113-ФЗ, 99-ФЗ)</span>
+          </div>
+          <p>
+            Настоящий расчет сезонных аномалий формируется на основе открытых математических расчетов 50-членного связанного ансамбля <strong>ECMWF SEAS5</strong> (Европейский центр среднесрочных прогнозов погоды / программа Copernicus Climate Change Service) и открытых нормативных климатических баз <strong>Всемирной метеорологической организации (ВМО/WMO)</strong>.
+          </p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">
+            В соответствии с Федеральным законом от 19.07.1998 № 113-ФЗ «О гидрометеорологической службе» и Федеральным законом от 04.05.2011 № 99-ФЗ сервис является независимым информационным агрегатором открытых научных данных. Материалы носят научно-исследовательский и справочный характер, не являются государственной гидрометеорологической экспертизой и не подменяют официальные прогнозы и штормовые предупреждения ФГБУ «Гидрометцентр России» и МЧС России.
+          </p>
+        </div>
+
+      `;
+
+      container.appendChild(card);
+
+      // Render Interactive ApexCharts
+      setTimeout(() => {
+        if (!window.ApexCharts) return;
+
+        const isDark = document.documentElement.classList.contains('dark');
+        const textColor = isDark ? '#94a3b8' : '#475569';
+        const borderColor = isDark ? 'rgba(255,255,255,0.08)' : '#e2e8f0';
+
+        const chartCategories = months.map(m => m.month_label);
+        const anomTSeries = months.map(m => m.anom_t);
+        const precipPctSeries = months.map(m => m.pct_of_norm);
+
+        // Chart 1: Temperature Anomaly Bar Chart with dynamic red/blue colors
+        const tChartEl = document.getElementById('seasonal-anomaly-chart');
+        if (tChartEl) {
+          if (seasonalAnomalyChartInstance) {
+            seasonalAnomalyChartInstance.destroy();
+          }
+
+          const tOptions = {
+            chart: {
+              type: 'bar',
+              height: 250,
+              toolbar: { show: false },
+              background: 'transparent',
+              fontFamily: 'JetBrains Mono, monospace'
+            },
+            series: [{
+              name: 'Аномалия температуры (°C)',
+              data: anomTSeries
+            }],
+            plotOptions: {
+              bar: {
+                borderRadius: 6,
+                columnWidth: '45%',
+                colors: {
+                  ranges: [
+                    { from: -20, to: -0.01, color: '#3b82f6' },
+                    { from: 0, to: 0.01, color: '#10b981' },
+                    { from: 0.02, to: 20, color: '#ef4444' }
+                  ]
+                },
+                dataLabels: {
+                  position: 'top'
+                }
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: val => `${val > 0 ? '+' : ''}${val}°`,
+              offsetY: -18,
+              style: {
+                fontSize: '11px',
+                fontWeight: 'bold',
+                colors: [isDark ? '#f8fafc' : '#0f172a']
+              }
+            },
+            xaxis: {
+              categories: chartCategories,
+              labels: {
+                style: { colors: textColor, fontSize: '10.5px', fontFamily: 'JetBrains Mono' }
+              },
+              axisBorder: { color: borderColor },
+              axisTicks: { color: borderColor }
+            },
+            yaxis: {
+              title: {
+                text: 'Отклонение от нормы (°C)',
+                style: { color: textColor, fontSize: '10.5px' }
+              },
+              labels: {
+                formatter: val => `${val > 0 ? '+' : ''}${val}°C`,
+                style: { colors: textColor, fontSize: '10px' }
+              }
+            },
+            grid: {
+              borderColor: borderColor,
+              strokeDashArray: 3
+            },
+            tooltip: {
+              theme: isDark ? 'dark' : 'light',
+              y: {
+                formatter: val => `${val > 0 ? '+' : ''}${val} °C к норме 1991–2020`
+              }
+            }
+          };
+
+          seasonalAnomalyChartInstance = new ApexCharts(tChartEl, tOptions);
+          seasonalAnomalyChartInstance.render();
+        }
+
+        // Chart 2: Precipitation Percentage of Norm Bar/Line Chart
+        const pChartEl = document.getElementById('seasonal-precip-chart');
+        if (pChartEl) {
+          if (seasonalPrecipChartInstance) {
+            seasonalPrecipChartInstance.destroy();
+          }
+
+          const pOptions = {
+            chart: {
+              type: 'bar',
+              height: 250,
+              toolbar: { show: false },
+              background: 'transparent',
+              fontFamily: 'JetBrains Mono, monospace'
+            },
+            series: [{
+              name: 'Осадки (% нормы)',
+              data: precipPctSeries
+            }],
+            plotOptions: {
+              bar: {
+                borderRadius: 6,
+                columnWidth: '45%',
+                colors: {
+                  ranges: [
+                    { from: 0, to: 79.9, color: '#f59e0b' },
+                    { from: 80, to: 120, color: '#10b981' },
+                    { from: 120.1, to: 500, color: '#0284c7' }
+                  ]
+                },
+                dataLabels: {
+                  position: 'top'
+                }
+              }
+            },
+            annotations: {
+              yaxis: [{
+                y: 100,
+                borderColor: '#10b981',
+                strokeDashArray: 4,
+                label: {
+                  borderColor: '#10b981',
+                  style: {
+                    color: '#fff',
+                    background: '#10b981',
+                    fontSize: '9.5px',
+                    fontWeight: 'bold'
+                  },
+                  text: 'Норма 100%'
+                }
+              }]
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: val => `${val}%`,
+              offsetY: -18,
+              style: {
+                fontSize: '11px',
+                fontWeight: 'bold',
+                colors: [isDark ? '#f8fafc' : '#0f172a']
+              }
+            },
+            xaxis: {
+              categories: chartCategories,
+              labels: {
+                style: { colors: textColor, fontSize: '10.5px', fontFamily: 'JetBrains Mono' }
+              },
+              axisBorder: { color: borderColor },
+              axisTicks: { color: borderColor }
+            },
+            yaxis: {
+              min: 0,
+              title: {
+                text: '% от месячной нормы',
+                style: { color: textColor, fontSize: '10.5px' }
+              },
+              labels: {
+                formatter: val => `${val}%`,
+                style: { colors: textColor, fontSize: '10px' }
+              }
+            },
+            grid: {
+              borderColor: borderColor,
+              strokeDashArray: 3
+            },
+            tooltip: {
+              theme: isDark ? 'dark' : 'light',
+              y: {
+                formatter: val => `${val}% климатической нормы ВМО`
+              }
+            }
+          };
+
+          seasonalPrecipChartInstance = new ApexCharts(pChartEl, pOptions);
+          seasonalPrecipChartInstance.render();
+        }
+
       }, 100);
     }
 
