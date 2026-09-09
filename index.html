@@ -3963,7 +3963,7 @@
       lastCoords = { lat, lon };
 
       // 2. Multi-Model 4-Ensemble Forecast API: ECMWF + ICON + GFS + GEM
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m,surface_pressure,relative_humidity_2m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,snow_depth&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&hourly=temperature_2m,precipitation,snow_depth,weather_code,wind_speed_10m,surface_pressure,relative_humidity_2m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
@@ -4064,8 +4064,8 @@
       const icSnow  = daily['snowfall_sum_icon_seamless']  || ecSnow;
       const gfsSnow = daily['snowfall_sum_gfs_seamless']  || ecSnow;
       const gemSnow = daily['snowfall_sum_gem_seamless']  || ecSnow;
-      // snow_depth: last reading of the day (cm), single-model (ECMWF best)
-      const ecSnowDepth = daily['snow_depth_ecmwf_ifs025'] || daily['snow_depth'] || [];
+      // snow_depth: reading in meters from hourly (convert to cm later)
+      const ecSnowDepth = (hourly && (hourly['snow_depth'] || hourly['snow_depth_ecmwf_ifs025'])) || [];
 
       // Check verified baseline models archive fallback for current station
       const stModelsArchive = (typeof findModelsPrecipArchive === 'function') ? findModelsPrecipArchive(cityName || lowerCity) : null;
