@@ -261,6 +261,92 @@
       transform: translateY(-1px);
     }
 
+    /* ================= EXECUTIVE ANOMALIES & CIRCULATION PORTAL BUTTON ================= */
+    .nav-btn-anomalies {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 9999px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+      letter-spacing: -0.01em;
+    }
+    html.light .nav-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(2, 132, 199, 0.8) !important;
+      box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.light .nav-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.55);
+      transform: translateY(-1px);
+    }
+    html.dark .nav-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 60%, #0c4a6e 100%) !important;
+      color: #ffffff !important;
+      border: 1.5px solid #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.dark .nav-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+      color: #ffffff !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* Executive Tab Button for Anomalies Page */
+    .tab-btn-anomalies {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      letter-spacing: -0.01em;
+    }
+    html.light .tab-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 60%, #075985 100%) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(2, 132, 199, 0.9) !important;
+      box-shadow: 0 3px 12px rgba(2, 132, 199, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.light .tab-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%) !important;
+      color: #ffffff !important;
+      border-color: #0369a1 !important;
+      box-shadow: 0 5px 16px rgba(2, 132, 199, 0.5);
+      transform: translateY(-1px);
+    }
+    html.dark .tab-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0f172a 100%) !important;
+      color: #ffffff !important;
+      border: 1.5px solid #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.dark .tab-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+      color: #ffffff !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+
     /* Support / Donate Button */
     html.light .nav-btn-donate {
       background-color: #fff1f2;
@@ -1534,21 +1620,22 @@
           </svg>
         </div>
         <div>
-          <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2">
+          <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
             <span class="tracking-tight">МЕТЕОПОРТАЛ</span>
             <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold uppercase hidden md:inline">Информационный агрегатор</span>
             <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold hidden lg:inline">Негосударственный сервис</span>
           </h1>
-          <p class="text-[10.5px] sm:text-xs text-slate-400 font-medium hidden sm:block">Независимый агрегатор открытых данных · Модели ECMWF, ICON, GFS · Климатический архив 1890–2026</p>
+          <p class="text-[10.5px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block">Независимый агрегатор открытых данных · Модели ECMWF, ICON, GFS · Климатический архив 1890–2026</p>
         </div>
       </div>
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Dedicated Anomalies & Circulation Page Link -->
-        <a href="anomalies.html" class="nav-btn font-extrabold text-sky-600 dark:text-sky-300 border-2 border-sky-500/60 bg-sky-500/15 hover:bg-sky-500/25 shadow-sm" title="Интерактивная карта циркуляции атмосферы и аномалий Арктики (ECMWF SEAS5)">
-          <span class="text-xs">🌀</span>
-          <span class="font-black text-xs">Аномалии & Циркуляция</span>
-          <span class="text-[9.5px] font-mono px-1 py-0.2 rounded bg-rose-500 text-white font-bold">-2.7°C</span>
+        <a href="anomalies.html" class="nav-btn-anomalies" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+          <span class="text-xs shrink-0">🌀</span>
+          <span class="font-extrabold text-xs tracking-tight text-white hidden sm:inline">Карта аномалий РФ & Мира</span>
+          <span class="font-extrabold text-xs tracking-tight text-white sm:hidden">Аномалии</span>
+          <span class="text-[9.5px] font-mono px-1.5 py-0.5 rounded-full bg-rose-600 text-white font-black shadow-sm shrink-0">-2.7°C</span>
         </a>
 
         <!-- Donation Button -->
@@ -1722,27 +1809,27 @@
 
     <!-- ================= PROMINENT SCI-FI BANNER: ANOMALIES & ARCTIC CIRCULATION ================= -->
     <a href="anomalies.html" class="block group text-decoration-none my-1">
-      <div class="glass-card p-3 sm:p-4 rounded-2xl border-2 border-sky-400/70 bg-gradient-to-r from-sky-950/70 via-slate-900/90 to-blue-950/80 shadow-xl hover:border-sky-300 transition flex flex-wrap items-center justify-between gap-3">
+      <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-sky-300 dark:border-sky-500/50 bg-gradient-to-r from-sky-100/90 via-sky-50/80 to-blue-100/70 dark:from-sky-950/80 dark:via-slate-900/90 dark:to-blue-950/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-xl sm:text-2xl shrink-0 shadow-lg group-hover:scale-105 transition">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-500/20 border border-sky-500/40 dark:border-sky-400 flex items-center justify-center text-xl sm:text-2xl shrink-0 shadow-sm group-hover:scale-105 transition text-sky-600 dark:text-sky-300">
             🌀
           </div>
           <div>
             <div class="flex flex-wrap items-center gap-2">
-              <h3 class="text-xs sm:text-sm font-black text-white uppercase tracking-tight group-hover:text-sky-300 transition">
-                Отдельная страница: Циркуляция Арктики & Аномалии Сентября
+              <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
+                Интерактивный центр: Карта климатических аномалий России и мира
               </h3>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-600 text-white font-black animate-pulse shadow">-2.7°C В НОРИЛЬСКЕ</span>
-              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40 font-bold hidden md:inline">ECMWF SEAS5 PRO</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-600 text-white font-black shadow-sm">-2.7°C В НОРИЛЬСКЕ</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 dark:border-sky-400/40 font-bold hidden md:inline">ECMWF SEAS5 PRO · ВСЯ РФ</span>
             </div>
-            <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">
-              Интерактивная карта воздушных масс, ветровые потоки Windy FX, Карский блокинг (H 1028 гПа) и ультраполярное вторжение в бассейн Енисея
+            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+              Карта аномалий по типу Гидрометцентра на базе моделей ECMWF SEAS5, UKMO, JMA и CFSv2. Декадные прогнозы, Карский блокинг и полярные вторжения.
             </p>
           </div>
         </div>
-        <div class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-sky-500 group-hover:bg-sky-400 text-slate-950 font-black text-xs transition shadow-lg shrink-0">
-          <span>ОТКРЫТЬ КАРТУ</span>
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        <div class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-black text-xs transition shadow-md group-hover:shadow-lg shrink-0">
+          <span class="text-white font-black">ОТКРЫТЬ КАРТУ АНОМАЛИЙ</span>
+          <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </div>
       </div>
     </a>
@@ -1753,10 +1840,10 @@
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <span>Погода сейчас (48 ч)</span>
       </button>
-      <a href="anomalies.html" class="tab-btn !bg-sky-500/25 hover:!bg-sky-500/35 !border-2 !border-sky-400 !text-sky-300 font-extrabold flex items-center gap-1.5 shadow-md shrink-0" title="Открыть отдельную страницу: Интерактивная карта циркуляции и аномалии Арктики (ECMWF SEAS5)">
+      <a href="anomalies.html" id="tab-anomalies" class="tab-btn-anomalies shadow-sm shrink-0" title="Открыть отдельную страницу: Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5)">
         <span class="text-xs">🌀</span>
-        <span class="font-bold">Карта аномалий & Циркуляция</span>
-        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-black bg-rose-500 text-white">СТРАНИЦА ↗</span>
+        <span class="text-white font-extrabold tracking-tight">Карта аномалий РФ & Мира</span>
+        <span class="px-1.5 py-0.5 rounded font-mono font-black text-[9.5px] bg-rose-500 text-white shadow-sm">ОТКРЫТЬ ↗</span>
       </a>
       <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -1779,11 +1866,6 @@
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
         <span>30 дней: SEAS5 + ИИ</span>
       </button>
-      <a href="anomalies.html" class="tab-btn bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/40 text-sky-600 dark:text-sky-300 font-bold" title="Открыть отдельную страницу: Интерактивная карта циркуляции и аномалии Арктики (ECMWF SEAS5)">
-        <svg class="w-3.5 h-3.5 shrink-0 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-        <span>🌀 Карта циркуляции & Аномалии</span>
-        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-bold bg-sky-500/25 text-sky-400 border border-sky-400/40">СТРАНИЦА ↗</span>
-      </a>
       <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>Прогноз 7 дней</span>
@@ -2198,6 +2280,10 @@
       currentMode = mode;
       for (const [k, btn] of Object.entries(tabButtons)) {
         if (btn) {
+          if (k === 'anomalies') {
+            btn.className = 'tab-btn-anomalies shadow-sm shrink-0';
+            continue;
+          }
           if (k === mode) {
             btn.className = 'tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active';
           } else {
@@ -13372,24 +13458,24 @@
 
       card.innerHTML = `
         <!-- Standalone Page Direct Link Banner -->
-        <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-950/90 via-blue-950/90 to-slate-900/90 border-2 border-sky-400 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-100/90 via-sky-50/80 to-blue-100/70 dark:from-sky-950/90 dark:via-blue-950/90 dark:to-slate-900/90 border border-sky-300 dark:border-sky-400 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="flex items-center space-x-3">
-            <span class="text-3xl animate-spin" style="animation-duration: 8s; display: inline-block;">🌀</span>
+            <span class="text-3xl animate-spin text-sky-600 dark:text-sky-300" style="animation-duration: 8s; display: inline-block;">🌀</span>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-sm sm:text-base font-black text-white uppercase tracking-tight">
-                  Отдельная интерактивная страница: Циркуляция & Аномалии
+                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                  Интерактивный центр: Карта климатических аномалий России и мира
                 </h3>
-                <span class="px-2 py-0.5 rounded-full bg-rose-500 text-white font-mono font-bold text-[10px]">-2.7°C</span>
+                <span class="px-2 py-0.5 rounded-full bg-rose-600 text-white font-mono font-bold text-[10px] shadow-sm">-2.7°C В НОРИЛЬСКЕ</span>
               </div>
-              <p class="text-xs text-sky-200 mt-0.5">
-                Полноэкранная карта воздушных масс, Карский блокинг (1028 гПа), полярная ложбина и ультраполярное вторжение в Норильск
+              <p class="text-xs text-slate-600 dark:text-sky-200 mt-0.5">
+                Интерактивная карта аномалий по типу Гидрометцентра (ECMWF SEAS5, UKMO, JMA, CFSv2) по всей России и миру. Декадные прогнозы и барические центры.
               </p>
             </div>
           </div>
-          <a href="anomalies.html" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs sm:text-sm transition shadow-lg shrink-0 flex items-center gap-1.5">
-            <span>ОТКРЫТЬ КАРТУ ЦИРКУЛЯЦИИ</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          <a href="anomalies.html" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-black text-xs sm:text-sm transition shadow-lg shrink-0 flex items-center gap-1.5">
+            <span class="text-white font-black">ОТКРЫТЬ КАРТУ АНОМАЛИЙ</span>
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
         </div>
 
