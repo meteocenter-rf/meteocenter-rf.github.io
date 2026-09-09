@@ -4066,6 +4066,8 @@
       const gemSnow = daily['snowfall_sum_gem_seamless']  || ecSnow;
       // snow_depth: reading in meters from hourly (convert to cm later)
       const ecSnowDepth = (hourly && (hourly['snow_depth'] || hourly['snow_depth_ecmwf_ifs025'])) || [];
+      const currentSnowDepthM = ecSnowDepth.find(v => v != null && v > 0) || 0;
+      const currentSnowDepthCm = Math.round(currentSnowDepthM * 100 * 10) / 10; // meters -> cm
 
       // Check verified baseline models archive fallback for current station
       const stModelsArchive = (typeof findModelsPrecipArchive === 'function') ? findModelsPrecipArchive(cityName || lowerCity) : null;
@@ -4384,9 +4386,6 @@
       const gemSnowTotal14 = Math.round(gemSnow.slice(0, 14).reduce((a, b) => a + (b || 0), 0) * 10) / 10;
       const wnSnowTotal14  = Math.round(wnSnowList.reduce((a, b) => a + b, 0) * 10) / 10;
       const snowConsensus14 = Math.round(((ecSnowTotal14 + wnSnowTotal14 + icSnowTotal14 + gfsSnowTotal14 + gemSnowTotal14) / 5) * 10) / 10;
-      // Current snow depth (last available reading, in cm -> convert to cm)
-      const currentSnowDepthM = ecSnowDepth.find(v => v != null && v > 0) || 0;
-      const currentSnowDepthCm = Math.round(currentSnowDepthM * 100 * 10) / 10; // meters -> cm
       const precipSpread14 = Math.round((Math.max(ecTotal14, wnPrecipTotal14, icTotal14, gfsTotal14, gemTotal14) - Math.min(ecTotal14, wnPrecipTotal14, icTotal14, gfsTotal14, gemTotal14)) / 2 * 10) / 10;
 
       // Calculate Day 0 Consensus (ECMWF + WeatherNext 3.0 + ICON + GFS + GEM)
