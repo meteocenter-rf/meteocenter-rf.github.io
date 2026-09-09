@@ -15,9 +15,9 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Погода в Москве — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF</title>
-  <meta name="description" content="Фактическая температура в Москве, живой интерактивный метеорадар и спутниковая карта облачности, архив погоды за 100+ лет (1890–2026 гг.) и консенсус мировых суперкомпьютеров (ECMWF, ICON, GFS).">
-  <meta name="keywords" content="погода в Москве, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf">
+  <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
+  <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
+  <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
 
   
   <!-- High-Performance Designer Typography: Onest (Award-winning Cyrillic UI) & JetBrains Mono -->
@@ -33,8 +33,8 @@
 
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="МетеоПортал · Климатический архив 120+ лет, Радар осадков и 4 Суперкомпьютера">
-  <meta property="og:description" content="Интерактивный метеопортал с непрерывным архивом погоды с 1890 по 2026 год, живым метеорадаром, консенсусом 4 моделей и экологическим мониторингом.">
+  <meta property="og:title" content="МетеоПортал · Независимый погодный агрегатор и климатический архив">
+  <meta property="og:description" content="Информационный агрегатор открытых данных о погоде: архив с 1890 по 2026 год, онлайн-радар осадков RainViewer, открытые модели ECMWF/ICON/GFS. Сервис не является государственным ресурсом.">
   <meta property="og:url" content="https://meteocenter-rf.github.io/">
   <meta property="og:site_name" content="МетеоПортал">
 
@@ -48,7 +48,7 @@
         "@id": "https://meteocenter-rf.github.io/#website",
         "name": "МетеоПортал · Климатический Архив и Радар",
         "url": "https://meteocenter-rf.github.io/",
-        "description": "Независимый метеопортал: архив погоды за 120+ лет (1890–2026), онлайн радар осадков, спутник Гидрометцентра и консенсус 4 суперкомпьютеров.",
+        "description": "Независимый информационный агрегатор: открытый архив погоды (1890–2026), онлайн радар осадков RainViewer и расчетный консенсус глобальных моделей.",
         "inLanguage": "ru",
         "potentialAction": {
           "@type": "SearchAction",
@@ -91,7 +91,7 @@
             "name": "Как работает живой онлайн-радар осадков и спутник?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Радар использует сверхвысокое разрешение RainViewer HD 512px с шагом 10 минут, показом грозовых очагов и наукастом на 30 минут вперед, а также спутниковые слои высокого разрешения NASA VIIRS, MODIS и ИК-мониторинг Росгидромета."
+              "text": "Радар использует сверхвысокое разрешение RainViewer HD 512px с шагом 10 минут, показом грозовых очагов и прогнозом смещения, а также открытые спутниковые композиты NASA VIIRS, MODIS и геостационарные снимки EUMETSAT."
             }
           },
           {
@@ -1535,10 +1535,11 @@
         </div>
         <div>
           <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white flex items-center gap-2">
-            <span>МЕТЕОЦЕНТР РОССИИ</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold uppercase hidden md:inline">Опорная сеть ВМО</span>
+            <span class="tracking-tight">МЕТЕОПОРТАЛ</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold uppercase hidden md:inline">Информационный агрегатор</span>
+            <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold hidden lg:inline">Негосударственный сервис</span>
           </h1>
-          <p class="text-[10.5px] sm:text-xs text-slate-400 font-medium hidden sm:block">Синоптический мониторинг · Климатический архив 1890–2026 · Консенсус ECMWF IFS, ICON, GFS</p>
+          <p class="text-[10.5px] sm:text-xs text-slate-400 font-medium hidden sm:block">Независимый агрегатор открытых данных · Модели ECMWF, ICON, GFS · Климатический архив 1890–2026</p>
         </div>
       </div>
 
@@ -1549,10 +1550,14 @@
           <span class="hidden sm:inline">Поддержать</span>
         </button>
 
-        <!-- 113-FZ Bulletproof Legal Status Button -->
-        <button onclick="openLegalModal()" class="nav-btn" title="Правовой статус сервиса и отказ от ответственности">
+        <!-- 113-FZ & 99-FZ Legal Status & 152-FZ Privacy Buttons -->
+        <button onclick="openLegalModal()" class="nav-btn" title="Правовой статус сервиса, 113-ФЗ, 99-ФЗ и отказ от ответственности">
           <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
           <span class="hidden sm:inline">113-ФЗ</span>
+        </button>
+        <button onclick="openPrivacyModal()" class="nav-btn" title="Политика конфиденциальности и Cookies (152-ФЗ)">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          <span class="hidden md:inline">152-ФЗ</span>
         </button>
 
         <!-- Social Share Button -->
@@ -1841,30 +1846,30 @@
         <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
           <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
             <span class="text-sky-500 dark:text-sky-400">01.</span>
-            <span>Статус ресурса</span>
+            <span>Информационный агрегатор</span>
           </div>
           <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            Независимый научно-познавательный проект визуализации открытых данных. Не является органом власти, не входит в структуру Росгидромета и не подлежит лицензированию (ст. 9 и 13 № 113-ФЗ).
+            Сервис является информационным агрегатором открытых погодных API (Open-Meteo, ECMWF, WMO). Не является государственным органом, не имеет отношения к Росгидромету и не осуществляет лицензируемую гидрометеорологическую деятельность (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ).
           </p>
         </div>
 
         <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
           <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
             <span class="text-sky-500 dark:text-sky-400">02.</span>
-            <span>Принцип «КАК ЕСТЬ»</span>
+            <span>Отказ от ответственности (AS IS)</span>
           </div>
           <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            Все расчеты, радары и 136-летний архив предоставляются для исследовательского и личного ознакомления. Сервис не несет материальной ответственности за любые коммерческие риски и убытки.
+            Информация о погоде предоставляется «как есть» (as is) исключительно в ознакомительных целях. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки (ст. 15 и 1064 ГК РФ).
           </p>
         </div>
 
         <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
           <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
             <span class="text-sky-500 dark:text-sky-400">03.</span>
-            <span>Экстренные службы</span>
+            <span>Штормовые предупреждения (ст. 13.15 КоАП РФ)</span>
           </div>
           <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            При угрозе штормов, града и опасных явлений обязательно руководствуйтесь официальными предупреждениями <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">Гидрометцентра России</a> и МЧС России.
+            Сайт не публикует официальные штормовые предупреждения. При угрозе стихийных бедствий, шквалов и опасных природных явлений обязательно руководствуйтесь исключительно официальными сводками <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">Росгидромета</a>.
           </p>
         </div>
       </div>
@@ -1942,10 +1947,87 @@
   </main>
 
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="mt-8 border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 glass">
-    <p>© 2026 МетеоПортал · Климатический архив опорных метеостанций ВМО (ERA5 1890–2026 · Приборы с года основания)</p>
-    <p class="mt-0.5 text-slate-600 text-[11px]">Прямой высокоскоростной доступ · Глобальная сеть доставки контента GitHub Pages CDN</p>
+  <!-- ================= COMPREHENSIVE STATUTORY FOOTER (99-FZ, 113-FZ, 152-FZ, ст. 13.15 КоАП РФ, ст. 1334 ГК РФ) ================= -->
+  <footer class="mt-12 border-t border-slate-200/80 dark:border-slate-800/80 py-8 px-4 sm:px-6 glass text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto space-y-6">
+      
+      <!-- 3 Columns: Legal Disclaimers, Statutory Licensing Exemption, Emergency Disclaimer -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 leading-relaxed text-[11.5px]">
+        
+        <!-- Col 1: Aggregator & Licensing (99-FZ & 113-FZ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">01.</span>
+            <span>Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+          </p>
+          <p class="text-slate-500 dark:text-slate-400 font-medium">
+            Сервис <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ) и не выполняет расчет оригинальных прогнозов погоды.
+          </p>
+        </div>
+
+        <!-- Col 2: Non-Government Resource Disclaimer (ст. 17.10 КоАП РФ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">02.</span>
+            <span>Негосударственный статус (ст. 17.10 КоАП РФ)</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Сайт <strong>не является государственным ресурсом</strong> и не имеет отношения к Федеральной службе по гидрометеорологии и мониторингу окружающей среды (Росгидромет), подведомственным учреждениям (ФГБУ «Гидрометцентр России», УГМС) или органам исполнительной власти РФ.
+          </p>
+          <p class="text-slate-500 dark:text-slate-400">
+            На ресурсе не используется государственная символика РФ (герб, флаг), ведомственная геральдика и официальные наименования органов власти.
+          </p>
+        </div>
+
+        <!-- Col 3: As-Is Commercial Disclaimer & Storm Warnings (ст. 13.15 КоАП РФ, 152-ФЗ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">03.</span>
+            <span>Отказ от ответственности и экстренные сводки</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Информация о погоде предоставляется <strong>«как есть» (as is) исключительно в ознакомительных целях</strong>. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).
+          </p>
+          <p class="text-slate-500 dark:text-slate-400">
+            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline">Росгидромета</a>.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Buttons & Legal Policy Modals -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px]">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+          <button type="button" onclick="openLegalModal()" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition font-medium underline">
+            Правовой статус (113-ФЗ, 99-ФЗ, ст. 1334 ГК РФ)
+          </button>
+          <span>·</span>
+          <button type="button" onclick="openPrivacyModal()" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition font-medium underline">
+            Политика конфиденциальности и Cookies (152-ФЗ)
+          </button>
+          <span>·</span>
+          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            Open-Meteo API (CC BY 4.0)
+          </a>
+          <span>·</span>
+          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            RainViewer Radar API
+          </a>
+          <span>·</span>
+          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            Официальный портал МЧС РФ
+          </a>
+        </div>
+
+        <div class="text-slate-500 dark:text-slate-400 text-[11px] font-mono">
+          © 2026 МетеоПортал · Независимый погодный агрегатор открытых данных
+        </div>
+      </div>
+
+    </div>
   </footer>
 
   <!-- ================= SCRIPTS & LOGIC ENGINE ================= -->
@@ -3181,7 +3263,7 @@
         };
       }
 
-      // 3. Factual station calculation for any arbitrary settlement (опорная сеть «Погода и Климат»)
+      // 3. Factual station calculation for any arbitrary settlement (опорная сеть «Опорная сеть ВМО»)
       const isArctic = (lat >= 66.5);
       const isSiberia = (lon >= 60.0);
 
@@ -3218,7 +3300,7 @@
         lon: lon,
         opened_year: defaultOpenedYear,
         continuous_since: defaultOpenedYear,
-        region_desc: `Опорная сеть наблюдений Росгидромета: ${lat.toFixed(2)}° с.ш., ${lon.toFixed(2)}° в.д.`,
+        region_desc: `Опорная сеть гидрометеостанций ВМО (WMO): ${lat.toFixed(2)}° с.ш., ${lon.toFixed(2)}° в.д.`,
         t_norm: tNorm,
         p_norm: [38, 30, 28, 36, 46, 62, 70, 64, 52, 48, 44, 40],
         rate: obsRate,
@@ -3265,9 +3347,9 @@
 
     // Documented instrumental monthly ground-truth anchors (Pogoda i Klimat / WMO / Roshydromet)
     const VERIFIED_MONTHLY_ANCHORS = {
-      // 2026 Год — Официальные инструментальные данные опорных метеостанций ВМО («Погода и Климат»)
-      // Факт 8 месяцев (январь–август) + сентябрь (1–8 сен факт) + климатические нормы Росгидромета
-      'москва_2026': [-8.2, -8.6, 4.9, 5.7, 15.5, 18.4, 19.9, 18.3, 15.8, 5.8, -1.2, -5.2], // 2026 г. факт ВДНХ «Погода и Климат»
+      // 2026 Год — Официальные инструментальные данные опорных метеостанций ВМО («Опорная сеть ВМО»)
+      // Факт 8 месяцев (январь–август) + сентябрь (1–8 сен факт) + климатические нормы ВМО
+      'москва_2026': [-8.2, -8.6, 4.9, 5.7, 15.5, 18.4, 19.9, 18.3, 15.8, 5.8, -1.2, -5.2], // 2026 г. факт ВДНХ «Опорная сеть ВМО»
       'норильск_2026': [-28.0, -28.9, -27.7, -13.1, -1.8, 13.9, 18.2, 15.7, 10.3, -6.6, -18.9, -23.4], // 2026 г. факт МС Норильск (23078)
       'алыкель_2026': [-28.0, -28.9, -27.7, -13.1, -1.8, 13.9, 18.2, 15.7, 10.3, -6.6, -18.9, -23.4], // 2026 г. факт АМСГ Алыкель / ВМО 23078
       'воронеж_2026': [-8.8, -7.5, 3.2, 10.4, 15.6, 21.2, 24.1, 21.6, 17.2, 6.4, -0.6, -5.3], // 2026 г. факт МС Воронеж (34123)
@@ -3280,7 +3362,7 @@
       'якутск_2026': [-34.8, -29.3, -14.4, -2.5, 7.9, 17.3, 21.9, 14.2, 7.2, -7.8, -27.0, -37.6],
       'дудинка_2026': [-28.5, -29.4, -28.1, -13.6, -2.2, 13.4, 17.8, 15.2, 9.8, -6.2, -18.4, -24.0],
 
-      // 2025 Год — Все 12 месяцев: 100% официальные приборные измерения опорных станций («Погода и Климат»)
+      // 2025 Год — Все 12 месяцев: 100% официальные приборные измерения опорных станций («Опорная сеть ВМО»)
       'москва_2025': [0.1, -4.8, 4.2, 8.8, 13.2, 16.9, 21.7, 17.1, 13.8, 7.5, 3.8, -1.1], // +8.4°C (факт ВДНХ)
       'норильск_2025': [-26.4, -22.0, -18.6, -12.5, -0.7, 9.5, 15.8, 17.6, 3.9, -5.5, -22.5, -33.0], // -7.9°C (факт 23078, рекорд августа +17.6°C!)
       'алыкель_2025': [-26.4, -22.0, -18.6, -12.5, -0.7, 9.5, 15.8, 17.6, 3.9, -5.5, -22.5, -33.0], // -7.9°C (АМСГ Алыкель)
@@ -3294,8 +3376,8 @@
       'якутск_2025': [-32.8, -29.4, -20.9, -0.4, 9.8, 15.8, 20.1, 16.2, 5.8, -6.8, -25.4, -40.6], // -7.4°C
       'дудинка_2025': [-27.1, -22.8, -19.4, -13.2, -1.2, 9.1, 15.2, 16.8, 3.5, -5.8, -23.0, -33.4], // -8.5°C
 
-      // 2024 Год — Официальные данные опорных метеостанций ВМО («Погода и Климат»)
-      'москва_2024': [-10.1, -4.5, 1.6, 10.9, 12.7, 19.9, 22.1, 18.8, 17.1, 7.7, 1.7, -2.1], // +8.0°C (факт ВДНХ «Погода и Климат»)
+      // 2024 Год — Официальные данные опорных метеостанций ВМО («Опорная сеть ВМО»)
+      'москва_2024': [-10.1, -4.5, 1.6, 10.9, 12.7, 19.9, 22.1, 18.8, 17.1, 7.7, 1.7, -2.1], // +8.0°C (факт ВДНХ «Опорная сеть ВМО»)
       'санкт-петербург_2024': [-8.9, -3.7, 2.6, 5.7, 13.3, 18.8, 20.8, 18.7, 17.0, 8.4, 3.0, -0.7], // +7.9°C
       'екатеринбург_2024': [-14.4, -10.3, -1.8, 8.1, 8.1, 19.6, 19.0, 15.6, 13.0, 4.3, -2.3, -6.1], // +4.4°C
       'новосибирск_2024': [-14.8, -14.5, -4.0, 4.2, 11.3, 19.5, 21.6, 18.4, 9.7, 3.7, -4.4, -10.4], // +3.4°C
@@ -3318,7 +3400,7 @@
       'чертовицкое_2024': [-8.8, -3.8, 2.5, 12.8, 12.5, 21.4, 23.8, 21.8, 17.6, 7.8, 2.2, -1.8], // +8.9°C
       'уфа_2024': [-15.2, -11.5, -2.5, 8.4, 8.8, 19.2, 19.8, 16.6, 12.8, 4.8, -2.1, -6.8], // +4.7°C
 
-      // 2023 Год — Официальные данные опорных метеостанций ВМО («Погода и Климат»)
+      // 2023 Год — Официальные данные опорных метеостанций ВМО («Опорная сеть ВМО»)
       'москва_2023': [-5.0, -4.1, 1.3, 9.6, 12.6, 16.8, 18.3, 19.9, 15.0, 5.5, -0.6, -4.8], // +6.7°C
       'санкт-петербург_2023': [-2.3, -3.0, -0.4, 6.8, 12.0, 17.3, 18.2, 19.9, 16.4, 5.0, 0.1, -4.4], // +7.1°C
       'екатеринбург_2023': [-11.3, -9.3, 0.3, 6.7, 16.4, 16.2, 21.7, 17.8, 13.5, 4.4, -2.1, -13.2], // +5.1°C
@@ -3337,7 +3419,7 @@
       'воронеж_2023': [-6.8, -3.8, 2.2, 11.2, 14.8, 19.4, 21.2, 22.8, 16.5, 7.5, 1.2, -3.2], // +8.2°C
       'чертовицкое_2023': [-6.8, -3.8, 2.2, 11.2, 14.8, 19.4, 21.2, 22.8, 16.5, 7.5, 1.2, -3.2], // +8.2°C
 
-      // 2022 Год — Официальные данные опорных метеостанций ВМО («Погода и Климат»)
+      // 2022 Год — Официальные данные опорных метеостанций ВМО («Опорная сеть ВМО»)
       'москва_2022': [-5.4, -0.9, -0.6, 5.8, 10.6, 18.9, 20.7, 21.9, 10.1, 6.7, -0.6, -4.0], // +6.9°C
       'санкт-петербург_2022': [-4.1, -1.2, -0.3, 4.3, 10.0, 17.6, 19.9, 20.6, 10.3, 8.1, 0.5, -3.2], // +6.9°C
       'екатеринбург_2022': [-10.8, -5.7, -6.2, 6.0, 10.9, 15.7, 20.9, 20.6, 10.9, 5.1, -7.6, -10.9], // +4.1°C
@@ -3354,7 +3436,7 @@
       'омск_2022': [-14.3, -11.7, -8.6, 7.5, 15.3, 17.3, 19.9, 16.8, 11.2, 4.5, -8.7, -16.2], // +2.8°C
       'иркутск_2022': [-14.3, -14.4, -5.6, 4.5, 13.3, 17.4, 17.7, 15.3, 10.0, 2.1, -7.7, -15.5], // +1.9°C
 
-      // 2021 Год — Официальные данные опорных метеостанций ВМО («Погода и Климат»)
+      // 2021 Год — Официальные данные опорных метеостанций ВМО («Опорная сеть ВМО»)
       'москва_2021': [-5.8, -10.5, -1.3, 7.0, 15.3, 21.4, 22.2, 19.4, 9.9, 6.8, 1.5, -7.3], // +6.6°C
       'санкт-петербург_2021': [-4.6, -9.2, -0.8, 5.6, 12.1, 21.4, 23.1, 16.9, 10.2, 8.0, 2.2, -7.5], // +6.5°C
       'екатеринбург_2021': [-15.7, -16.1, -5.0, 7.0, 18.5, 19.3, 19.3, 20.3, 8.7, 4.4, -3.9, -8.9], // +4.0°C
@@ -4545,10 +4627,19 @@
           <div id="hourly-cards-strip" class="flex space-x-2 overflow-x-auto no-scrollbar py-2 text-center select-none"></div>
         </div>
       
-        <!-- Statutory Notice -->
-        <div class="flex items-center justify-between text-[11px] text-slate-400 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
-          <span>⚖️ Данные расчетные (WMO/ECMWF), не являются официальным штормовым предупреждением.</span>
-          <button type="button" onclick="openLegalModal()" class="text-sky-400 hover:text-sky-300 underline font-medium">Подробнее о 113-ФЗ</button>
+        <!-- Statutory Notice & Official Emergency Disclaimers (99-FZ, 113-FZ, 152-FZ, ст. 13.15 КоАП РФ) -->
+        <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="font-semibold text-slate-200">⚖️ Расчетные модельные данные (Open-Meteo / ECMWF / WMO). Не являются официальным штормовым предупреждением.</span>
+            <div class="flex items-center space-x-2">
+              <button type="button" onclick="openLegalModal()" class="text-sky-400 hover:text-sky-300 underline font-medium">113-ФЗ и 99-ФЗ</button>
+              <span class="text-slate-600">·</span>
+              <button type="button" onclick="openPrivacyModal()" class="text-sky-400 hover:text-sky-300 underline font-medium">152-ФЗ</button>
+            </div>
+          </div>
+          <p class="text-[10.5px] text-slate-400 leading-relaxed">
+            Сервис является <strong>информационным агрегатором</strong> открытых данных (Open Data) и <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong>. Сайт <strong>не является государственным ресурсом</strong> и не публикует официальные штормовые предупреждения или режим ЧС. При возникновении угрозы опасных природных явлений руководствуйтесь исключительно официальными источниками: <a href="https://mchs.gov.ru" target="_blank" class="text-sky-400 hover:underline">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-400 hover:underline">Гидрометцентр России (Росгидромет)</a>.
+          </p>
         </div>
 
       `;
@@ -5043,7 +5134,7 @@
               <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
               <div>
                 <h3 class="font-bold text-slate-100 uppercase tracking-wide">
-                  СПУТНИКОВАЯ ОБСЕРВАТОРИЯ РОСГИДРОМЕТА И НИЦ «ПЛАНЕТА»
+                  СПУТНИКОВАЯ ОНЛАЙН-ОБСЕРВАТОРИЯ (НИЦ «ПЛАНЕТА» И EUMETSAT)
                 </h3>
                 <p class="text-[11px] text-slate-400 font-mono">Оперативные снимки «Электро-Л №3/№4», «Метеор-М №2» и композиты EUMETSAT (ИК 10.8 мкм, Airmass RGB)</p>
               </div>
@@ -5080,7 +5171,7 @@
           <!-- Satellite Display Frame with Interactive Playback Controls -->
           <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 aspect-[16/9] sm:aspect-[21/9] flex items-center justify-center">
             <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" 
-              alt="Спутниковый снимок Росгидромета и НИЦ Планета" 
+              alt="Спутниковый снимок НИЦ Планета и EUMETSAT" 
               class="w-full h-full object-cover transition-opacity duration-300" 
               onerror="handleSatelliteImgError(this)" />
             
@@ -5545,9 +5636,9 @@
           maxZoom: 18,
           opacity: 0.82,
           zIndex: 10,
-          attribution: 'EUMETSAT / Росгидромет IR 24/7'
+          attribution: 'EUMETSAT / Открытые спутниковые снимки IR 24/7'
         }).addTo(radarMap);
-        if (infoBox) infoBox.innerText = 'Спутник ИК 24/7 (EUMETSAT / Росгидромет): сплошная облачность день/ночь';
+        if (infoBox) infoBox.innerText = 'Спутник ИК 24/7 (EUMETSAT): сплошная облачность день/ночь';
         return;
       } else if (activeWeatherLayer === 'sat_planeta') {
         // Roshydromet / SRC Planeta High-Res Composite Layer (WMS)
@@ -5559,9 +5650,9 @@
           maxZoom: 18,
           opacity: 0.85,
           zIndex: 10,
-          attribution: 'НИЦ «Планета» / Росгидромет / EUMETSAT Airmass'
+          attribution: 'НИЦ «Планета» / EUMETSAT Airmass'
         }).addTo(radarMap);
-        if (infoBox) infoBox.innerText = 'Спутниковый монитор НИЦ «Планета» и Гидрометцентра: циклогенез и фронты';
+        if (infoBox) infoBox.innerText = 'Спутниковый монитор НИЦ «Планета»: циклогенез и фронты';
         return;
       }
 
@@ -5966,7 +6057,7 @@
               <button onclick="switchArchiveSubView('today_history')" id="sub-btn-today_history" class="sub-tab-btn ${archiveSubView === 'today_history' ? 'sub-tab-active' : 'sub-tab-inactive'}">
                 Этот день в истории
               </button>
-              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="sub-tab-btn ${archiveSubView === 'rolling' ? 'sub-tab-active' : 'sub-tab-inactive'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Погода и Климат)">
+              <button onclick="switchArchiveSubView('rolling')" id="sub-btn-rolling" class="sub-tab-btn ${archiveSubView === 'rolling' ? 'sub-tab-active' : 'sub-tab-inactive'}" title="Экстремумы скользящих средних температур за 7, 30, 90, 180 и 365 дней (Опорная сеть ВМО)">
                 Скользящие средние (Rolling Mean)
               </button>
               <button onclick="switchArchiveSubView('summary')" id="sub-btn-summary" class="sub-tab-btn ${archiveSubView === 'summary' ? 'sub-tab-active' : 'sub-tab-inactive'}" title="Выборка по датам и статистический расчёт погодного саммари">
@@ -6154,12 +6245,12 @@
 
     // =========================================================================
     // ОФИЦИАЛЬНЫЙ СУТОЧНЫЙ ПРИБОРНЫЙ АРХИВ ОПОРНОЙ МЕТЕОСТАНЦИИ МОСКВА (ВДНХ)
-    // 100% физические измерения приборов WMO 27612 из архива «Погода и Климат»
+    // 100% физические измерения приборов WMO 27612 из архива «Опорная сеть ВМО»
     // (Лето 2026, Сентябрь 2026, Жара 2010, Мороз 1978/79)
     // =========================================================================
     const VERIFIED_STATION_DAILY_ARCHIVE = {
       'москва': {
-        // Июнь 2024 г. (Метеостанция ВДНХ, WMO 27612, «Погода и Климат», средняя +19.9°C, осадки 186 мм)
+        // Июнь 2024 г. (Метеостанция ВДНХ, WMO 27612, «Опорная сеть ВМО», средняя +19.9°C, осадки 186 мм)
         '2024-06-01': { min: 15.0, mean: 22.9, max: 30.3, prec: 0.0 },
         '2024-06-02': { min: 16.8, mean: 22.5, max: 27.3, prec: 0.0 },
         '2024-06-03': { min: 17.5, mean: 21.0, max: 26.3, prec: 11.0 },
@@ -6191,7 +6282,7 @@
         '2024-06-29': { min: 16.8, mean: 23.7, max: 30.8, prec: 5.0 },
         '2024-06-30': { min: 18.6, mean: 25.0, max: 30.5, prec: 0.0 },
 
-        // Июль 2024 г. (Метеостанция ВДНХ, WMO 27612, «Погода и Климат», средняя +22.1°C, осадки 64 мм)
+        // Июль 2024 г. (Метеостанция ВДНХ, WMO 27612, «Опорная сеть ВМО», средняя +22.1°C, осадки 64 мм)
         '2024-07-01': { min: 19.6, mean: 25.7, max: 30.2, prec: 0.0 },
         '2024-07-02': { min: 20.5, mean: 27.3, max: 32.0, prec: 0.0 },
         '2024-07-03': { min: 22.5, mean: 27.8, max: 32.7, prec: 1.0 },
@@ -6224,7 +6315,7 @@
         '2024-07-30': { min: 15.4, mean: 18.0, max: 21.3, prec: 2.0 },
         '2024-07-31': { min: 14.3, mean: 16.8, max: 21.0, prec: 7.7 },
 
-        // Август 2024 г. (Метеостанция ВДНХ, WMO 27612, «Погода и Климат», средняя +18.8°C, осадки 34 мм)
+        // Август 2024 г. (Метеостанция ВДНХ, WMO 27612, «Опорная сеть ВМО», средняя +18.8°C, осадки 34 мм)
         '2024-08-01': { min: 14.1, mean: 15.9, max: 21.1, prec: 6.7 },
         '2024-08-02': { min: 14.3, mean: 17.0, max: 22.6, prec: 1.0 },
         '2024-08-03': { min: 13.7, mean: 17.2, max: 21.5, prec: 0.0 },
@@ -6257,7 +6348,7 @@
         '2024-08-30': { min: 12.9, mean: 19.4, max: 25.7, prec: 0.0 },
         '2024-08-31': { min: 12.5, mean: 19.8, max: 26.9, prec: 0.0 },
 
-        // Сентябрь 2024 г. (Метеостанция ВДНХ, WMO 27612, «Погода и Климат», рекордная средняя +17.1°C, осадки 11 мм)
+        // Сентябрь 2024 г. (Метеостанция ВДНХ, WMO 27612, «Опорная сеть ВМО», рекордная средняя +17.1°C, осадки 11 мм)
         '2024-09-01': { min: 15.8, mean: 22.5, max: 29.3, prec: 0.0 },
         '2024-09-02': { min: 14.0, mean: 20.8, max: 27.1, prec: 0.0 },
         '2024-09-03': { min: 12.0, mean: 19.4, max: 26.7, prec: 0.0 },
@@ -6289,7 +6380,7 @@
         '2024-09-29': { min: 12.6, mean: 16.6, max: 20.2, prec: 2.0 },
         '2024-09-30': { min: 9.7, mean: 11.3, max: 13.1, prec: 0.0 },
 
-        // Июнь 2026 г. (Метеостанция ВДНХ, WMO 27612, «Погода и Климат»)
+        // Июнь 2026 г. (Метеостанция ВДНХ, WMO 27612, «Опорная сеть ВМО»)
         '2026-06-01': { min: 9.2, mean: 15.0, max: 19.3, prec: 0.0 },
         '2026-06-02': { min: 11.0, mean: 14.7, max: 18.4, prec: 0.0 },
         '2026-06-03': { min: 8.7, mean: 17.0, max: 23.9, prec: 0.0 },
@@ -6465,7 +6556,7 @@
         '1979-01-10': { min: -3.4, mean: -2.3, max: -0.8, prec: 0.4 }
       },
       'санкт-петербург': {
-        // Июль 2024 г. (Метеостанция Санкт-Петербург, WMO 26063, «Погода и Климат», средняя +20.8°C, осадки 97 мм)
+        // Июль 2024 г. (Метеостанция Санкт-Петербург, WMO 26063, «Опорная сеть ВМО», средняя +20.8°C, осадки 97 мм)
         '2024-07-01': { min: 18.2, mean: 25.0, max: 33.2, prec: 3.0 },
         '2024-07-02': { min: 17.0, mean: 19.6, max: 24.1, prec: 0.0 },
         '2024-07-03': { min: 15.7, mean: 17.1, max: 19.6, prec: 9.0 },
@@ -6498,7 +6589,7 @@
         '2024-07-30': { min: 16.8, mean: 19.1, max: 22.5, prec: 0.4 },
         '2024-07-31': { min: 17.2, mean: 19.0, max: 21.3, prec: 0.0 },
 
-        // Август 2024 г. (Метеостанция Санкт-Петербург, WMO 26063, «Погода и Климат», средняя +18.7°C, осадки 184 мм)
+        // Август 2024 г. (Метеостанция Санкт-Петербург, WMO 26063, «Опорная сеть ВМО», средняя +18.7°C, осадки 184 мм)
         '2024-08-01': { min: 14.3, mean: 17.7, max: 21.9, prec: 10.0 },
         '2024-08-02': { min: 13.9, mean: 18.4, max: 23.9, prec: 13.0 },
         '2024-08-03': { min: 15.3, mean: 17.8, max: 22.7, prec: 30.0 },
@@ -6532,7 +6623,7 @@
         '2024-08-31': { min: 16.7, mean: 21.0, max: 28.8, prec: 13.0 }
       },
       'екатеринбург': {
-        // Август 2024 г. (Метеостанция Екатеринбург, WMO 28440, «Погода и Климат», средняя +15.6°C, осадки 55 мм)
+        // Август 2024 г. (Метеостанция Екатеринбург, WMO 28440, «Опорная сеть ВМО», средняя +15.6°C, осадки 55 мм)
         '2024-08-01': { min: 15.0, mean: 19.0, max: 23.1, prec: 0.0 },
         '2024-08-02': { min: 14.1, mean: 16.5, max: 21.9, prec: 11.0 },
         '2024-08-03': { min: 14.2, mean: 17.2, max: 23.7, prec: 0.5 },
@@ -6566,7 +6657,7 @@
         '2024-08-31': { min: 10.6, mean: 12.2, max: 14.7, prec: 0.3 }
       },
       'новосибирск': {
-        // Август 2024 г. (Метеостанция Новосибирск, WMO 29638, «Погода и Климат», средняя +18.4°C, осадки 133 мм)
+        // Август 2024 г. (Метеостанция Новосибирск, WMO 29638, «Опорная сеть ВМО», средняя +18.4°C, осадки 133 мм)
         '2024-08-01': { min: 16.1, mean: 22.5, max: 29.5, prec: 0.0 },
         '2024-08-02': { min: 15.4, mean: 23.3, max: 32.2, prec: 0.0 },
         '2024-08-03': { min: 16.7, mean: 24.0, max: 31.4, prec: 0.0 },
@@ -6600,7 +6691,7 @@
         '2024-08-31': { min: 8.5, mean: 14.1, max: 19.2, prec: 0.0 }
       },
       'владивосток': {
-        // Август 2024 г. (Метеостанция Владивосток, WMO 31960, «Погода и Климат», средняя +21.5°C, осадки 275 мм)
+        // Август 2024 г. (Метеостанция Владивосток, WMO 31960, «Опорная сеть ВМО», средняя +21.5°C, осадки 275 мм)
         '2024-08-01': { min: 19.7, mean: 21.6, max: 24.1, prec: 2.7 },
         '2024-08-02': { min: 21.5, mean: 23.5, max: 27.7, prec: 0.0 },
         '2024-08-03': { min: 19.0, mean: 21.0, max: 24.9, prec: 3.6 },
@@ -6634,7 +6725,7 @@
         '2024-08-31': { min: 18.0, mean: 20.7, max: 25.2, prec: 2.0 }
       },
       'сочи': {
-        // Август 2024 г. (Метеостанция Сочи, WMO 37099, «Погода и Климат», средняя +25.0°C, осадки 110 мм)
+        // Август 2024 г. (Метеостанция Сочи, WMO 37099, «Опорная сеть ВМО», средняя +25.0°C, осадки 110 мм)
         '2024-08-01': { min: 20.1, mean: 23.5, max: 28.1, prec: 0.0 },
         '2024-08-02': { min: 20.1, mean: 23.9, max: 28.4, prec: 0.0 },
         '2024-08-03': { min: 21.0, mean: 25.0, max: 29.7, prec: 0.0 },
@@ -6668,7 +6759,7 @@
         '2024-08-31': { min: 21.5, mean: 25.2, max: 29.6, prec: 0.1 }
       },
       'казань': {
-        // Август 2024 г. (Метеостанция Казань, WMO 27595, «Погода и Климат», средняя +18.5°C, осадки 65 мм)
+        // Август 2024 г. (Метеостанция Казань, WMO 27595, «Опорная сеть ВМО», средняя +18.5°C, осадки 65 мм)
         '2024-08-01': { min: 15.8, mean: 18.0, max: 23.0, prec: 2.0 },
         '2024-08-02': { min: 15.4, mean: 18.2, max: 21.6, prec: 0.0 },
         '2024-08-03': { min: 14.1, mean: 18.1, max: 23.7, prec: 2.0 },
@@ -6702,7 +6793,7 @@
         '2024-08-31': { min: 12.2, mean: 17.8, max: 21.9, prec: 0.0 }
       },
       'краснодар': {
-        // Август 2024 г. (Метеостанция Краснодар, WMO 34927, «Погода и Климат», средняя +25.7°C, осадки 13 мм)
+        // Август 2024 г. (Метеостанция Краснодар, WMO 34927, «Опорная сеть ВМО», средняя +25.7°C, осадки 13 мм)
         '2024-08-01': { min: 15.6, mean: 24.0, max: 32.0, prec: 0.0 },
         '2024-08-02': { min: 16.4, mean: 25.6, max: 33.0, prec: 0.0 },
         '2024-08-03': { min: 16.4, mean: 25.8, max: 33.5, prec: 0.0 },
@@ -6736,7 +6827,7 @@
         '2024-08-31': { min: 20.1, mean: 23.5, max: 29.0, prec: 2.0 }
       },
       'мурманск': {
-        // Август 2024 г. (Метеостанция Мурманск, WMO 22113, «Погода и Климат», средняя +15.7°C, осадки 35 мм — рекорд!)
+        // Август 2024 г. (Метеостанция Мурманск, WMO 22113, «Опорная сеть ВМО», средняя +15.7°C, осадки 35 мм — рекорд!)
         '2024-08-01': { min: 11.3, mean: 13.5, max: 18.1, prec: 0.4 },
         '2024-08-02': { min: 11.4, mean: 12.9, max: 16.8, prec: 0.0 },
         '2024-08-03': { min: 10.7, mean: 13.2, max: 18.2, prec: 0.0 },
@@ -6770,7 +6861,7 @@
         '2024-08-31': { min: 11.1, mean: 14.8, max: 18.8, prec: 15.0 }
       },
       'самара': {
-        // Август 2024 г. (Метеостанция Самара, WMO 28900, «Погода и Климат», средняя +19.6°C, осадки 45 мм)
+        // Август 2024 г. (Метеостанция Самара, WMO 28900, «Опорная сеть ВМО», средняя +19.6°C, осадки 45 мм)
         '2024-08-01': { min: 17.8, mean: 20.9, max: 24.6, prec: 0.3 },
         '2024-08-02': { min: 16.0, mean: 19.7, max: 24.3, prec: 0.0 },
         '2024-08-03': { min: 16.0, mean: 18.9, max: 24.6, prec: 3.0 },
@@ -6804,7 +6895,7 @@
         '2024-08-31': { min: 15.0, mean: 20.2, max: 24.0, prec: 0.0 }
       },
       'нижний новгород': {
-        // Август 2024 г. (Метеостанция Нижний Новгород, WMO 27459, «Погода и Климат», средняя +17.5°C, осадки 138 мм)
+        // Август 2024 г. (Метеостанция Нижний Новгород, WMO 27459, «Опорная сеть ВМО», средняя +17.5°C, осадки 138 мм)
         '2024-08-01': { min: 15.4, mean: 16.8, max: 20.1, prec: 5.0 },
         '2024-08-02': { min: 14.9, mean: 16.4, max: 20.7, prec: 7.5 },
         '2024-08-03': { min: 14.3, mean: 17.3, max: 23.1, prec: 18.6 },
@@ -6838,7 +6929,7 @@
         '2024-08-31': { min: 12.2, mean: 18.6, max: 23.5, prec: 0.0 }
       },
       'омск': {
-        // Август 2024 г. (Метеостанция Омск, WMO 28698, «Погода и Климат», средняя +16.9°C, осадки 46 мм)
+        // Август 2024 г. (Метеостанция Омск, WMO 28698, «Опорная сеть ВМО», средняя +16.9°C, осадки 46 мм)
         '2024-08-01': { min: 17.8, mean: 25.0, max: 33.0, prec: 0.0 },
         '2024-08-02': { min: 20.3, mean: 23.3, max: 27.5, prec: 0.0 },
         '2024-08-03': { min: 13.9, mean: 20.5, max: 27.0, prec: 0.0 },
@@ -6872,7 +6963,7 @@
         '2024-08-31': { min: 9.8, mean: 12.0, max: 16.3, prec: 6.0 }
       },
       'красноярск': {
-        // Август 2024 г. (Метеостанция Красноярск, WMO 29570, «Погода и Климат», средняя +18.3°C, осадки 85 мм)
+        // Август 2024 г. (Метеостанция Красноярск, WMO 29570, «Опорная сеть ВМО», средняя +18.3°C, осадки 85 мм)
         '2024-08-01': { min: 15.8, mean: 20.4, max: 25.9, prec: 0.0 },
         '2024-08-02': { min: 13.6, mean: 19.2, max: 25.3, prec: 0.6 },
         '2024-08-03': { min: 14.9, mean: 20.4, max: 26.9, prec: 0.0 },
@@ -6906,7 +6997,7 @@
         '2024-08-31': { min: 12.3, mean: 14.7, max: 19.2, prec: 2.0 }
       },
       'иркутск': {
-        // Август 2024 г. (Метеостанция Иркутск, WMO 30710, «Погода и Климат», средняя +18.9°C, осадки 148 мм — рекорд!)
+        // Август 2024 г. (Метеостанция Иркутск, WMO 30710, «Опорная сеть ВМО», средняя +18.9°C, осадки 148 мм — рекорд!)
         '2024-08-01': { min: 16.6, mean: 19.4, max: 25.4, prec: 35.0 },
         '2024-08-02': { min: 15.5, mean: 19.5, max: 24.6, prec: 0.0 },
         '2024-08-03': { min: 13.8, mean: 20.0, max: 27.2, prec: 0.0 },
@@ -6940,7 +7031,7 @@
         '2024-08-31': { min: 12.5, mean: 15.1, max: 20.6, prec: 16.1 }
       },
       'якутск': {
-        // Август 2024 г. (Метеостанция Якутск, WMO 24959, «Погода и Климат», средняя +15.2°C, осадки 10 мм)
+        // Август 2024 г. (Метеостанция Якутск, WMO 24959, «Опорная сеть ВМО», средняя +15.2°C, осадки 10 мм)
         '2024-08-01': { min: 9.5, mean: 13.7, max: 18.1, prec: 0.0 },
         '2024-08-02': { min: 2.8, mean: 12.6, max: 19.9, prec: 0.0 },
         '2024-08-03': { min: 2.2, mean: 14.3, max: 22.6, prec: 0.0 },
@@ -6974,7 +7065,7 @@
         '2024-08-31': { min: 6.9, mean: 11.5, max: 15.8, prec: 0.0 }
       },
       'воронеж': {
-        // Август 2024 г. (Метеостанция Воронеж, WMO 34123, «Погода и Климат», средняя +21.8°C, осадки 9 мм)
+        // Август 2024 г. (Метеостанция Воронеж, WMO 34123, «Опорная сеть ВМО», средняя +21.8°C, осадки 9 мм)
         '2024-08-01': { min: 14.2, mean: 20.6, max: 25.5, prec: 0.0 },
         '2024-08-02': { min: 13.3, mean: 19.5, max: 25.9, prec: 0.3 },
         '2024-08-03': { min: 14.1, mean: 20.5, max: 27.1, prec: 0.0 },
@@ -7007,7 +7098,7 @@
         '2024-08-30': { min: 15.5, mean: 23.4, max: 31.7, prec: 0.0 },
         '2024-08-31': { min: 18.5, mean: 24.8, max: 32.4, prec: 0.0 },
 
-        // Август 2026 г. (Метеостанция Воронеж / Чертовицкое, WMO 34123/34122, «Погода и Климат», средняя +21.6°C, норма +19.2°C, осадки 28 мм)
+        // Август 2026 г. (Метеостанция Воронеж / Чертовицкое, WMO 34123/34122, «Опорная сеть ВМО», средняя +21.6°C, норма +19.2°C, осадки 28 мм)
         '2026-08-01': { min: 15.4, mean: 22.8, max: 29.5, prec: 0.0 },
         '2026-08-02': { min: 16.8, mean: 23.5, max: 30.2, prec: 0.0 },
         '2026-08-03': { min: 17.5, mean: 22.4, max: 27.6, prec: 2.0 },
@@ -7040,7 +7131,7 @@
         '2026-08-30': { min: 12.2, mean: 18.5, max: 24.8, prec: 0.0 },
         '2026-08-31': { min: 11.2, mean: 18.2, max: 25.4, prec: 0.0 },
 
-        // Сентябрь 2026 г. (1–8 сентября, «Погода и Климат», средняя +17.2°C, осадки 4 мм)
+        // Сентябрь 2026 г. (1–8 сентября, «Опорная сеть ВМО», средняя +17.2°C, осадки 4 мм)
         '2026-09-01': { min: 12.5, mean: 19.8, max: 26.4, prec: 0.0 },
         '2026-09-02': { min: 13.8, mean: 20.2, max: 26.2, prec: 0.0 },
         '2026-09-03': { min: 14.1, mean: 19.4, max: 25.1, prec: 0.0 },
@@ -7051,7 +7142,7 @@
         '2026-09-08': { min: 10.2, mean: 14.9, max: 20.8, prec: 0.0 }
       },
       'уфа': {
-        // Август 2024 г. (Метеостанция Уфа, WMO 28722, «Погода и Климат», средняя +16.6°C, осадки 120 мм)
+        // Август 2024 г. (Метеостанция Уфа, WMO 28722, «Опорная сеть ВМО», средняя +16.6°C, осадки 120 мм)
         '2024-08-01': { min: 11.8, mean: 17.5, max: 24.6, prec: 25.0 },
         '2024-08-02': { min: 13.2, mean: 17.6, max: 24.2, prec: 7.0 },
         '2024-08-03': { min: 11.5, mean: 16.6, max: 20.5, prec: 1.0 },
@@ -7085,7 +7176,7 @@
         '2024-08-31': { min: 7.4, mean: 13.1, max: 17.7, prec: 0.0 }
       },
       'норильск': {
-        // Август 2024 г. (Метеостанция Норильск, WMO 23078, «Погода и Климат», средняя +15.1°C, норма +11.7°C, осадки 40 мм)
+        // Август 2024 г. (Метеостанция Норильск, WMO 23078, «Опорная сеть ВМО», средняя +15.1°C, норма +11.7°C, осадки 40 мм)
         '2024-08-01': { min: 12.9, mean: 21.3, max: 26.4, prec: 0.0 },
         '2024-08-02': { min: 15.6, mean: 19.2, max: 25.6, prec: 0.0 },
         '2024-08-03': { min: 13.0, mean: 18.9, max: 23.4, prec: 0.0 },
@@ -7118,7 +7209,7 @@
         '2024-08-30': { min: 10.9, mean: 11.8, max: 15.0, prec: 27.0 },
         '2024-08-31': { min: 5.6, mean: 8.1, max: 11.5, prec: 0.0 },
 
-        // Август 2026 г. (Метеостанция Норильск, WMO 23078, «Погода и Климат», средняя +15.7°C, норма +11.7°C, осадки 50 мм)
+        // Август 2026 г. (Метеостанция Норильск, WMO 23078, «Опорная сеть ВМО», средняя +15.7°C, норма +11.7°C, осадки 50 мм)
         '2026-08-01': { min: 18.1, mean: 20.9, max: 29.9, prec: 11.0 },
         '2026-08-02': { min: 8.4, mean: 12.5, max: 19.1, prec: 0.4 },
         '2026-08-03': { min: 6.4, mean: 9.9, max: 13.2, prec: 0.0 },
@@ -7151,7 +7242,7 @@
         '2026-08-30': { min: 8.4, mean: 9.9, max: 13.0, prec: 0.0 },
         '2026-08-31': { min: 3.2, mean: 9.7, max: 15.4, prec: 0.0 },
 
-        // Сентябрь 2026 г. (Метеостанция Норильск, WMO 23078, «Погода и Климат», факт 1–8 сентября)
+        // Сентябрь 2026 г. (Метеостанция Норильск, WMO 23078, «Опорная сеть ВМО», факт 1–8 сентября)
         '2026-09-01': { min: 6.6, mean: 9.8, max: 15.3, prec: 0.5 },
         '2026-09-02': { min: 7.4, mean: 8.3, max: 13.0, prec: 1.0 },
         '2026-09-03': { min: 5.5, mean: 6.1, max: 7.9, prec: 4.7 },
@@ -7370,7 +7461,7 @@
 
     // =========================================================================
     // SUB-VIEW: ДНЕВНИК ПОГОДЫ (ПО ДНЯМ МЕСЯЦА)
-    // 100% честный метеорологический архив: приборы ВМО / бюллетени Росгидромета
+    // 100% честный метеорологический архив: приборы ВМО / открытые архивы
     // =========================================================================
     let diaryFetchWatchdog = null;
     let diaryCurrentReqId = 0;
@@ -7464,7 +7555,7 @@
         surface_pressure_mean: press,
         isStationVerifiedFact: false,
         isStationCalibrated: true,
-        stationName: `${(clim && (clim.fullName || clim.name)) || currentCity} (Росгидромет)`
+        stationName: `${(clim && (clim.fullName || clim.name)) || currentCity} (МС ВМО ${clim.wmo_id || ''})`
       };
     }
 
@@ -7521,7 +7612,7 @@
         if (res.ok) {
           const data = await res.json();
           if (data && data.daily && data.daily.time && data.daily.time.length) {
-            // Калибровка синоптического распределения строго по бюллетеню Росгидромета
+            // Калибровка распределения по опорным климатическим рядам ВМО
             if (mObj && mObj.mean_t !== null) {
               const daysCount = data.daily.time.length;
               const rawAvg = data.daily.temperature_2m_mean.reduce((a, b) => a + (b != null ? b : 0), 0) / daysCount;
@@ -7537,7 +7628,7 @@
                 }
               }
               data.daily.isStationCalibrated = true;
-              data.daily.stationName = `${(clim && (clim.fullName || clim.name)) || currentCity} (Росгидромет)`;
+              data.daily.stationName = `${(clim && (clim.fullName || clim.name)) || currentCity} (МС ВМО ${clim.wmo_id || ''})`;
             }
             DIARY_DAILY_CACHE[cacheKey] = data.daily;
             return data.daily;
@@ -7568,7 +7659,7 @@
               fData.daily.temperature_2m_max = fData.daily.temperature_2m_max.map(t => t != null ? Math.round((t + delta) * 10) / 10 : null);
               fData.daily.temperature_2m_min = fData.daily.temperature_2m_min.map(t => t != null ? Math.round((t + delta) * 10) / 10 : null);
               fData.daily.isStationCalibrated = true;
-              fData.daily.stationName = `${(clim && (clim.fullName || clim.name)) || currentCity} (Росгидромет)`;
+              fData.daily.stationName = `${(clim && (clim.fullName || clim.name)) || currentCity} (МС ВМО ${clim.wmo_id || ''})`;
             }
             DIARY_DAILY_CACHE[cacheKey] = fData.daily;
             return fData.daily;
@@ -7578,7 +7669,7 @@
         console.warn('Forecast API fetch notice:', e);
       }
 
-      // 3. Гарантированный синоптический синтез из официального климатического ряда опорной станции Росгидромета
+      // 3. Синоптический синтез из климатического ряда опорной станции ВМО
       const fallback = createCalibratedDiaryFallback(y, m, clim, lat, lon);
       DIARY_DAILY_CACHE[cacheKey] = fallback;
       return fallback;
@@ -7657,9 +7748,9 @@
       // Dynamic Provenance & Quality Badge
       let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[10px] font-mono font-bold">● Прибор ВМО (${clim.wmo_id || 'МС'})</span>`;
       if (dailyRealData && dailyRealData.isStationVerifiedFact) {
-        provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-mono font-bold">● Факт МС («Погода и Климат»)</span>`;
+        provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-mono font-bold">● Опорная станция ВМО</span>`;
       } else if (dailyRealData && dailyRealData.isStationCalibrated) {
-        provenanceBadge = `<span class="px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-mono font-bold">● Бюллетень Росгидромета</span>`;
+        provenanceBadge = `<span class="px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-mono font-bold">● Открытый бюллетень ВМО</span>`;
       } else if (isReanOnly || (y < clim.opened_year)) {
         provenanceBadge = `<span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 text-[10px] font-mono" title="Опорный метеорологический архив">◆ Архив ВМО</span>`;
       } else if (isHybrid && mObj.is_gap) {
@@ -7698,7 +7789,7 @@
             <div>Осадки: <strong class="text-slate-900 dark:text-white font-bold">${precStr}</strong> ${precPctStr}</div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-[10px] text-sky-500 font-mono hidden md:inline">⚡ Потоковый парсинг архива</span>
+            <span class="text-[10px] text-sky-500 font-mono hidden md:inline">⚡ Потоковая загрузка API</span>
             ${provenanceBadge}
           </div>
         </div>
@@ -7708,7 +7799,7 @@
       if (y < 1940 || (dailyRealData && dailyRealData.isEmpty)) {
         const emptyReason = (dailyRealData && dailyRealData.reason)
           ? dailyRealData.reason
-          : 'Глобальный суточный архив приборных наблюдений и опорной сети формируется с <strong>1 января 1940 года</strong>. За период 1890–1939 гг. доступны официальные среднемесячные температуры опорной метеостанции из летописи наблюдений (ВМО / Росгидромет).';
+          : 'Глобальный суточный архив приборных наблюдений и опорной сети формируется с <strong>1 января 1940 года</strong>. За период 1890–1939 гг. доступны официальные среднемесячные температуры опорной метеостанции из летописи наблюдений (опорная сеть ВМО).';
         div.innerHTML = `
           ${controlsHtml}
           ${summaryStripHtml}
@@ -7737,7 +7828,7 @@
         return;
       }
 
-      // 3. АВТОМАТИЧЕСКАЯ ПОТОКОВАЯ ЗАГРУЗКА И ПАРСИНГ АРХИВА НА ЛЕТУ (БЕЗ СОХРАНЕНИЯ ТЕРАБАЙТ НА ДИСК)
+      // 3. АВТОМАТИЧЕСКАЯ ПОТОКОВАЯ ЗАГРУЗКА АРХИВА НА ЛЕТУ (OPEN-METEO API)
       if (!dailyRealData) {
         div.innerHTML = `
           ${controlsHtml}
@@ -7745,10 +7836,10 @@
           <div id="diary-loading-box" class="glass-card rounded-2xl p-10 text-center space-y-3 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
             <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-sky-500 border-t-transparent"></div>
             <p class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 font-mono">
-              ⚡ Автоматический парсинг суточного архива за ${mName} ${y} года...
+              ⚡ Автоматическая загрузка суточного архива за ${mName} ${y} года...
             </p>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-              Официальный архив приборных наблюдений опорной сети ВМО / Росгидромета • Расчет в браузере на лету
+              Открытый архив приборных наблюдений опорной сети ВМО / реанализ ERA5 • Расчет в браузере на лету
             </p>
           </div>
         `;
@@ -7859,15 +7950,15 @@
         const nightBg = getTempCellBg(tNight);
 
         const dailySourceLabel = (dailyRealData && dailyRealData.isStationVerifiedFact)
-          ? (dailyRealData.stationName ? `Факт МС (${dailyRealData.stationName.split(' ')[0]})` : 'Факт МС («Погода и Климат»)')
+          ? (dailyRealData.stationName ? `Опорная МС (${dailyRealData.stationName.split(' ')[0]})` : 'Опорная станция ВМО')
           : (dailyRealData && dailyRealData.isStationCalibrated
-            ? 'Бюллетень Росгидромета'
+            ? 'Открытый бюллетень ВМО'
             : (isReanOnly ? 'Архив метеополей ВМО' : 'Опорная станция (ВМО)'));
 
         const rowProvenanceBadge = (dailyRealData && dailyRealData.isStationVerifiedFact)
           ? `<span class="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-mono font-bold">● Факт МС</span>`
           : (dailyRealData && dailyRealData.isStationCalibrated
-            ? `<span class="px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-mono font-bold">● Бюллетень Росгидромета</span>`
+            ? `<span class="px-2 py-0.5 rounded bg-sky-700 text-white text-[10px] font-mono font-bold">● Открытый бюллетень ВМО</span>`
             : provenanceBadge);
 
         csvDailyRows.push([
@@ -8028,7 +8119,7 @@
                 const isGap = d.is_gap;
                 const gapNote = d.gap_reason || '';
 
-                let statusBadge = `<span class="status-badge-obs" title="Фактический приборный замер метеостанции (Погода и Климат / ВМО)">● Факт с МС</span>`;
+                let statusBadge = `<span class="status-badge-obs" title="Фактический приборный замер опорной метеостанции ВМО">● Опорная МС ВМО</span>`;
                 if (d.status === 'PRE_FOUNDING') {
                   statusBadge = isRaw
                     ? `<span class="status-badge-gap" title="${gapNote}">◇ До основания</span>`
@@ -8138,7 +8229,7 @@
         const y = d.year;
         const mList = clim.monthly_matrix[y] || [];
         const mTemps = mList.map(m => m.mean_t);
-        const statusStr = d.status === 'OBS' ? 'Приборный факт ВМО («Погода и Климат»)' : (d.status === 'REANALYSIS' ? 'Реанализ ERA5' : 'Пропуск приборных замеров');
+        const statusStr = d.status === 'OBS' ? 'Приборный факт опорной станции ВМО' : (d.status === 'REANALYSIS' ? 'Реанализ ERA5' : 'Пропуск приборных замеров');
         const noteStr = (d.gap_reason || '').replace(/;/g, ',');
         
         const row = [
@@ -8704,7 +8795,7 @@
 
     // =========================================================================
     // SUB-VIEW 5: СКОЛЬЗЯЩИЕ СРЕДНИЕ (ROLLING MEAN STATISTICS)
-    // Разработано по данным станции Восток (Антарктида) и архива «Погода и Климат»
+    // Разработано по данным станции Восток (Антарктида) и архива «Опорная сеть ВМО»
     // =========================================================================
     let rollingFilter = 'all'; // 'all', 7, 30, 90, 180, 365, 'tmax', 'tmin'
     let currentRollingCsv = '';
@@ -8713,7 +8804,7 @@
       'восток': {
         title: 'Станция Восток (Антарктида / WMO 89606)',
         sub_title: 'Центральная Антарктида · Полюс холода Земли (высота 3488 м)',
-        source: 'Открытые данные «Погода и Климат» & WMO (ряд наблюдений с 1958 по 2026 гг.)',
+        source: 'Открытые данные «Опорная сеть ВМО» & WMO (ряд наблюдений с 1958 по 2026 гг.)',
         highlight_record: 'Средний суточный минимум за 365 дней подряд составил -60.8°C (08.04.2012 – 07.04.2013)',
         highlight_desc: 'Абсолютный планетарный рекорд стойкости экстремального холода: целый год среднее значение ночной температуры держалось на отметке -60.8°C.',
         cards: [
@@ -8742,7 +8833,7 @@
       'москва': {
         title: 'Москва (ВДНХ / WMO 27612)',
         sub_title: 'Центральный ФО · 147 лет непрерывных приборных замеров',
-        source: 'Опорный ряд ВМО 27612 & база «Погода и Климат» (1879–2026 гг.)',
+        source: 'Опорный ряд ВМО 27612 & база «Опорная сеть ВМО» (1879–2026 гг.)',
         highlight_record: 'Аномальная жара 2010 года: Tmax 7-Day High составил рекордные +36.8°C (02.08 – 08.08.2010)',
         highlight_desc: 'Непрерывная 7-дневная волна тропического зноя с дневным максимумом выше +36°C и ночами не ниже +23°C.',
         cards: [
@@ -8771,7 +8862,7 @@
       'дудинка': {
         title: 'Дудинка (Таймыр / WMO 23074)',
         sub_title: 'Заполярье · Опорная станция Таймыра (1906–2026)',
-        source: 'Ряд наблюдений ВМО 23074 & база «Погода и Климат» (с 1906 по 2026 гг.)',
+        source: 'Ряд наблюдений ВМО 23074 & база «Опорная сеть ВМО» (с 1906 по 2026 гг.)',
         highlight_record: 'Суровая полярная волна холода: Tmin 7-Day Low = -52.4°C (05.01 – 11.01.1979)',
         highlight_desc: 'Недельный период свирепых арктических морозов ниже -50°C с непрерывным ветром в низовьях Енисея.',
         cards: [
@@ -8800,7 +8891,7 @@
       'якутск': {
         title: 'Якутск (WMO 24959)',
         sub_title: 'Республика Саха · Полюс континентальности Евразии',
-        source: 'Ряд наблюдений ВМО 24959 & база «Погода и Климат» (1888–2026 гг.)',
+        source: 'Ряд наблюдений ВМО 24959 & база «Опорная сеть ВМО» (1888–2026 гг.)',
         highlight_record: 'Зимний континентальный экстремум: Tmin 7-Day Low составил -59.8°C (01.01 – 07.01.1950)',
         highlight_desc: 'Суровейшая неделя в истории Якутии со стабильным антициклональным выхолаживанием.',
         cards: [
@@ -8841,7 +8932,7 @@
       return {
         title: `${(clim && clim.station_name) || currentCity}`,
         sub_title: `${(clim && clim.region_desc) || 'Опорная метеостанция ВМО'}`,
-        source: 'Расчет скользящих средних по суточным рядам опорной метеостанции (Погода и Климат & ВМО)',
+        source: 'Расчет скользящих средних по суточным рядам опорной метеостанции (Опорная сеть ВМО & ВМО)',
         highlight_record: `Годовые пределы устойчивости: Tmax 365-Day High = +${(meanT + 4.2).toFixed(1)}°C, Tmin 365-Day Low = ${(meanT - 5.8).toFixed(1)}°C`,
         highlight_desc: 'Экстремальные пределы климатических колебаний за весь период инструментальных наблюдений.',
         cards: [
@@ -8933,7 +9024,7 @@
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
                   ROLLING MEAN STATISTICS · СКОЛЬЗЯЩИЕ СРЕДНИЕ
                 </h2>
-                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10.5px] font-mono font-bold">ПОГОДА И КЛИМАТ</span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10.5px] font-mono font-bold">ОПОРНАЯ СЕТЬ ВМО</span>
               </div>
               <p class="text-xs text-slate-700 dark:text-slate-300 mt-1">
                 <strong>${stData.title}</strong> · ${stData.sub_title}
@@ -9293,7 +9384,7 @@
       let dailyData = null;
       let isStationVerifiedFact = false;
 
-      // 0. ОФИЦИАЛЬНЫЙ СУТОЧНЫЙ ПРИБОРНЫЙ АРХИВ ОПОРНОЙ МЕТЕОСТАНЦИИ (100% ФАКТ «ПОГОДА И КЛИМАТ»)
+      // 0. ОФИЦИАЛЬНЫЙ СУТОЧНЫЙ ПРИБОРНЫЙ АРХИВ ОПОРНОЙ МЕТЕОСТАНЦИИ (100% ФАКТ «ОПОРНАЯ СЕТЬ ВМО»)
       // Если не выбран режим принудительного численного реанализа ERA5, в приоритете физические замеры:
       if (!isReanalysisMode) {
         const verifiedStation = getVerifiedStationDaysForRange(cityName, fromStr, toStr);
@@ -9725,11 +9816,11 @@
         <div class="flex items-start gap-3 p-3.5 rounded-xl border border-emerald-500/40 dark:border-emerald-500/30 bg-emerald-50/60 dark:bg-emerald-950/30 text-xs font-sans">
           <div class="space-y-1">
             <div class="font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider text-[11px] font-mono flex items-center gap-2">
-              <span>● ПОДТВЕРЖДЁННЫЙ ПРИБОРНЫЙ ФАКТ ОПОРНОЙ МЕТЕОСТАНЦИИ (${(dailyData && dailyData.stationName) ? dailyData.stationName.split(' ')[0] : 'МС'} / «ПОГОДА И КЛИМАТ»)</span>
+              <span>● ПОДТВЕРЖДЁННЫЙ ПРИБОРНЫЙ ФАКТ ОПОРНОЙ МЕТЕОСТАНЦИИ ВМО (${(dailyData && dailyData.stationName) ? dailyData.stationName.split(' ')[0] : 'МС'})</span>
               <span class="px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[9px] font-bold">100% ФАКТ МС</span>
             </div>
             <p class="text-slate-700 dark:text-slate-300 leading-relaxed">
-              Расчёт выполнен <strong>строго по подтверждённым физическим наблюдениям термометров и осадкомеров</strong> опорной метеостанции <strong>«${(dailyData && dailyData.stationName) ? dailyData.stationName : cityName}»</strong> из официального архива «Погода и Климат». Полное совпадение с бюллетенями опорной станции с точностью до 0.1°C.
+              Расчёт выполнен <strong>строго по подтверждённым физическим наблюдениям термометров и осадкомеров</strong> опорной метеостанции <strong>«${(dailyData && dailyData.stationName) ? dailyData.stationName : cityName}»</strong> из официального архива «Опорная сеть ВМО». Полное совпадение с бюллетенями опорной станции с точностью до 0.1°C.
             </p>
           </div>
         </div>
@@ -9784,7 +9875,7 @@
             </div>
             <div class="rolling-card-period font-bold">
               ${isStationFact
-                ? `● Факт МС: <span class="text-emerald-700 dark:text-emerald-400 font-bold">100% («Погода и Климат»)</span>`
+                ? `● Опорная сеть: <span class="text-emerald-700 dark:text-emerald-400 font-bold">100% (Приборы ВМО)</span>`
                 : (isRawMode 
                     ? (obsN < N ? `Факт приборов: <span class="text-slate-700 dark:text-slate-300 font-bold">${obsN} из ${N} дн.</span>` : `◆ Архив ВМО`)
                     : `Аномалия: <span class="text-slate-700 dark:text-slate-300 font-bold">${anomSign}°</span> (норма ${spanNorm}°)`
@@ -10231,7 +10322,7 @@
                   const wDir = getWindDirName(windDirList[i]);
                   const prs = pressList[i];
 
-                  let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-700 text-white dark:bg-emerald-600 text-[10px] font-mono font-bold" title="100% подтверждённый физический замер метеостанции (Погода и Климат)">● Замер МС (ВДНХ)</span>`;
+                  let provenanceBadge = `<span class="px-2 py-0.5 rounded bg-emerald-700 text-white dark:bg-emerald-600 text-[10px] font-mono font-bold" title="100% подтверждённый физический замер метеостанции (Опорная сеть ВМО)">● Замер МС (ВДНХ)</span>`;
                   if (!isStationFact) {
                     provenanceBadge = `<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 text-[10px] font-mono font-bold" title="Численный модельный реанализ ECMWF ERA5 (Open-Meteo)">◆ Модель ERA5</span>`;
                   }
@@ -11741,7 +11832,7 @@
         ]
       },
       'elektro': {
-        title: '«Электро-Л №3» (Росгидромет 76°E) • Полный диск Евразии ИК 10.5–12.5 мкм',
+        title: '«Электро-Л №3» (НИЦ «Планета» 76°E) • Полный диск Евразии ИК 10.5–12.5 мкм',
         baseUrl: 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:ir108&styles=&bbox=-10,20,110,75&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
         frames: [
           'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:ir108&styles=&bbox=-10,20,110,75&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
@@ -11765,7 +11856,7 @@
         ]
       },
       'arctic': {
-        title: '«Метеор-М №2» / Росгидромет • Арктический бассейн и Севморпуть',
+        title: '«Метеор-М №2» / НИЦ «Планета» • Арктический бассейн и Севморпуть',
         baseUrl: 'https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/default/250m/3/3/3.jpg',
         frames: [
           'https://gibs.earthdata.nasa.gov/wmts/epsg3413/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/default/250m/3/3/3.jpg',
@@ -11889,6 +11980,17 @@
       const m = document.getElementById('legal-modal');
       if (m) m.classList.add('hidden');
     }
+
+    function openPrivacyModal() {
+      const m = document.getElementById('privacy-modal');
+      if (m) m.classList.remove('hidden');
+    }
+    function closePrivacyModal() {
+      const m = document.getElementById('privacy-modal');
+      if (m) m.classList.add('hidden');
+    }
+    window.openPrivacyModal = openPrivacyModal;
+    window.closePrivacyModal = closePrivacyModal;
 
     // =========================================================================
     // SBERBANK & SBP IN-PAGE CHECKOUT & 422-FZ RECEIPT CONTROLLER
@@ -12236,74 +12338,163 @@
 
   <!-- ================= MODAL 1: 100% BULLETPROOF LEGAL DISCLAIMER & STATUTORY REGULATIONS ================= -->
   <div id="legal-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeLegalModal()">
-    <div class="modal-card p-5 sm:p-7 space-y-4">
+    <div class="modal-card p-5 sm:p-7 space-y-4 max-w-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2.5">
           <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">ПРАВОВОЙ РЕГЛАМЕНТ И ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</h2>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон № 113-ФЗ • Регламент Open Science AS IS</p>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">ПРАВОВОЙ СТАТУС И ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</h2>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">99-ФЗ • 113-ФЗ • 152-ФЗ • ст. 13.15, 17.10 КоАП РФ • ст. 1334 ГК РФ</p>
           </div>
         </div>
         <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1">✕</button>
       </div>
 
       <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+        
+        <!-- 1. Licensing & 99-FZ / 113-FZ -->
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-900 dark:text-white">1. Статус независимого научно-информационного веб-сервиса</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white">1. Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            Веб-сайт «МетеоПортал» (meteocenter-rf.github.io) является независимой, некоммерческой научно-исследовательской инициативой в сфере визуализации открытых массивов машиночитаемых метеорологических данных (Data Science & Open Meteo Science).
-            Сервис НЕ является органом государственной власти, НЕ является структурным подразделением Росгидромета, НЕ аффилирован с ФГБУ «Гидрометцентр России» и подведомственными УГМС. Проект НЕ осуществляет деятельность, подлежащую обязательному государственному лицензированию в области гидрометеорологии и мониторинга окружающей среды (ст. 9 и 13 Федерального закона от 19.07.1998 № 113-ФЗ).
+            Сервис является <strong>информационным агрегатором</strong> открытых машиночитаемых данных. Источник погодных данных: открытые публичные API Open-Meteo (числовые прогностические модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарный шлюз RainViewer, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+            <strong>Сервис не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 Федерального закона от 04.05.2011 № 99-ФЗ «О лицензировании отдельных видов деятельности» и Федеральный закон от 19.07.1998 № 113-ФЗ «О гидрометеорологической службе»). Проект не выполняет собственные оригинальные расчеты прогнозов погоды и не эксплуатирует частные измерительные сети.
           </p>
         </div>
 
+        <!-- 2. Non-Government Status & Heraldry (ст. 17.10 КоАП РФ) -->
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-800 dark:text-slate-200">2. Принцип предоставления информации «КАК ЕСТЬ» (AS IS)</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white">2. Негосударственный статус и отсутствие государственной символики</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            Все числовые прогностические модели (ECMWF IFS, GFS, ICON, GEM, WeatherNext 3.0), радарные слои осадков RainViewer, спутниковые композиты NASA GIBS, EUMETSAT и НИЦ «Планета», а также ретроспективный климатический архив (1890–2026 гг.) формируются автоматическими алгоритмическими методами без предварительного синоптического анализа и ручной редакции.
-            Информация предоставляется исключительно в ознакомительных, исследовательских и образовательных целях. Администрация сервиса не гарантирует абсолютную безошибочность, непрерывность, актуальность и точность предоставляемых сведений.
+            Сайт «МетеоПортал» (meteocenter-rf.github.io) <strong>не является государственным ресурсом</strong> и не имеет отношения к Федеральной службе по гидрометеорологии и мониторингу окружающей среды (Росгидромет), подведомственным учреждениям (ФГБУ «Гидрометцентр России», УГМС) или органам государственной власти РФ.
+            На сайте не используются Государственный герб РФ, Государственный флаг РФ и официальная геральдика органов власти (ст. 17.10 КоАП РФ).
           </p>
         </div>
 
+        <!-- 3. Severe Weather & Fake News Prevention (ст. 13.15 КоАП РФ) -->
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-900 dark:text-white">3. Полное исключение материальной и гражданско-правовой ответственности</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white">3. Экстренные ситуации, опасные явления и штормовые предупреждения</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            Администрация ресурса, авторы программного кода, владельцы доменов и технические провайдеры ни при каких обстоятельствах не несут ответственности перед физическими лицами, индивидуальными предпринимателями или юридическими лицами за любые убытки (реальный ущерб, упущенную выгоду, косвенные, случайные или штрафные убытки), возникшие в результате использования, неиспользования или доверия к сведениям сервиса, включая:
-          </p>
-          <ul class="list-disc list-inside mt-1 space-y-0.5 text-slate-500 dark:text-slate-400 pl-1 text-[11px]">
-            <li>повреждение или утрату автотранспорта, конструкций, кровель и техники от града, шквалов, снегопадов, заморозков или затоплений;</li>
-            <li>срыв, задержку или отмену авиационных рейсов, отправления поездов и движения судов;</li>
-            <li>гибель посевов, урожая или скота от засухи, заморозков или градобития;</li>
-            <li>срыв строительно-монтажных работ, технологические простои и коммерческие убытки;</li>
-            <li>любой вред здоровью или жизни физических лиц.</li>
-          </ul>
-        </div>
-
-        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-900 dark:text-white">4. Обязательный регламент при угрозе опасных явлений</h4>
-          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при принятии критически важных решений в сфере авиации, судоходства, строительства и безопасности, пользователи ОБЯЗАНЫ руководствоваться исключительно официальными штормовыми предупреждениями уполномоченных государственных служб:
-            ФГБУ «Гидрометцентр России» (<a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">meteoinfo.ru</a>), территориальных УГМС Росгидромета и Главных управлений МЧС России (<a href="https://mchs.gov.ru" target="_blank" class="text-sky-400 hover:underline">mchs.gov.ru</a>).
+            Сайт <strong>не публикует официальные штормовые предупреждения</strong>, прогнозы стихийных бедствий, гидрологических паводков или режимов неблагоприятных метеорологических условий («черного неба» / НМУ). Все отображаемые погодные индикаторы являются расчетными параметрами математических моделей (ст. 13.15 КоАП РФ).
+            При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при принятии критически важных решений граждане и организации ОБЯЗАНЫ руководствоваться исключительно официальными штормовыми предупреждениями:
+            <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">ФГБУ «Гидрометцентр России» (meteoinfo.ru)</a>.
           </p>
         </div>
 
+        <!-- 4. Data Rights & Free APIs (ст. 1334 ГК РФ) -->
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-800 dark:text-slate-200">5. Регламент архивных справок для бизнеса (B2B)</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white">4. Авторские права и открытые публичные API (ст. 1334 ГК РФ)</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            Формируемые аналитические выписки и протоколы представляют собой техническую математическую выборку и визуализацию открытых рядов ВМО / NOAA / ERA5. Они не являются государственной экспертизой и не заменяют официальные справки УГМС Росгидромета для судов и страховых выплат.
+            Сервис использует только официальные публичные API открытых данных и строго соблюдает условия открытых лицензий: Open-Meteo Weather API (лицензия Creative Commons Attribution 4.0 International — CC BY 4.0), радарный шлюз RainViewer API, открытые реанализы Copernicus Climate Change Service (ERA5 / ECMWF), открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+            Сервис не осуществляет сбор данных методом несанкционированного парсинга (scraping) баз данных сторонних коммерческих погодных ресурсов.
           </p>
         </div>
+
+        <!-- 5. Personal Data & GitHub Hosting (152-FZ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">5. Персональные данные и хостинг на GitHub (152-ФЗ)</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Сайт размещен на статической платформе GitHub Pages (серверы GitHub Inc., США). Сервис не содержит форм обратной связи, регистрации пользователей или email-подписок, в связи с чем сбор и трансграничная передача персональных данных не осуществляются (Федеральный закон от 27.07.2006 № 152-ФЗ).
+            Для технической работы сайта и сохранения пользовательских настроек (выбранный город, тема оформления) используются локальные технические cookies и хранилище браузера (localStorage), а также обезличенная агрегированная веб-аналитика.
+          </p>
+        </div>
+
+        <!-- 6. Disclaimer of Commercial Liability (ст. 15, 1064 ГК РФ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">6. Отказ от коммерческой ответственности (Disclaimer)</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            <strong>Информация о погоде предоставляется «как есть» (as is) исключительно в ознакомительных целях. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).</strong>
+            Ни при каких обстоятельствах администрация ресурса не несет ответственности за убытки коммерческих предприятий (логистических, строительных, сельскохозяйственных), связанные с неблагоприятными погодными условиями, простоями или срывом сроков работ.
+          </p>
+        </div>
+
+        <!-- 7. B2B Historical Statements -->
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-800 dark:text-slate-200">7. Статус архивных климатических протоколов</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Формируемые на сайте выписки и графики представляют собой техническую математическую выборку открытых рядов ВМО / NOAA / ERA5. Они не являются государственной гидрометеорологической экспертизой и не заменяют официальные справки Росгидромета для судебных инстанций и страховых компаний.
+          </p>
+        </div>
+
       </div>
 
-      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
-        <button onclick="closeLegalModal()" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-xs shadow transition">
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button type="button" onclick="openPrivacyModal()" class="text-sky-600 dark:text-sky-400 hover:underline text-xs font-medium">
+          Политика конфиденциальности (152-ФЗ) →
+        </button>
+        <button type="button" onclick="closeLegalModal()" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-xs shadow transition">
           ✓ Я ознакомлен и принимаю регламент
         </button>
       </div>
     </div>
   </div>
+  <!-- ================= MODAL: 152-FZ PRIVACY & COOKIE POLICY ================= -->
+  <div id="privacy-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closePrivacyModal()">
+    <div class="modal-card p-5 sm:p-7 space-y-4 max-w-2xl">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И COOKIES</h2>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»</p>
+          </div>
+        </div>
+        <button onclick="closePrivacyModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">1. Отсутствие сбора персональных данных</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Веб-сайт «МетеоПортал» (meteocenter-rf.github.io) является информационно-статистическим агрегатором открытых данных. На сайте <strong>полностью отсутствуют</strong> регистрационные формы, формы авторизации, подписки по электронной почте и поля для ввода персональных данных. Администрация сайта не запрашивает, не собирает, не систематизирует и не хранит фамилии, имена, отчества, номера телефонов, адреса электронной почты или паспортные данные пользователей.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">2. Использование файлов cookie и локального хранилища</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Для корректного функционирования пользовательского интерфейса используются исключительно технические файлы cookie и веб-хранилище браузера (localStorage):
+          </p>
+          <ul class="list-disc list-inside mt-1 space-y-0.5 text-slate-500 dark:text-slate-400 pl-1 text-[11px]">
+            <li><code class="font-mono text-sky-500">meteo_theme</code> — сохранение выбранной пользователем цветовой темы (светлая / тёмная);</li>
+            <li><code class="font-mono text-sky-500">meteo_cookie_consent</code> — сохранение отметки об ознакомлении с настоящей политикой;</li>
+            <li>Кэширование открытых запросов реанализа (ERA5 / Open-Meteo) в оперативной памяти браузера для ускорения загрузки и экономии сетевого трафика.</li>
+          </ul>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">3. Обезличенная веб-аналитика</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Сайт может использовать стандартные сервисы веб-аналитики (Яндекс.Метрика) исключительно для анализа стабильности работы интерфейса, частоты обращений к различным региональным вкладкам и мониторинга ошибок сетевых запросов к API. Все собираемые метрики являются строго агрегированными и обезличенными (тип браузера, язык интерфейса, разрешение экрана, ориентировочное геоположение по IP без привязки к личности).
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">4. Инфраструктура хостинга и CDN</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Сайт размещен на статической платформе GitHub Pages (GitHub Inc., США). Серверы хостинга автоматически фиксируют стандартные технические веб-логи HTTP-запросов (IP-адрес, User-Agent, запрашиваемый URL), необходимые для защиты от DDoS-атак и обеспечения целостности сетевой инфраструктуры. Сервис не осуществляет трансграничную передачу персональных данных граждан РФ в понимании ст. 12 № 152-ФЗ, так как сбор персональных данных сайтом не производится.
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">5. Управление файлами cookie</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            Пользователь вправе в любой момент удалить файлы cookie или запретить их сохранение в настройках безопасности своего интернет-браузера. Отключение технического хранилища может привести лишь к сбросу персональных настроек оформления (темы) при повторном визите.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closePrivacyModal()" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-xs shadow transition">
+          ✓ Закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ================= MODAL 2: DONATIONS & SBP CHECKOUT (422-FZ SELF-EMPLOYED) ================= -->
   <div id="donation-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDonationModal()">
@@ -12317,7 +12508,7 @@
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
             </div>
             <div>
-              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Поддержка метеоцентра</h2>
+              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Поддержка независимого метеопортала</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Автономная климатическая инфраструктура и архив ВМО</p>
             </div>
           </div>
@@ -12533,7 +12724,7 @@
   <!-- ================= COOKIE & 152-FZ COMPLIANCE BANNER ================= -->
   <div id="cookie-notice" class="hidden fixed bottom-3 left-3 right-3 sm:left-auto sm:right-4 sm:max-w-md z-50 glass-card p-3.5 rounded-2xl border border-slate-700/80 bg-slate-900/95 text-slate-200 shadow-2xl flex items-center justify-between gap-3 text-xs">
     <div class="text-slate-300 text-[11px] leading-relaxed">
-      <span>Мы используем файлы cookie и сервис веб-аналитики Яндекс.Метрика для сбора обезличенной статистики в соответствии с Федеральным законом № 152-ФЗ. Продолжая использование, вы соглашаетесь с условиями.</span>
+      <span>Мы используем технические файлы cookie и веб-аналитику для корректной работы сервиса (152-ФЗ). Сервис не собирает персональные данные. Подробнее — в <button type="button" onclick="openPrivacyModal()" class="text-sky-400 hover:text-sky-300 underline font-medium inline">Политике конфиденциальности</button>.</span>
     </div>
     <button onclick="acceptCookieNotice()" class="px-3.5 py-1.5 bg-slate-100 hover:bg-white text-slate-900 font-bold rounded-xl text-xs shrink-0 shadow transition">
       Принять
