@@ -4040,6 +4040,8 @@
       // Universal multi-model field selector
       const getField = (obj, key) => (obj && (obj[key] || obj[`${key}_ecmwf_ifs025`] || obj[`${key}_icon_seamless`] || obj[`${key}_gfs_seamless`] || obj[`${key}_gem_seamless`])) || [];
 
+      const dTimes = daily.time || [];
+
       // 4-Model Ensemble extraction
       const ecMax = daily['temperature_2m_max_ecmwf_ifs025'] || daily['temperature_2m_max'] || [];
       const icMax = daily['temperature_2m_max_icon_seamless'] || ecMax;
@@ -4364,7 +4366,6 @@
       // 14-day Daily forecast
       const daily_list = [];
       const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-      const dTimes = daily.time || [];
       const dCodes = getField(daily, 'weather_code');
       const dMaxs = getField(daily, 'temperature_2m_max');
       const dMins = getField(daily, 'temperature_2m_min');
