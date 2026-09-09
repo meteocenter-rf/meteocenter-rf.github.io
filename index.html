@@ -1544,6 +1544,13 @@
       </div>
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
+        <!-- Dedicated Anomalies & Circulation Page Link -->
+        <a href="anomalies.html" class="nav-btn font-extrabold text-sky-600 dark:text-sky-300 border-2 border-sky-500/60 bg-sky-500/15 hover:bg-sky-500/25 shadow-sm" title="Интерактивная карта циркуляции атмосферы и аномалий Арктики (ECMWF SEAS5)">
+          <span class="text-xs">🌀</span>
+          <span class="font-black text-xs">Аномалии & Циркуляция</span>
+          <span class="text-[9.5px] font-mono px-1 py-0.2 rounded bg-rose-500 text-white font-bold">-2.7°C</span>
+        </a>
+
         <!-- Donation Button -->
         <button onclick="openDonationModal()" class="nav-btn nav-btn-donate" title="Фонд поддержки метеопортала">
           <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
@@ -1713,12 +1720,44 @@
       </div>
     </div>
 
+    <!-- ================= PROMINENT SCI-FI BANNER: ANOMALIES & ARCTIC CIRCULATION ================= -->
+    <a href="anomalies.html" class="block group text-decoration-none my-1">
+      <div class="glass-card p-3 sm:p-4 rounded-2xl border-2 border-sky-400/70 bg-gradient-to-r from-sky-950/70 via-slate-900/90 to-blue-950/80 shadow-xl hover:border-sky-300 transition flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-xl sm:text-2xl shrink-0 shadow-lg group-hover:scale-105 transition">
+            🌀
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h3 class="text-xs sm:text-sm font-black text-white uppercase tracking-tight group-hover:text-sky-300 transition">
+                Отдельная страница: Циркуляция Арктики & Аномалии Сентября
+              </h3>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-600 text-white font-black animate-pulse shadow">-2.7°C В НОРИЛЬСКЕ</span>
+              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/40 font-bold hidden md:inline">ECMWF SEAS5 PRO</span>
+            </div>
+            <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">
+              Интерактивная карта воздушных масс, ветровые потоки Windy FX, Карский блокинг (H 1028 гПа) и ультраполярное вторжение в бассейн Енисея
+            </p>
+          </div>
+        </div>
+        <div class="inline-flex items-center gap-1 px-3.5 py-2 rounded-xl bg-sky-500 group-hover:bg-sky-400 text-slate-950 font-black text-xs transition shadow-lg shrink-0">
+          <span>ОТКРЫТЬ КАРТУ</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </div>
+      </div>
+    </a>
+
     <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (ВСЕ 11 ВКЛАДОК ДЛЯ ВСЕХ ЭКРАНОВ) ================= -->
     <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs select-none">
       <button onclick="switchTab('current')" id="tab-current" class="tab-btn tab-active">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         <span>Погода сейчас (48 ч)</span>
       </button>
+      <a href="anomalies.html" class="tab-btn !bg-sky-500/25 hover:!bg-sky-500/35 !border-2 !border-sky-400 !text-sky-300 font-extrabold flex items-center gap-1.5 shadow-md shrink-0" title="Открыть отдельную страницу: Интерактивная карта циркуляции и аномалии Арктики (ECMWF SEAS5)">
+        <span class="text-xs">🌀</span>
+        <span class="font-bold">Карта аномалий & Циркуляция</span>
+        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-black bg-rose-500 text-white">СТРАНИЦА ↗</span>
+      </a>
       <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         <span>Метеорадар & Спутники</span>
@@ -1740,11 +1779,11 @@
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
         <span>30 дней: SEAS5 + ИИ</span>
       </button>
-      <button onclick="switchTab('anomalies')" id="tab-anomalies" class="tab-btn tab-inactive">
-        <svg class="w-3.5 h-3.5 shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-        <span>Аномалии на 6 мес (SEAS5)</span>
-        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-bold bg-amber-500/20 text-amber-600 dark:text-amber-400">PRO</span>
-      </button>
+      <a href="anomalies.html" class="tab-btn bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/40 text-sky-600 dark:text-sky-300 font-bold" title="Открыть отдельную страницу: Интерактивная карта циркуляции и аномалии Арктики (ECMWF SEAS5)">
+        <svg class="w-3.5 h-3.5 shrink-0 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        <span>🌀 Карта циркуляции & Аномалии</span>
+        <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-bold bg-sky-500/25 text-sky-400 border border-sky-400/40">СТРАНИЦА ↗</span>
+      </a>
       <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <span>Прогноз 7 дней</span>
@@ -4968,32 +5007,43 @@
         const anomPPct = Math.round(((fcstPrecipSum - normP) / normP) * 100);
         const pctOfNorm = Math.max(0, Math.round((fcstPrecipSum / normP) * 100));
 
-        // 50-Member Ensemble Distribution & Tercile Probabilities
-        const memberTAvgs = [];
-        const memberPSums = [];
-        let tAbove = 0, tNormal = 0, tBelow = 0;
-        let pAbove = 0, pNormal = 0, pBelow = 0;
-
+        // 50-Member Ensemble Distribution & Calibrated Tercile Probabilities
+        const rawTAvgs = [];
+        const rawPSums = [];
         for (let m = 0; m < 50; m++) {
           const mListT = b.member_t_mean[m];
           const mListP = b.member_precip[m];
-          const mLen = mListT.length;
-          if (mLen > 0) {
-            const mAvgT = mListT.reduce((a, b) => a + b, 0) / mLen;
-            const mSumP = (mListP.reduce((a, b) => a + b, 0)) * scaleFactor;
-            memberTAvgs.push(mAvgT);
-            memberPSums.push(mSumP);
-
-            // WMO standard climatological terciles: delta threshold ±0.5°C
-            if (mAvgT > normT + 0.5) tAbove++;
-            else if (mAvgT < normT - 0.5) tBelow++;
-            else tNormal++;
-
-            // Precipitation terciles: norm ± 15%
-            if (mSumP > normP * 1.15) pAbove++;
-            else if (mSumP < normP * 0.85) pBelow++;
-            else pNormal++;
+          if (mListT.length > 0) {
+            rawTAvgs.push(mListT.reduce((a, b) => a + b, 0) / mListT.length);
+            rawPSums.push((mListP.reduce((a, b) => a + b, 0)) * scaleFactor);
           }
+        }
+
+        // Calibrate raw member arrays to match target mean fcstTMean and fcstPrecipSum (eliminating systematic raw ensemble offset)
+        const rawMeanT = rawTAvgs.length ? (rawTAvgs.reduce((a, b) => a + b, 0) / rawTAvgs.length) : fcstTMean;
+        const biasT = fcstTMean - rawMeanT;
+        const memberTAvgs = rawTAvgs.map(v => v + biasT);
+
+        const rawMeanP = rawPSums.length ? (rawPSums.reduce((a, b) => a + b, 0) / rawPSums.length) : fcstPrecipSum;
+        const pScaleRatio = rawMeanP > 0 ? (fcstPrecipSum / rawMeanP) : 1.0;
+        const memberPSums = rawPSums.map(v => v * pScaleRatio);
+
+        let tAbove = 0, tNormal = 0, tBelow = 0;
+        let pAbove = 0, pNormal = 0, pBelow = 0;
+
+        for (let m = 0; m < memberTAvgs.length; m++) {
+          const mAvgT = memberTAvgs[m];
+          const mSumP = memberPSums[m];
+
+          // WMO standard climatological terciles: delta threshold ±0.5°C
+          if (mAvgT > normT + 0.5) tAbove++;
+          else if (mAvgT < normT - 0.5) tBelow++;
+          else tNormal++;
+
+          // Precipitation terciles: norm ± 15%
+          if (mSumP > normP * 1.15) pAbove++;
+          else if (mSumP < normP * 0.85) pBelow++;
+          else pNormal++;
         }
 
         memberTAvgs.sort((a, b) => a - b);
@@ -13321,6 +13371,28 @@
       });
 
       card.innerHTML = `
+        <!-- Standalone Page Direct Link Banner -->
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-950/90 via-blue-950/90 to-slate-900/90 border-2 border-sky-400 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center space-x-3">
+            <span class="text-3xl animate-spin" style="animation-duration: 8s; display: inline-block;">🌀</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-sm sm:text-base font-black text-white uppercase tracking-tight">
+                  Отдельная интерактивная страница: Циркуляция & Аномалии
+                </h3>
+                <span class="px-2 py-0.5 rounded-full bg-rose-500 text-white font-mono font-bold text-[10px]">-2.7°C</span>
+              </div>
+              <p class="text-xs text-sky-200 mt-0.5">
+                Полноэкранная карта воздушных масс, Карский блокинг (1028 гПа), полярная ложбина и ультраполярное вторжение в Норильск
+              </p>
+            </div>
+          </div>
+          <a href="anomalies.html" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs sm:text-sm transition shadow-lg shrink-0 flex items-center gap-1.5">
+            <span>ОТКРЫТЬ КАРТУ ЦИРКУЛЯЦИИ</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+
         <!-- Header Banner -->
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
           <div class="space-y-1">
