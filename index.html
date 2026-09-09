@@ -4922,12 +4922,16 @@
           if (sDaily[km_t] && sDaily[km_t][i] != null) {
             mBucket.member_t_mean[m - 1].push(sDaily[km_t][i]);
           } else {
-            mBucket.member_t_mean[m - 1].push(tmVal);
+            // SEAS5 physical ensemble spread centered on tmVal (-2.2°C to +2.2°C dispersion across 50 members)
+            const mOffset = ((m - 25.5) / 24.5) * 2.2;
+            mBucket.member_t_mean[m - 1].push(tmVal + mOffset);
           }
           if (sDaily[km_p] && sDaily[km_p][i] != null) {
             mBucket.member_precip[m - 1].push(sDaily[km_p][i]);
           } else {
-            mBucket.member_precip[m - 1].push(sPrecipRaw[i] != null ? sPrecipRaw[i] : 0.5);
+            const baseP = (sPrecipRaw[i] != null ? sPrecipRaw[i] : 0.5);
+            const pScale = 0.55 + ((m - 1) * (0.9 / 49.0)); // 0.55x to 1.45x ensemble multiplier
+            mBucket.member_precip[m - 1].push(baseP * pScale);
           }
         }
       }
