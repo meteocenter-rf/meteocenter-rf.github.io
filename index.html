@@ -4781,18 +4781,19 @@
                 <svg class="w-4 h-4 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                 <span>РАДИОЛОКАЦИОННЫЙ & СПУТНИКОВЫЙ МОНИТОРИНГ 4K</span>
               </h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Windy ECMWF HD (векторный радар без пикселей) • Спутник ИК 24/7 • NASA AIRS • НИЦ «Планета»</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки NASA AIRS • Спутник ИК 24/7 EUMETSAT • Радар RainViewer HD • Потоки ветра 60 FPS</p>
             </div>
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
             <span id="observatory-status-pill" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/10 dark:bg-cyan-950/80 border border-cyan-500/30 text-cyan-700 dark:text-cyan-300 font-mono text-[11px] font-bold">
-              📡 Радар осадков Windy HD (Doppler 4K)
+              🛰️ Спутниковые осадки NASA (РФ 100%)
             </span>
 
             <!-- Region Presets Dropdown Selector (Replaces flat buttons) -->
             <select id="radar-region-preset-select" onchange="onSelectPresetRegion(this.value)" class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-sky-500/40 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-2 focus:ring-cyan-400 outline-none cursor-pointer shadow-sm">
               <option value="current">📍 ${d.city} (Текущий)</option>
+              <option value="crimea">🇷🇺 Крым и Севастополь</option>
               <option value="moscow">🇷🇺 Москва и ЦФО</option>
               <option value="spb">🇷🇺 Санкт-Петербург и СЗФО</option>
               <option value="sochi">🇷🇺 Сочи и Черноморье</option>
@@ -4815,32 +4816,32 @@
           </div>
         </div>
 
-        <!-- 1-Click Layer Selector Bar (Windy HD & Satellite & Stations) -->
+        <!-- 1-Click Layer Selector Bar (Native Leaflet Meteorological Engine) -->
         <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1">
-          <button onclick="setWindyOverlay('radar')" id="windy-btn-radar" class="shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm">
-            <span>Радар Windy HD</span>
+          <button onclick="switchWeatherLayer('airs_precip')" id="btn-top-airs_precip" class="shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm">
+            <span>🛰️ Спутниковые осадки (NASA)</span>
           </button>
-          <button onclick="setWindyOverlay('satellite')" id="windy-btn-satellite" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <span>Спутник HD</span>
+          <button onclick="switchWeatherLayer('sat_live_ir')" id="btn-top-sat_live_ir" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span>🌐 Спутник ИК 24/7 (EUMETSAT)</span>
           </button>
-          <button onclick="setWindyOverlay('wind')" id="windy-btn-wind" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <span>Потоки ветра 60 FPS</span>
+          <button onclick="switchWeatherLayer('radar')" id="btn-top-radar" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span>📡 Радар осадков RainViewer</span>
           </button>
-          <button onclick="setWindyOverlay('rain')" id="windy-btn-rain" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <span>Накопление осадков</span>
+          <button onclick="toggleWindParticles()" id="btn-top-wind" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span>💨 Потоки ветра 60 FPS</span>
           </button>
-          <button onclick="setWindyOverlay('temp')" id="windy-btn-temp" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <span>Термокарта</span>
+          <button onclick="switchWeatherLayer('sat_viirs')" id="btn-top-sat_viirs" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span>🌍 Космоснимок NASA HD</span>
           </button>
-          <button onclick="toggleWindyMode()" id="windy-btn-portal" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-            <span>Станции ВМО (Карта МетеоПортала)</span>
+          <button onclick="toggleMeteoStations()" id="btn-top-stations" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span>📍 Метеостанции ВМО</span>
           </button>
         </div>
 
         <!-- Radar Map Wrapper Container with Side Telemetry Docks, Windy Canvas and Windy Embed -->
         <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-200/90 dark:border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
           <div id="radar-map" class="w-full h-full z-0"></div>
-          <iframe id="windy-embed-frame" class="absolute inset-0 w-full h-full z-10 border-0 rounded-2xl" src="" loading="lazy"></iframe>
+          
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
           <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]"></canvas>
 
@@ -5009,9 +5010,9 @@
                   </select>
                 </div>
 
-                <!-- Выбор Подложки -->
+                <!-- Выбор Подложки (Нейтральные слои без спорных границ) -->
                 <div class="pt-1 border-t border-slate-800 space-y-1">
-                  <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold px-1">Подложка</div>
+                  <div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold px-1">Подложка (Без границ)</div>
                   <div class="grid grid-cols-3 gap-1">
                     <button onclick="switchBasemap('dark')" id="dock-base-dark" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'dark' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
                       Темная
@@ -5019,8 +5020,8 @@
                     <button onclick="switchBasemap('satellite')" id="dock-base-sat" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'satellite' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
                       Спутник
                     </button>
-                    <button onclick="switchBasemap('osm')" id="dock-base-osm" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'osm' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
-                      OSM
+                    <button onclick="switchBasemap('light')" id="dock-base-light" class="px-1.5 py-1 rounded text-[10px] font-mono text-center transition ${activeBasemap === 'light' ? 'bg-slate-700 text-white font-bold' : 'bg-slate-900 text-slate-400 hover:text-slate-200'}">
+                      Светлая
                     </button>
                   </div>
                 </div>
@@ -5239,6 +5240,8 @@
     // Key meteorological stations across Russia and Georgia for live markers and gradient interpolation
     const WMO_OBSERVATORY_STATIONS = [
       { name: 'Москва (ВДНХ)', lat: 55.83, lon: 37.62, t: 16, prec: 0.2, wind: 4.2, clouds: 45, press: 748 },
+      { name: 'Севастополь (WMO 33994)', lat: 44.62, lon: 33.53, t: 21, prec: 0.0, wind: 3.8, clouds: 10, press: 760 },
+      { name: 'Симферополь (WMO 33946)', lat: 44.95, lon: 34.10, t: 20, prec: 0.0, wind: 3.4, clouds: 15, press: 758 },
       { name: 'Санкт-Петербург (Пулково)', lat: 59.80, lon: 30.26, t: 14, prec: 1.1, wind: 5.5, clouds: 75, press: 752 },
       { name: 'Сочи (Адлер)', lat: 43.44, lon: 39.95, t: 24, prec: 0.0, wind: 3.1, clouds: 15, press: 758 },
       { name: 'Казань', lat: 55.79, lon: 49.12, t: 15, prec: 0.0, wind: 4.0, clouds: 30, press: 750 },
@@ -5325,8 +5328,8 @@
       // Setup Windy Interactive Weather Picker on Map Click
       setupWindyPicker();
 
-      // Ensure Windy HD mode is synchronized
-      applyRadarDisplayMode();
+      // Ensure Leaflet map size is synchronized
+      if (radarMap) radarMap.invalidateSize();
     }
 
     function applyBasemapLayer() {
@@ -5336,21 +5339,22 @@
       }
 
       if (activeBasemap === 'satellite') {
-        // High-resolution Esri World Imagery (30cm to 1m across Russia & Georgia)
+        // High-resolution Esri World Imagery (30cm to 1m across Russia & Eurasia, strictly physical photography without political borders)
         basemapLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
           maxZoom: 19,
           attribution: '© Esri World Imagery'
         }).addTo(radarMap);
-      } else if (activeBasemap === 'dark') {
-        // High-speed, official Esri World Dark Gray Canvas (ZERO watermarks, NO API key required, pure dark theme)
+      } else if (activeBasemap === 'light') {
+        // Neutral Esri World Light Gray Base (cartography without political dispute borders)
+        basemapLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 16,
+          attribution: '© Esri World Light Gray Canvas'
+        }).addTo(radarMap);
+      } else {
+        // High-speed, official Esri World Dark Gray Canvas (neutral dark theme without borders)
         basemapLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
           maxZoom: 16,
           attribution: '© Esri World Dark Gray Canvas'
-        }).addTo(radarMap);
-      } else {
-        basemapLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap'
         }).addTo(radarMap);
       }
       if (basemapLayer) basemapLayer.bringToBack();
@@ -5359,7 +5363,7 @@
     function switchBasemap(type) {
       activeBasemap = type;
       applyBasemapLayer();
-      ['dark', 'sat', 'osm'].forEach(k => {
+      ['dark', 'sat', 'light'].forEach(k => {
         const btn = document.getElementById(`btn-base-${k}`);
         const dBtn = document.getElementById(`dock-base-${k}`);
         const matches = (k === 'sat' && type === 'satellite') || (k === type);
@@ -5417,11 +5421,13 @@
 
     function toggleMeteoStations() {
       showStations = !showStations;
+      const topBtn = document.getElementById('btn-top-stations');
       const btn = document.getElementById('btn-stations-toggle');
       const dockSBtn = document.getElementById('dock-btn-stations');
       const dockSStat = document.getElementById('dock-stations-status');
       if (showStations) {
         if (stationsLayerGroup && radarMap) stationsLayerGroup.addTo(radarMap);
+        if (topBtn) topBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-emerald-600 text-white dark:bg-emerald-500 dark:text-slate-950 shadow-sm';
         if (btn) {
           btn.className = 'px-2 py-1 rounded-lg text-[11px] font-medium bg-slate-900 text-white dark:bg-white dark:text-slate-900 border border-slate-700 dark:border-slate-300 shrink-0';
           btn.innerText = 'Станции: ВКЛ';
@@ -5430,6 +5436,7 @@
         if (dockSStat) dockSStat.innerText = 'ВКЛ';
       } else {
         if (stationsLayerGroup && radarMap) radarMap.removeLayer(stationsLayerGroup);
+        if (topBtn) topBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
         if (btn) {
           btn.className = 'px-2 py-1 rounded-lg text-[11px] font-medium bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 shrink-0';
           btn.innerText = 'Станции: ВЫКЛ';
@@ -5730,6 +5737,23 @@
       const ctrlStrip = document.getElementById('radar-controls-strip');
       const statusPill = document.getElementById('observatory-status-pill');
 
+      // Sync Top Bar Buttons
+      const topLayerBtns = [
+        { id: 'btn-top-airs_precip', key: 'airs_precip' },
+        { id: 'btn-top-sat_live_ir', key: 'sat_live_ir' },
+        { id: 'btn-top-radar', key: 'radar' },
+        { id: 'btn-top-sat_viirs', key: 'sat_viirs' }
+      ];
+      topLayerBtns.forEach(item => {
+        const btn = document.getElementById(item.id);
+        if (!btn) return;
+        if (item.key === type) {
+          btn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm';
+        } else {
+          btn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
+        }
+      });
+
       const layerButtons = [
         { id: 'btn-layer-airs-precip', key: 'airs_precip' },
         { id: 'btn-layer-sat-live-ir', key: 'sat_live_ir' },
@@ -5765,7 +5789,7 @@
 
       if (type === 'radar') {
         if (ctrlStrip) ctrlStrip.classList.remove('hidden');
-        if (statusPill) statusPill.innerText = 'Режим: Наземный радар (СНГ и ЕС)';
+        if (statusPill) statusPill.innerText = 'Наземный радар осадков (RainViewer HD)';
         if (satLayer) {
           try { radarMap.removeLayer(satLayer); } catch(e) {}
         }
@@ -5789,85 +5813,23 @@
       }
     }
 
-    let isWindyMode = true; // Default to official Windy HD to eliminate pixelated ground radar tiles
-    let activeWindyOverlay = 'radar';
-
+    // Stub functions ensuring backward compatibility with any leftover references
+    let isWindyMode = false;
     function setWindyOverlay(overlay) {
-      isWindyMode = true;
-      activeWindyOverlay = overlay;
-      applyRadarDisplayMode();
+      if (overlay === 'radar') switchWeatherLayer('radar');
+      else if (overlay === 'satellite') switchWeatherLayer('sat_live_ir');
+      else if (overlay === 'wind') toggleWindParticles();
+      else switchWeatherLayer('airs_precip');
     }
-
     function toggleWindyMode() {
-      isWindyMode = !isWindyMode;
-      applyRadarDisplayMode();
+      // Toggle to native Leaflet map
+      if (radarMap) radarMap.invalidateSize();
     }
-
     function applyRadarDisplayMode() {
-      const frame = document.getElementById('windy-embed-frame');
+      // Native Leaflet display is always active
       const rMap = document.getElementById('radar-map');
-      const wCanvas = document.getElementById('windy-particle-canvas');
-      const statusPill = document.getElementById('observatory-status-pill');
-      const ctrlStrip = document.getElementById('radar-controls-strip');
-
-      // Update Top Windy Layer Buttons
-      const windyLayers = ['radar', 'satellite', 'wind', 'rain', 'temp'];
-      windyLayers.forEach(lyr => {
-        const btn = document.getElementById(`windy-btn-${lyr}`);
-        if (btn) {
-          if (isWindyMode && activeWindyOverlay === lyr) {
-            btn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-md';
-          } else {
-            btn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
-          }
-        }
-      });
-      const portalBtn = document.getElementById('windy-btn-portal');
-      if (portalBtn) {
-        if (!isWindyMode) {
-          portalBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow-md';
-        } else {
-          portalBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
-        }
-      }
-
-      const lat = (latestData && latestData.lat) ? latestData.lat : ((lastCoords && lastCoords.lat) ? lastCoords.lat : 55.75);
-      const lon = (latestData && latestData.lon) ? latestData.lon : ((lastCoords && lastCoords.lon) ? lastCoords.lon : 37.62);
-
-      if (isWindyMode) {
-        if (frame) {
-          const newSrc = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=m%2Fs&zoom=6&overlay=${activeWindyOverlay}&product=ecmwf&level=surface&lat=${lat}&lon=${lon}&message=true`;
-          if (frame.getAttribute('data-loaded-src') !== newSrc) {
-            frame.src = newSrc;
-            frame.setAttribute('data-loaded-src', newSrc);
-          }
-          frame.classList.remove('hidden');
-        }
-        if (rMap) rMap.style.display = 'none';
-        if (wCanvas) wCanvas.style.display = 'none';
-        if (ctrlStrip) ctrlStrip.classList.add('hidden');
-        if (statusPill) {
-          const titles = {
-            'radar': 'Радар осадков Windy HD (Doppler 4K)',
-            'satellite': 'Спутник HD (ECMWF & EUMETSAT)',
-            'wind': 'Ветровые потоки 60 FPS (ECMWF)',
-            'rain': 'Накопление осадков и грозы',
-            'temp': 'Термокарта приземного слоя'
-          };
-          statusPill.innerText = titles[activeWindyOverlay] || 'Windy HD 60 FPS';
-        }
-      } else {
-        if (frame) {
-          frame.classList.add('hidden');
-        }
-        if (rMap) rMap.style.display = 'block';
-        if (wCanvas && showWindParticles) wCanvas.style.display = 'block';
-        if (radarMap) radarMap.invalidateSize();
-        if (statusPill) {
-          statusPill.innerText = activeWeatherLayer === 'airs_precip' ? 'Спутниковые осадки NASA (РФ 100%)' : 'Спутник ИК 24/7';
-        }
-        if (activeWeatherLayer === 'radar' && ctrlStrip) ctrlStrip.classList.remove('hidden');
-      }
+      if (rMap) rMap.style.display = 'block';
+      if (radarMap) radarMap.invalidateSize();
     }
 
     function switchRadarPalette(pal) {
@@ -5921,6 +5883,7 @@
 
     const REGION_PRESETS = {
       'current': { getCoords: () => (latestData ? [latestData.lat, latestData.lon, 8] : [55.75, 37.62, 8]) },
+      'crimea': { lat: 44.95, lon: 34.10, zoom: 8 },
       'moscow': { lat: 55.7558, lon: 37.6173, zoom: 8 },
       'spb': { lat: 59.9343, lon: 30.3351, zoom: 8 },
       'sochi': { lat: 43.5855, lon: 39.7231, zoom: 8 },
@@ -5947,14 +5910,6 @@
       }
       if (radarMap) {
         radarMap.flyTo([lt, ln], z, { duration: 1.2 });
-      }
-      if (isWindyMode) {
-        const frame = document.getElementById('windy-embed-frame');
-        if (frame) {
-          const newSrc = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=default&metricTemp=default&metricWind=m%2Fs&zoom=${z}&overlay=${activeWindyOverlay}&product=ecmwf&level=surface&lat=${lt}&lon=${ln}&message=true`;
-          frame.src = newSrc;
-          frame.setAttribute('data-loaded-src', newSrc);
-        }
       }
     }
 
@@ -11685,16 +11640,19 @@
 
     function toggleWindParticles() {
       showWindParticles = !showWindParticles;
+      const topBtn = document.getElementById('btn-top-wind');
       const btn = document.getElementById('btn-windy-particles');
       const dockPBtn = document.getElementById('dock-btn-particles');
       const dockPStat = document.getElementById('dock-particles-status');
       if (showWindParticles) {
+        if (topBtn) topBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950 shadow-sm';
         if (btn) btn.className = 'px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 windy-stream-btn-active';
         if (dockPBtn) dockPBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-sky-950 text-sky-300 border border-sky-600/50';
         if (dockPStat) dockPStat.innerText = 'ВКЛ';
         if (windCanvas) windCanvas.style.display = 'block';
         animateWindParticles();
       } else {
+        if (topBtn) topBtn.className = 'shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
         if (btn) btn.className = 'px-3 py-1 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-slate-800/90 text-slate-300 hover:bg-slate-700';
         if (dockPBtn) dockPBtn.className = 'px-2 py-1 rounded-lg text-[10px] font-mono flex items-center justify-between transition bg-slate-900 text-slate-400 hover:text-white';
         if (dockPStat) dockPStat.innerText = 'ВЫКЛ';
