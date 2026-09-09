@@ -149,6 +149,86 @@
       transform: translateY(-1px);
     }
 
+    /* Premium Form Controls & Selects */
+    .meteo-select {
+      background: rgba(15, 23, 42, 0.7);
+      color: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 0.75rem;
+      padding: 0.45rem 2.2rem 0.45rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.2s ease;
+    }
+    .meteo-select:hover {
+      border-color: #38bdf8;
+      background-color: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+    }
+    .meteo-select:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.35);
+    }
+    html.light .meteo-select {
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #cbd5e1;
+    }
+    html.light .meteo-select:hover {
+      border-color: #0284c7;
+      background-color: #f8fafc;
+      box-shadow: 0 0 8px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Layer Toggle Pill in Toolbar */
+    .toggle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.38rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      border-radius: 9999px;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(15, 23, 42, 0.5);
+      color: #94a3b8;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .toggle-pill.active {
+      background: rgba(2, 132, 199, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+    }
+    html.light .toggle-pill {
+      background: #f1f5f9;
+      color: #64748b;
+      border-color: #cbd5e1;
+    }
+    html.light .toggle-pill.active {
+      background: #e0f2fe;
+      border-color: #0284c7;
+      color: #0369a1;
+      box-shadow: 0 0 6px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Polygon Styling with smooth glowing borders */
+    .region-polygon {
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.35));
+      transition: all 0.25s ease;
+    }
+    .isoline-band {
+      transition: all 0.25s ease;
+    }
+
     /* Toolbar Pills (Timeline, Metrics, Models) */
     .pill-opt {
       padding: 0.42rem 0.85rem;
@@ -404,113 +484,97 @@
       </div>
     </div>
 
-    <!-- ================= MASTER CONTROLS TOOLBAR RIBBON ================= -->
-    <div class="glass-panel p-4 sm:p-5 space-y-3.5">
-      
-      <!-- Row 1: Timeline / Decades Horizon -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">Период:</span>
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-            <button onclick="setDecade(1)" id="btn-dec-1" class="pill-opt pill-opt-inactive">
-              1-я дек (1–10 сен)
-            </button>
-            <button onclick="setDecade(2)" id="btn-dec-2" class="pill-opt pill-opt-inactive">
-              2-я дек (11–20 сен)
-            </button>
-            <button onclick="setDecade(3)" id="btn-dec-3" class="pill-opt pill-opt-active">
-              3-я дек (21–30 сен) ★
-            </button>
-            <button onclick="setDecade(0)" id="btn-dec-0" class="pill-opt pill-opt-inactive">
-              Сентябрь 2026 (Месяц)
-            </button>
-            <button onclick="setDecade(10)" id="btn-dec-10" class="pill-opt pill-opt-inactive">
-              Октябрь 2026
-            </button>
-            <button onclick="setDecade(11)" id="btn-dec-11" class="pill-opt pill-opt-inactive">
-              Ноябрь 2026
-            </button>
-            <button onclick="setDecade(12)" id="btn-dec-12" class="pill-opt pill-opt-inactive">
-              Зима 2026/27
-            </button>
-          </div>
-        </div>
+    <!-- ================= STREAMLINED MASTER CONTROLS TOOLBAR ================= -->
+    <div class="glass-panel p-4 sm:p-5 space-y-3.5 border border-slate-200/80 dark:border-slate-800/80 shadow-lg">
 
-        <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 shrink-0">
-          Базовый период норм: <strong class="text-slate-700 dark:text-slate-200">WMO 1991–2020 гг.</strong>
-        </div>
-      </div>
-
-      <!-- Row 2: Metric Toggle & Model Selector -->
+      <!-- Row 1: Primary Controls (Timeline Pills + Metric Switcher) -->
       <div class="flex flex-wrap items-center justify-between gap-3">
-        
-        <!-- Metric Selector -->
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">Метрика:</span>
-          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900 p-1 border border-slate-200 dark:border-slate-800">
-            <button onclick="setMetric('temp')" id="btn-metric-temp" class="pill-opt pill-opt-active !py-1.5 !px-3">
-              🌡️ Аномалия температуры (°C)
+
+        <!-- Timeline Segmented Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
+            📅 Период:
+          </span>
+          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 shrink-0">
+            <button onclick="setDecade(1)" id="btn-dec-1" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">1-я дек</button>
+            <button onclick="setDecade(2)" id="btn-dec-2" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">2-я дек</button>
+            <button onclick="setDecade(3)" id="btn-dec-3" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs">3-я дек ★</button>
+            <button onclick="setDecade(0)" id="btn-dec-0" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Сентябрь</button>
+            <button onclick="setDecade(10)" id="btn-dec-10" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Октябрь</button>
+            <button onclick="setDecade(11)" id="btn-dec-11" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Ноябрь</button>
+            <button onclick="setDecade(12)" id="btn-dec-12" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Зима</button>
+          </div>
+        </div>
+
+        <!-- Metric Toggle: Temp vs Precip -->
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800">
+            <button onclick="setMetric('temp')" id="btn-metric-temp" class="pill-opt pill-opt-active !py-1 !px-3 !text-xs flex items-center gap-1.5">
+              <span>🌡️</span>
+              <span>Температура (°C)</span>
             </button>
-            <button onclick="setMetric('precip')" id="btn-metric-precip" class="pill-opt pill-opt-inactive !py-1.5 !px-3">
-              💧 Осадки (% от нормы)
+            <button onclick="setMetric('precip')" id="btn-metric-precip" class="pill-opt pill-opt-inactive !py-1 !px-3 !text-xs flex items-center gap-1.5">
+              <span>💧</span>
+              <span>Осадки (%)</span>
             </button>
           </div>
         </div>
 
-        <!-- Model Selector -->
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
-          <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 mr-1">Модель:</span>
-          <button onclick="setModel('ecmwf')" id="btn-model-ecmwf" class="pill-opt pill-opt-active" title="ECMWF SEAS5 — Мировой эталон Copernicus C3S">
-            🇪🇺 ECMWF SEAS5
-          </button>
-          <button onclick="setModel('consensus')" id="btn-model-consensus" class="pill-opt pill-opt-inactive" title="Мультимодельный консенсус ведущих центров WMO">
-            🌐 Консенсус ВМО
-          </button>
-          <button onclick="setModel('ukmo')" id="btn-model-ukmo" class="pill-opt pill-opt-inactive" title="UKMO GloSea6 — Служба погоды Великобритании">
-            🇬🇧 UKMO
-          </button>
-          <button onclick="setModel('jma')" id="btn-model-jma" class="pill-opt pill-opt-inactive" title="JMA CPS3 — Метеоагентство Японии">
-            🇯🇵 JMA CPS3
-          </button>
-          <button onclick="setModel('cfsv2')" id="btn-model-cfsv2" class="pill-opt pill-opt-inactive" title="NOAA CFSv2 — NCEP США">
-            🇺🇸 NOAA CFSv2
-          </button>
-          <button onclick="setModel('meteoinfo')" id="btn-model-meteoinfo" class="pill-opt pill-opt-inactive" title="Росгидромет / meteoinfo.ru — Метод климатических аналогов">
-            🇷🇺 Росгидромет
-          </button>
-        </div>
-
       </div>
 
-      <!-- Row 3: Map Overlays & Geographic Quick Zoom -->
-      <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1 border-t border-slate-200 dark:border-slate-800">
-        
-        <!-- Layer Toggles -->
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">Слои:</span>
-          <button onclick="toggleContourLayer()" id="btn-layer-contour" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs" title="Картограмма непрерывных изоаномал температуры и осадков по стандарту Гидрометцентра России">
-            🌡️ Изоаномалы (Гидрометцентр): ВКЛ
-          </button>
-          <button onclick="toggleRegionsLayer()" id="btn-layer-regions" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs" title="Границы климатических и административных регионов РФ и мира">
-            🗺️ Регионы РФ: ВКЛ
-          </button>
-          <button onclick="toggleWindParticles()" id="btn-layer-wind" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs" title="Анимированные струйные течения и потоки ветра">
-            🌀 Потоки ветра: ВКЛ
-          </button>
-          <button onclick="togglePressureCenters()" id="btn-layer-pressure" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs" title="Барические центры (Антициклоны H и Циклоны L)">
-            🔲 Центры давления (H / L): ВКЛ
-          </button>
+      <!-- Row 2: Compact Dropdown Selectors & Clean Layer Toggles -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-200 dark:border-slate-800/80">
+
+        <!-- Left: Model Selector & Quick Region Focus Dropdowns -->
+        <div class="flex flex-wrap items-center gap-2.5 sm:gap-3.5">
+
+          <!-- Model Dropdown -->
+          <div class="flex items-center gap-1.5">
+            <label for="select-model" class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">
+              Модель:
+            </label>
+            <select id="select-model" onchange="onModelSelectChange(this.value)" class="meteo-select">
+              <option value="ecmwf" selected>🇪🇺 ECMWF SEAS5 (Эталон C3S)</option>
+              <option value="consensus">🌐 Консенсус ВМО (Мультиансамбль)</option>
+              <option value="ukmo">🇬🇧 UKMO GloSea6 (Великобритания)</option>
+              <option value="jma">🇯🇵 JMA CPS3 (Япония)</option>
+              <option value="cfsv2">🇺🇸 NOAA CFSv2 (США)</option>
+              <option value="meteoinfo">🇷🇺 Росгидромет (Аналоги)</option>
+            </select>
+          </div>
+
+          <!-- Quick Region Focus Dropdown -->
+          <div class="flex items-center gap-1.5">
+            <label for="select-region-zoom" class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0">
+              Фокус:
+            </label>
+            <select id="select-region-zoom" onchange="zoomToRegion(this.value)" class="meteo-select">
+              <option value="russia">🇷🇺 Вся Россия</option>
+              <option value="arctic" selected>❄️ Арктика & Таймыр (Эпицентр)</option>
+              <option value="europe">🏛️ Европейская часть РФ</option>
+              <option value="siberia">🌲 Урал & Сибирь</option>
+              <option value="fareast">🌊 Дальний Восток</option>
+              <option value="world">🌍 Северное полушарие</option>
+            </select>
+          </div>
+
         </div>
 
-        <!-- Quick Region Focus -->
-        <div class="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5 text-xs font-mono">
-          <span class="text-slate-400 dark:text-slate-500 text-[11px] shrink-0 mr-1">Регион:</span>
-          <button onclick="zoomToRegion('russia')" class="btn-action !py-1 !px-2 !text-xs">🇷🇺 Вся Россия</button>
-          <button onclick="zoomToRegion('europe')" class="btn-action !py-1 !px-2 !text-xs">Европейская часть</button>
-          <button onclick="zoomToRegion('siberia')" class="btn-action !py-1 !px-2 !text-xs">Урал & Сибирь</button>
-          <button onclick="zoomToRegion('arctic')" class="btn-action !py-1 !px-2 !text-xs font-bold text-sky-600 dark:text-sky-300">Арктика & Таймыр</button>
-          <button onclick="zoomToRegion('fareast')" class="btn-action !py-1 !px-2 !text-xs">Дальний Восток</button>
-          <button onclick="zoomToRegion('world')" class="btn-action !py-1 !px-2 !text-xs">Северное полушарие</button>
+        <!-- Right: Intuitive Layer Switches -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1">Слои:</span>
+          <button onclick="toggleContourLayer()" id="btn-layer-contour" class="toggle-pill active" title="Плавные изолинии метеорологических аномалий">
+            <span>🌡️</span> Изоаномалы
+          </button>
+          <button onclick="toggleRegionsLayer()" id="btn-layer-regions" class="toggle-pill active" title="Административные и климатические регионы">
+            <span>🗺️</span> Регионы
+          </button>
+          <button onclick="toggleWindParticles()" id="btn-layer-wind" class="toggle-pill active" title="Анимированные струйные течения атмосферы">
+            <span>🌀</span> Ветер
+          </button>
+          <button onclick="togglePressureCenters()" id="btn-layer-pressure" class="toggle-pill active" title="Барические центры (Антициклоны H и Циклоны L)">
+            <span>🔘</span> Давление H/L
+          </button>
         </div>
 
       </div>
@@ -848,6 +912,46 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- ================= LEGAL NOTICE & METHODOLOGY (ЮРИДИЧЕСКИЙ ДИСКЛЕЙМЕР) ================= -->
+    <div class="glass-panel p-4 sm:p-6 space-y-4 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+      <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 font-bold font-mono text-sm">
+        <span class="text-lg">⚖️</span>
+        <h3>Правовой статус данных, дисклеймер и источники информации</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-2">
+          <h4 class="font-bold font-mono text-xs uppercase text-sky-600 dark:text-sky-400">
+            1. Правовой статус и некоммерческий характер
+          </h4>
+          <p>
+            Настоящий интерактивный аналитический модуль носит <strong>исключительно научно-исследовательский, сравнительный и научно-популярный характер</strong>. Ресурс не является органом Федеральной службы по гидрометеорологии и мониторингу окружающей среды (Росгидромет), не осуществляет лицензируемую гидрометеорологическую деятельность в понимании <em>Федерального закона РФ № 113-ФЗ «О гидрометеорологической службе»</em> и не распространяет официальные прогнозы погоды общего назначения.
+          </p>
+          <p>
+            Представленные картограммы и модельные расчеты получены путем математической постобработки открытых данных и не предназначены для принятия оперативных, навигационных, строительных или хозяйственных решений, способных повлечь материальный ущерб или риски безопасности. Официальные прогнозы и штормовые предупреждения публикуются на официальном сайте: <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 underline font-semibold">ФГБУ «Гидрометцентр России»</a>.
+          </p>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-bold font-mono text-xs uppercase text-sky-600 dark:text-sky-400">
+            2. Источники открытых данных (Open Data Attribution)
+          </h4>
+          <ul class="list-disc pl-4 space-y-1">
+            <li><strong>ECMWF SEAS5:</strong> Европейский центр среднесрочных прогнозов погоды (Copernicus Climate Change Service / ECMWF Open Data Licence).</li>
+            <li><strong>UKMO GloSea6:</strong> Численная сезонная система Met Office (Великобритания), открытый исследовательский обмен ВМО.</li>
+            <li><strong>NOAA / NCEP CFSv2:</strong> Национальное управление океанических и атмосферных исследований США (Public Domain).</li>
+            <li><strong>JMA CPS3:</strong> Метеорологическое агентство Японии (Токио), открытые массивы данных ансамблевого моделирования.</li>
+            <li><strong>Климатические нормы:</strong> Всемирная метеорологическая организация (WMO Climatological Normals 1991–2020 гг.).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 flex flex-wrap items-center justify-between gap-2">
+        <div>Научная методика: <strong>Сравнительный гидродинамический анализ ансамблей циркуляции океана и атмосферы.</strong></div>
+        <div class="font-mono">Лицензия материалов: Creative Commons Attribution (CC-BY 4.0)</div>
       </div>
     </div>
 
@@ -1751,11 +1855,12 @@
 
         var poly = L.polygon(iso.coords, {
           color: fillColor,
-          weight: 2,
-          opacity: 0.9,
+          weight: 1.5,
+          opacity: 0.85,
           fillColor: fillColor,
-          fillOpacity: 0.38,
-          dashArray: (val < 0 ? '5, 4' : null),
+          fillOpacity: 0.26,
+          smoothFactor: 3.0,
+          dashArray: (val < 0 ? '4, 4' : null),
           className: 'isoline-band'
         }).addTo(map);
 
@@ -1789,10 +1894,11 @@
 
         var poly = L.polygon(r.coords, {
           color: fillColor,
-          weight: 1.8,
-          opacity: 0.75,
+          weight: 1.2,
+          opacity: 0.65,
           fillColor: fillColor,
-          fillOpacity: 0.28,
+          fillOpacity: 0.18,
+          smoothFactor: 2.5,
           className: 'region-polygon'
         }).addTo(map);
 
@@ -2307,6 +2413,90 @@
       updateHUD();
       inspectRegion(activeRegionKey, activeStationId);
     }
+
+    // Sync Model Select Dropdown
+    function onModelSelectChange(val) {
+      setModel(val);
+    }
+
+    // Wrap setModel to update select element if called programmatically
+    var origSetModel = setModel;
+    setModel = function(model) {
+      currentModel = model;
+      var sel = document.getElementById('select-model');
+      if (sel && sel.value !== model) sel.value = model;
+
+      ['ecmwf', 'consensus', 'ukmo', 'jma', 'cfsv2', 'meteoinfo'].forEach(function(m) {
+        var btn = document.getElementById('btn-model-' + m);
+        if (btn) {
+          btn.className = (m === model) ? 'pill-opt pill-opt-active' : 'pill-opt pill-opt-inactive';
+        }
+      });
+      renderIsolines();
+      renderChoropleth();
+      renderStationMarkers();
+      updateHUD();
+      inspectRegion(activeRegionKey, activeStationId);
+    };
+
+    // Update toggle button states for clean pills
+    var origToggleContourLayer = toggleContourLayer;
+    toggleContourLayer = function() {
+      isContourEnabled = !isContourEnabled;
+      var btn = document.getElementById('btn-layer-contour');
+      if (btn) {
+        if (isContourEnabled) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+      renderIsolines();
+    };
+
+    var origToggleRegionsLayer = toggleRegionsLayer;
+    toggleRegionsLayer = function() {
+      isRegionsEnabled = !isRegionsEnabled;
+      var btn = document.getElementById('btn-layer-regions');
+      if (btn) {
+        if (isRegionsEnabled) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+      renderChoropleth();
+    };
+
+    var origToggleWindParticles = toggleWindParticles;
+    toggleWindParticles = function() {
+      isWindEnabled = !isWindEnabled;
+      var btn = document.getElementById('btn-layer-wind');
+      if (btn) {
+        if (isWindEnabled) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+      var canvas = document.getElementById('wind-canvas');
+      if (canvas) canvas.style.display = isWindEnabled ? 'block' : 'none';
+    };
+
+    var origTogglePressureCenters = togglePressureCenters;
+    togglePressureCenters = function() {
+      isPressureEnabled = !isPressureEnabled;
+      var btn = document.getElementById('btn-layer-pressure');
+      if (btn) {
+        if (isPressureEnabled) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+      renderPressureCenters();
+    };
+
 
     function toggleContourLayer() {
       isContourEnabled = !isContourEnabled;
