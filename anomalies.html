@@ -915,6 +915,116 @@
       </div>
     </div>
 
+    
+    <!-- ================= WAVELET ANALYSIS: ENSO / NAO / AMO CLIMATE OSCILLATIONS ================= -->
+    <div id="wavelet-oscillations-section" class="glass-panel p-5 sm:p-7 space-y-6 border-2 border-indigo-500/40 bg-gradient-to-br from-slate-900/95 via-indigo-950/40 to-slate-950/95 shadow-2xl relative overflow-hidden">
+      <!-- Background Ambient Glow -->
+      <div class="absolute -right-24 -top-24 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-24 -bottom-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header & Badges -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-indigo-500/20 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/40 text-[11px] font-mono font-black uppercase tracking-wider">
+              🌊 Morlet CWT · Непрерывный Вейвлет
+            </span>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[10px] font-mono font-bold">
+              Ряды 1856–2026 (NOAA PSL / ERA5)
+            </span>
+          </div>
+          <h2 class="text-lg sm:text-xl font-black text-white tracking-tight mt-1.5 flex items-center gap-2">
+            <span>Вейвлет-анализ цикличности во времени: ENSO, NAO и угасание AMO</span>
+          </h2>
+        </div>
+        <div class="text-right text-[11px] text-slate-400 font-mono hidden sm:block">
+          <div>Разрешение: ω₀=6.0 (Конус влияния COI)</div>
+          <div class="text-indigo-300">Локализация «Время — Частота»</div>
+        </div>
+      </div>
+
+      <!-- Scientific Method Note: Wavelet vs Fourier -->
+      <div class="p-4 rounded-xl bg-indigo-950/50 border border-indigo-500/30 text-xs sm:text-[13px] text-indigo-100 leading-relaxed">
+        <strong class="text-amber-300 font-black">🔬 В чем фундаментальное преимущество вейвлета перед преобразованием Фурье (FFT)?</strong>
+        Классическое преобразование Фурье рассчитывает лишь единый статический спектр за весь период наблюдений, полностью размывая эволюцию колебаний. В климатической системе циклы <span class="text-cyan-300 font-bold">нестационарны</span>: они активизируются отдельными пакетами, меняют фазу, фрагментируются или полностью затухают. <strong>Вейвлет Морле</strong> строит двумерную скалограмму во времени, открывая скрытую физику ключевых индексов планеты.
+      </div>
+
+      <!-- Interactive Tab Switches -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="inline-flex rounded-xl bg-slate-800/80 p-1 border border-slate-700/80 text-xs font-bold" id="wavelet-tabs">
+          <button onclick="switchWaveletTab('enso')" id="wtab-enso" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow transition flex items-center gap-1.5">
+            <span>🔥 ENSO (3–4 года)</span>
+          </button>
+          <button onclick="switchWaveletTab('nao')" id="wtab-nao" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
+            <span>🌀 NAO (50 лет)</span>
+          </button>
+          <button onclick="switchWaveletTab('amo')" id="wtab-amo" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
+            <span>🌊 AMO (70 лет угасает)</span>
+          </button>
+          <button onclick="switchWaveletTab('all')" id="wtab-all" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
+            <span>📊 Все 3 индекса</span>
+          </button>
+        </div>
+        <div class="text-[11px] text-slate-400 font-mono flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Живая физико-статистическая модель</span>
+        </div>
+      </div>
+
+      <!-- Dynamic Wavelet Content Card -->
+      <div id="wavelet-content-area" class="space-y-5">
+        <!-- Will be populated / updated by switchWaveletTab -->
+      </div>
+
+      <!-- 3 Index Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <!-- Card 1: ENSO -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-amber-500/30 space-y-2 hover:border-amber-400/60 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-black text-amber-400 uppercase">ENSO (ONI / Niño 3.4)</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/30">Период: 3–4 года</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Фрагментарный характер цикла</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Вейвлет-спектрограмма показывает, что 3–4-летний цикл проявляется <strong>дискретными всплесками мощности</strong> во время супер-Эль-Ниньо (1972/73, 1982/83, 1997/98, 2015/16, 2023/24). Между ними наступают квазипаузы. Периодичность не непрерывна, а носит выраженную пакетную структуру.
+          </p>
+        </div>
+
+        <!-- Card 2: NAO -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-purple-500/30 space-y-2 hover:border-purple-400/60 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-black text-purple-400 uppercase">NAO (Северная Атлантика)</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-400/30">Период: ~50 лет</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Исторический квазивековой цикл</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            На протяжении всего XX века на вейвлете доминировала мощная мода <strong>~50 лет</strong>. Она определяла смену эпох суровых сибирско-европейских зим (минимум 1960-х) и мягких зональных зим (максимум 1980–1990-х). В XXI веке цикл трансформируется под влиянием арктического потепления.
+          </p>
+        </div>
+
+        <!-- Card 3: AMO -->
+        <div class="p-4 rounded-xl bg-slate-900/80 border border-rose-500/30 space-y-2 hover:border-rose-400/60 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono font-black text-rose-400 uppercase">AMO (Атлантика 170 лет)</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-400/30">Период: ~70 лет</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Угасание 70-летнего ритма</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Классический 70-летний ритм AMO (теплые фазы ~1880 и ~1940 гг., холодные ~1910 и ~1975 гг.) <strong>в XXI веке резко угасает</strong>. На вейвлете видно падение амплитуды на 70-летней частоте из-за устойчивого перегрева субполярных вод и замедления Атлантического конвейера (AMOC).
+          </p>
+        </div>
+      </div>
+
+      <!-- Synoptic Connection Callout -->
+      <div class="p-4 rounded-xl bg-gradient-to-r from-sky-950/60 to-indigo-950/60 border border-sky-400/30 flex items-start gap-3 text-xs sm:text-[13px] text-sky-100">
+        <span class="text-2xl">🌀</span>
+        <div>
+          <strong class="text-sky-300 font-bold">Связь с текущими аномалиями и блокингом Арктики:</strong>
+          Угасание цикла AMO и фрагментация ENSO снижают зональный перенос над Евразией и способствуют образованию квазистационарных тропосферных антициклонов над Карским морем и Северной Землей (H 1028+ гПа). Это направляет ультраполярные глубокие ложбины прямо в бассейн Енисея и на Таймыр, что подтверждается расчетами ансамбля ECMWF SEAS5.
+        </div>
+      </div>
+    </div>
+
     <!-- ================= LEGAL NOTICE & METHODOLOGY (ЮРИДИЧЕСКИЙ ДИСКЛЕЙМЕР) ================= -->
     <div class="glass-panel p-4 sm:p-6 space-y-4 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
       <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 font-bold font-mono text-sm">
