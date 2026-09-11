@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛠️ Конструктор МетеоПортала — Визуальная студия настройки</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Onest', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Onest', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    .custom-scroll::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+    .preview-frame {
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased select-none">
+
+  <!-- TOP APP BAR -->
+  <header class="h-16 border-b border-slate-800 bg-slate-900/90 backdrop-blur-md px-4 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white font-black shadow-lg shadow-sky-500/20">
+        🛠️
+      </div>
+      <div>
+        <h1 class="text-sm font-extrabold tracking-tight flex items-center gap-2">
+          <span>КОНСТРУКТОР МЕТЕОПОРТАЛА</span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">Meteo Studio v1.0</span>
+        </h1>
+        <p class="text-[11px] text-slate-400">Визуальная сборка и кастомизация компонентов без кодинга</p>
+      </div>
+    </div>
+
+    <!-- VIEWPORT SWITCHER -->
+    <div class="hidden md:flex items-center bg-slate-950/80 p-1 rounded-xl border border-slate-800 text-xs font-medium space-x-1">
+      <button onclick="setViewport('desktop')" id="vp-desktop" class="px-3 py-1.5 rounded-lg bg-sky-600 text-white font-semibold transition flex items-center gap-1.5 shadow-sm">
+        <span>🖥️</span> <span>ПК (100%)</span>
+      </button>
+      <button onclick="setViewport('tablet')" id="vp-tablet" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+        <span>📱</span> <span>Планшет (768px)</span>
+      </button>
+      <button onclick="setViewport('mobile')" id="vp-mobile" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+        <span>📲</span> <span>Смартфон (390px)</span>
+      </button>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="flex items-center space-x-2">
+      <button onclick="reloadPreview()" title="Перезагрузить окно предпросмотра" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-sm">
+        🔄
+      </button>
+
+      <button onclick="saveSiteToDisk()" id="btn-save" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-emerald-900/30 active:scale-95">
+        <span>💾</span>
+        <span>Сохранить сайт</span>
+      </button>
+
+      <button onclick="deployToGithub()" class="px-3.5 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+        <span>🚀</span>
+        <span class="hidden sm:inline">Опубликовать</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- LEFT SIDEBAR: CONTROLS & TOGGLES -->
+    <aside class="w-80 sm:w-96 border-r border-slate-800 bg-slate-900/60 backdrop-blur flex flex-col shrink-0 custom-scroll overflow-y-auto">
+      
+      <!-- TABS -->
+      <div class="p-3 border-b border-slate-800 flex gap-1 text-xs font-bold">
+        <button onclick="switchConfigTab('blocks')" id="tab-blocks-btn" class="flex-1 py-2 rounded-lg bg-slate-800 text-sky-400 shadow-sm transition">
+          🧩 Блоки сайта
+        </button>
+        <button onclick="switchConfigTab('style')" id="tab-style-btn" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition">
+          🎨 Стили и Тема
+        </button>
+        <button onclick="switchConfigTab('data')" id="tab-data-btn" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition">
+          📍 Города и Текст
+        </button>
+      </div>
+
+      <!-- TAB 1: BLOCKS -->
+      <div id="tab-blocks" class="p-4 space-y-3">
+        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold mb-2">
+          Включение и выключение разделов:
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>🏛️</span> <span>Верхняя шапка</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Логотип, ссылки, статус ВМО, донат</div>
+          </div>
+          <input type="checkbox" id="block-header" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>📌</span> <span>Плавающая инфо-лента</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Закрепленная полоса погоды при скролле</div>
+          </div>
+          <input type="checkbox" id="block-ribbon" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>🔍</span> <span>Поисковая строка</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Поиск городов и станций с автокомплитом</div>
+          </div>
+          <input type="checkbox" id="block-search" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>⭐</span> <span>Опорные станции ВМО</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Чипы быстрых станций (Восток, Диксон...)</div>
+          </div>
+          <input type="checkbox" id="block-stations" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>📑</span> <span>Панель вкладок</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Вкладки: Сейчас, Радар, Архив...</div>
+          </div>
+          <input type="checkbox" id="block-tabs" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>⚖️</span> <span>Юридический блок и подвал</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Дисклеймеры, 113-ФЗ, 152-ФЗ, контакты</div>
+          </div>
+          <input type="checkbox" id="block-footer" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+
+        <!-- BLOCK ITEM -->
+        <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 flex items-center justify-between hover:border-slate-700 transition">
+          <div>
+            <div class="text-xs font-bold flex items-center gap-1.5">
+              <span>📱</span> <span>Мобильное нижнее меню</span>
+            </div>
+            <div class="text-[10.5px] text-slate-400">Закрепленная полоса навигации внизу экрана</div>
+          </div>
+          <input type="checkbox" id="block-mobilenav" checked onchange="applyChanges()" class="w-4 h-4 accent-sky-500 rounded cursor-pointer">
+        </div>
+      </div>
+
+      <!-- TAB 2: STYLE -->
+      <div id="tab-style" class="p-4 space-y-4 hidden">
+        <div>
+          <label class="text-xs font-bold block mb-1.5 text-slate-200">Тема оформления по умолчанию</label>
+          <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+            <button type="button" onclick="setThemeOption('light')" id="theme-btn-light" class="p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white flex items-center justify-center gap-2">
+              <span>☀️</span> <span>Светлая</span>
+            </button>
+            <button type="button" onclick="setThemeOption('dark')" id="theme-btn-dark" class="p-2.5 rounded-xl border border-sky-500 bg-sky-500/20 text-sky-300 flex items-center justify-center gap-2">
+              <span>🌙</span> <span>Тёмная</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold block mb-1.5 text-slate-200">Начертание шрифта температуры</label>
+          <select id="style-font-weight" onchange="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+            <option value="font-bold">Гармоничное (font-bold)</option>
+            <option value="font-extrabold" selected>Плотное (font-extrabold)</option>
+            <option value="font-black">Сверхжирное (font-black)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold block mb-1.5 text-slate-200">Скругление карточек</label>
+          <select id="style-radius" onchange="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+            <option value="rounded-xl">Классическое (rounded-xl)</option>
+            <option value="rounded-2xl" selected>Современное (rounded-2xl)</option>
+            <option value="rounded-3xl">Мягкое (rounded-3xl)</option>
+          </select>
+        </div>
+
+        <div class="p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-[11px] text-emerald-300">
+          ✨ <strong>Скролл тачпадом:</strong> В сборке v2.6.5 скролл двумя пальцами полностью разблокирован и работает плавно на любом устройстве.
+        </div>
+      </div>
+
+      <!-- TAB 3: DATA & TEXT -->
+      <div id="tab-data" class="p-4 space-y-4 hidden">
+        <div>
+          <label class="text-xs font-bold block mb-1 text-slate-200">Название сайта (Brand)</label>
+          <input type="text" id="cfg-brand" value="МЕТЕОПОРТАЛ" oninput="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold block mb-1 text-slate-200">Опорный город при старте</label>
+          <input type="text" id="cfg-city" value="Москва" oninput="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold block mb-1 text-slate-200">Ссылка на Telegram</label>
+          <input type="text" id="cfg-tg" value="https://t.me/Danila_Vladimirovich_Ru" oninput="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold block mb-1 text-slate-200">Ссылка на ВКонтакте</label>
+          <input type="text" id="cfg-vk" value="https://vk.com/club241257551" oninput="applyChanges()" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2 text-xs text-slate-200">
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT: LIVE PREVIEW AREA -->
+    <main class="flex-1 bg-slate-950 flex flex-col items-center justify-start p-3 sm:p-5 overflow-auto custom-scroll">
+      <div id="preview-wrapper" class="preview-frame w-full h-full max-w-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 flex flex-col">
+        <!-- FRAME HEADER -->
+        <div class="h-8 bg-slate-900 border-b border-slate-800 px-3 flex items-center justify-between text-[11px] text-slate-400 shrink-0">
+          <div class="flex items-center space-x-1.5">
+            <div class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
+          </div>
+          <div class="font-mono text-[10px] bg-slate-950 px-3 py-0.5 rounded-md border border-slate-800 text-slate-400 flex items-center gap-1">
+            <span>🔒</span> <span id="frame-url">https://meteocenter-rf.github.io/</span>
+          </div>
+          <div class="text-[10.5px] font-mono text-emerald-400 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Живой предпросмотр</span>
+          </div>
+        </div>
+
+        <!-- IFRAME -->
+        <iframe id="preview-iframe" src="index.html" class="w-full flex-1 border-0 bg-white dark:bg-slate-950"></iframe>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 text-xs font-bold">
+      <span class="text-base">✅</span>
+      <span id="toast-text">Сайт успешно сохранен!</span>
+    </div>
+  </div>
+
+  <script>
+    let currentTheme = 'dark';
+
+    function setViewport(mode) {
+      const wrap = document.getElementById('preview-wrapper');
+      const btns = {
+        desktop: document.getElementById('vp-desktop'),
+        tablet: document.getElementById('vp-tablet'),
+        mobile: document.getElementById('vp-mobile')
+      };
+
+      for (let k in btns) {
+        btns[k].classList.remove('bg-sky-600', 'text-white', 'font-semibold');
+        btns[k].classList.add('text-slate-400');
+      }
+
+      btns[mode].classList.remove('text-slate-400');
+      btns[mode].classList.add('bg-sky-600', 'text-white', 'font-semibold');
+
+      if (mode === 'desktop') {
+        wrap.style.width = '100%';
+      } else if (mode === 'tablet') {
+        wrap.style.width = '768px';
+      } else if (mode === 'mobile') {
+        wrap.style.width = '390px';
+      }
+    }
+
+    function switchConfigTab(tab) {
+      const tabs = ['blocks', 'style', 'data'];
+      tabs.forEach(t => {
+        document.getElementById(`tab-${t}`).classList.add('hidden');
+        document.getElementById(`tab-${t}-btn`).classList.remove('bg-slate-800', 'text-sky-400');
+        document.getElementById(`tab-${t}-btn`).classList.add('text-slate-400');
+      });
+
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+      document.getElementById(`tab-${tab}-btn`).classList.add('bg-slate-800', 'text-sky-400');
+      document.getElementById(`tab-${tab}-btn`).classList.remove('text-slate-400');
+    }
+
+    function setThemeOption(th) {
+      currentTheme = th;
+      const bLight = document.getElementById('theme-btn-light');
+      const bDark = document.getElementById('theme-btn-dark');
+
+      if (th === 'dark') {
+        bDark.className = 'p-2.5 rounded-xl border border-sky-500 bg-sky-500/20 text-sky-300 flex items-center justify-center gap-2';
+        bLight.className = 'p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 flex items-center justify-center gap-2';
+      } else {
+        bLight.className = 'p-2.5 rounded-xl border border-sky-500 bg-sky-500/20 text-sky-300 flex items-center justify-center gap-2';
+        bDark.className = 'p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-slate-400 flex items-center justify-center gap-2';
+      }
+      applyChanges();
+    }
+
+    function reloadPreview() {
+      const iframe = document.getElementById('preview-iframe');
+      iframe.src = iframe.src;
+    }
+
+    function applyChanges() {
+      const iframe = document.getElementById('preview-iframe');
+      if (!iframe || !iframe.contentWindow || !iframe.contentDocument) return;
+
+      const doc = iframe.contentDocument;
+
+      // Theme
+      if (currentTheme === 'dark') {
+        doc.documentElement.classList.add('dark');
+        doc.documentElement.classList.remove('light');
+      } else {
+        doc.documentElement.classList.remove('dark');
+        doc.documentElement.classList.add('light');
+      }
+
+      // Blocks visibility
+      const toggles = {
+        'block-header': doc.querySelector('header'),
+        'block-ribbon': doc.getElementById('sticky-ribbon'),
+        'block-search': doc.getElementById('search-form')?.parentElement,
+        'block-stations': doc.getElementById('stations-bar'),
+        'block-tabs': doc.getElementById('tabs-bar')?.parentElement,
+        'block-footer': doc.querySelector('footer'),
+        'block-mobilenav': doc.querySelector('nav.md\\:hidden')
+      };
+
+      for (let id in toggles) {
+        const el = toggles[id];
+        const chk = document.getElementById(id);
+        if (el && chk) {
+          el.style.display = chk.checked ? '' : 'none';
+        }
+      }
+
+      // Brand text
+      const brandInput = document.getElementById('cfg-brand').value;
+      const brandEl = doc.querySelector('header h1 span');
+      if (brandEl && brandInput) brandEl.innerText = brandInput;
+    }
+
+    async function saveSiteToDisk() {
+      const btn = document.getElementById('btn-save');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>⏳</span><span>Сохраняю...</span>';
+      btn.disabled = true;
+
+      const config = {
+        blocks: {
+          header: document.getElementById('block-header').checked,
+          ribbon: document.getElementById('block-ribbon').checked,
+          search: document.getElementById('block-search').checked,
+          stations: document.getElementById('block-stations').checked,
+          tabs: document.getElementById('block-tabs').checked,
+          footer: document.getElementById('block-footer').checked,
+          mobilenav: document.getElementById('block-mobilenav').checked,
+        },
+        theme: currentTheme,
+        fontWeight: document.getElementById('style-font-weight').value,
+        radius: document.getElementById('style-radius').value,
+        brandName: document.getElementById('cfg-brand').value,
+        defaultCity: document.getElementById('cfg-city').value,
+        telegram: document.getElementById('cfg-tg').value,
+        vk: document.getElementById('cfg-vk').value,
+      };
+
+      try {
+        const res = await fetch('/api/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(config)
+        });
+
+        if (res.ok) {
+          showToast('✅ Сайт успешно сохранен в ГОТОВО_ДЛЯ_GITHUB_PAGES!');
+          reloadPreview();
+        } else {
+          fallbackDownload();
+        }
+      } catch (err) {
+        fallbackDownload();
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    function fallbackDownload() {
+      showToast('📥 Файл index.html скачан в папку Загрузки!');
+      const iframe = document.getElementById('preview-iframe');
+      if (iframe && iframe.contentDocument) {
+        const html = '<!DOCTYPE html>\n' + iframe.contentDocument.documentElement.outerHTML;
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'index.html';
+        a.click();
+      }
+    }
+
+    async function deployToGithub() {
+      try {
+        await fetch('/api/deploy', { method: 'POST' });
+        showToast('🚀 Страница загрузки GitHub и папка открыты!');
+      } catch (e) {
+        window.open('https://github.com/meteocenter-rf/meteocenter-rf.github.io/upload/main', '_blank');
+      }
+    }
+
+    function showToast(text) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = text;
+      t.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        t.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    document.getElementById('preview-iframe').addEventListener('load', () => {
+      applyChanges();
+    });
+  </script>
+</body>
+</html>
