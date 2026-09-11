@@ -4199,13 +4199,13 @@
             lat = st.lt;
             lon = st.ln;
             tz = st.tz || 'auto';
-            cityName = Станция WMO  ();
+            cityName = `Станция WMO ${lowerCity} (${st.n})`;
             region = 'Всемирная метеорологическая организация';
           } else {
-            throw new Error(Станция WMO  не найдена в международном реестре.);
+            throw new Error(`Станция WMO ${lowerCity} не найдена в международном реестре.`);
           }
         } catch (e) {
-          if (!lat) throw new Error(e.message || Ошибка поиска станции WMO );
+          if (!lat) throw new Error(e.message || `Ошибка поиска станции WMO ${lowerCity}`);
         }
       } else if (pendingCityCoords && pendingCityCoords.lat != null) {
         lat = pendingCityCoords.lat;
