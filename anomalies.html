@@ -385,6 +385,36 @@
     ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
     html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
     html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  
+    /* Sleek Collapsible / Closable HUD Widget (Mobile & Desktop) */
+    #map-hud-box {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 26rem;
+    }
+    #map-hud-box.hud-hidden {
+      display: none !important;
+    }
+    #map-hud-box.hud-minimized #hud-content-body {
+      display: none !important;
+    }
+    #map-hud-box.hud-minimized {
+      padding: 0.4rem 0.65rem !important;
+      background: rgba(15, 23, 42, 0.90) !important;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    html.light #map-hud-box.hud-minimized {
+      background: rgba(255, 255, 255, 0.94) !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    #map-hud-reopen-btn {
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+    #map-hud-reopen-btn:hover {
+      transform: translateY(-2px);
+    }
+
   </style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
@@ -639,24 +669,48 @@
         <div id="map"></div>
         <canvas id="wind-canvas"></canvas>
 
-        <!-- Floating HUD Status Box (Bottom Left) -->
-        <div class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md z-[500] glass-panel p-3.5 sm:p-4 border border-slate-300 dark:border-slate-700 shadow-2xl text-xs space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <span id="hud-period" class="font-extrabold font-mono text-sky-600 dark:text-sky-400 uppercase tracking-wider text-[11px] sm:text-xs">
-              3-я декада: Ультраполярный прорыв в Сибирь
-            </span>
-            <span id="hud-anomaly-badge" class="px-2 py-0.5 rounded-md font-mono font-black bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40 text-xs shrink-0">
-              ΔT: -7.0°C (Таймыр)
-            </span>
+        <!-- Floating HUD Status Box (Bottom Left - Collapsible & Closable) -->
+        <div id="map-hud-box" class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md z-[500] glass-panel p-3.5 sm:p-4 border border-slate-300 dark:border-slate-700 shadow-2xl text-xs space-y-2 select-none">
+          <!-- HUD Header with Title, Badge and Controls (Arrow Down & Cross) -->
+          <div class="flex items-center justify-between gap-1.5 cursor-pointer" onclick="toggleHudCollapse()" title="Нажмите для сворачивания / разворачивания">
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span id="hud-status-icon" class="text-sky-500 font-bold text-xs shrink-0">🧭</span>
+              <span id="hud-period" class="font-extrabold font-mono text-sky-600 dark:text-sky-400 uppercase tracking-wider text-[11px] sm:text-xs truncate">
+                3-я декада: Ультраполярный прорыв в Сибирь
+              </span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <span id="hud-anomaly-badge" class="px-2 py-0.5 rounded-md font-mono font-black bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40 text-[10.5px] sm:text-xs">
+                ΔT: -7.0°C (Таймыр)
+              </span>
+              <!-- Arrow Down/Up button to minimize -->
+              <button onclick="event.stopPropagation(); toggleHudCollapse();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Свернуть вниз / Развернуть">
+                <span id="hud-collapse-arrow">▼</span>
+              </button>
+              <!-- Cross button to close completely -->
+              <button onclick="event.stopPropagation(); closeHudBox();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Полностью закрыть сводку (открыть карту)">
+                ✕
+              </button>
+            </div>
           </div>
-          <p id="hud-desc" class="text-slate-700 dark:text-slate-200 leading-relaxed font-sans text-xs">
-            Карский блокирующий антициклон (H, 1028 гПа) блокирует зональный перенос. В паре с полярной ложбиной (L, 998 гПа) над Енисеем формируется меридиональный коридор, обрушивающий ледяные массы Арктики на Таймыр и в Западную Сибирь.
-          </p>
-          <div class="pt-1.5 flex flex-wrap items-center justify-between font-mono text-[11px] text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 gap-1">
-            <span>Модель: <strong id="hud-model-name" class="text-slate-900 dark:text-white">ECMWF SEAS5</strong></span>
-            <span>Метрика: <strong id="hud-metric-name" class="text-sky-600 dark:text-sky-300">Аномалия ΔT (°C)</strong></span>
+
+          <!-- Collapsible Body Content -->
+          <div id="hud-content-body" class="space-y-2">
+            <p id="hud-desc" class="text-slate-700 dark:text-slate-200 leading-relaxed font-sans text-xs">
+              Карский блокирующий антициклон (H, 1028 гПа) блокирует зональный перенос. В паре с полярной ложбиной (L, 998 гПа) над Енисеем формируется меридиональный коридор, обрушивающий ледяные массы Арктики на Таймыр и в Западную Сибирь.
+            </p>
+            <div class="pt-1.5 flex flex-wrap items-center justify-between font-mono text-[11px] text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 gap-1">
+              <span>Модель: <strong id="hud-model-name" class="text-slate-900 dark:text-white">ECMWF SEAS5</strong></span>
+              <span>Метрика: <strong id="hud-metric-name" class="text-sky-600 dark:text-sky-300">Аномалия ΔT (°C)</strong></span>
+            </div>
           </div>
         </div>
+
+        <!-- Floating Re-open Button when closed completely -->
+        <button id="map-hud-reopen-btn" onclick="openHudBox()" type="button" class="hidden absolute bottom-3 left-3 z-[500] px-3 py-1.5 rounded-xl glass-panel border border-sky-400/50 bg-slate-900/90 hover:bg-sky-600 text-white font-mono font-bold text-xs shadow-2xl flex items-center gap-1.5">
+          <span>🧭</span>
+          <span id="reopen-hud-title">Сводка аномалий ▲</span>
+        </button>
 
         <!-- Floating Map Legend (Bottom Right) -->
         <div id="map-legend" class="hidden sm:block absolute bottom-3 right-3 z-[500] glass-panel p-2.5 sm:p-3 border border-slate-300 dark:border-slate-700 shadow-2xl text-[10.5px] font-mono space-y-1.5">
@@ -2287,6 +2341,25 @@
       if (synDescEl) synDescEl.textContent = r.synopticDesc || r.desc;
       if (windEl) windEl.textContent = r.wind || 'ССВ 8–14 м/с';
 
+      // Dynamic synchronization with Map Floating HUD
+      var hudPeriodEl = document.getElementById('hud-period');
+      var hudBadgeEl = document.getElementById('hud-anomaly-badge');
+      var hudDescEl = document.getElementById('hud-desc');
+      if (hudPeriodEl) {
+        hudPeriodEl.textContent = (st ? ('★ ' + st.name.toUpperCase()) : r.name.toUpperCase()) + ' · ' + (r.synopticTitle || 'Синоптический статус');
+      }
+      if (hudBadgeEl) {
+        hudBadgeEl.textContent = (currentMetric === 'temp') ? ('ΔT: ' + valStr) : ('Осадки: ' + valStr);
+        hudBadgeEl.style.color = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
+      }
+      if (hudDescEl) {
+        hudDescEl.textContent = (r.synopticDesc || r.desc) + ' Базовый диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
+      }
+      var reopenTitleEl = document.getElementById('reopen-hud-title');
+      if (reopenTitleEl && st) {
+        reopenTitleEl.textContent = '★ ' + st.name + ' (' + valStr + ') ▲';
+      }
+
       // Decades trajectory strip
       var stripEl = document.getElementById('insp-decades-strip');
       if (stripEl && r.decadesTrajectory) {
@@ -2303,6 +2376,77 @@
       }
 
       renderCityModelsChart(r);
+    }
+
+    
+    // ================= ADVANCED COLLAPSIBLE & CLOSABLE HUD CONTROLLER =================
+    var hudState = 'normal'; // 'normal', 'minimized', 'closed'
+
+    function toggleHudCollapse() {
+      var box = document.getElementById('map-hud-box');
+      var arrow = document.getElementById('hud-collapse-arrow');
+      var reopenBtn = document.getElementById('map-hud-reopen-btn');
+      if (!box) return;
+
+      if (box.classList.contains('hud-minimized')) {
+        box.classList.remove('hud-minimized');
+        box.classList.remove('hud-hidden');
+        if (arrow) arrow.textContent = '▼';
+        if (reopenBtn) reopenBtn.classList.add('hidden');
+        hudState = 'normal';
+      } else {
+        box.classList.add('hud-minimized');
+        box.classList.remove('hud-hidden');
+        if (arrow) arrow.textContent = '▲';
+        if (reopenBtn) reopenBtn.classList.add('hidden');
+        hudState = 'minimized';
+      }
+    }
+
+    function closeHudBox() {
+      var box = document.getElementById('map-hud-box');
+      var reopenBtn = document.getElementById('map-hud-reopen-btn');
+      if (!box) return;
+
+      box.classList.add('hud-hidden');
+      if (reopenBtn) {
+        reopenBtn.classList.remove('hidden');
+        var periodEl = document.getElementById('hud-period');
+        var titleText = periodEl ? periodEl.textContent.trim().split(':')[0] : 'Сводка аномалий';
+        var badgeEl = document.getElementById('hud-anomaly-badge');
+        var badgeText = badgeEl ? badgeEl.textContent.trim() : '';
+        document.getElementById('reopen-hud-title').textContent = titleText + (badgeText ? ' (' + badgeText + ')' : '') + ' ▲';
+      }
+      hudState = 'closed';
+    }
+
+    function openHudBox() {
+      var box = document.getElementById('map-hud-box');
+      var reopenBtn = document.getElementById('map-hud-reopen-btn');
+      var arrow = document.getElementById('hud-collapse-arrow');
+      if (!box) return;
+
+      box.classList.remove('hud-hidden');
+      box.classList.remove('hud-minimized');
+      if (arrow) arrow.textContent = '▼';
+      if (reopenBtn) reopenBtn.classList.add('hidden');
+      hudState = 'normal';
+    }
+
+    // Auto-minimize HUD on mobile screens (< 768px) on first load
+    function autoAdjustHudForScreen() {
+      if (window.innerWidth < 768) {
+        var box = document.getElementById('map-hud-box');
+        var arrow = document.getElementById('hud-collapse-arrow');
+        if (box) {
+          box.classList.add('hud-minimized');
+          if (arrow) arrow.textContent = '▲';
+          hudState = 'minimized';
+        }
+      }
+    }
+      }
+    }
     }
 
     function inspectStation(stationId) {
