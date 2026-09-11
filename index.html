@@ -4189,7 +4189,25 @@
       const lowerCity = (city || '').toLowerCase().trim();
       let lat, lon, tz, cityName, region;
       
-      if (pendingCityCoords && pendingCityCoords.lat != null) {
+      if (/^\d{5}$/.test(lowerCity)) {
+        try {
+          const wmoRes = await fetch('wmo.json');
+          if (!wmoRes.ok) throw new Error('Cannot load WMO DB');
+          const wmoData = await wmoRes.json();
+          if (wmoData[lowerCity]) {
+            const st = wmoData[lowerCity];
+            lat = st.lt;
+            lon = st.ln;
+            tz = st.tz || 'auto';
+            cityName = Станция WMO  ();
+            region = 'Всемирная метеорологическая организация';
+          } else {
+            throw new Error(Станция WMO  не найдена в международном реестре.);
+          }
+        } catch (e) {
+          if (!lat) throw new Error(e.message || Ошибка поиска станции WMO );
+        }
+      } else if (pendingCityCoords && pendingCityCoords.lat != null) {
         lat = pendingCityCoords.lat;
         lon = pendingCityCoords.lon;
         tz = pendingCityCoords.tz || 'auto';
