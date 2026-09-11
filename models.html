@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ru" class="light">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Мультимодельный верификатор: сравнение ECMWF, GFS, ICON, GEM и ПЛАВ | МетеоПортал</title>
+  <meta name="description" content="Независимое сопоставление 5 мировых гидродинамических моделей погоды: европейская ECMWF IFS, американская NOAA GFS, немецкая DWD ICON, канадская CMC GEM и полулагранжева модель ПЛАВ Гидрометцентра РФ. Ансамблевый спред и объективные метрики точности.">
+  <meta name="keywords" content="ecmwf ifs, gfs прогноз, dwd icon, модель плав гидрометцентр, сравнение моделей погоды, ансамблевый прогноз, точность прогноза погоды, метеорологические модели">
+  <link rel="canonical" href="https://meteocenter-rf.github.io/models.html">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Onest', 'Inter', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Schema.org Microdata -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Мультимодельный верификатор прогнозов погоды",
+    "url": "https://meteocenter-rf.github.io/models.html",
+    "description": "Сравнительный анализ и оценка сходимости суперкомпьютерных гидродинамических моделей атмосферы.",
+    "applicationCategory": "WeatherApplication"
+  }
+  </script>
+
+  <style>
+    :root {
+      --font-sans: 'Onest', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      letter-spacing: -0.012em;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 antialiased pb-20 md:pb-8">
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-[#0c1221]/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">МЕТЕОПОРТАЛ</span>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-mono">Модели</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal leading-none mt-0.5 hidden sm:block">Суперкомпьютерный консенсус и метрики надежности</p>
+        </div>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="hidden md:flex items-center gap-1.5 text-sm font-medium">
+        <a href="index.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Городской прогноз
+        </a>
+        <a href="anomalies.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Карта аномалий
+        </a>
+        <a href="models.html" class="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 font-semibold shadow-sm transition">
+          Верификатор моделей
+        </a>
+        <a href="articles.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Статьи & Ликбез
+        </a>
+      </nav>
+
+      <!-- Theme & Back -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleTheme()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition" title="Переключить тему">
+          <span class="dark:hidden">🌙</span>
+          <span class="hidden dark:inline">☀️</span>
+        </button>
+        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          ← К погоде
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-8 pb-12">
+    
+    <!-- Hero Header -->
+    <div class="mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100/80 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-indigo-800 dark:text-indigo-300 text-xs font-medium mb-3">
+        <span>🔬</span> Численный ансамблевый консенсус 5 мировых центров
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        Мультимодельный верификатор суперкомпьютеров
+      </h1>
+      <p class="mt-2 text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed">
+        Сравнение независимых прогностических траекторий в реальном времени. Чем меньше разброс между моделями (ансамблевый спред), тем выше физическая достоверность прогноза.
+      </p>
+    </div>
+
+    <!-- City Selector Toolbar -->
+    <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 mb-8 shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Опорная станция:</span>
+        <select id="model-city-select" onchange="changeModelCity(this.value)" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <option value="moscow" selected>Москва (ВДНХ, WMO 27612)</option>
+          <option value="spb">Санкт-Петербург (WMO 26063)</option>
+          <option value="norilsk">Норильск (Таймыр, WMO 23078)</option>
+          <option value="sochi">Сочи (WMO 37099)</option>
+          <option value="novosibirsk">Новосибирск (WMO 29634)</option>
+          <option value="yakutsk">Якутск (WMO 24959)</option>
+        </select>
+      </div>
+
+      <div class="flex items-center gap-2 text-xs font-mono text-slate-500 dark:text-slate-400">
+        <span>Базовый горизонт:</span>
+        <span class="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 font-bold text-sky-600 dark:text-sky-400">7 суток (168 ч)</span>
+      </div>
+    </div>
+
+    <!-- 1. Ensemble Consensus & Confidence Card -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8">
+      
+      <!-- Left: Confidence Score -->
+      <div class="md:col-span-4 bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold mb-1">Индекс надежности прогноза</div>
+          <div class="flex items-baseline gap-3">
+            <span id="confidence-pct" class="text-5xl font-black text-emerald-600 dark:text-emerald-400 tabular-nums">92%</span>
+            <span id="confidence-label" class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300">Высокая сходимость</span>
+          </div>
+          <p id="confidence-desc" class="mt-3 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+            Все 5 моделей согласуются в положении высотного антициклона. Ансамблевый спред по температуре на 72 ч не превышает ±1.1 °C.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-slate-500">Среднеквадр. спред (σ):</span>
+            <span id="stat-spread" class="font-mono font-bold text-slate-800 dark:text-slate-200">±0.9 °C</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Консенсус осадков (7 сут):</span>
+            <span id="stat-precip" class="font-mono font-bold text-slate-800 dark:text-slate-200">2.4 мм</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Ведущая модель региона:</span>
+            <span class="font-mono font-bold text-sky-600 dark:text-sky-400">ECMWF IFS (4D-Var)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Model Comparison Table -->
+      <div class="md:col-span-8 bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto no-scrollbar">
+        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-semibold mb-4">Сводка прогнозов на ближайшие сутки по моделям</div>
+        
+        <table class="w-full text-left text-sm">
+          <thead>
+            <tr class="border-b border-slate-100 dark:border-slate-800 text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+              <th class="pb-3 font-semibold">Модель / Организация</th>
+              <th class="pb-3 font-semibold">Сетка</th>
+              <th class="pb-3 font-semibold">T днем</th>
+              <th class="pb-3 font-semibold">T ночью</th>
+              <th class="pb-3 font-semibold">Осадки</th>
+              <th class="pb-3 font-semibold">ACC Skill</th>
+            </tr>
+          </thead>
+          <tbody id="models-table-body" class="divide-y divide-slate-100 dark:divide-slate-800/60 font-sans">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. Interactive Comparison Charts (Temperature Curves by Model) -->
+    <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+        <div>
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+            Сопоставление суточного хода температуры (7 дней)
+          </h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Линии моделей: Европейская ECMWF (синий), NOAA GFS (красный), DWD ICON (зеленый), ПЛАВ (золотой)</p>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex flex-wrap items-center gap-3 text-xs font-mono">
+          <div class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-sky-500 rounded"></span> ECMWF IFS</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-rose-500 rounded"></span> NOAA GFS</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-emerald-500 rounded"></span> DWD ICON</div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-amber-500 rounded"></span> ПЛАВ (РФ)</div>
+        </div>
+      </div>
+
+      <!-- SVG Chart Container -->
+      <div class="overflow-x-auto no-scrollbar pt-6">
+        <div id="models-svg-mount" class="min-w-[700px] h-64"></div>
+      </div>
+    </div>
+
+    <!-- 3. Scientific Deep Dive: Why models disagree -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Card 1 -->
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex items-center gap-2 text-xs font-mono text-sky-600 dark:text-sky-400 font-bold uppercase mb-2">
+          <span>⚙️ Физика параметризации</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+          Почему ECMWF и GFS дают разный прогноз циклогенеза над Сибирью?
+        </h3>
+        <p class="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          Европейский центр ECMWF использует гидростатическую модель IFS со спектральной схемой на редуцированной кубической сетке TCo1279. За счет четырехмерной вариационной ассимиляции данных (4D-Var) модель точно рассчитывает вертикальные градиенты давления и струйные течения на побережье Северного Ледовитого океана.
+        </p>
+        <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          Американская модель GFS FV3 построена на дискретизации объемов (finite-volume) на сфере. В холодное полугодие GFS склонна несколько завышать приземную температуру в Сибири из-за различий в алгоритме теплопроводности снежного покрова и альбедо заснеженных таежных лесов.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex items-center gap-2 text-xs font-mono text-amber-600 dark:text-amber-400 font-bold uppercase mb-2">
+          <span>🇷🇺 Отечественная модель ПЛАВ</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+          Особенности полулагранжевой модели ПЛАВ Гидрометцентра России
+        </h3>
+        <p class="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          Модель ПЛАВ (SL-AV, разработчики: ИВМ РАН и Гидрометцентр РФ) основана на полулагранжевом переносе массы и импульса с полунеявным шагом по времени. Это позволяет использовать шаг интегрирования до 20 минут без потери вычислительной устойчивости.
+        </p>
+        <p class="mt-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          ПЛАВ особенно сильна в моделировании блокирующих гребней над Европейской территорией России и прогнозе сибирских ультраполярных вторжений. В совместном консенсусе с ECMWF и ICON модель ПЛАВ обеспечивает фильтрацию ложных сигналов потепления в приземном слое Арктики.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white dark:bg-[#090e1a] border-t border-slate-200 dark:border-slate-800 py-10 px-4 sm:px-6 transition-colors">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">МП</div>
+        <div>
+          <div class="text-sm font-bold text-slate-900 dark:text-white">МетеоПортал Модели</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Мультимодельная верификация открытых прогнозов. WMO, ECMWF, NOAA NCEP, DWD.</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-400">
+        <a href="index.html" class="hover:text-sky-500 transition">Погода сейчас</a>
+        <a href="anomalies.html" class="hover:text-sky-500 transition">Аномалии и циркуляция</a>
+        <a href="models.html" class="text-indigo-600 dark:text-indigo-400 font-semibold">Суперкомпьютеры</a>
+        <a href="articles.html" class="hover:text-sky-500 transition">Журнал</a>
+      </div>
+
+      <div class="text-[11px] text-slate-400 dark:text-slate-500 text-center md:text-right">
+        © 2026 МетеоПортал. Данные численного гидродинамического моделирования.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MOBILE BOTTOM NAVIGATION ================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800/80 px-2 py-1.5 flex justify-around items-center text-[10px] font-medium transition-colors" style="padding-bottom: max(0.375rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🏙️</span>
+      <span class="mt-1">Город</span>
+    </a>
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🌀</span>
+      <span class="mt-1">Аномалии</span>
+    </a>
+    <a href="models.html" class="flex flex-col items-center py-1 px-3 text-indigo-600 dark:text-indigo-400 font-bold transition">
+      <span class="text-base leading-none">🖥️</span>
+      <span class="mt-1">Модели</span>
+    </a>
+    <a href="articles.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">📖</span>
+      <span class="mt-1">Статьи</span>
+    </a>
+  </nav>
+
+  <script>
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('meteo_theme', 'light');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('meteo_theme', 'dark');
+      }
+    }
+
+    const CITY_MODEL_DATA = {
+      moscow: {
+        name: "Москва",
+        confidence: 92,
+        spread: "±0.9 °C",
+        precip: "2.4 мм",
+        label: "Высокая сходимость",
+        desc: "Все 5 моделей сходятся в прогнозе малооблачной погоды без штормовых ветров. Разброс дневного максимума не превышает 1.5 °C.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+17°", tNight: "+10°", prec: "0.0 мм", acc: "0.89", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+16°", tNight: "+9°", prec: "0.0 мм", acc: "0.86", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+18°", tNight: "+11°", prec: "0.2 мм", acc: "0.84", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+17°", tNight: "+9°", prec: "0.0 мм", acc: "0.85", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+16°", tNight: "+10°", prec: "0.1 мм", acc: "0.82", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [17, 18, 16, 15, 14, 15, 16],
+          gfs:   [18, 19, 17, 16, 15, 16, 17],
+          icon:  [16, 17, 15, 14, 14, 14, 15],
+          plav:  [17, 18, 16, 15, 14, 15, 16]
+        }
+      },
+      norilsk: {
+        name: "Норильск",
+        confidence: 76,
+        spread: "±2.4 °C",
+        precip: "18.2 мм",
+        label: "Умеренный разброс",
+        desc: "ECMWF и GFS видят вынос тепла на высотах (+5.8 °C аномалия на Т850), отечественная модель ПЛАВ прогнозирует более холодную приземную температуру из-за ночной инверсии.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+6°", tNight: "+1°", prec: "4.5 мм", acc: "0.81", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+5°", tNight: "0°", prec: "5.1 мм", acc: "0.78", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+8°", tNight: "+2°", prec: "3.2 мм", acc: "0.75", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+4°", tNight: "-1°", prec: "6.0 мм", acc: "0.80", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+5°", tNight: "0°", prec: "4.8 мм", acc: "0.77", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [6, 7, 5, 4, 3, 4, 5],
+          gfs:   [8, 9, 7, 6, 5, 6, 7],
+          icon:  [5, 6, 4, 3, 2, 3, 4],
+          plav:  [4, 5, 3, 2, 1, 2, 3]
+        }
+      },
+      spb: {
+        name: "Санкт-Петербург",
+        confidence: 88,
+        spread: "±1.2 °C",
+        precip: "8.6 мм",
+        label: "Высокая сходимость",
+        desc: "Балтийский циклон смещается на восток. Все модели дают осадки во вторник с разбросом по времени не более 3 часов.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+15°", tNight: "+11°", prec: "1.2 мм", acc: "0.88", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+14°", tNight: "+10°", prec: "1.5 мм", acc: "0.87", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+16°", tNight: "+12°", prec: "0.8 мм", acc: "0.83", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+15°", tNight: "+10°", prec: "1.0 мм", acc: "0.86", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+14°", tNight: "+10°", prec: "1.8 мм", acc: "0.81", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [15, 14, 13, 15, 16, 15, 14],
+          gfs:   [16, 15, 14, 16, 17, 16, 15],
+          icon:  [14, 13, 12, 14, 15, 14, 13],
+          plav:  [15, 14, 13, 15, 16, 15, 14]
+        }
+      },
+      sochi: {
+        name: "Сочи",
+        confidence: 94,
+        spread: "±0.7 °C",
+        precip: "0.0 мм",
+        label: "Высокая сходимость",
+        desc: "Антициклональный субтропический режим. Черноморское побережье под устойчивым ясным небом.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+26°", tNight: "+18°", prec: "0.0 мм", acc: "0.91", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+25°", tNight: "+17°", prec: "0.0 мм", acc: "0.89", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+27°", tNight: "+19°", prec: "0.0 мм", acc: "0.88", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+26°", tNight: "+18°", prec: "0.0 мм", acc: "0.89", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+25°", tNight: "+18°", prec: "0.0 мм", acc: "0.85", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [26, 27, 26, 25, 26, 26, 25],
+          gfs:   [27, 28, 27, 26, 27, 27, 26],
+          icon:  [25, 26, 25, 24, 25, 25, 24],
+          plav:  [26, 27, 26, 25, 26, 26, 25]
+        }
+      },
+      novosibirsk: {
+        name: "Новосибирск",
+        confidence: 84,
+        spread: "±1.5 °C",
+        precip: "5.1 мм",
+        label: "Хорошая сходимость",
+        desc: "Западная Сибирь на границе антициклонального гребня и северного ложбинного фронта.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+14°", tNight: "+6°", prec: "0.4 мм", acc: "0.85", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+13°", tNight: "+5°", prec: "0.8 мм", acc: "0.83", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+15°", tNight: "+7°", prec: "0.2 мм", acc: "0.81", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+14°", tNight: "+5°", prec: "0.5 мм", acc: "0.84", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+13°", tNight: "+6°", prec: "1.0 мм", acc: "0.80", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [14, 15, 12, 11, 13, 14, 15],
+          gfs:   [15, 16, 13, 12, 14, 15, 16],
+          icon:  [13, 14, 11, 10, 12, 13, 14],
+          plav:  [14, 15, 12, 11, 13, 14, 15]
+        }
+      },
+      yakutsk: {
+        name: "Якутск",
+        confidence: 89,
+        spread: "±1.1 °C",
+        precip: "1.0 мм",
+        label: "Высокая сходимость",
+        desc: "Резко континентальный режим. Сибирский антициклон стабилен, разброс моделей минимален.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+9°", tNight: "-1°", prec: "0.0 мм", acc: "0.88", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+8°", tNight: "-2°", prec: "0.0 мм", acc: "0.86", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+10°", tNight: "0°", prec: "0.0 мм", acc: "0.84", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+9°", tNight: "-2°", prec: "0.0 мм", acc: "0.87", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+8°", tNight: "-1°", prec: "0.2 мм", acc: "0.83", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [9, 10, 8, 7, 8, 9, 8],
+          gfs:   [10, 11, 9, 8, 9, 10, 9],
+          icon:  [8, 9, 7, 6, 7, 8, 7],
+          plav:  [9, 10, 8, 7, 8, 9, 8]
+        }
+      }
+    };
+
+    function changeModelCity(cityKey) {
+      const data = CITY_MODEL_DATA[cityKey] || CITY_MODEL_DATA['moscow'];
+      
+      document.getElementById('confidence-pct').innerText = `${data.confidence}%`;
+      document.getElementById('confidence-label').innerText = data.label;
+      document.getElementById('confidence-desc').innerText = data.desc;
+      document.getElementById('stat-spread').innerText = data.spread;
+      document.getElementById('stat-precip').innerText = data.precip;
+
+      // Table Body
+      const tbody = document.getElementById('models-table-body');
+      tbody.innerHTML = data.models.map(m => `
+        <tr class="hover:bg-slate-50/70 dark:hover:bg-slate-800/40 transition">
+          <td class="py-3.5 pr-3">
+            <div class="${m.color}">${m.name}</div>
+            <div class="text-[11px] text-slate-400">${m.org}</div>
+          </td>
+          <td class="py-3.5 pr-3 font-mono text-xs text-slate-500">${m.res}</td>
+          <td class="py-3.5 pr-3 font-mono font-bold text-slate-900 dark:text-white tabular-nums">${m.tDay}</td>
+          <td class="py-3.5 pr-3 font-mono text-slate-500 tabular-nums">${m.tNight}</td>
+          <td class="py-3.5 pr-3 font-mono text-xs text-slate-600 dark:text-slate-300 tabular-nums">${m.prec}</td>
+          <td class="py-3.5 font-mono text-xs font-bold text-sky-600 dark:text-sky-400 tabular-nums">${m.acc}</td>
+        </tr>
+      `).join('');
+
+      renderModelsChart(data.curves);
+    }
+
+    function renderModelsChart(curves) {
+      const mount = document.getElementById('models-svg-mount');
+      if (!mount) return;
+
+      const days = ['Сб (12)', 'Вс (13)', 'Пн (14)', 'Вт (15)', 'Ср (16)', 'Чт (17)', 'Пт (18)'];
+      const W = 700, H = 220, padX = 50, padY = 30;
+      const chartW = W - 2 * padX;
+      const chartH = H - 2 * padY;
+
+      const allVals = [...curves.ecmwf, ...curves.gfs, ...curves.icon, ...curves.plav];
+      const minVal = Math.min(...allVals) - 2;
+      const maxVal = Math.max(...allVals) + 2;
+      const range = (maxVal - minVal) || 1;
+
+      const getPoints = (arr) => arr.map((v, i) => {
+        const x = padX + (i / (arr.length - 1)) * chartW;
+        const y = padY + chartH - ((v - minVal) / range) * chartH;
+        return { x, y, val: v };
+      });
+
+      const makePath = (pts) => {
+        let d = `M ${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`;
+        for (let i = 0; i < pts.length - 1; i++) {
+          const p1 = pts[i];
+          const p2 = pts[i+1];
+          const mx = (p1.x + p2.x) / 2;
+          d += ` C ${mx.toFixed(1)} ${p1.y.toFixed(1)}, ${mx.toFixed(1)} ${p2.y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+        }
+        return d;
+      };
+
+      const ptsEc = getPoints(curves.ecmwf);
+      const ptsGfs = getPoints(curves.gfs);
+      const ptsIcon = getPoints(curves.icon);
+      const ptsPlav = getPoints(curves.plav);
+
+      // Grid lines
+      let gridLines = '';
+      days.forEach((day, i) => {
+        const x = padX + (i / (days.length - 1)) * chartW;
+        gridLines += `
+          <line x1="${x.toFixed(1)}" y1="${padY}" x2="${x.toFixed(1)}" y2="${H - padY}" stroke="#94a3b8" stroke-opacity="0.15" stroke-dasharray="2 2"/>
+          <text x="${x.toFixed(1)}" y="${H - 10}" text-anchor="middle" font-size="10" font-family="'JetBrains Mono', monospace" fill="#94a3b8">${day}</text>
+        `;
+      });
+
+      mount.innerHTML = `
+        <svg viewBox="0 0 ${W} ${H}" class="w-full h-full overflow-visible select-none">
+          ${gridLines}
+          <path d="${makePath(ptsPlav)}" fill="none" stroke="#f59e0b" stroke-width="2.2" stroke-dasharray="4 2" opacity="0.9"/>
+          <path d="${makePath(ptsIcon)}" fill="none" stroke="#10b981" stroke-width="2.2" opacity="0.85"/>
+          <path d="${makePath(ptsGfs)}" fill="none" stroke="#ef4444" stroke-width="2.2" opacity="0.85"/>
+          <path d="${makePath(ptsEc)}" fill="none" stroke="#0284c7" stroke-width="3" opacity="0.95"/>
+          ${ptsEc.map(p => `
+            <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#0284c7" stroke="#ffffff" stroke-width="1.5"/>
+            <text x="${p.x.toFixed(1)}" y="${(p.y - 8).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" font-family="'JetBrains Mono', monospace" fill="#0284c7">${p.val > 0 ? '+' : ''}${p.val}°</text>
+          `).join('')}
+        </svg>
+      `;
+    }
+
+    // Init with default city
+    changeModelCity('moscow');
+  </script>
+</body>
+</html>

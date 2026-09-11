@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ru" class="light">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>МетеоЖурнал — экспертные статьи о физике погоды, численных моделях и климате | МетеоПортал</title>
+  <meta name="description" content="Увлекательные и научно выверенные статьи практикующих синоптиков и метеорологов: теория хаоса Лоренца, физика арктических блокировок, сравнение суперкомпьютеров ECMWF и GFS, расчет комфорта и новые нормы ВМО 1991–2020.">
+  <meta name="keywords" content="метеорология статьи, почему прогноз погоды врет, ecmwf против gfs, блокирующий антициклон таймыр, как рассчитывается ощущается как, климатические нормы вмо, физика атмосферы, теория хаоса погода">
+  <link rel="canonical" href="https://meteocenter-rf.github.io/articles.html">
+
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="МетеоЖурнал — экспертные статьи о физике погоды и климате">
+  <meta property="og:description" content="Научно-популярные и точные статьи о метеорологии: суперкомпьютерные модели, климатические аномалии и расчет комфорта.">
+  <meta property="og:url" content="https://meteocenter-rf.github.io/articles.html">
+
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Onest', 'Inter', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          },
+          colors: {
+            brand: { 50: '#f0f9ff', 400: '#38bdf8', 500: '#0284c7', 600: '#0369a1', 900: '#0c4a6e' }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Schema.org Microdata -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": "https://meteocenter-rf.github.io/articles.html#webpage",
+        "url": "https://meteocenter-rf.github.io/articles.html",
+        "name": "МетеоЖурнал — Экспертные статьи о погоде и климате",
+        "description": "Научно-популярные статьи по физике атмосферы, численному моделированию и климатологии.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "@id": "https://meteocenter-rf.github.io/#website",
+          "name": "МетеоПортал",
+          "url": "https://meteocenter-rf.github.io/"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Главная",
+            "item": "https://meteocenter-rf.github.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "МетеоЖурнал",
+            "item": "https://meteocenter-rf.github.io/articles.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --font-sans: 'Onest', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      letter-spacing: -0.012em;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .tabular-numbers {
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-mono);
+    }
+    .article-card {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+    }
+    .article-card:hover {
+      transform: translateY(-2px);
+    }
+    /* Hide scrollbars but keep touch scrolling */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 antialiased pb-20 md:pb-8">
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-[#0c1221]/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">МЕТЕОПОРТАЛ</span>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-950/70 text-sky-700 dark:text-sky-300 font-mono">Журнал</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal leading-none mt-0.5 hidden sm:block">Научно-популярная метеорология и физика атмосферы</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-1.5 text-sm font-medium">
+        <a href="index.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Городской прогноз
+        </a>
+        <a href="anomalies.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Карта аномалий
+        </a>
+        <a href="models.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          Верификатор моделей
+        </a>
+        <a href="articles.html" class="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 font-semibold shadow-sm transition">
+          Статьи & Ликбез
+        </a>
+      </nav>
+
+      <!-- Right Controls: Theme & Back -->
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" onclick="toggleTheme()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition" title="Переключить тему">
+          <span class="dark:hidden">🌙</span>
+          <span class="hidden dark:inline">☀️</span>
+        </button>
+        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+          ← К погоде
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO INTRO ================= -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 pt-8 pb-12">
+    <div class="mb-10 text-center max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100/80 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800/60 text-sky-800 dark:text-sky-300 text-xs font-medium mb-3">
+        <span>📖</span> Честная метеорология без мифов и машинных штампов
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        Как устроена погода: от уравнений хаоса до климатических рекордов
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+        Короткие, увлекательные и физически строгие материалы практикующих синоптиков. Объясняем сложные процессы циркуляции атмосферы и суперкомпьютерных моделей простым языком.
+      </p>
+
+      <!-- Search & Filters -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-xl mx-auto">
+        <div class="relative w-full">
+          <input type="text" id="article-search" placeholder="Поиск по статьям (например, Лоренц, GFS, Норма)..." oninput="filterArticles()" class="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm transition">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Tag Filter Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-xs font-medium">
+        <button onclick="setCategory('all')" class="cat-pill active px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 font-semibold shadow-sm transition" data-cat="all">Все темы</button>
+        <button onclick="setCategory('models')" class="cat-pill px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition" data-cat="models">Суперкомпьютеры & Модели</button>
+        <button onclick="setCategory('anomalies')" class="cat-pill px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition" data-cat="anomalies">Климатические аномалии</button>
+        <button onclick="setCategory('physics')" class="cat-pill px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition" data-cat="physics">Физика и Комфорт</button>
+      </div>
+    </div>
+
+    <!-- ================= ARTICLES GRID ================= -->
+    <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- ================= ARTICLE 1 ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="models" data-keywords="лоренц хаос прогноз 3 дня 10 дней бабочка lyapunov ансамбли ecmwf точность">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400 font-mono text-[11px]">Суперкомпьютеры</span>
+            <span>⏱️ 4 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Почему прогноз на 3 дня точен, а на 10 дней «разваливается»: теория хаоса Эдварда Лоренца
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            В 1961 году метеоролог Эдвард Лоренц ввел в расчет на компьютере Royal McBee значение 0.506 вместо 0.506127. Результат ошеломил научный мир: через виртуальный «месяц» система смоделировала совершенно другую погоду. Так родилась теория динамического хаоса.
+          </p>
+          
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Физический закон предела предсказуемости:</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-normal">
+              Атмосфера подчиняется нелинейным уравнениям Навье-Стокса. Из-за положительного показателя Ляпунова любая микропогрешность в начальных данных наблюдений удваивается каждые 1.8–2.2 суток. Через 14 суток погрешность сравнивается с климатическим разбросом, делая детерминированный прогноз бессмысленным.
+            </p>
+            <div class="font-mono text-sky-600 dark:text-sky-400 text-[11px]">
+              E(t) ≈ E₀ · exp(λ · t), где λ > 0
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Вот почему современные метеоцентры перешли от единичных расчетов к <strong>ансамблевым прогнозам</strong> (50–64 параллельных прогона с небольшими возмущениями). Если 90% траекторий сходятся — прогноз надежен. Если они расходятся «веером» — надежность стремится к нулю.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ML</div>
+            <span class="text-slate-500 dark:text-slate-400">МетеоЛаборатория</span>
+          </div>
+          <span class="text-sky-600 dark:text-sky-400 font-semibold cursor-pointer" onclick="openArticleModal(1)">Подробнее →</span>
+        </div>
+      </article>
+
+      <!-- ================= ARTICLE 2 ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="anomalies" data-keywords="таймыр норильск омега блокинг антициклон инверсия t850 арктика аномалия тепло">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400 font-mono text-[11px]">Климатические аномалии</span>
+            <span>⏱️ 5 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Таймырская аномалия: как арктический блокинг делает север Сибири теплее Москвы
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Периодически карты погоды показывают парадокс: в Норильске и на мысе Челюскин температура воздуха на высоте превышает норму на 6–10 °C, в то время как в Поволжье и Центральной России стоят заморозки. Виновник этого феномена — <strong>блокирующий квазистационарный антициклон (Омега-блокинг)</strong>.
+          </p>
+
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Механизм термобарической инверсии:</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-normal">
+              Мощный высотный гребень закручивает струйное течение (Jet Stream) в форме греческой буквы Ω. Вдоль его восточной периферии арктический холод сбрасывается на Урал, а по западной периферии субтропическое тепло из Средней Азии закачивается в низовья Енисея на изобарическую поверхность 850 гПа (высота ~1.5 км).
+            </p>
+            <div class="flex items-center justify-between font-mono text-[11px] text-amber-600 dark:text-amber-400">
+              <span>Индекс Тибальди-Мольтени: BI > 0</span>
+              <span>Т850: +4.2 °C (Норма: -1.6 °C)</span>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            В приземном слое при этом может наблюдаться ночная инверсия: у земли температура около 0 °C, а на высоте 1000 метров — настоящий оазис тепла. Понимание разницы между приземной температурой (2 м) и высотной (850 гПа) — ключ к правильной оценке синоптической обстановки.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">СА</div>
+            <span class="text-slate-500 dark:text-slate-400">Синоптический Анализ</span>
+          </div>
+          <span class="text-rose-600 dark:text-rose-400 font-semibold cursor-pointer" onclick="openArticleModal(2)">Подробнее →</span>
+        </div>
+      </article>
+
+      <!-- ================= ARTICLE 3 ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="models" data-keywords="ecmwf gfs суперкомпьютеры 4dvar сравнение моделей точность ifs icon россия">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 font-mono text-[11px]">Моделирование</span>
+            <span>⏱️ 5 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Битва суперкомпьютеров: европейская ECMWF против американской GFS — кто точнее в России?
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Каждые 6 часов суперкомпьютеры Европейского центра среднесрочных прогнозов (Рединг/Болонья) и Национального центра США (NCEP) выполняют триллионы математических операций, моделируя всю толщу атмосферы планеты. Но какая модель дает более точные результаты для территории РФ?
+          </p>
+
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Главные технологические отличия:</div>
+            <div class="space-y-1.5 text-slate-600 dark:text-slate-400">
+              <div><strong>ECMWF IFS (9 км):</strong> использует технологию 4D-Var (четырехмерная вариационная ассимиляция во времени). Учитывает спутниковые радиометры в реальной динамике траектории.</div>
+              <div><strong>NOAA GFS (13 км):</strong> использует 3D-EnVar на кубической сфере FV3. Быстрее считается, но уступает в деталях сложной топографии и циклогенеза на побережьях.</div>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            По официальным верификационным метрикам ВМО (коэффициент корреляции аномалий геопотенциала H500), модель <strong>ECMWF опережает GFS примерно на 18–24 часа заблаговременности</strong>. Прогноз ECMWF на 5-й день имеет такую же статистическую точность, как прогноз GFS на 4-й день.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">AI</div>
+            <span class="text-slate-500 dark:text-slate-400">Модельный Отдел</span>
+          </div>
+          <span class="text-indigo-600 dark:text-indigo-400 font-semibold cursor-pointer" onclick="openArticleModal(3)">Подробнее →</span>
+        </div>
+      </article>
+
+      <!-- ================= ARTICLE 4 ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="physics" data-keywords="ощущается как комфорт температура стедман wind chill влажность тепловой баланс формула">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-mono text-[11px]">Физика комфорта</span>
+            <span>⏱️ 4 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            «Ощущается как»: почему уличный термометр врет и как рассчитывается реальный комфорт
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Два человека при температуре +14 °C могут чувствовать себя совершенно по-разному. Для одного это комфортная теплая прогулка, для другого — пронизывающий холод. Физика человеческого тела измеряет не температуру воздуха, а <strong>скорость теплопотерь с поверхности кожи</strong>.
+          </p>
+
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Три научно признанные формулы комфорта:</div>
+            <div class="space-y-1 text-slate-600 dark:text-slate-400">
+              <div><strong>1. Ветро-холодовой индекс (Wind Chill):</strong> применяется <em>только</em> при T ≤ +10 °C и ветре > 1.3 м/с (JAG/TI).</div>
+              <div><strong>2. Формула Стедмана (Apparent Temperature):</strong> для температур от 0 до +30 °C с учетом давления водяного пара и ветра:</div>
+              <div class="font-mono text-emerald-600 dark:text-emerald-400 text-[10.5px]">AT = T + 0.33·e - 0.70·V - 4.00</div>
+              <div><strong>3. Индекс жары (Heat Index):</strong> для жары T ≥ +27 °C при высокой влажности.</div>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Ветер сдувает тонкий пограничный теплый микрослой воздуха у кожи, а сухой воздух ускоряет испарение влаги, забирая по 2.4 кДж энергии на каждый грамм испарившегося пота. Настоящий метеопортал никогда не применяет зимний Wind Chill к теплой погоде!
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ТР</div>
+            <span class="text-slate-500 dark:text-slate-400">Термодинамика</span>
+          </div>
+          <span class="text-emerald-600 dark:text-emerald-400 font-semibold cursor-pointer" onclick="openArticleModal(4)">Подробнее →</span>
+        </div>
+      </article>
+
+      <!-- ================= ARTICLE 5 ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="anomalies" data-keywords="климатические нормы вмо wmo 1991-2020 1961-1990 потепление москва росгидромет база">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-mono text-[11px]">Климатология</span>
+            <span>⏱️ 4 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Смена климатических эпох: почему с 2021 года метеорологи перешли на нормы 1991–2020
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Многие годы в сводках погоды звучало: «Норма сентября для Москвы — +11.0 °C». Однако с 2021 года официальная норма выросла до +11.9 °C, а январская норма потеплела сразу на 2.8 °C. Почему метеорологи пересмотрели стандарты?
+          </p>
+
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-2">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Стандарт ВМО № 1203 (WMO Normals):</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-normal">
+              Всемирная метеорологическая организация требует рассчитывать текущие базовые климатические нормы каждые 30 лет. Период 1961–1990 гг. остался ретроспективным историческим базисом для оценки глобального антропогенного потепления, а для оперативной погоды введен период <strong>1991–2020 гг.</strong>
+            </p>
+            <div class="grid grid-cols-2 gap-2 text-slate-700 dark:text-slate-300 font-mono text-[11px] pt-1">
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                Сентябрь 1961-90: +11.0°C
+              </div>
+              <div class="p-2 rounded bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300">
+                Сентябрь 1991-20: +11.9°C
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Если сайт использует старую базу 1961–1990, он показывает искусственно завышенные «аномалии тепла», создавая ложную панику в новостях. На МетеоПортале все расчеты проводятся строго по актуальному стандарту ВМО 1991–2020.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ВМО</div>
+            <span class="text-slate-500 dark:text-slate-400">Климатический Базис</span>
+          </div>
+          <span class="text-amber-600 dark:text-amber-400 font-semibold cursor-pointer" onclick="openArticleModal(5)">Подробнее →</span>
+        </div>
+      </article>
+
+      <!-- ================= ARTICLE 6 (Bonus: Microclimate) ================= -->
+      <article class="article-card bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-sm flex flex-col justify-between" data-category="physics" data-keywords="остров тепла город микроклимат москва вднх балчуг температура разница бетон асфальт">
+        <div>
+          <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-3">
+            <span class="font-semibold uppercase tracking-wider text-teal-600 dark:text-teal-400 font-mono text-[11px]">Городской микроклимат</span>
+            <span>⏱️ 3 мин чтения</span>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white leading-snug tracking-tight">
+            Городской остров тепла: почему в центре Москвы на 5 °C теплее, чем в Подмосковье
+          </h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Многие жители удивляются, когда датчик на ВДНХ показывает +14 °C, метеостанция в Балчуге (центр) фиксирует +16.5 °C, а в Черустях или Клину термометр опускается до +8 °C. В синоптике это называется <strong>Urban Heat Island (UHI)</strong>.
+          </p>
+
+          <div class="my-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-xs space-y-1.5 text-slate-600 dark:text-slate-400">
+            <div class="font-bold text-slate-800 dark:text-slate-200">Три фактора городского перегрева:</div>
+            <div>1. <strong>Теплоемкость бетона и асфальта:</strong> материалы аккумулируют солнечное тепло днем и медленно отдают его всю ночь в виде ИК-излучения.</div>
+            <div>2. <strong>Антропогенное тепло:</strong> транспорт, кондиционеры и промышленные выбросы.</div>
+            <div>3. <strong>Снижение транспирации:</strong> мало открытого грунта и листвы, испаряющей охлаждающую влагу.</div>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Вот почему официальной опорной станцией Москвы считается ВДНХ (WMO 27612), расположенная в лесопарковой зоне, свободной от искажающего эффекта плотной застройки.
+          </p>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">УГ</div>
+            <span class="text-slate-500 dark:text-slate-400">Урбоэкология</span>
+          </div>
+          <span class="text-teal-600 dark:text-teal-400 font-semibold cursor-pointer" onclick="openArticleModal(6)">Подробнее →</span>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- ================= FAQ SECTION FOR SEO ================= -->
+    <section class="mt-16 bg-white dark:bg-slate-900/90 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-800">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight text-center mb-8">
+          Частые вопросы о прогнозах погоды и расчетах
+        </h2>
+
+        <div class="space-y-4">
+          <details class="group p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 transition">
+            <summary class="font-semibold text-slate-800 dark:text-slate-200 cursor-pointer list-none flex items-center justify-between">
+              <span>Правда ли, что искусственный интеллект может заменить гидродинамические модели?</span>
+              <span class="text-sky-500 transition group-open:rotate-180">▼</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Нейросетевые модели (Google GraphCast, Huawei Pangu-Weather, WeatherNext) показывают феноменальную скорость расчетов — прогноз на 10 дней строится за несколько секунд вместо часов работы суперкомпьютера. Однако ИИ обучался на исторических реанализах ERA5 и пока уступает классической физике в предсказании экстремальных событий («черных лебедей»), которых не было в обучающей выборке. Будущее метеорологии — в гибриде физических моделей и нейросетевой фильтрации.
+            </p>
+          </details>
+
+          <details class="group p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 transition">
+            <summary class="font-semibold text-slate-800 dark:text-slate-200 cursor-pointer list-none flex items-center justify-between">
+              <span>Почему синоптики часто ошибаются со временем начала дождя?</span>
+              <span class="text-sky-500 transition group-open:rotate-180">▼</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Ливневые дожди образуются в кучево-дождевых облаках диаметром от 2 до 15 км. Сетка даже самых детальных глобальных моделей имеет шаг 9–13 км. Модель видит потенциал конвективной неустойчивости (индекс CAPE), но физически не может предсказать, над каким конкретно районом мегаполиса сконденсируется первая капля. Для сверхкраткосрочного прогноза осадков (на 1–2 часа) используется не прогноз модели, а <strong>радиолокационный наукрастинг (доплеровские радары и RainViewer)</strong>.
+            </p>
+          </details>
+
+          <details class="group p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 transition">
+            <summary class="font-semibold text-slate-800 dark:text-slate-200 cursor-pointer list-none flex items-center justify-between">
+              <span>Чем точка росы важнее относительной влажности?</span>
+              <span class="text-sky-500 transition group-open:rotate-180">▼</span>
+            </summary>
+            <p class="mt-3 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Относительная влажность (%) зависит от температуры: при нагревании воздуха днем влажность падает, хотя количество водяного пара остается прежним. <strong>Точка росы (°C)</strong> — это абсолютная мера влагосодержания. При точке росы выше +18 °C воздух ощущается душным и липким, выше +21 °C тяжело дышать даже тренированным людям, а при точке росы ниже +5 °C воздух кажется свежим и бодрящим независимо от температуры за окном.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= CLEAN PROFESSIONAL FOOTER ================= -->
+  <footer class="bg-white dark:bg-[#090e1a] border-t border-slate-200 dark:border-slate-800 py-10 px-4 sm:px-6 transition-colors">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center text-white font-bold text-sm">МП</div>
+        <div>
+          <div class="text-sm font-bold text-slate-900 dark:text-white">МетеоПортал Журнал</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Открытая наука о погоде и климате. Данные WMO, ECMWF, NOAA.</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-400">
+        <a href="index.html" class="hover:text-sky-500 transition">Погода сейчас</a>
+        <a href="anomalies.html" class="hover:text-sky-500 transition">Аномалии и циркуляция</a>
+        <a href="models.html" class="hover:text-sky-500 transition">Суперкомпьютеры</a>
+        <a href="articles.html" class="text-sky-600 dark:text-sky-400 font-semibold">Журнал</a>
+      </div>
+
+      <div class="text-[11px] text-slate-400 dark:text-slate-500 text-center md:text-right">
+        © 2026 МетеоПортал. Некоммерческий научно-исследовательский агрегатор открытых данных.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MOBILE BOTTOM NAVIGATION (iOS / Android / iPad) ================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800/80 px-2 py-1.5 flex justify-around items-center text-[10px] font-medium transition-colors" style="padding-bottom: max(0.375rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🏙️</span>
+      <span class="mt-1">Город</span>
+    </a>
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🌀</span>
+      <span class="mt-1">Аномалии</span>
+    </a>
+    <a href="models.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🖥️</span>
+      <span class="mt-1">Модели</span>
+    </a>
+    <a href="articles.html" class="flex flex-col items-center py-1 px-3 text-sky-600 dark:text-sky-400 font-bold transition">
+      <span class="text-base leading-none">📖</span>
+      <span class="mt-1">Статьи</span>
+    </a>
+  </nav>
+
+  <!-- ================= READ ARTICLE MODAL ================= -->
+  <div id="article-modal" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 max-w-2xl w-full rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+        <span id="modal-badge" class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">МетеоЖурнал</span>
+        <button onclick="closeArticleModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white transition">✕</button>
+      </div>
+      <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-4 tracking-tight leading-snug"></h3>
+      <div id="modal-content" class="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed"></div>
+      <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
+        <span class="text-slate-400 font-mono">Синоптическая редакция МетеоПортала</span>
+        <button onclick="closeArticleModal()" class="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold hover:opacity-90 transition">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        localStorage.setItem('meteo_theme', 'light');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('meteo_theme', 'dark');
+      }
+    }
+
+    // Category Filter
+    function setCategory(cat) {
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.className = 'cat-pill active px-3 py-1.5 rounded-xl bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 font-semibold shadow-sm transition';
+        } else {
+          btn.className = 'cat-pill px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 transition';
+        }
+      });
+      filterArticles(cat);
+    }
+
+    // Article search & category filter
+    function filterArticles(activeCat = null) {
+      if (!activeCat) {
+        const activeBtn = document.querySelector('.cat-pill.active');
+        activeCat = activeBtn ? activeBtn.getAttribute('data-cat') : 'all';
+      }
+      const q = (document.getElementById('article-search').value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('#articles-container article');
+
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        const kw = card.getAttribute('data-keywords') || '';
+        const txt = card.innerText.toLowerCase();
+
+        const matchCat = (activeCat === 'all' || cat === activeCat);
+        const matchQ = (!q || txt.includes(q) || kw.includes(q));
+
+        if (matchCat && matchQ) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Article full details modal
+    const ARTICLES_DATA = {
+      1: {
+        badge: "Численные суперкомпьютеры",
+        title: "Почему прогноз на 3 дня точен, а на 10 дней «разваливается»: теория хаоса Эдварда Лоренца",
+        content: `
+          <p>В 1961 году метеоролог Эдвард Лоренц из Массачусетского технологического института (MIT) запустил моделирование атмосферы на ранней ЭВМ Royal McBee LGP-30. Желая повторить расчет, он ввел промежуточные данные не с 6 знаками после запятой (0.506127), а с тремя — 0.506. Выпив кофе, он вернулся и увидел, что прогноз полностью разошелся с первоначальным: траектория ушла в совершенно иную фазу.</p>
+          <p>Это открытие легло в основу статьи 1963 года <em>«Детерминированное непериодическое течение»</em> и знаменитого образа: «Взмах крыла бабочки в Бразилии может вызвать торнадо в Техасе».</p>
+          <p><strong>Почему атмосфера не поддается долгосрочному расчету?</strong></p>
+          <p>Атмосфера — это термодинамическая сжимаемая жидкость на вращающейся планете, описываемая системой нелинейных дифференциальных уравнений Навье-Стокса. Из-за турбулентности погрешность измерений на масштабе отдельных метров (термики, шероховатость лесов) неизбежно каскадирует на масштабы циклонов за 7–10 суток.</p>
+          <p><strong>Решение: ансамблевое прогнозирование (Ensemble Prediction Systems)</strong></p>
+          <p>Европейский центр ECMWF запускает не один прогноз, а 51 параллельную вселенную (1 контрольный прогон и 50 слегка возмущенных сценариев). Если все 50 сценариев через 5 дней предсказывают прохождение холодного фронта — синоптик уверен на 98%. Если половина ансамбля дает жару, а половина снег — прогноз маркируется как «низкая надежность».</p>
+        `
+      },
+      2: {
+        badge: "Климатическая динамика",
+        title: "Таймырская аномалия: как арктический блокинг делает север Сибири теплее Москвы",
+        content: `
+          <p>В синоптической метеорологии одним из самых впечатляющих явлений является блокирующий антициклон над Карским морем и Таймыром. Когда высотный гребень стабилизируется над плато Путорана, зональный перенос с запада на восток полностью перекрывается.</p>
+          <p><strong>Анатомия Омега-блокинга:</strong></p>
+          <p>Изогипсы геопотенциала H500 изгибаются на север, формируя петлю в виде греческой буквы Ω. Вдоль западной «ножки» Омеги формируется южное струйное течение, которое со скоростью до 120 км/ч забрасывает прогретый воздух из Тургайской степи и Казахстана прямо в полярный Норильск и Диксон.</p>
+          <p><strong>Приземный парадокс (Т2м против Т850):</strong></p>
+          <p>Многие наблюдатели путают температуру в приземном слое (на высоте 2 м в метеобудке) и температуру свободной атмосферы (уровень Т850, высота ~1.5 км). При арктическом антициклоне ночью у поверхности земли из-за радиационного выхолаживания температура может держаться около 0 °C, в то время как на высоте километра датчики радиозонда фиксируют +5...+8 °C. Возникает мощнейшая инверсия, прижимающая дым предприятий к земле.</p>
+        `
+      },
+      3: {
+        badge: "Технологии метеорологии",
+        title: "Битва суперкомпьютеров: европейская ECMWF против американской GFS — кто точнее в России?",
+        content: `
+          <p>Две главные прогностические системы мира ведут непрерывную конкурентную борьбу за миллионные доли градуса точности. Для территории России их расчеты имеют существенные различия.</p>
+          <p><strong>Европейская модель ECMWF Integrated Forecasting System (IFS):</strong></p>
+          <p>Считается на суперкомпьютерном кластере Atos в Болонье (Италия). Разрешение сетки составляет 9 км (TCo1279). Ключевое превосходство европейцев — <strong>алгоритм 4D-Var</strong>. Модель не просто берет наблюдения в момент времени T, но и подгоняет траекторию математических уравнений под поток спутниковых радиометрических данных на протяжении 12-часового окна.</p>
+          <p><strong>Американская модель NOAA Global Forecast System (GFS):</strong></p>
+          <p>Использует гидродинамическое ядро FV3 (Finite-Volume Cubed-Sphere) с сеткой 13 км. Американцы применяют гибридную ассимиляцию 3D-EnVar. Модель великолепно считает ураганы и глубокие океанические штормы, но над континентальной Евразией зимой часто страдает завышением прогрева и недооценкой холодных приземных антициклонов (холодного Сибирского максимума).</p>
+        `
+      },
+      4: {
+        badge: "Термодинамика тела",
+        title: "«Ощущается как»: почему уличный термометр врет и как рассчитывается реальный комфорт",
+        content: `
+          <p>Физический термометр на стене дома измеряет равновесную температуру датчика в отсутствие прямого излучения. Но живое человеческое тело — это постоянный генератор тепла (~80–120 Ватт в покое), защищенный одеждой и тонкой пленкой неподвижного воздуха у пор кожи.</p>
+          <p><strong>Ветер как разрушитель микроклимата:</strong></p>
+          <p>При штиле теплый воздух от тела задерживается вблизи кожи. Ветер со скоростью 5 м/с мгновенно сдувает этот барьер, увеличивая коэффициент конвективной теплоотдачи в 3–4 раза. Поэтому при +14 °C на ветру кажется, будто на улице +10 °C.</p>
+          <p><strong>Влажность и парциальное давление:</strong></p>
+          <p>Для плюсовой погоды применяется <strong>австралийский индекс Стедмана (Apparent Temperature)</strong>. Он учитывает не только температуру и ветер, но и парциальное давление водяного пара e (гПа). В сухом воздухе пот испаряется мгновенно, охлаждая кожу; во влажном воздухе пот не может испариться, создавая ощущение духоты и перегрева.</p>
+        `
+      },
+      5: {
+        badge: "Климатический стандарт",
+        title: "Смена климатических эпох: почему с 2021 года метеорологи перешли на нормы 1991–2020",
+        content: `
+          <p>По климатическому руководству Всемирной метеорологической организации (WMO Climatological Normals, WMO-No. 1203), норма климата — это не статичная константа на века, а скользящее среднее значение за стандартный 30-летний интервал.</p>
+          <p><strong>Почему именно 30 лет?</strong></p>
+          <p>Этот период был математически обоснован еще в 1935 году: он достаточно длинен, чтобы сгладить короткие межгодовые колебания (такие как циклы Эль-Ниньо / Ла-Нинья за 3–7 лет), но достаточно короток, чтобы отражать вековой тренд трансформации планетарного климата.</p>
+          <p>С 1 января 2021 года глобальное сообщество официально завершило эру нормы 1961–1990 и перешло на период <strong>1991–2020 гг.</strong> В европейской части России температура января стала теплее в среднем на +2.2...+2.8 °C, а июль прибавил +1.4 °C. Именно поэтому современные сервисы обязаны пересчитывать все свои аномалии по новой базе!</p>
+        `
+      },
+      6: {
+        badge: "Городская среда",
+        title: "Городской остров тепла: почему в центре Москвы на 5 °C теплее, чем в Подмосковье",
+        content: `
+          <p>Разница температур между центром мегаполиса и прилегающими полями ночью в ясную штилевую погоду может достигать 6–9 °C. Это один из самых ярко выраженных антропогенных микроклиматических эффектов на Земле.</p>
+          <p><strong>Куда уходит солнечное тепло?</strong></p>
+          <p>В природном ландшафте до 70% солнечной энергии расходуется на скрытое тепло испарения (эвапотранспирацию растений и влажной почвы). В городе асфальт, кирпич и гранит имеют низкое альбедо (темные поверхности) и колоссальную удельную теплоемкость. Здания работают как гигантские кирпичные печи, излучающие тепло в атмосферу всю ночь.</p>
+          <p>Именно поэтому для официальной метеорологической статистики ВМО выбираются опорные станции, удаленные от плотного городского «каньона» — например, ВДНХ (станция 27612), окруженная Останкинским парком и Ботаническим садом.</p>
+        `
+      }
+    };
+
+    function openArticleModal(id) {
+      const data = ARTICLES_DATA[id];
+      if (!data) return;
+      document.getElementById('modal-badge').innerText = data.badge;
+      document.getElementById('modal-title').innerText = data.title;
+      document.getElementById('modal-content').innerHTML = data.content;
+      const modal = document.getElementById('article-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeArticleModal() {
+      const modal = document.getElementById('article-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('article-modal');
+      if (event.target === modal) {
+        closeArticleModal();
+      }
+    }
+  </script>
+</body>
+</html>

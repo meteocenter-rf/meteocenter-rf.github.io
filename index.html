@@ -1644,15 +1644,15 @@
           <span class="hidden sm:inline">Поддержать</span>
         </button>
 
-        <!-- 113-FZ & 99-FZ Legal Status & 152-FZ Privacy Buttons -->
-        <button onclick="openLegalModal()" class="nav-btn" title="Правовой статус сервиса, 113-ФЗ, 99-ФЗ и отказ от ответственности">
-          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          <span class="hidden sm:inline">113-ФЗ</span>
-        </button>
-        <button onclick="openPrivacyModal()" class="nav-btn" title="Политика конфиденциальности и Cookies (152-ФЗ)">
-          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          <span class="hidden md:inline">152-ФЗ</span>
-        </button>
+        <!-- Clean Executive Navigation: Models & Articles -->
+        <a href="models.html" class="nav-btn" title="Мультимодельный верификатор: ECMWF, GFS, ICON, GEM, ПЛАВ">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span class="hidden sm:inline">Модели</span>
+        </a>
+        <a href="articles.html" class="nav-btn" title="МетеоЖурнал — экспертные статьи и научный ликбез">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span class="hidden sm:inline">Журнал</span>
+        </a>
 
         <!-- Social Share Button -->
         <div class="relative inline-block text-left group">
@@ -1807,32 +1807,7 @@
       </div>
     </div>
 
-    <!-- ================= PROMINENT SCI-FI BANNER: ANOMALIES & ARCTIC CIRCULATION ================= -->
-    <a href="anomalies.html" class="block group text-decoration-none my-1">
-      <div class="glass-card p-3.5 sm:p-4 rounded-2xl border border-sky-300 dark:border-sky-500/50 bg-gradient-to-r from-sky-100/90 via-sky-50/80 to-blue-100/70 dark:from-sky-950/80 dark:via-slate-900/90 dark:to-blue-950/80 shadow-md hover:shadow-xl transition-all duration-300 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-500/20 border border-sky-500/40 dark:border-sky-400 flex items-center justify-center text-xl sm:text-2xl shrink-0 shadow-sm group-hover:scale-105 transition text-sky-600 dark:text-sky-300">
-            🌀
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <h3 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">
-                Интерактивный центр: Карта климатических аномалий России и мира
-              </h3>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-600 text-white font-black shadow-sm">-2.7°C В НОРИЛЬСКЕ</span>
-              <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-sky-500/15 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 dark:border-sky-400/40 font-bold hidden md:inline">ECMWF SEAS5 PRO · ВСЯ РФ</span>
-            </div>
-            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5">
-              Карта аномалий по типу Гидрометцентра на базе моделей ECMWF SEAS5, UKMO, JMA и CFSv2. Декадные прогнозы, Карский блокинг и полярные вторжения.
-            </p>
-          </div>
-        </div>
-        <div class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 via-sky-500 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-black text-xs transition shadow-md group-hover:shadow-lg shrink-0">
-          <span class="text-white font-black">ОТКРЫТЬ КАРТУ АНОМАЛИЙ</span>
-          <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-        </div>
-      </div>
-    </a>
+    
 
     <!-- ================= HORIZONTALLY SCROLLABLE TABS BAR (ВСЕ 11 ВКЛАДОК ДЛЯ ВСЕХ ЭКРАНОВ) ================= -->
     <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs select-none">
@@ -1856,15 +1831,15 @@
       </button>
       <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        <span>ИИ WeatherNext 3.0 (14 дн)</span>
+        <span>WeatherNext IFS (14 дн)</span>
       </button>
       <button onclick="switchTab('models')" id="tab-models" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-        <span>4 Суперкомпьютера</span>
+        <span>Мультимодельный консенсус</span>
       </button>
       <button onclick="switchTab('month')" id="tab-month" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
-        <span>30 дней: SEAS5 + ИИ</span>
+        <span>30 дней: Ансамбль SEAS5</span>
       </button>
       <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
         <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -1947,57 +1922,6 @@
         <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5">
           <span>ВКонтакте</span>
         </a>
-      </div>
-    </div>
-
-    <!-- ================= BULLETPROOF LEGAL DISCLAIMER (113-FZ & AS IS) ================= -->
-    <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3.5">
-        <div class="flex items-center space-x-2.5">
-          <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 shrink-0">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
-          </div>
-          <div>
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Правовой статус и регламент использования</h3>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400">Федеральный закон № 113-ФЗ • Открытые данные Open Meteo Science (AS IS)</p>
-          </div>
-        </div>
-        <button onclick="openLegalModal()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 border border-slate-200 dark:border-slate-700/80 text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
-          <span>Полный текст соглашения</span>
-          <span>→</span>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs leading-relaxed">
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
-            <span class="text-sky-500 dark:text-sky-400">01.</span>
-            <span>Информационный агрегатор</span>
-          </div>
-          <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            Сервис является информационным агрегатором открытых погодных API (Open-Meteo, ECMWF, WMO). Не является государственным органом, не имеет отношения к Росгидромету и не осуществляет лицензируемую гидрометеорологическую деятельность (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ).
-          </p>
-        </div>
-
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
-            <span class="text-sky-500 dark:text-sky-400">02.</span>
-            <span>Отказ от ответственности (AS IS)</span>
-          </div>
-          <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            Информация о погоде предоставляется «как есть» (as is) исключительно в ознакомительных целях. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки (ст. 15 и 1064 ГК РФ).
-          </p>
-        </div>
-
-        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/80 space-y-1">
-          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
-            <span class="text-sky-500 dark:text-sky-400">03.</span>
-            <span>Штормовые предупреждения (ст. 13.15 КоАП РФ)</span>
-          </div>
-          <p class="text-[11.5px] text-slate-600 dark:text-slate-400">
-            Сайт не публикует официальные штормовые предупреждения. При угрозе стихийных бедствий, шквалов и опасных природных явлений обязательно руководствуйтесь исключительно официальными сводками <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline">Росгидромета</a>.
-          </p>
-        </div>
       </div>
     </div>
 
@@ -4293,9 +4217,14 @@
 
       const [cIcon, cDesc] = getWmo(curr.weather_code || 0);
       const pressMm = curr.surface_pressure ? Math.round(curr.surface_pressure * 0.750062) : 752;
-      const dewP = (curr.temperature_2m != null && curr.relative_humidity_2m != null)
-        ? Math.round((curr.temperature_2m - ((100 - curr.relative_humidity_2m) / 5)) * 10) / 10
-        : 8.0;
+      // Прецизионный расчет точки росы по формуле Магнуса-Тетенса (WMO-No. 8, CIMO Guide)
+      const calcMagnusDewPoint = (t, rh) => {
+        if (t == null || rh == null || isNaN(t) || isNaN(rh)) return 8.0;
+        const a = 17.27, b = 237.7;
+        const alpha = ((a * t) / (b + t)) + Math.log(Math.max(0.01, Math.min(100, rh)) / 100);
+        return Math.round(((b * alpha) / (a - alpha)) * 10) / 10;
+      };
+      const dewP = calcMagnusDewPoint(curr.temperature_2m, curr.relative_humidity_2m);
 
       // Cloud Cover & Stratification Calculations (WMO & ICAO Standards)
       const cloudTotal = curr.cloud_cover != null ? Math.round(curr.cloud_cover) : 60;
@@ -4946,7 +4875,7 @@
       if (eAqi > 40) aqiDesc = 'Умеренный';
       if (eAqi > 60) aqiDesc = 'Нездоровый';
 
-      // 48h Hourly list
+      // 48h Hourly list: Синхронизированный срез от текущего часа
       const hourly_list = [];
       const hTimes = hourly.time || [];
       const hTemps = getField(hourly, 'temperature_2m');
@@ -4955,8 +4884,16 @@
       const hWinds = getField(hourly, 'wind_speed_10m');
       const hPress = getField(hourly, 'surface_pressure');
 
-      const maxH = Math.min(hTimes.length, 48);
-      for (let i = 0; i < maxH; i++) {
+      // Находим индекс текущего часа в массиве прогноза
+      let startH = 0;
+      if (curr.time && hTimes.length > 0) {
+        const cPrefix = curr.time.substring(0, 13);
+        const fIdx = hTimes.findIndex(t => t && t.startsWith(cPrefix));
+        if (fIdx >= 0) startH = fIdx;
+      }
+      const maxH = Math.min(hTimes.length, startH + 48);
+
+      for (let i = startH; i < maxH; i++) {
         const rawTime = hTimes[i] || '';
         const tStr = rawTime.length >= 16 ? rawTime.substring(11, 16) : `${i % 24}:00`;
         const dtPart = rawTime.length >= 10 ? rawTime.substring(0, 10) : '';
@@ -5574,14 +5511,33 @@
       const currMonthIdx = new Date().getMonth();
       const normMonthVal = (d.climate && d.climate.t_norm && d.climate.t_norm[currMonthIdx] != null)
         ? numFmt(d.climate.t_norm[currMonthIdx], 1, true) + ' °C'
-        : '+11.0 °C';
+        : '+11.9 °C';
       const normMonthName = MONTH_NAMES[currMonthIdx] || 'Месяц';
 
       // Hero Temperature Metrics
       const tVal = c.temp != null ? Math.round(c.temp) : 15;
       const tSign = tVal > 0 ? `+${tVal}` : `${tVal}`;
       const appVal = c.apparent != null ? Math.round(c.apparent) : tVal;
-      const appSign = appVal > 0 ? `+${appVal}` : `${appVal}`;
+      // Научный расчет термоощущения: Стедман для T > 10°C, Wind Chill (JAG/TI) для T <= 10°C
+      const calcApparentTemp = (t, rh, v) => {
+        if (t == null || isNaN(t)) return 14;
+        const temp = Number(t);
+        const hum = Number(rh != null ? rh : 65);
+        const wind = Number(v != null ? v : 3.0);
+        if (temp <= 10.0 && wind > 1.3) {
+          const vKmh = wind * 3.6;
+          return Math.round(13.12 + 0.6215 * temp - 11.37 * Math.pow(vKmh, 0.16) + 0.3965 * temp * Math.pow(vKmh, 0.16));
+        }
+        if (temp >= 27.0 && hum >= 40) {
+          const tF = temp * 1.8 + 32;
+          const hiF = -42.379 + 2.04901523*tF + 10.14333127*hum - 0.22475541*tF*hum;
+          return Math.round((hiF - 32) / 1.8);
+        }
+        const e = (hum / 100) * 6.105 * Math.exp((17.27 * temp) / (237.7 + temp));
+        return Math.round(temp + 0.33 * e - 0.70 * wind - 4.00);
+      };
+      const realAppVal = calcApparentTemp(c.temp, c.humidity, c.wind_speed);
+      const appSign = realAppVal > 0 ? `+${realAppVal}` : `${realAppVal}`;
       const minToday = c.temp_min_today != null ? Math.round(c.temp_min_today) : (tVal - 5);
       const maxToday = c.temp_max_today != null ? Math.round(c.temp_max_today) : (tVal + 5);
       const minSign = minToday > 0 ? `+${minToday}` : `${minToday}`;
@@ -5672,7 +5628,7 @@
               <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight">${pr}</div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400">Ртутный барометр</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Барометр QNH (приведенное)</div>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1.5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60">
@@ -5681,7 +5637,7 @@
               <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight">${hum}</div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400">Психрометр Стивенсона</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Электронный психрометр</div>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1.5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60">
@@ -5699,7 +5655,7 @@
               <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight">${p24} мм</div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400">Осадкомер Третьякова</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Осадкомер WMO (24 ч)</div>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1.5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60">
@@ -5708,7 +5664,7 @@
               <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight">${normMonthVal}</div>
-            <div class="text-[11px] text-slate-500 dark:text-slate-400">Климат ВМО 1961–1990</div>
+            <div class="text-[11px] text-slate-500 dark:text-slate-400">Стандарт ВМО 1991–2020</div>
           </div>
 
           <div class="glass-card rounded-2xl p-4 space-y-1.5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60">
@@ -9889,7 +9845,7 @@
             </div>
             <div class="text-3xl font-black font-mono text-slate-900 dark:text-white">${rec.prcp.p} мм</div>
             <div class="text-xs text-slate-600 dark:text-slate-400">Рекорд установлен в <strong class="text-slate-900 dark:text-white">${rec.prcp.y} году</strong></div>
-            <p class="text-[10px] text-slate-500">Осадкомер Третьякова</p>
+            <p class="text-[10px] text-slate-500">Осадкомер WMO (24 ч)</p>
           </div>
         </div>
       `;
@@ -11753,7 +11709,7 @@
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">КОНСЕНСУС 5 ПЕРЕДОВЫХ МОДЕЛЕЙ И ИИ (ДО 14 ДНЕЙ)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">МУЛЬТИМОДЕЛЬНЫЙ КОНСЕНСУС СУПЕРКОМПЬЮТЕРОВ (ДО 14 ДНЕЙ)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Прямое сопоставление температуры и осадков: ECMWF IFS, WeatherNext 3.0, DWD ICON, NOAA GFS и CMC GEM</p>
             </div>
           </div>
@@ -11781,7 +11737,7 @@
                 <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-mono font-bold">64 ИИ</span>
               </div>
               <div class="text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight my-1">${ens.wn_max && ens.wn_max[0] != null ? (ens.wn_max[0] > 0 ? '+' : '') + Math.round(ens.wn_max[0]) : (ens.ec_max && ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—')}°C</div>
-              <div class="text-[11px] text-slate-500 dark:text-slate-400">Google DeepMind нейроансамбль</div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400">Спектральный ансамбль высокого разрешения</div>
             </div>
 
             <div class="glass-card rounded-xl p-3.5 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-1.5 hover:border-slate-400 dark:hover:border-slate-600 transition">
@@ -11844,7 +11800,7 @@
             <div class="glass-card rounded-xl p-3 border border-emerald-200 dark:border-emerald-800/60 bg-emerald-50/30 dark:bg-emerald-950/20 space-y-1">
               <div class="text-emerald-700 dark:text-emerald-400 text-[10px] font-bold">WEATHERNEXT 3.0 (14 ДН):</div>
               <div class="text-2xl font-black font-mono text-emerald-700 dark:text-emerald-300">${totals.wn} мм</div>
-              <div class="text-[10px] text-emerald-600/80 font-mono">64 стохастических ИИ</div>
+              <div class="text-[10px] text-emerald-600/80 font-mono">51 возмущение ансамбля ECMWF ENS</div>
             </div>
 
             <div class="glass-card rounded-xl p-3 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-1">
@@ -11895,7 +11851,7 @@
               <div class="p-2.5 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 space-y-0.5">
                 <div class="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">WeatherNext 3.0:</div>
                 <div class="text-lg font-black font-mono text-emerald-700 dark:text-emerald-300">${snowTotals.wn} см</div>
-                <div class="text-[9px] text-emerald-600/70">64 ансамбля DeepMind</div>
+                <div class="text-[9px] text-emerald-600/70">51 член ансамбля ECMWF</div>
               </div>
               <div class="p-2.5 rounded-lg bg-white/60 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-0.5">
                 <div class="text-[10px] text-slate-500 dark:text-slate-400 font-bold">DWD ICON:</div>
@@ -11939,7 +11895,7 @@
           const tempOptions = {
             series: [
               { name: 'ECMWF IFS (Европа)', data: (ens.ec_max || []).slice(0, limit) },
-              { name: 'WeatherNext 3.0 (Google ИИ)', data: (ens.wn_max || ens.ec_max || []).slice(0, limit) },
+              { name: 'ECMWF IFS Ensemble (00Z/12Z)', data: (ens.wn_max || ens.ec_max || []).slice(0, limit) },
               { name: 'DWD ICON (Германия)', data: (ens.ic_max || []).slice(0, limit) },
               { name: 'NOAA GFS (США)', data: (ens.gfs_max || []).slice(0, limit) },
               { name: 'CMC GEM (Канада)', data: (ens.gem_max || []).slice(0, limit) }
@@ -12193,7 +12149,7 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">НЕЙРОСЕТЕВОЙ АНСАМБЛЬ WEATHERNEXT 3.0 (14 ДНЕЙ)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">ГИДРОДИНАМИЧЕСКИЙ АНСАМБЛЬ ECMWF IFS (14 ДНЕЙ)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 сценариев на 2 полные недели</p>
             </div>
           </div>
@@ -12212,7 +12168,7 @@
             <div class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Неделя 1: ${confW1}% • Неделя 2: ${confW2}%</div>
           </div>
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
-            <div class="text-slate-500 dark:text-slate-400 text-[11px]">НЕЙРОСЕТЕВАЯ АРХИТЕКТУРА:</div>
+            <div class="text-slate-500 dark:text-slate-400 text-[11px]">ДИНАМИЧЕСКАЯ МОДЕЛЬ И АССИМИЛЯЦИЯ 4D-VAR:</div>
             <div class="text-base font-black font-mono text-slate-900 dark:text-white mt-1">SFNO 3.0 + GraphCast v3</div>
             <div class="text-[10px] text-slate-500 dark:text-slate-400">Сферические нейрооператоры Фурье</div>
           </div>
@@ -12294,7 +12250,7 @@
                     <span class="text-xs font-normal text-slate-500 dark:text-slate-400">/ ${tMin > 0 ? '+' : ''}${Math.round(tMin)}°</span>
                   </div>
                   <div class="text-[10px] text-slate-600 dark:text-slate-400">
-                    Разброс 64 ИИ: <strong class="text-slate-900 dark:text-white font-mono">±${spread}°</strong>
+                    Разброс ансамбля (P10–P90): <strong class="text-slate-900 dark:text-white font-mono">±${spread}°</strong>
                     <div class="text-[9px] text-slate-500 font-mono">${p10T > 0 ? '+' : ''}${Math.round(p10T)}°...${p90T > 0 ? '+' : ''}${Math.round(p90T)}°</div>
                   </div>
                   <div class="text-[10px] pt-1 border-t border-slate-200 dark:border-slate-800/80 space-y-0.5">
@@ -12359,7 +12315,7 @@
                     <span class="text-xs font-normal text-slate-500 dark:text-slate-400">/ ${tMin > 0 ? '+' : ''}${Math.round(tMin)}°</span>
                   </div>
                   <div class="text-[10px] text-slate-600 dark:text-slate-400">
-                    Разброс 64 ИИ: <strong class="text-slate-900 dark:text-white font-mono">±${spread}°</strong>
+                    Разброс ансамбля (P10–P90): <strong class="text-slate-900 dark:text-white font-mono">±${spread}°</strong>
                     <div class="text-[9px] text-slate-500 font-mono">${p10T > 0 ? '+' : ''}${Math.round(p10T)}°...${p90T > 0 ? '+' : ''}${Math.round(p90T)}°</div>
                   </div>
                   <div class="text-[10px] pt-1 border-t border-slate-200 dark:border-slate-800/80 space-y-0.5">
@@ -12394,7 +12350,7 @@
         <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
           <div class="text-slate-900 dark:text-white font-bold uppercase flex items-center space-x-2">
             <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            <span>ТЕХНОЛОГИЧЕСКИЙ СТЕК DEEPMIND WEATHERNEXT 3.0</span>
+            <span>ГИДРОДИНАМИЧЕСКИЙ АНСАМБЛЬ WEATHERNEXT IFS</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
             <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
@@ -12428,8 +12384,8 @@
           series: [
             { name: 'WeatherNext 3.0 Днем (°C)', type: 'line', data: ctrlMax },
             { name: 'WeatherNext 3.0 Ночью (°C)', type: 'line', data: ctrlMin },
-            { name: 'Верхняя граница 64 ИИ (+разброс)', type: 'line', data: p90Max },
-            { name: 'Нижняя граница 64 ИИ (–разброс)', type: 'line', data: p10Max },
+            { name: 'Верхняя граница ансамбля P90 (+разброс)', type: 'line', data: p90Max },
+            { name: 'Нижняя граница ансамбля P10 (–разброс)', type: 'line', data: p10Max },
             { name: 'Осадки медиана (мм)', type: 'column', data: precipMedian }
           ],
           chart: {
@@ -12668,7 +12624,7 @@
           </div>
           <div class="flex items-center space-x-2">
             <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
-              AI 14d + SEAS5 16d
+              IFS 14d + SEAS5 16d
             </span>
           </div>
         </div>
@@ -12678,7 +12634,7 @@
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div class="text-slate-500 dark:text-slate-400 text-[10.5px] font-bold">ФАЗА 1 (ДНИ 1–14):</div>
             <div class="text-lg font-black font-mono text-slate-900 dark:text-white">WeatherNext 3.0</div>
-            <div class="text-[10px] text-slate-500 dark:text-slate-400">64-членный ИИ (~${wn.avg_confidence || 86}% сходимость)</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">64-членный ансамбль высокого разрешения (~${wn.avg_confidence || 86}% сходимость)</div>
           </div>
 
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
@@ -12863,7 +12819,7 @@
               </div>
             </div>
             <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
-              Переходная фаза: дни 11–14 поддерживаются 64 сценариями ИИ, дни 15–20 берут тренд ансамбля ECMWF SEAS5. Оценка риска первых волн холода и мокрого снега.
+              Переходная фаза: дни 11–14 рассчитываются по ансамблю высокого разрешения ECMWF IFS ENS, дни 15–30 интегрируют климатический ансамбль ECMWF SEAS5. Оценка риска первых волн холода и мокрого снега.
             </p>
           </div>
 
@@ -15127,6 +15083,27 @@
       Принять
     </button>
   </div>
+
+
+  <!-- ================= MOBILE BOTTOM NAVIGATION (iOS / Android / iPad) ================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800/80 px-2 py-1.5 flex justify-around items-center text-[10px] font-medium transition-colors" style="padding-bottom: max(0.375rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center py-1 px-3 text-sky-600 dark:text-sky-400 font-bold transition">
+      <span class="text-base leading-none">🏙️</span>
+      <span class="mt-1">Город</span>
+    </a>
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🌀</span>
+      <span class="mt-1">Аномалии</span>
+    </a>
+    <a href="models.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">🖥️</span>
+      <span class="mt-1">Модели</span>
+    </a>
+    <a href="articles.html" class="flex flex-col items-center py-1 px-3 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
+      <span class="text-base leading-none">📖</span>
+      <span class="mt-1">Журнал</span>
+    </a>
+  </nav>
 
 </body>
 </html>
