@@ -1,0 +1,17 @@
+{
+  "name": "Метеопортал — Профессиональная погода",
+  "short_name": "Метеопортал",
+  "description": "Независимый агрегатор метеорологических данных, моделей ECMWF/GFS/ICON и спутникового мониторинга",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070b14",
+  "theme_color": "#0284c7",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
