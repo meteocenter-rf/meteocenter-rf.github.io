@@ -729,9 +729,12 @@
       <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
         <button onclick="inspectStation('norilsk')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-sky-600 dark:text-sky-300 border-sky-400">★ Норильск (-2.7°C)</button>
-        <button onclick="inspectStation('dikson')" class="btn-action !py-1 !px-2.5 !text-xs">Диксон (Арктика)</button>
+        <button onclick="inspectStation('armavir')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-amber-500 border-amber-400">★ Армавир (+1.8°C)</button>
+        <button onclick="inspectStation('krasnodar')" class="btn-action !py-1 !px-2.5 !text-xs">Краснодар (+1.9°C)</button>
+        <button onclick="inspectStation('sochi')" class="btn-action !py-1 !px-2.5 !text-xs">Сочи (Субтропики)</button>
         <button onclick="inspectStation('moscow')" class="btn-action !py-1 !px-2.5 !text-xs">Москва (+1.2°C)</button>
         <button onclick="inspectStation('spb')" class="btn-action !py-1 !px-2.5 !text-xs">Санкт-Петербург (+0.2°C)</button>
+        <button onclick="inspectStation('dikson')" class="btn-action !py-1 !px-2.5 !text-xs">Диксон (Арктика)</button>
         <button onclick="inspectStation('murmansk')" class="btn-action !py-1 !px-2.5 !text-xs">Мурманск</button>
         <button onclick="inspectStation('ekb')" class="btn-action !py-1 !px-2.5 !text-xs">Екатеринбург</button>
         <button onclick="inspectStation('novosib')" class="btn-action !py-1 !px-2.5 !text-xs">Новосибирск (-0.7°C)</button>
@@ -739,7 +742,6 @@
         <button onclick="inspectStation('yakutsk')" class="btn-action !py-1 !px-2.5 !text-xs">Якутск (-1.7°C)</button>
         <button onclick="inspectStation('oymyakon')" class="btn-action !py-1 !px-2.5 !text-xs">Оймякон (-2.6°C)</button>
         <button onclick="inspectStation('vladivostok')" class="btn-action !py-1 !px-2.5 !text-xs">Владивосток (+1.3°C)</button>
-        <button onclick="inspectStation('sochi')" class="btn-action !py-1 !px-2.5 !text-xs">Сочи (+2.0°C)</button>
         <button onclick="inspectStation('salekhard')" class="btn-action !py-1 !px-2.5 !text-xs">Салехард</button>
         <button onclick="inspectStation('anadyr')" class="btn-action !py-1 !px-2.5 !text-xs">Анадырь (Чукотка)</button>
         <button onclick="inspectStation('petropavlovsk')" class="btn-action !py-1 !px-2.5 !text-xs">Камчатка</button>
@@ -768,12 +770,12 @@
 
         <!-- Anomaly Gauge Badge -->
         <div class="flex items-center space-x-3">
-          <div class="text-right">
+          <div id="card-gauge-temp" class="text-right p-1.5 rounded-lg border border-transparent transition-all">
             <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase">Ожидаемая аномалия ΔT</div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-sky-600 dark:text-sky-400" id="insp-anomaly-val">-2.7 °C</div>
           </div>
           <div class="h-10 w-px bg-slate-200 dark:bg-slate-800"></div>
-          <div class="text-left">
+          <div id="card-gauge-precip" class="text-left p-1.5 rounded-lg border border-transparent transition-all">
             <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase">Осадки % нормы</div>
             <div class="text-xl sm:text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400" id="insp-precip-val">145%</div>
           </div>
@@ -1444,36 +1446,68 @@
           meteoinfo: { dec1: +2.3, dec2: +1.4, dec3: +0.5, m0: +1.3, oct: +0.7, nov: +0.1, win: +0.3, precip: 80 }
         }
       },
+      kuban: {
+        name: "Степной Юг: Кубань, Армавир & Ставрополье",
+        wmoCode: "WMO 37031",
+        stationId: "armavir",
+        station: "Армавир (Кубань)",
+        coords: [
+          [48.5, 38.0], [48.5, 47.5], [44.8, 47.5], [44.4, 42.0], [44.4, 37.5], [46.8, 36.5]
+        ],
+        center: [45.3, 40.5],
+        normTemp: 17.2,
+        normPrecip: 48,
+        tmin: "+8.5°C",
+        tmax: "+30.5°C",
+        synopticTitle: "Азово-Кубанский антициклон & Степной суховей",
+        synopticDesc: "Гребень высокого давления над равнинным Предкавказьем. Формирование Армавирского ветрового коридора с восточными сухими ветрами, высокая дневная радиационная инсоляция и дефицит атмосферной влаги.",
+        wind: "Восточный 6–12 м/с, порывы 17 м/с (Армавирский суховей)",
+        decadesTrajectory: [
+          { name: "1-я дек (1–10 сен)", val: "+2.8°C", tag: "Жара до +31°C" },
+          { name: "2-я дек (11–20 сен)", val: "+1.8°C", tag: "Суховей & Солнце" },
+          { name: "3-я дек (21–30 сен)", val: "+0.8°C", tag: "Умеренно тепло" },
+          { name: "Сентябрь 2026", val: "+1.8°C", tag: "Теплый засушливый месяц" }
+        ],
+        desc: "Континентальный степной антициклонический режим Предкавказья. Высокая дневная температура, суховейные процессы в Армавирском ветровом коридоре, засушливость.",
+        models: {
+          ecmwf:     { dec1: +2.8, dec2: +1.8, dec3: +0.8, m0: +1.8, oct: +1.0, nov: +0.2, win: -0.2, precip: 55 },
+          consensus: { dec1: +2.6, dec2: +1.6, dec3: +0.7, m0: +1.6, oct: +0.9, nov: +0.1, win: -0.3, precip: 60 },
+          ukmo:      { dec1: +2.9, dec2: +1.9, dec3: +0.9, m0: +1.9, oct: +1.1, nov: +0.3, win: -0.1, precip: 50 },
+          jma:       { dec1: +2.4, dec2: +1.5, dec3: +0.6, m0: +1.5, oct: +0.8, nov: 0.0, win: -0.4, precip: 65 },
+          cfsv2:     { dec1: +3.2, dec2: +2.1, dec3: +1.1, m0: +2.1, oct: +1.3, nov: +0.5, win: +0.1, precip: 45 },
+          meteoinfo: { dec1: +2.5, dec2: +1.7, dec3: +0.8, m0: +1.7, oct: +1.0, nov: +0.2, win: -0.2, precip: 60 }
+        }
+      },
       south: {
-        name: "Юг России, Крым & Северный Кавказ",
+        name: "Черноморское побережье Кавказа & Крым",
         wmoCode: "WMO 37099",
         stationId: "sochi",
-        station: "Сочи / Краснодар",
+        station: "Сочи (Адлер)",
         coords: [
-          [47.5, 35.0], [48.5, 48.0], [43.0, 48.5], [41.5, 48.0], [42.0, 44.0], [44.0, 37.0], [45.5, 35.0]
+          [45.5, 33.5], [45.5, 36.5], [44.4, 37.5], [44.4, 42.0], [42.0, 48.0], [41.5, 47.5], [42.0, 43.5], [43.4, 40.0], [44.0, 34.0]
         ],
-        center: [44.5, 40.0],
+        center: [43.6, 39.7],
         normTemp: 20.2,
         normPrecip: 125,
-        tmin: "+14.0°C",
-        tmax: "+27.8°C",
+        tmin: "+14.5°C",
+        tmax: "+27.5°C",
         synopticTitle: "Субтропический антициклон & Бархатный сезон",
-        synopticDesc: "Мощный очаг тепловой аномалии. Черноморское побережье и Кавказ находятся под защитой теплого малоподвижного антициклона, прогрев моря продолжается.",
-        wind: "Штиль / Бриз 2–5 м/с",
+        synopticDesc: "Малоподвижный субтропический антициклон над Черным морем. Высокая температура морской воды (+25°C), бризовая циркуляция, барьерная защита Кавказского хребта.",
+        wind: "Морской бриз 2–5 м/с",
         decadesTrajectory: [
-          { name: "1-я дек (1–10 сен)", val: "+2.6°C", tag: "Жара до +28°C" },
-          { name: "2-я дек (11–20 сен)", val: "+2.2°C", tag: "Бархатный сезон" },
-          { name: "3-я дек (21–30 сен)", val: "+1.4°C", tag: "Комфортно" },
+          { name: "1-я дек (1–10 сен)", val: "+2.4°C", tag: "Жара до +28°C" },
+          { name: "2-я дек (11–20 сен)", val: "+2.0°C", tag: "Бархатный сезон" },
+          { name: "3-я дек (21–30 сен)", val: "+1.5°C", tag: "Комфортно" },
           { name: "Сентябрь 2026", val: "+2.0°C", tag: "Жаркий месяц" }
         ],
-        desc: "Субтропический антициклогенез. Устойчивая аномалия тепла, сухо, идеальный бархатный сезон на море.",
+        desc: "Влажные субтропики Черноморья. Устойчивая положительная аномалия температуры, бархатный сезон на побережье.",
         models: {
-          ecmwf:     { dec1: +2.6, dec2: +2.2, dec3: +1.4, m0: +2.0, oct: +1.4, nov: +0.8, win: +0.4, precip: 55 },
-          consensus: { dec1: +2.4, dec2: +2.1, dec3: +1.3, m0: +1.9, oct: +1.3, nov: +0.7, win: +0.3, precip: 60 },
-          ukmo:      { dec1: +2.7, dec2: +2.3, dec3: +1.5, m0: +2.1, oct: +1.5, nov: +0.9, win: +0.5, precip: 50 },
-          jma:       { dec1: +2.3, dec2: +2.0, dec3: +1.2, m0: +1.8, oct: +1.2, nov: +0.6, win: +0.3, precip: 65 },
-          cfsv2:     { dec1: +3.0, dec2: +2.5, dec3: +1.7, m0: +2.3, oct: +1.8, nov: +1.1, win: +0.7, precip: 45 },
-          meteoinfo: { dec1: +2.5, dec2: +2.3, dec3: +1.8, m0: +2.2, oct: +1.6, nov: +1.0, win: +0.5, precip: 60 }
+          ecmwf:     { dec1: +2.4, dec2: +2.0, dec3: +1.5, m0: +2.0, oct: +1.4, nov: +0.8, win: +0.4, precip: 90 },
+          consensus: { dec1: +2.3, dec2: +1.9, dec3: +1.4, m0: +1.9, oct: +1.3, nov: +0.7, win: +0.3, precip: 95 },
+          ukmo:      { dec1: +2.5, dec2: +2.1, dec3: +1.6, m0: +2.1, oct: +1.5, nov: +0.9, win: +0.5, precip: 85 },
+          jma:       { dec1: +2.1, dec2: +1.8, dec3: +1.3, m0: +1.7, oct: +1.2, nov: +0.6, win: +0.3, precip: 100 },
+          cfsv2:     { dec1: +2.8, dec2: +2.3, dec3: +1.7, m0: +2.3, oct: +1.8, nov: +1.1, win: +0.7, precip: 80 },
+          meteoinfo: { dec1: +2.3, dec2: +2.1, dec3: +1.6, m0: +2.0, oct: +1.5, nov: +0.9, win: +0.4, precip: 90 }
         }
       },
       urals: {
@@ -1939,7 +1973,9 @@
       { id: 'yakutsk', name: 'Якутск', coords: [62.0397, 129.7422], regKey: 'yakutia' },
       { id: 'oymyakon', name: 'Оймякон', coords: [63.4641, 142.7737], regKey: 'kolyma_magadan' },
       { id: 'vladivostok', name: 'Владивосток', coords: [43.1198, 131.8869], regKey: 'fareast_south' },
-      { id: 'sochi', name: 'Сочи', coords: [43.6028, 39.7342], regKey: 'south' },
+      { id: 'armavir', name: 'Армавир (Кубань)', coords: [44.9897, 41.1278], regKey: 'kuban', isPrimary: true },
+      { id: 'krasnodar', name: 'Краснодар', coords: [45.0355, 38.9753], regKey: 'kuban' },
+      { id: 'sochi', name: 'Сочи (Субтропики)', coords: [43.6028, 39.7342], regKey: 'south' },
       { id: 'salekhard', name: 'Салехард', coords: [66.5299, 66.6145], regKey: 'yamal' },
       { id: 'anadyr', name: 'Анадырь', coords: [64.7332, 177.5089], regKey: 'chukotka' },
       { id: 'petropavlovsk', name: 'Камчатка', coords: [53.0370, 158.6559], regKey: 'kamchatka' },
@@ -2308,24 +2344,44 @@
         st = STATIONS.find(function(s) { return s.regKey === rKey; }) || STATIONS.find(function(s) { return s.id === r.stationId; });
       }
 
-      var val = getRegionVal(r, currentDecade, currentModel, currentMetric);
-      var valStr = (currentMetric === 'temp')
-        ? ((val > 0 ? '+' : '') + val.toFixed(1) + ' °C')
-        : (val + ' %');
+      var tempVal = getRegionVal(r, currentDecade, currentModel, 'temp');
+      var precipVal = getRegionVal(r, currentDecade, currentModel, 'precip');
+
+      var tempStr = (tempVal > 0 ? '+' : '') + tempVal.toFixed(1) + ' °C';
+      var precipStr = precipVal + ' %';
 
       var displayName = st ? ('г. ' + st.name + ' (' + r.name + ')') : r.name;
       document.getElementById('insp-city-name').textContent = displayName;
       document.getElementById('insp-wmo-badge').textContent = r.wmoCode;
       document.getElementById('insp-region-sub').textContent = 'Опорная станция: ' + (st ? st.name : r.station) + ' · Базовый период WMO: 1991–2020';
-      document.getElementById('insp-anomaly-val').textContent = valStr;
-      document.getElementById('insp-precip-val').textContent = r.models[currentModel].precip + '%';
+
+      // Strict Separation: Temperature Anomaly is ALWAYS in °C
+      var anomEl = document.getElementById('insp-anomaly-val');
+      if (anomEl) {
+        anomEl.textContent = tempStr;
+        anomEl.style.color = getTempColor(tempVal);
+      }
+
+      // Precipitation Anomaly is ALWAYS in % of norm
+      var precipEl = document.getElementById('insp-precip-val');
+      if (precipEl) {
+        precipEl.textContent = precipStr;
+        precipEl.style.color = getPrecipColor(precipVal);
+      }
+
+      // Visual focus on active metric card
+      var cardTemp = document.getElementById('card-gauge-temp') || (anomEl ? anomEl.parentElement : null);
+      var cardPrecip = document.getElementById('card-gauge-precip') || (precipEl ? precipEl.parentElement : null);
+      if (currentMetric === 'temp') {
+        if (cardTemp) cardTemp.className = 'text-right p-1.5 rounded-lg bg-sky-500/10 border border-sky-500/30 ring-1 ring-sky-500/20 transition-all';
+        if (cardPrecip) cardPrecip.className = 'text-left p-1.5 rounded-lg border border-transparent opacity-75 transition-all';
+      } else {
+        if (cardTemp) cardTemp.className = 'text-right p-1.5 rounded-lg border border-transparent opacity-75 transition-all';
+        if (cardPrecip) cardPrecip.className = 'text-left p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 ring-1 ring-cyan-500/20 transition-all';
+      }
 
       document.getElementById('insp-norm-val').textContent = 'Климатическая норма WMO: ' + (r.normTemp > 0 ? '+' : '') + r.normTemp.toFixed(1) + ' °C · Осадки: ' + r.normPrecip + ' мм';
       document.getElementById('insp-norm-desc').textContent = r.desc;
-
-      // Anomaly color badge
-      var anomEl = document.getElementById('insp-anomaly-val');
-      anomEl.style.color = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
 
       // Temperature Min/Max
       var tminEl = document.getElementById('insp-tmin');
@@ -2349,15 +2405,21 @@
         hudPeriodEl.textContent = (st ? ('★ ' + st.name.toUpperCase()) : r.name.toUpperCase()) + ' · ' + (r.synopticTitle || 'Синоптический статус');
       }
       if (hudBadgeEl) {
-        hudBadgeEl.textContent = (currentMetric === 'temp') ? ('ΔT: ' + valStr) : ('Осадки: ' + valStr);
-        hudBadgeEl.style.color = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
+        if (currentMetric === 'temp') {
+          hudBadgeEl.textContent = 'ΔT: ' + tempStr;
+          hudBadgeEl.style.color = getTempColor(tempVal);
+        } else {
+          hudBadgeEl.textContent = 'Осадки: ' + precipStr + ' нормы';
+          hudBadgeEl.style.color = getPrecipColor(precipVal);
+        }
       }
       if (hudDescEl) {
-        hudDescEl.textContent = (r.synopticDesc || r.desc) + ' Базовый диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
+        hudDescEl.textContent = (r.synopticDesc || r.desc) + ' Диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
       }
       var reopenTitleEl = document.getElementById('reopen-hud-title');
       if (reopenTitleEl && st) {
-        reopenTitleEl.textContent = '★ ' + st.name + ' (' + valStr + ') ▲';
+        var activeLabelStr = (currentMetric === 'temp') ? tempStr : ('Осадки ' + precipStr);
+        reopenTitleEl.textContent = '★ ' + st.name + ' (' + activeLabelStr + ') ▲';
       }
 
       // Decades trajectory strip
@@ -3014,6 +3076,7 @@
       var keyRegions = [
         { key: 'taimyr', lat: 69.35, lon: 88.20, norm_t: 3.5, norm_p: 45 },
         { key: 'central', lat: 55.75, lon: 37.62, norm_t: 11.8, norm_p: 65 },
+        { key: 'kuban', lat: 44.99, lon: 41.13, norm_t: 17.2, norm_p: 48 },
         { key: 'south', lat: 43.58, lon: 39.72, norm_t: 20.2, norm_p: 125 },
         { key: 'yakutia', lat: 62.03, lon: 129.73, norm_t: 2.5, norm_p: 32 },
         { key: 'northwest', lat: 59.93, lon: 30.31, norm_t: 11.5, norm_p: 68 },
@@ -3140,7 +3203,8 @@
       { id: 'central', name: 'Центр ЕТР (Москва)', lat: 55.75, lon: 37.6, region: 'Центральная Россия' },
       { id: 'spb', name: 'Северо-Запад (СПб)', lat: 59.93, lon: 30.3, region: 'Балтика' },
       { id: 'urals', name: 'Урал (Екатеринбург)', lat: 56.84, lon: 60.6, region: 'Уральский регион' },
-      { id: 'south', name: 'Юг России (Сочи)', lat: 43.6, lon: 39.7, region: 'Черноморский регион' },
+      { id: 'armavir', name: 'Степной Юг (Армавир)', lat: 44.99, lon: 41.13, region: 'Кубанская степь' },
+      { id: 'south', name: 'Черноморское побережье (Сочи)', lat: 43.6, lon: 39.7, region: 'Субтропики' },
       { id: 'yakutia', name: 'Якутия (Якутск)', lat: 62.04, lon: 129.74, region: 'Лено-Вилюйский бассейн' },
       { id: 'magadan', name: 'Охотское море (Магадан)', lat: 59.56, lon: 150.8, region: 'Охотоморье' },
       { id: 'kamchatka', name: 'Камчатка (Петропавловск)', lat: 53.04, lon: 158.66, region: 'Камчатский регион' },
