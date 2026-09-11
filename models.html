@@ -16,6 +16,12 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Мультимодельный верификатор: сравнение ECMWF, GFS, ICON, GEM и ПЛАВ | МетеоПортал</title>
+    <!-- OpenGraph SEO -->
+    <meta property="og:title" content="МетеоПортал — Информационный агрегатор">
+    <meta property="og:description" content="Независимая климатическая лаборатория сезонного анализа данных. Архивы погоды, ECMWF, GFS, ICON.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
   <meta name="description" content="Независимое сопоставление 5 мировых гидродинамических моделей погоды: европейская ECMWF IFS, американская NOAA GFS, немецкая DWD ICON, канадская CMC GEM и полулагранжева модель ПЛАВ Гидрометцентра РФ. Ансамблевый спред и объективные метрики точности.">
   <meta name="keywords" content="ecmwf ifs, gfs прогноз, dwd icon, модель плав гидрометцентр, сравнение моделей погоды, ансамблевый прогноз, точность прогноза погоды, метеорологические модели">
   <link rel="canonical" href="https://meteocenter-rf.github.io/models.html">
@@ -83,6 +89,227 @@
       width: 100% !important;
     }
 
+  
+/* ================= UNIFIED EXECUTIVE NAVIGATION BUTTONS ================= */
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.32rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 0.625rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+    }
+    html.light .nav-btn {
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    html.light .nav-btn:hover {
+      background-color: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
+    html.dark .nav-btn {
+      background-color: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    html.dark .nav-btn:hover {
+      background-color: rgba(30, 41, 59, 0.88);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    /* ================= EXECUTIVE ANOMALIES & CIRCULATION PORTAL BUTTON ================= */
+    .nav-btn-anomalies {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 9999px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+      letter-spacing: -0.01em;
+    }
+    html.light .nav-btn-anomalies {
+      background: #f0f9ff !important;
+      color: #0369a1 !important;
+      border: 1px solid #bae6fd !important;
+      box-shadow: 0 1px 2px rgba(2, 132, 199, 0.06);
+    }
+    html.light .nav-btn-anomalies:hover {
+      background: #e0f2fe !important;
+      color: #0284c7 !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.12);
+      transform: translateY(-1px);
+    }
+    html.light .nav-btn-anomalies span.text-white {
+      color: #0369a1 !important;
+    }
+    html.dark .nav-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 60%, #0c4a6e 100%) !important;
+      color: #ffffff !important;
+      border: 1.5px solid #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.dark .nav-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+      color: #ffffff !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* Executive Tab Button for Anomalies Page */
+    .tab-btn-anomalies {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 0.75rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-family: var(--font-sans);
+      letter-spacing: -0.01em;
+    }
+    html.light .tab-btn-anomalies {
+      background: #f0f9ff !important;
+      color: #0369a1 !important;
+      border: 1px solid #bae6fd !important;
+      box-shadow: 0 1px 3px rgba(2, 132, 199, 0.08) !important;
+    }
+    html.light .tab-btn-anomalies:hover {
+      background: #e0f2fe !important;
+      color: #0284c7 !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15) !important;
+      transform: translateY(-1px);
+    }
+    html.light .tab-btn-anomalies span.text-white {
+      color: #0369a1 !important;
+    }
+    html.dark .tab-btn-anomalies {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0f172a 100%) !important;
+      color: #ffffff !important;
+      border: 1.5px solid #38bdf8 !important;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    html.dark .tab-btn-anomalies:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%) !important;
+      color: #ffffff !important;
+      border-color: #7dd3fc !important;
+      box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+      transform: translateY(-1px);
+    }
+
+    /* Support / Donate Button */
+    html.light .nav-btn-donate {
+      background-color: #fff1f2;
+      color: #be123c;
+      border-color: #fecdd3;
+    }
+    html.light .nav-btn-donate:hover {
+      background-color: #ffe4e6;
+      color: #9f1239;
+      border-color: #fda4af;
+    }
+    html.dark .nav-btn-donate {
+      background-color: rgba(159, 18, 57, 0.25);
+      color: #fda4af;
+      border-color: rgba(244, 63, 94, 0.35);
+    }
+    html.dark .nav-btn-donate:hover {
+      background-color: rgba(159, 18, 57, 0.4);
+      color: #ffe4e6;
+      border-color: rgba(244, 63, 94, 0.6);
+    }
+
+    /* Live Status Badge */
+    .nav-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+    }
+    html.light .nav-status-badge {
+      background-color: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+    html.dark .nav-status-badge {
+      background-color: rgba(6, 78, 59, 0.45);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+
+    /* Age Badge (0+) */
+    .nav-badge-age {
+      padding: 0.15rem 0.4rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      border-radius: 0.35rem;
+      font-family: var(--font-mono);
+    }
+    html.light .nav-badge-age {
+      background-color: #f1f5f9;
+      color: #64748b;
+      border: 1px solid #cbd5e1;
+    }
+    html.dark .nav-badge-age {
+      background-color: rgba(15, 23, 42, 0.8);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Theme Switcher Button */
+    html.light .nav-btn-theme {
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    }
+    html.light .nav-btn-theme:hover {
+      background-color: #f8fafc !important;
+      color: #0f172a !important;
+      border-color: #94a3b8 !important;
+    }
+    html.dark .nav-btn-theme {
+      background-color: rgba(15, 23, 42, 0.8) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+    html.dark .nav-btn-theme:hover {
+      background-color: rgba(30, 41, 59, 0.9) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.25) !important;
+    }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
@@ -93,54 +320,103 @@
 <body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 antialiased pb-20 md:pb-8">
 
   <!-- ================= TOP NAVIGATION ================= -->
-  <header class="sticky top-0 z-40 backdrop-blur-xl bg-white/85 dark:bg-[#0c1221]/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-      
-      <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group text-decoration-none">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-sky-500/20">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+  <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 z-40">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl overflow-hidden shadow-sm border border-slate-300 dark:border-slate-700 shrink-0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+            <defs>
+              <linearGradient id="h-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#090d16"/><stop offset="50%" stop-color="#0c2340"/><stop offset="100%" stop-color="#0284c7"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="16" fill="url(#h-bg)"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="2 3"/>
+            <path d="M22 36 a9 9 0 0 1 1-17.5 A12.5 12.5 0 0 1 44.5 22.5 a8.5 8.5 0 0 1-2.5 13.5 Z" fill="#ffffff"/>
+            <polygon points="34,19 23,34 32,34 29,47 43,30 34,30" fill="#f59e0b"/>
           </svg>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-base tracking-tight text-slate-900 dark:text-white">МЕТЕОПОРТАЛ</span>
-            <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/70 text-indigo-700 dark:text-indigo-300 font-mono">Модели</span>
-          </div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-normal leading-none mt-0.5 hidden sm:block">Суперкомпьютерный консенсус и метрики надежности</p>
+          <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="tracking-tight">МЕТЕОПОРТАЛ</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold uppercase hidden md:inline">Информационный агрегатор</span>
+            <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold hidden lg:inline">Негосударственный сервис</span>
+          </h1>
+          <p class="text-[10.5px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium hidden sm:block">Независимый агрегатор открытых данных · Модели ECMWF, ICON, GFS · Климатический архив 1890–2026</p>
         </div>
-      </a>
+      </div>
 
-      <!-- Nav Links -->
-      <nav class="hidden md:flex items-center gap-1.5 text-sm font-medium">
-        <a href="index.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Городской прогноз
+      <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
+        <!-- Dedicated Anomalies & Circulation Page Link -->
+        <a href="anomalies.html" class="nav-btn !bg-rose-500/10 !border-rose-300 dark:!border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+          <span class="text-xs shrink-0">🌀</span>
+          <span class="hidden sm:inline">Аномалии</span>
+          <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">-2.7°C</span>
         </a>
-        <a href="anomalies.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Карта аномалий
-        </a>
-        <a href="models.html" class="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-sky-500 text-white dark:text-slate-950 font-semibold shadow-sm transition">
-          Верификатор моделей
-        </a>
-        <a href="articles.html" class="px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-          Статьи & Ликбез
-        </a>
-        <a href="snow.html" class="nav-btn" title="Снежный монитор и космическая гляциология">
-          <span class="text-xs shrink-0">❄️</span>
-          <span class="hidden sm:inline">Снег</span>
-        </a>
-      </nav>
 
-      <!-- Theme & Back -->
-      <div class="flex items-center gap-2">
-        <button onclick="toggleTheme()" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition" title="Переключить тему">
-          <span class="dark:hidden">🌙</span>
-          <span class="hidden dark:inline">☀️</span>
+        <!-- Donation Button -->
+        <button onclick="openDonationModal()" class="nav-btn nav-btn-donate" title="Фонд поддержки метеопортала">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+          <span class="hidden sm:inline">Поддержать</span>
         </button>
-        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800/90 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
-          ← К погоде
+
+        <!-- Clean Executive Navigation: Models & Articles -->
+        <a href="models.html" class="nav-btn" title="Мультимодельный верификатор: ECMWF, GFS, ICON, GEM, ПЛАВ">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span class="hidden sm:inline">Модели</span>
         </a>
+        <a href="articles.html" class="nav-btn" title="МетеоЖурнал — экспертные статьи и научный ликбез">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span class="hidden sm:inline">Журнал</span>
+        </a>
+        <a href="snow.html" class="nav-btn !bg-sky-500/20 !border-sky-400/60 !text-sky-300 hover:!bg-sky-500/30 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
+          <span class="text-xs shrink-0">❄️</span>
+          <span class="inline font-bold">Снег</span>
+          <span class="text-[9px] font-mono px-1 rounded bg-sky-500 text-white font-black hidden md:inline">NEW</span>
+        </a>
+
+        <!-- Social Share Button -->
+        <div class="relative inline-block text-left group">
+          <button onclick="toggleShareDropdown()" class="nav-btn">
+            <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span class="hidden md:inline">Поделиться</span>
+          </button>
+          <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl dropdown-panel shadow-2xl py-1 z-50 text-xs font-medium">
+            <a href="javascript:void(0)" onclick="shareWeather('vk')" class="flex items-center px-3 py-1.5 dropdown-item">
+              <span class="mr-2 text-slate-400">●</span> ВКонтакте
+            </a>
+            <a href="javascript:void(0)" onclick="shareWeather('tg')" class="flex items-center px-3 py-1.5 dropdown-item">
+              <span class="mr-2 text-slate-400">●</span> Telegram
+            </a>
+            <a href="javascript:void(0)" onclick="shareWeather('ok')" class="flex items-center px-3 py-1.5 dropdown-item">
+              <span class="mr-2 text-slate-400">●</span> Одноклассники
+            </a>
+            <a href="javascript:void(0)" onclick="shareWeather('copy')" class="flex items-center px-3 py-1.5 dropdown-item border-t border-slate-200 dark:border-slate-800">
+              <span class="mr-2 text-slate-400">●</span> Скопировать ссылку
+            </a>
+          </div>
+        </div>
+
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="nav-btn" title="Связаться с автором в Telegram">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          <span class="hidden sm:inline">Telegram</span>
+        </a>
+        <a href="https://vk.com/club241257551" target="_blank" class="nav-btn">
+          <span class="text-xs font-bold text-slate-700 dark:text-slate-300">VK</span>
+          <span class="hidden lg:inline">Группа</span>
+        </a>
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded nav-badge-age font-mono text-[10px] font-bold" title="Знак информационной продукции (№ 436-ФЗ)">0+</span>
+
+        <span class="nav-status-badge">
+          <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+          <span>Онлайн ВМО</span>
+        </span>
+
+        <!-- Light / Dark Theme Switcher Button -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
+          <span id="theme-toggle-icon" class="text-sm">☀️</span>
+          <span id="theme-toggle-text" class="hidden sm:inline font-bold">Светлая</span>
+        </button>
       </div>
     </div>
   </header>
@@ -299,30 +575,85 @@
   </main>
 
   <!-- ================= FOOTER ================= -->
-  <footer class="bg-white dark:bg-[#090e1a] border-t border-slate-200 dark:border-slate-800 py-10 px-4 sm:px-6 transition-colors">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">МП</div>
-        <div>
-          <div class="text-sm font-bold text-slate-900 dark:text-white">МетеоПортал Модели</div>
-          <div class="text-xs text-slate-500 dark:text-slate-400">Мультимодельная верификация открытых прогнозов. WMO, ECMWF, NOAA NCEP, DWD.</div>
+  <footer class="mt-12 border-t border-slate-200/80 dark:border-slate-800/80 py-8 px-4 sm:px-6 glass text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto space-y-6">
+      
+      <!-- 3 Columns: Legal Disclaimers, Statutory Licensing Exemption, Emergency Disclaimer -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 leading-relaxed text-[11.5px]">
+        
+        <!-- Col 1: Aggregator & Licensing (99-FZ & 113-FZ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">01.</span>
+            <span>Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+          </p>
+          <p class="text-slate-500 dark:text-slate-400 font-medium">
+            Сервис <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ) и не выполняет расчет оригинальных прогнозов погоды.
+          </p>
+        </div>
+
+        <!-- Col 2: Non-Government Resource Disclaimer (ст. 17.10 КоАП РФ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">02.</span>
+            <span>Негосударственный статус (ст. 17.10 КоАП РФ)</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Сайт <strong>не является государственным ресурсом</strong> и не имеет отношения к Федеральной службе по гидрометеорологии и мониторингу окружающей среды (Росгидромет), подведомственным учреждениям (ФГБУ «Гидрометцентр России», УГМС) или органам исполнительной власти РФ.
+          </p>
+          <p class="text-slate-500 dark:text-slate-400">
+            На ресурсе не используется государственная символика РФ (герб, флаг), ведомственная геральдика и официальные наименования органов власти.
+          </p>
+        </div>
+
+        <!-- Col 3: As-Is Commercial Disclaimer & Storm Warnings (ст. 13.15 КоАП РФ, 152-ФЗ) -->
+        <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
+          <div class="font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
+            <span class="text-sky-500">03.</span>
+            <span>Отказ от ответственности и экстренные сводки</span>
+          </div>
+          <p class="text-slate-600 dark:text-slate-300">
+            Информация о погоде предоставляется <strong>«как есть» (as is) исключительно в ознакомительных целях</strong>. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).
+          </p>
+          <p class="text-slate-500 dark:text-slate-400">
+            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline">Росгидромета</a>.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Buttons & Legal Policy Modals -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px]">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-4">
+          <button type="button" onclick="openLegalModal()" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition font-medium underline">
+            Правовой статус (113-ФЗ, 99-ФЗ, ст. 1334 ГК РФ)
+          </button>
+          <span>·</span>
+          <button type="button" onclick="openPrivacyModal()" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition font-medium underline">
+            Политика конфиденциальности и Cookies (152-ФЗ)
+          </button>
+          <span>·</span>
+          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            Open-Meteo API (CC BY 4.0)
+          </a>
+          <span>·</span>
+          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            RainViewer Radar API
+          </a>
+          <span>·</span>
+          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+            Официальный портал МЧС РФ
+          </a>
+        </div>
+
+        <div class="text-slate-500 dark:text-slate-400 text-[11px] font-mono">
+          © 2026 МетеоПортал · Независимый погодный агрегатор открытых данных
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-400">
-        <a href="index.html" class="hover:text-sky-500 transition">Погода сейчас</a>
-        <a href="anomalies.html" class="hover:text-sky-500 transition">Аномалии и циркуляция</a>
-        <a href="models.html" class="text-indigo-600 dark:text-indigo-400 font-semibold">Суперкомпьютеры</a>
-        <a href="articles.html" class="hover:text-sky-500 transition">Журнал</a>
-        <a href="snow.html" class="nav-btn" title="Снежный монитор и космическая гляциология">
-          <span class="text-xs shrink-0">❄️</span>
-          <span class="hidden sm:inline">Снег</span>
-        </a>
-      </div>
-
-      <div class="text-[11px] text-slate-400 dark:text-slate-500 text-center md:text-right">
-        © 2026 МетеоПортал. Данные численного гидродинамического моделирования.
-      </div>
     </div>
   </footer>
 
@@ -608,5 +939,62 @@
     });
   </script>
 
+
+<script>
+  // Stubs for global header functions from index.html
+  function toggleShareDropdown() {
+    var d = document.getElementById('share-dropdown');
+    if (d) d.classList.toggle('hidden');
+  }
+  function shareWeather() {
+    alert("Share functionality is available on the main page.");
+  }
+  function openDonationModal() {
+    alert("Donation functionality is available on the main page.");
+  }
+</script>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-16 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    window.showToast = function(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      
+      const toast = document.createElement('div');
+      toast.className = `transform transition-all duration-300 translate-y-4 opacity-0 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border pointer-events-auto ${
+        type === 'success' 
+          ? 'bg-emerald-50/95 dark:bg-emerald-950/95 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+          : 'bg-rose-50/95 dark:bg-rose-950/95 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
+      }`;
+      
+      const icon = type === 'success' 
+        ? '<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
+        : '<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
+        
+      toast.innerHTML = `${icon}<span class="text-xs sm:text-sm font-semibold">${msg}</span>`;
+      container.appendChild(toast);
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+      
+      // Remove after 3s
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    };
+    
+    // Override alert globally for seamless UX
+    window.alert = function(msg) {
+      const type = msg.toLowerCase().includes('ошиб') || msg.toLowerCase().includes('fail') ? 'error' : 'success';
+      window.showToast(msg, type);
+    };
+  </script>
 </body>
+
+
 </html>

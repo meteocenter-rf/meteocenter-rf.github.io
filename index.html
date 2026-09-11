@@ -1353,8 +1353,6 @@
     html.light .sub-tab-active *,
     html.light .export-btn,
     html.light .export-btn *,
-    html.light .station-chip-accent,
-    html.light .station-chip-accent *,
     html.light .rolling-filter-active,
     html.light .rolling-filter-active *,
     html.light .trend-btn-active,
@@ -1687,18 +1685,18 @@
             <span class="hidden md:inline">Поделиться</span>
           </button>
           <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl dropdown-panel shadow-2xl py-1 z-50 text-xs font-medium">
-            <a href="javascript:void(0)" onclick="shareWeather('vk')" class="flex items-center px-3 py-1.5 dropdown-item">
+            <button type="button" onclick="shareWeather('vk')" class="w-full text-left flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-slate-400">●</span> ВКонтакте
-            </a>
-            <a href="javascript:void(0)" onclick="shareWeather('tg')" class="flex items-center px-3 py-1.5 dropdown-item">
+            </button>
+            <button type="button" onclick="shareWeather('tg')" class="w-full text-left flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-slate-400">●</span> Telegram
-            </a>
-            <a href="javascript:void(0)" onclick="shareWeather('ok')" class="flex items-center px-3 py-1.5 dropdown-item">
+            </button>
+            <button type="button" onclick="shareWeather('ok')" class="w-full text-left flex items-center px-3 py-1.5 dropdown-item">
               <span class="mr-2 text-slate-400">●</span> Одноклассники
-            </a>
-            <a href="javascript:void(0)" onclick="shareWeather('copy')" class="flex items-center px-3 py-1.5 dropdown-item border-t border-slate-200 dark:border-slate-800">
+            </button>
+            <button type="button" onclick="shareWeather('copy')" class="w-full text-left flex items-center px-3 py-1.5 dropdown-item border-t border-slate-200 dark:border-slate-800">
               <span class="mr-2 text-slate-400">●</span> Скопировать ссылку
-            </a>
+            </button>
           </div>
         </div>
 
@@ -1793,6 +1791,7 @@
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           </div>
+          <label for="city-input" class="sr-only">Поиск города</label>
           <input type="text" id="city-input" placeholder="Введите город или метеостанцию (напр. Восток, Москва, Диксон, Оймякон, Сочи)..." 
             class="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition bg-slate-50/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/80 focus:ring-2 focus:ring-slate-400 focus:outline-none"
             value="Москва" autocomplete="off" spellcheck="false" />
@@ -1836,9 +1835,9 @@
     
 
     <!-- ================= INNOVATIVE HIGH-PRECISION TABS COMMAND BAR ================= -->
-    <div class="relative group my-2 select-none">
+    <div class="relative group my-2 select-none w-full max-w-full overflow-hidden rounded-xl">
       <!-- Left Fade & Arrow -->
-      <button id="tabs-scroll-btn-left" onclick="scrollTabsBar(-220)" 
+      <button id="tabs-scroll-btn-left" aria-label="Прокрутить вкладки влево" onclick="scrollTabsBar(-220)" 
         class="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/95 dark:bg-slate-900/95 shadow-md border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 opacity-0 pointer-events-none transition-all duration-200 hover:scale-110 active:scale-95" 
         title="Прокрутить влево">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
@@ -1892,7 +1891,7 @@
 
       <!-- Right Fade & Arrow -->
       <div id="tabs-fade-right" class="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 transition-opacity duration-200"></div>
-      <button id="tabs-scroll-btn-right" onclick="scrollTabsBar(220)" 
+      <button id="tabs-scroll-btn-right" aria-label="Прокрутить вкладки вправо" onclick="scrollTabsBar(220)" 
         class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/95 dark:bg-slate-900/95 shadow-md border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 opacity-0 pointer-events-none transition-all duration-200 hover:scale-110 active:scale-95 group-hover:opacity-100 group-hover:pointer-events-auto" 
         title="Прокрутить вправо">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
@@ -6346,7 +6345,7 @@
 
           <!-- Satellite Display Frame with Interactive Playback Controls -->
           <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 aspect-[16/9] sm:aspect-[21/9] flex items-center justify-center">
-            <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" 
+            <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" alt="Спутниковый снимок облачности" 
               alt="Спутниковый снимок EUMETSAT и NASA" 
               class="w-full h-full object-cover transition-opacity duration-300" 
               onerror="handleSatelliteImgError(this)" />
@@ -14745,7 +14744,7 @@
 
       // 1. Mouse Wheel Redirection (Vertical wheel scrolls tabs horizontally)
       tb.addEventListener('wheel', (e) => {
-        if (e.deltaY !== 0) {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaY !== 0) {
           e.preventDefault();
           tb.scrollBy({ left: e.deltaY * 1.3, behavior: 'auto' });
         }
@@ -15308,5 +15307,47 @@
     });
   </script>
 
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-16 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    window.showToast = function(msg, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      
+      const toast = document.createElement('div');
+      toast.className = `transform transition-all duration-300 translate-y-4 opacity-0 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border pointer-events-auto ${
+        type === 'success' 
+          ? 'bg-emerald-50/95 dark:bg-emerald-950/95 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200'
+          : 'bg-rose-50/95 dark:bg-rose-950/95 border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200'
+      }`;
+      
+      const icon = type === 'success' 
+        ? '<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>'
+        : '<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
+        
+      toast.innerHTML = `${icon}<span class="text-xs sm:text-sm font-semibold">${msg}</span>`;
+      container.appendChild(toast);
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      });
+      
+      // Remove after 3s
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    };
+    
+    // Override alert globally for seamless UX
+    window.alert = function(msg) {
+      const type = msg.toLowerCase().includes('ошиб') || msg.toLowerCase().includes('fail') ? 'error' : 'success';
+      window.showToast(msg, type);
+    };
+  </script>
 </body>
+
 </html>
