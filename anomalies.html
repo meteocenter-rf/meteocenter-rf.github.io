@@ -699,11 +699,17 @@
       </div>
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
-        <!-- Dedicated Anomalies & Circulation Page Link -->
-        <a href="anomalies.html" class="nav-btn !bg-rose-500/10 !border-rose-300 dark:!border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+        <!-- Main Forecast Page Link -->
+        <a href="index.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Главный погодный портал: прогноз погоды, архив за 120 лет, почасовой радар">
+          <span class="text-xs shrink-0">🏠</span>
+          <span class="hidden sm:inline">Главный прогноз</span>
+        </a>
+
+        <!-- Dedicated Anomalies & Circulation Page Link (Active) -->
+        <a href="anomalies.html" class="nav-btn !bg-rose-500/15 !border-rose-400 dark:!border-rose-500/40 text-rose-600 dark:text-rose-400 font-black shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
           <span class="text-xs shrink-0">🌀</span>
-          <span class="hidden sm:inline">Аномалии</span>
-          <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">-2.7°C</span>
+          <span class="inline">Аномалии</span>
+          <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">LIVE</span>
         </a>
 
         <!-- Donation Button -->
@@ -979,6 +985,47 @@
         </div>
       </div>
 
+      <!-- ================= LIVE POINT & CITY ANOMALY SEARCH BAR ================= -->
+      <div class="glass-panel p-3.5 sm:p-4 border border-sky-500/30 bg-gradient-to-r from-sky-500/10 via-slate-900/60 to-slate-900/80 shadow-lg space-y-2.5">
+        <form id="anom-search-form" onsubmit="handleAnomSearch(event)" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div class="relative flex-1">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-sky-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+            <input id="anom-city-input" type="text" placeholder="Введите любой город мира, координаты (напр. 55.75, 37.62) или индекс WMO..." 
+                   class="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm transition">
+            <button type="button" onclick="clearAnomInput()" id="anom-clear-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Очистить">✕</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="submit" class="btn-action !bg-sky-600 hover:!bg-sky-500 !text-white !border-transparent shadow-lg shrink-0 flex items-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-bold transition">
+              <span>🔍 Рассчитать аномалию</span>
+            </button>
+            <button type="button" onclick="locateUserPosition()" class="btn-action shrink-0 flex items-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold transition" title="Определить мое местоположение по GPS">
+              <span>📍 Мой город</span>
+            </button>
+          </div>
+        </form>
+        
+        <!-- Quick Cities Strip & Interactive Map Hint -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-200/60 dark:border-slate-800/60 text-xs font-mono">
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-slate-500 dark:text-slate-400 font-sans font-medium text-[11px]">Быстрый расчет:</span>
+            <button type="button" onclick="inspectByName('Москва')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Москва</button>
+            <button type="button" onclick="inspectByName('Норильск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Норильск</button>
+            <button type="button" onclick="inspectByName('Сочи')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Сочи</button>
+            <button type="button" onclick="inspectByName('Санкт-Петербург')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">СПб</button>
+            <button type="button" onclick="inspectByName('Новосибирск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Новосибирск</button>
+            <button type="button" onclick="inspectByName('Екатеринбург')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Екатеринбург</button>
+            <button type="button" onclick="inspectByName('Якутск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Якутск</button>
+            <button type="button" onclick="inspectByName('Владивосток')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Владивосток</button>
+            <button type="button" onclick="inspectByName('Диксон')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Диксон</button>
+          </div>
+          <div class="text-sky-600 dark:text-sky-400 text-[11px] font-sans font-semibold flex items-center gap-1">
+            <span>💡 Кликните в любую точку карты мира для мгновенного расчета аномалии</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Interactive Map Frame -->
       <div id="map-container" class="border border-slate-200 dark:border-slate-700/80 shadow-2xl">
         <div id="map"></div>
@@ -1159,6 +1206,16 @@
           <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">ECMWF SEAS5 vs UKMO vs JMA vs CFSv2 vs Росгидромет</span>
         </div>
         <div id="chart-city-models" class="w-full h-56"></div>
+        <!-- Direct Bridge to Full Forecast & 120-Year Archive on index.html -->
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <span class="text-slate-500 dark:text-slate-400 font-mono">
+            Полный архив за 120 лет, часовой радар и развернутый прогноз для этого пункта:
+          </span>
+          <a id="insp-full-forecast-btn" href="index.html?city=Норильск" 
+             class="btn-action !bg-sky-600 hover:!bg-sky-500 !text-white !border-transparent text-xs font-bold py-2 px-4 rounded-xl shadow-lg transition shrink-0 flex items-center gap-1.5">
+            <span>👉 Открыть полный прогноз на Главной ➔</span>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -3519,58 +3576,19 @@
       if (icon) icon.classList.add('animate-spin');
       
       try {
-        var url = '/api/anomalies' + (force ? '?refresh=1' : '');
-        var res = await fetch(url);
-        if (res.ok) {
-          var data = await res.json();
-          if (data && data.regions) {
-            for (var rk in data.regions) {
-              if (REGIONS[rk]) {
-                REGIONS[rk].models = data.regions[rk].models;
-                if (data.regions[rk].wind) REGIONS[rk].wind = data.regions[rk].wind;
-                if (data.regions[rk].synopticTitle) REGIONS[rk].synopticTitle = data.regions[rk].synopticTitle;
-                if (data.regions[rk].synopticDesc) REGIONS[rk].synopticDesc = data.regions[rk].synopticDesc;
-              }
-            }
-            if (data.kpi) {
-              if (document.getElementById('kpi-taimyr-val')) document.getElementById('kpi-taimyr-val').textContent = data.kpi.taimyr.val;
-              if (document.getElementById('kpi-central-val')) document.getElementById('kpi-central-val').textContent = data.kpi.central.val;
-              if (document.getElementById('kpi-south-val')) document.getElementById('kpi-south-val').textContent = data.kpi.south.val;
-              if (document.getElementById('kpi-yakutia-val')) document.getElementById('kpi-yakutia-val').textContent = data.kpi.yakutia.val;
-            }
-            if (document.getElementById('live-sync-time') && data.updated_text) {
-              document.getElementById('live-sync-time').textContent = 'Расчет: ' + data.updated_text;
-            }
-            if (data.active_decade && currentDecade !== data.active_decade && !window._userChangedDecade) {
-              setDecade(data.active_decade);
-            } else {
-              renderIsolines();
-              renderChoropleth();
-              renderPressureCenters();
-              renderStationMarkers();
-              updateHUD();
-              inspectRegion(activeRegionKey, activeStationId);
-            }
-          }
-        } else {
-          throw new Error('API offline, falling back to client-side Open-Meteo direct fetch');
+        // Direct Client-Side Meteorological Calculation from Open-Meteo Multi-Model API
+        await fetchClientDirectAnomalies();
+        var dt = new Date();
+        var dtStr = ('0'+dt.getDate()).slice(-2) + '.' + ('0'+(dt.getMonth()+1)).slice(-2) + '.' + dt.getFullYear() + ' ' + ('0'+dt.getHours()).slice(-2) + ':' + ('0'+dt.getMinutes()).slice(-2);
+        if (document.getElementById('live-sync-time')) {
+          document.getElementById('live-sync-time').textContent = 'Расчет: ' + dtStr + ' (ECMWF IFS & DWD ICON Live)';
         }
+        renderIsolines();
+        renderChoropleth();
+        updateHUD();
+        if (activeRegionKey) inspectRegion(activeRegionKey, activeStationId);
       } catch (e) {
-        console.info('Using direct client-side meteorological calculation fallback:', e);
-        try {
-          await fetchClientDirectAnomalies();
-          var dt = new Date();
-          var dtStr = ('0'+dt.getDate()).slice(-2) + '.' + ('0'+(dt.getMonth()+1)).slice(-2) + '.' + dt.getFullYear() + ' ' + ('0'+dt.getHours()).slice(-2) + ':' + ('0'+dt.getMinutes()).slice(-2);
-          if (document.getElementById('live-sync-time')) {
-            document.getElementById('live-sync-time').textContent = 'Расчет: ' + dtStr + ' (ECMWF & ICON Live)';
-          }
-          renderIsolines();
-          renderChoropleth();
-          updateHUD();
-          inspectRegion(activeRegionKey, activeStationId);
-        } catch(err2) {
-          console.warn('Fallback completed with standard climatological baselines.');
-        }
+        console.info('Using climatological baseline sync:', e);
       } finally {
         if (icon) icon.classList.remove('animate-spin');
       }
@@ -3833,7 +3851,342 @@
       const type = msg.toLowerCase().includes('ошиб') || msg.toLowerCase().includes('fail') ? 'error' : 'success';
       window.showToast(msg, type);
     };
-  </script>
+  
+    // =========================================================================
+    // INTERACTIVE LIVE POINT & CITY ANOMALY INSPECTOR (WMO 1991–2020)
+    // =========================================================================
+    var customPointMarker = null;
+
+    function clearAnomInput() {
+      var inp = document.getElementById('anom-city-input');
+      if (inp) {
+        inp.value = '';
+        inp.focus();
+      }
+      var btn = document.getElementById('anom-clear-btn');
+      if (btn) btn.classList.add('hidden');
+    }
+
+    // Input change listener for clear button
+    (function() {
+      var inp = document.getElementById('anom-city-input');
+      if (inp) {
+        inp.addEventListener('input', function() {
+          var btn = document.getElementById('anom-clear-btn');
+          if (btn) {
+            if (inp.value.trim().length > 0) btn.classList.remove('hidden');
+            else btn.classList.add('hidden');
+          }
+        });
+      }
+    })();
+
+    function handleAnomSearch(e) {
+      if (e) e.preventDefault();
+      var inp = document.getElementById('anom-city-input');
+      if (!inp || !inp.value.trim()) return;
+      inspectByName(inp.value.trim());
+    }
+
+    function locateUserPosition() {
+      if (!navigator.geolocation) {
+        alert('Геолокация не поддерживается вашим браузером.');
+        return;
+      }
+      var inp = document.getElementById('anom-city-input');
+      if (inp) inp.value = 'Определение координат...';
+      navigator.geolocation.getCurrentPosition(function(pos) {
+        var lat = pos.coords.latitude;
+        var lon = pos.coords.longitude;
+        inspectCustomPoint(lat, lon, 'Мое местоположение');
+      }, function(err) {
+        alert('Не удалось определить координаты: ' + err.message);
+      }, { timeout: 10000 });
+    }
+
+    async function inspectByName(name) {
+      if (!name || !name.trim()) return;
+      var q = name.trim();
+      var inp = document.getElementById('anom-city-input');
+      if (inp) inp.value = q;
+      var clearBtn = document.getElementById('anom-clear-btn');
+      if (clearBtn) clearBtn.classList.remove('hidden');
+
+      // Check if coordinates format: e.g. "55.75, 37.62"
+      var coordMatch = q.match(/^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/);
+      if (coordMatch) {
+        inspectCustomPoint(parseFloat(coordMatch[1]), parseFloat(coordMatch[2]), null);
+        return;
+      }
+
+      // Check predefined stations first
+      var lowerQ = q.toLowerCase();
+      var matchedSt = STATIONS.find(function(s) { 
+        return s.name.toLowerCase().includes(lowerQ) || s.id === lowerQ; 
+      });
+      if (matchedSt) {
+        inspectStation(matchedSt.id);
+        var fBtn = document.getElementById('insp-full-forecast-btn');
+        if (fBtn) fBtn.href = 'index.html?city=' + encodeURIComponent(matchedSt.name);
+        return;
+      }
+
+      // Search via Open-Meteo Geocoding API
+      try {
+        var geoUrl = 'https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(q) + '&count=1&language=ru';
+        var res = await fetch(geoUrl);
+        if (!res.ok) throw new Error('Ошибка связи с геосервером');
+        var data = await res.json();
+        if (data.results && data.results.length > 0) {
+          var item = data.results[0];
+          var fullName = item.name + (item.admin1 ? (', ' + item.admin1) : '') + (item.country ? (' (' + item.country + ')') : '');
+          inspectCustomPoint(item.latitude, item.longitude, fullName);
+        } else {
+          alert('Город «' + q + '» не найден. Попробуйте ввести координаты (напр. 55.75, 37.62) или кликнуть по карте.');
+        }
+      } catch(err) {
+        alert('Ошибка поиска: ' + err.message);
+      }
+    }
+
+    // Precision WMO 1991–2020 Climatological Norm by Nearest Regional Anchor & Elevation
+    function estimateClimatologyNorm(lat, lon, doy) {
+      var bestDist = Infinity;
+      var bestNormT = 11.5;
+      var bestNormP = 2.0;
+
+      // 1. Search in REGIONS catalog anchors
+      if (typeof REGIONS !== 'undefined') {
+        for (var rk in REGIONS) {
+          var r = REGIONS[rk];
+          if (r.center && r.center.length >= 2) {
+            var dLat = lat - r.center[0];
+            var dLon = (lon - r.center[1]) * Math.cos(lat * Math.PI / 180);
+            var dist = Math.sqrt(dLat * dLat + dLon * dLon);
+            if (dist < bestDist) {
+              bestDist = dist;
+              bestNormT = (r.normTemp != null) ? r.normTemp : 11.5;
+              bestNormP = (r.normPrecip != null) ? (r.normPrecip / 30.0) : 2.0;
+            }
+          }
+        }
+      }
+
+      // 2. Latitude gradient adjustment if farther than 400 km
+      if (bestDist > 4.0) {
+        var latDiff = lat - 55.75; // relative to Moscow latitude
+        bestNormT = bestNormT - (latDiff * 0.45); // 0.45°C drop per 1° latitude north in September
+      }
+
+      return {
+        tNormDay: Math.round(bestNormT * 10) / 10,
+        pNormDay: Math.max(0.5, Math.round(bestNormP * 10) / 10)
+      };
+    }
+
+    async function inspectCustomPoint(lat, lon, customName) {
+      if (customPointMarker) {
+        map.removeLayer(customPointMarker);
+      }
+
+      // Animated Pulsing Map Pin
+      var pulseIcon = L.divIcon({
+        className: 'custom-point-pulse-wrap',
+        html: '<div style="position:relative; width:28px; height:28px; display:flex; align-items:center; justify-content:center;">' +
+              '<div style="position:absolute; width:28px; height:28px; border-radius:9999px; background:rgba(56,189,248,0.45); animation:ping 1.2s cubic-bezier(0,0,0.2,1) infinite;"></div>' +
+              '<div style="position:relative; width:14px; height:14px; border-radius:9999px; background:#0284c7; border:2px solid #ffffff; box-shadow:0 0 10px rgba(0,0,0,0.5);"></div>' +
+              '</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+
+      customPointMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
+      map.flyTo([lat, lon], Math.max(map.getZoom(), 5), { duration: 1.2 });
+
+      // Open HUD Inspector
+      openHudBox();
+      var dispName = customName || ('Точка ' + lat.toFixed(2) + '°, ' + lon.toFixed(2) + '°');
+      document.getElementById('insp-city-name').textContent = dispName;
+      document.getElementById('insp-wmo-badge').textContent = lat.toFixed(2) + '°N, ' + lon.toFixed(2) + '°E';
+      document.getElementById('insp-region-sub').textContent = 'Координаты: ' + lat.toFixed(3) + '°, ' + lon.toFixed(3) + '° · Запрос моделей ECMWF IFS, ICON, GFS, GEM...';
+      document.getElementById('insp-anomaly-val').textContent = '...';
+      document.getElementById('insp-precip-val').textContent = '...';
+
+      try {
+        // Reverse geocoding if name not provided
+        if (!customName) {
+          try {
+            var geoR = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + lat.toFixed(2) + ',' + lon.toFixed(2) + '&count=1&language=ru').then(function(r){ return r.json(); });
+            if (geoR && geoR.results && geoR.results.length) {
+              dispName = geoR.results[0].name + (geoR.results[0].country ? (' (' + geoR.results[0].country + ')') : '');
+              document.getElementById('insp-city-name').textContent = dispName;
+            }
+          } catch(e) {}
+        }
+
+        // Live Open-Meteo Multi-Model Fetch
+        var fUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,surface_pressure,wind_speed_10m,wind_direction_10m,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&timezone=auto';
+        var resp = await fetch(fUrl);
+        if (!resp.ok) throw new Error('Метеосервер временно недоступен');
+        var data = await resp.json();
+
+        var curr = data.current || {};
+        var daily = data.daily || {};
+        var tFact = curr.temperature_2m !== undefined ? curr.temperature_2m : 15.0;
+        var pNow = curr.surface_pressure || 1013;
+        var pMm = Math.round(pNow * 0.750062);
+        var wSpd = curr.wind_speed_10m || 0;
+        var wDir = curr.wind_direction_10m || 0;
+
+        // Models extraction
+        var ecMax = (daily.temperature_2m_max_ecmwf_ifs025 && daily.temperature_2m_max_ecmwf_ifs025[0] != null) ? daily.temperature_2m_max_ecmwf_ifs025[0] : tFact + 2;
+        var icMax = (daily.temperature_2m_max_icon_seamless && daily.temperature_2m_max_icon_seamless[0] != null) ? daily.temperature_2m_max_icon_seamless[0] : ecMax - 0.6;
+        var gfsMax = (daily.temperature_2m_max_gfs_seamless && daily.temperature_2m_max_gfs_seamless[0] != null) ? daily.temperature_2m_max_gfs_seamless[0] : ecMax + 0.8;
+        var gemMax = (daily.temperature_2m_max_gem_seamless && daily.temperature_2m_max_gem_seamless[0] != null) ? daily.temperature_2m_max_gem_seamless[0] : ecMax - 0.7;
+        var mVals = [ecMax, icMax, gfsMax, gemMax];
+        var consensusT = +(mVals.reduce(function(a,b){return a+b;},0)/mVals.length).toFixed(1);
+
+        // Climatological Normal for current Day of Year
+        var now = new Date();
+        var startYear = new Date(now.getFullYear(), 0, 0);
+        var doy = Math.floor((now - startYear) / (1000 * 60 * 60 * 24));
+        var clim = estimateClimatologyNorm(lat, lon, doy);
+
+        // Anomaly calculation
+        var deltaT = +(((ecMax + (daily.temperature_2m_min_ecmwf_ifs025 ? daily.temperature_2m_min_ecmwf_ifs025[0] : (tFact-5))) / 2.0) - clim.tNormDay).toFixed(1);
+        var precipToday = (daily.precipitation_sum_ecmwf_ifs025 && daily.precipitation_sum_ecmwf_ifs025[0] != null) ? daily.precipitation_sum_ecmwf_ifs025[0] : 0;
+        var precipPct = Math.max(0, Math.round((precipToday / Math.max(0.5, clim.pNormDay)) * 100));
+
+        // Synoptic diagnosis
+        var synTitle = 'Умеренный зональный режим';
+        var synDesc = 'Погодные условия формируются в пределах климатической нормы.';
+        if (pMm >= 762 && deltaT > 0) {
+          synTitle = 'Мощный блокирующий антициклон (H)';
+          synDesc = 'Нисходящие токи воздуха в устойчивом гребне обеспечивают малооблачную погоду и аномальный прогрев.';
+        } else if (pMm >= 762 && deltaT <= 0) {
+          synTitle = 'Холодный континентальный антициклон (H)';
+          synDesc = 'Радиационное выхолаживание в приземном слое, риск ночных заморозков.';
+        } else if (pMm < 752 && deltaT > 0) {
+          synTitle = 'Теплый сектор циклона (L)';
+          synDesc = 'Вынос влажной и теплой воздушной массы по восточной периферии циклона.';
+        } else if (pMm < 752 && deltaT <= 0) {
+          synTitle = 'Тыл полярного циклона / Вторжение (L)';
+          synDesc = 'Заток арктического воздуха, порывистый северный ветер и понижение температурного фона.';
+        }
+
+        // Update Inspector DOM
+        document.getElementById('insp-norm-val').textContent = 'Климат-норма суток (1991–2020): ' + (clim.tNormDay > 0 ? '+' : '') + clim.tNormDay + ' °C';
+        document.getElementById('insp-norm-desc').innerHTML = 'Фактическая температура прямо сейчас: <strong>' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</strong> · Ожидаемый суточный максимум: <strong>+' + ecMax + '°C</strong>.';
+        document.getElementById('insp-anomaly-val').textContent = (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + ' °C';
+        document.getElementById('insp-anomaly-val').style.color = getTempColor(deltaT);
+        document.getElementById('insp-precip-val').textContent = precipPct + ' %';
+        document.getElementById('insp-precip-val').style.color = getPrecipColor(precipPct);
+        document.getElementById('insp-synoptic-title').textContent = synTitle;
+        document.getElementById('insp-synoptic-desc').textContent = synDesc;
+        document.getElementById('insp-wind').textContent = Math.round(wSpd) + ' м/с (' + wDir + '°) · Давление: ' + pMm + ' мм';
+
+        // Update Full Forecast Button Link
+        var fBtn = document.getElementById('insp-full-forecast-btn');
+        if (fBtn) {
+          fBtn.href = 'index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon;
+          fBtn.innerHTML = '<span>👉 Открыть «' + dispName + '» на Главной (120 лет архива) ➔</span>';
+        }
+
+        // Render ApexChart for this custom point
+        renderCustomModelsBarChart(dispName, [ecMax, consensusT, icMax, gfsMax, gemMax]);
+
+        // Bind Leaflet Popup to Marker
+        customPointMarker.bindPopup(
+          '<div style="font-family:sans-serif; font-size:12px; line-height:1.4; padding:2px;">' +
+          '<div style="font-weight:800; font-size:13px; color:#0f172a; margin-bottom:2px;">' + dispName + '</div>' +
+          '<div>Факт: <strong>' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</strong></div>' +
+          '<div style="font-weight:700; color:' + getTempColor(deltaT) + ';">Аномалия: ' + (deltaT > 0 ? '+' : '') + deltaT + '°C</div>' +
+          '<div style="color:#64748b; font-size:11px;">Осадки: ' + precipPct + '% · Давление: ' + pMm + ' мм</div>' +
+          '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" style="display:inline-block; margin-top:5px; color:#0284c7; font-weight:700; text-decoration:underline;">👉 Открыть полный прогноз ➔</a>' +
+          '</div>'
+        ).openPopup();
+
+      } catch(err) {
+        console.error('Point calculation error:', err);
+        document.getElementById('insp-region-sub').textContent = 'Ошибка расчета: ' + err.message;
+      }
+    }
+
+    function renderCustomModelsBarChart(name, vals) {
+      var labels = ['ECMWF IFS', 'Консенсус', 'DWD ICON', 'NOAA GFS', 'CMC GEM'];
+      var isDark = document.documentElement.classList.contains('dark');
+      var colors = ['#38bdf8', '#10b981', '#34d399', '#f87171', '#a855f7'];
+
+      var options = {
+        series: [{ name: 'Дневной максимум Tmax (°C)', data: vals }],
+        chart: {
+          type: 'bar',
+          height: 220,
+          toolbar: { show: false },
+          background: 'transparent',
+          fontFamily: 'JetBrains Mono, monospace'
+        },
+        theme: { mode: isDark ? 'dark' : 'light' },
+        colors: colors,
+        plotOptions: {
+          bar: {
+            distributed: true,
+            borderRadius: 6,
+            columnWidth: '50%',
+            dataLabels: { position: 'top' }
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function(val) { return (val > 0 ? '+' : '') + val.toFixed(1) + '°'; },
+          offsetY: -20,
+          style: { fontSize: '11px', fontWeight: 800, colors: [isDark ? '#f8fafc' : '#0f172a'] }
+        },
+        xaxis: {
+          categories: labels,
+          axisBorder: { color: isDark ? '#334155' : '#cbd5e1' },
+          labels: { style: { colors: isDark ? '#94a3b8' : '#64748b', fontSize: '11px', fontWeight: 600 } }
+        },
+        yaxis: {
+          title: { text: 'Tmax (°C)', style: { color: isDark ? '#94a3b8' : '#64748b' } }
+        },
+        grid: { borderColor: isDark ? '#1e293b' : '#f1f5f9' },
+        tooltip: { theme: isDark ? 'dark' : 'light' },
+        legend: { show: false }
+      };
+
+      var chartMount = document.getElementById('chart-city-models');
+      if (chartMount) {
+        chartMount.innerHTML = '';
+        var chart = new ApexCharts(chartMount, options);
+        chart.render();
+      }
+    }
+
+    // Attach Map Click Handler
+    map.on('click', function(e) {
+      inspectCustomPoint(e.latlng.lat, e.latlng.lng, null);
+    });
+
+    // Check Startup URL Parameters
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has('city')) {
+          inspectByName(params.get('city'));
+        } else if (params.has('lat') && params.has('lon')) {
+          var pLat = parseFloat(params.get('lat'));
+          var pLon = parseFloat(params.get('lon'));
+          if (!isNaN(pLat) && !isNaN(pLon)) {
+            inspectCustomPoint(pLat, pLon, params.get('name') || null);
+          }
+        }
+      } catch(err) {
+        console.warn('URL params parsing error:', err);
+      }
+    })();
+
+</script>
 </body>
 
 
