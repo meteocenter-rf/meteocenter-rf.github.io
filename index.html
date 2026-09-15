@@ -1856,7 +1856,7 @@
         </button>
         <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn tab-inactive">
           <span class="text-sm">📡</span>
-          <span>Радар & Спутник</span>
+          <span>Радар и Спутник</span>
         </button>
         <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
           <span class="text-sm">📅</span>
@@ -1927,7 +1927,7 @@
       <summary class="flex items-center justify-between cursor-pointer select-none">
         <div class="flex items-center space-x-2">
           <svg class="w-4 h-4 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">МЕТЕОРОЛОГИЧЕСКИЙ ПРОТОКОЛ И СВОДКА ДАННЫХ</h2>
+          <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Метеорологический протокол и сводка данных</h2>
         </div>
         <div class="flex items-center space-x-2">
           <button type="button" onclick="event.stopPropagation(); copyReport();" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-400 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 transition">
@@ -5934,7 +5934,7 @@ function renderTabCurrent(container, d) {
                 <span class="text-xl sm:text-2xl select-none">🧭</span>
                 <div>
                   <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
-                    <span>СИНОПТИЧЕСКИЙ АНАЛИЗ & АНОМАЛИИ В РЕАЛЬНОМ ВРЕМЕНИ</span>
+                    <span>Синоптический анализ и аномалии в реальном времени</span>
                     <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase ${audit.anomalyBadgeColor}">${anomSign}°C К СУТОЧНОЙ НОРМЕ</span>
                   </h3>
                   <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Стандарт ВМО 1991–2020 · Ансамбль суперкомпьютеров: ECMWF IFS 0.25°, ICON, GFS, GEM, WeatherNext 3.0</p>
@@ -6013,7 +6013,7 @@ function renderTabCurrent(container, d) {
               <!-- Pillar 4: Pressure & Synoptic Dynamics -->
               <div class="glass-card rounded-2xl p-3.5 space-y-1.5 border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60">
                 <div class="flex justify-between items-center text-slate-500 dark:text-slate-400 text-[10.5px] font-bold uppercase tracking-wider font-mono">
-                  <span>БАРИЧЕСКОЕ ПОЛЕ & ЦИРКУЛЯЦИЯ</span>
+                  <span>Барическое поле и циркуляция</span>
                   <span class="text-base">🧭</span>
                 </div>
                 <div class="flex items-baseline gap-1.5">
@@ -6320,7 +6320,7 @@ function renderTabCurrent(container, d) {
 
 
     // -------------------------------------------------------------------------
-    // TAB 2: ЖИВОЙ МЕТЕОРАДАР, СПУТНИКОВАЯ ОБСЕРВАТОРИЯ И ГРАДИЕНТЫ РФ & ГРУЗИИ
+    // TAB 2: ЖИВОЙ МЕТЕОРАДАР, СПУТНИКОВАЯ ОБСЕРВАТОРИЯ И ГРАДИЕНТЫ РФ и Грузии
     // -------------------------------------------------------------------------
     function renderTabRadar(container, d) {
       const c = d.current || {};
@@ -6334,7 +6334,7 @@ function renderTabCurrent(container, d) {
             <div>
               <h2 class="font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                 <svg class="w-4 h-4 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                <span>РАДИОЛОКАЦИОННЫЙ & СПУТНИКОВЫЙ МОНИТОРИНГ 4K</span>
+                <span>Радиолокационный и спутниковый мониторинг 4K</span>
               </h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки NASA AIRS • Спутник ИК 24/7 EUMETSAT • Радар RainViewer HD • Потоки ветра 60 FPS</p>
             </div>
@@ -6406,7 +6406,7 @@ function renderTabCurrent(container, d) {
               <div class="flex items-center justify-between border-b border-slate-800 pb-1 font-sans font-bold text-slate-200">
                 <div class="flex items-center space-x-1.5">
                   <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                  <span class="tracking-wide uppercase text-[10px] text-cyan-300">Облачность & ВГО</span>
+                  <span class="tracking-wide uppercase text-[10px] text-cyan-300">Облачность и ВГО</span>
                 </div>
                 <button onclick="toggleLeftDock()" id="btn-left-dock-toggle" class="text-slate-400 hover:text-white px-1 font-bold text-xs" title="Свернуть/развернуть панель">
                   —
@@ -6539,7 +6539,7 @@ function renderTabCurrent(container, d) {
                   </button>
                 </div>
 
-                <!-- Потоки ветра & Станции -->
+                <!-- Потоки ветра и станции -->
                 <div class="pt-1 border-t border-slate-800 space-y-1">
                   <button onclick="toggleWindParticles()" id="dock-btn-particles" class="w-full px-2 py-1.5 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showWindParticles ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900 text-slate-400 hover:text-white'}">
                     <span class="flex items-center gap-1">Линии ветра</span>
@@ -6690,7 +6690,7 @@ function renderTabCurrent(container, d) {
               <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
               <div>
                 <h3 class="font-bold text-slate-100 uppercase tracking-wide">
-                  СПУТНИКОВАЯ ОНЛАЙН-ОБСЕРВАТОРИЯ (EUMETSAT & NASA)
+                  Спутниковая онлайн-обсерватория (EUMETSAT и NASA)
                 </h3>
                 <p class="text-[11px] text-slate-400 font-mono">Открытые геостационарные и орбитальные снимки облачности 24/7 (ИК 10.8 мкм, Airmass RGB, True Color 250м)</p>
               </div>
@@ -6733,7 +6733,7 @@ function renderTabCurrent(container, d) {
             
             <!-- In-Frame Telemetry Badge -->
             <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-700/80 text-[11px] font-mono text-slate-200">
-              <span id="planeta-sat-caption">Канал: Евразия & ЕТР (Мультиспектральный композит облачности 24/7)</span>
+              <span id="planeta-sat-caption">Канал: Евразия и ЕТР (Мультиспектральный композит облачности 24/7)</span>
               <span id="planeta-sat-timestamp" class="ml-2 text-slate-400 font-bold">Обновлено: 15 мин назад</span>
             </div>
 
@@ -9888,7 +9888,7 @@ function renderTabCurrent(container, d) {
       }
     }
 
-    // SUB-VIEW 2: WARMING STRIPES & ВЕКОВОЙ ТРЕНД
+    // SUB-VIEW 2: WARMING Warming Stripes и вековой климатический тренд
     function renderArchiveStripes(mount, clim) {
       const isRaw = (archiveDataMode === 'obs' || archiveDataMode === 'raw');
       const div = document.createElement('div');
@@ -10343,7 +10343,7 @@ function renderTabCurrent(container, d) {
       'москва': {
         title: 'Москва (ВДНХ / WMO 27612)',
         sub_title: 'Центральный ФО · 147 лет непрерывных приборных замеров',
-        source: 'Опорный ряд ВМО 27612 & база «Опорная сеть ВМО» (1879–2026 гг.)',
+        source: 'Опорный ряд ВМО 27612 и база «Опорная сеть ВМО» (1879–2026 гг.)',
         highlight_record: 'Аномальная жара 2010 года: Tmax 7-Day High составил рекордные +36.8°C (02.08 – 08.08.2010)',
         highlight_desc: 'Непрерывная 7-дневная волна тропического зноя с дневным максимумом выше +36°C и ночами не ниже +23°C.',
         cards: [
@@ -10372,7 +10372,7 @@ function renderTabCurrent(container, d) {
       'дудинка': {
         title: 'Дудинка (Таймыр / WMO 23074)',
         sub_title: 'Заполярье · Опорная станция Таймыра (1906–2026)',
-        source: 'Ряд наблюдений ВМО 23074 & база «Опорная сеть ВМО» (с 1906 по 2026 гг.)',
+        source: 'Ряд наблюдений ВМО 23074 и база «Опорная сеть ВМО» (с 1906 по 2026 гг.)',
         highlight_record: 'Суровая полярная волна холода: Tmin 7-Day Low = -52.4°C (05.01 – 11.01.1979)',
         highlight_desc: 'Недельный период свирепых арктических морозов ниже -50°C с непрерывным ветром в низовьях Енисея.',
         cards: [
@@ -10401,7 +10401,7 @@ function renderTabCurrent(container, d) {
       'якутск': {
         title: 'Якутск (WMO 24959)',
         sub_title: 'Республика Саха · Полюс континентальности Евразии',
-        source: 'Ряд наблюдений ВМО 24959 & база «Опорная сеть ВМО» (1888–2026 гг.)',
+        source: 'Ряд наблюдений ВМО 24959 и база «Опорная сеть ВМО» (1888–2026 гг.)',
         highlight_record: 'Зимний континентальный экстремум: Tmin 7-Day Low составил -59.8°C (01.01 – 07.01.1950)',
         highlight_desc: 'Суровейшая неделя в истории Якутии со стабильным антициклональным выхолаживанием.',
         cards: [
@@ -10442,7 +10442,7 @@ function renderTabCurrent(container, d) {
       return {
         title: `${(clim && clim.station_name) || currentCity}`,
         sub_title: `${(clim && clim.region_desc) || 'Опорная метеостанция ВМО'}`,
-        source: 'Расчет скользящих средних по суточным рядам опорной метеостанции (Опорная сеть ВМО & ВМО)',
+        source: 'Расчет скользящих средних по суточным рядам опорной метеостанции (Опорная сеть ВМО)',
         highlight_record: `Годовые пределы устойчивости: Tmax 365-Day High = +${(meanT + 4.2).toFixed(1)}°C, Tmin 365-Day Low = ${(meanT - 5.8).toFixed(1)}°C`,
         highlight_desc: 'Экстремальные пределы климатических колебаний за весь период инструментальных наблюдений.',
         cards: [
@@ -10532,7 +10532,7 @@ function renderTabCurrent(container, d) {
             <div>
               <div class="flex items-center space-x-2">
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
-                  ROLLING MEAN STATISTICS · СКОЛЬЗЯЩИЕ СРЕДНИЕ
+                  Скользящие средние (Rolling Mean Statistics)
                 </h2>
                 <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10.5px] font-mono font-bold">ОПОРНАЯ СЕТЬ ВМО</span>
               </div>
@@ -10696,7 +10696,7 @@ function renderTabCurrent(container, d) {
             <div>
               <div class="flex items-center space-x-2">
                 <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
-                  ВЫБОРКА ПО ДАТАМ (DATE RANGE) · САММАРИ ЗА ПЕРИОД
+                  Выборка по датам и статистика за период
                 </h2>
                 <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 text-[10.5px] font-mono font-bold">CLIENT-SIDE</span>
               </div>
@@ -11764,7 +11764,7 @@ function renderTabCurrent(container, d) {
             <!-- Chart Switcher Tabs -->
             <div class="flex flex-wrap items-center gap-1 font-mono text-[11px]">
               <button onclick="switchSummaryChartMode('all')" id="sum-chart-btn-all" class="px-2.5 py-1 rounded-lg transition font-bold ${summaryChartMode === 'all' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">
-                Температура &amp; Осадки
+                Температура и осадки
               </button>
               <button onclick="switchSummaryChartMode('anomaly')" id="sum-chart-btn-anomaly" class="px-2.5 py-1 rounded-lg transition font-bold ${summaryChartMode === 'anomaly' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 shadow' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'}">
                 Аномалии к норме ВМО
@@ -12159,7 +12159,7 @@ function renderTabCurrent(container, d) {
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">МУЛЬТИМОДЕЛЬНЫЙ КОНСЕНСУС СУПЕРКОМПЬЮТЕРОВ (ДО 14 ДНЕЙ)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Мультимодельный консенсус суперкомпьютеров (до 14 дней)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Прямое сопоставление температуры и осадков: ECMWF IFS, WeatherNext 3.0, DWD ICON, NOAA GFS и CMC GEM</p>
             </div>
           </div>
@@ -12487,7 +12487,7 @@ function renderTabCurrent(container, d) {
 
 
     // -------------------------------------------------------------------------
-    // TAB 7: ЭКОЛОГИЯ & УФ-ИНДЕКС
+    // TAB 7: Экология и УФ-индекс
     // -------------------------------------------------------------------------
     function renderTabEcology(container, d) {
       const aq = d.air_quality || {};
@@ -12599,7 +12599,7 @@ function renderTabCurrent(container, d) {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">ГИДРОДИНАМИЧЕСКИЙ АНСАМБЛЬ ECMWF IFS (14 ДНЕЙ)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">Гидродинамический ансамбль ECMWF IFS (14 дней)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 сценариев на 2 полные недели</p>
             </div>
           </div>
@@ -13068,7 +13068,7 @@ function renderTabCurrent(container, d) {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">30 ДНЕЙ: ГИБРИДНЫЙ СУПЕРКОМПЬЮТЕРНЫЙ ПРОГНОЗ</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">30-дневный гибридный ансамблевый прогноз</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Дни 1–14: WeatherNext 3.0 (64 ансамбля) • Дни 15–30: ECMWF SEAS5 (50 сценариев океан-атмосфера)</p>
             </div>
           </div>
@@ -13343,14 +13343,14 @@ function renderTabCurrent(container, d) {
           </div>
         </div>` : ''}
 
-        <!-- 🎯 ВЫСОКОТОЧНЫЙ РАСЧЕТ И МОДЕЛИРОВАНИЕ ПЕРВОГО СНЕГА (1890–2026) -->
+        <!-- 🎯 Высокоточное моделирование первого снега (1890–2026) -->
         <div class="glass-card rounded-2xl p-4 sm:p-6 border-2 border-blue-400/80 dark:border-blue-600 bg-gradient-to-br from-blue-50/80 via-sky-50/50 to-indigo-50/60 dark:from-slate-900/90 dark:via-blue-950/40 dark:to-slate-950/80 shadow-xl space-y-4">
           <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-blue-200/80 dark:border-blue-800/80">
             <div class="space-y-0.5">
               <div class="flex items-center space-x-2">
                 <span class="text-xl">🎯</span>
                 <h3 class="text-sm sm:text-base font-black uppercase text-slate-900 dark:text-white tracking-wide">
-                  ВЫСОКОТОЧНЫЙ РАСЧЕТ И МОДЕЛИРОВАНИЕ ПЕРВОГО СНЕГА
+                  Высокоточное моделирование первого снега
                 </h3>
                 <span class="px-2 py-0.5 rounded-full bg-blue-600 text-white font-mono text-[10px] font-bold">1890–2026</span>
               </div>
@@ -13893,7 +13893,7 @@ function renderTabCurrent(container, d) {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
               </span>
               <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                ДОЛГОСРОЧНЫЕ СЕЗОННЫЕ АНОМАЛИИ ПОГОДЫ (НА 6 МЕСЯЦЕВ)
+                Долгосрочные сезонные аномалии погоды (на 6 месяцев)
               </h2>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed max-w-3xl">
@@ -13991,7 +13991,7 @@ function renderTabCurrent(container, d) {
         <div class="space-y-3.5 pt-2">
           <div class="flex items-center justify-between">
             <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm uppercase tracking-wider">
-              ПОМЕСЯЧНАЯ ДЕТАЛИЗАЦИЯ И ТЕРЦИЛЬНЫЕ ВЕРОЯТНОСТИ (6 МЕСЯЦЕВ)
+              Помесячная детализация и терцильные вероятности (6 месяцев)
             </h3>
             <span class="text-[10.5px] font-mono text-slate-400">
               Статистика 50 ансамблевых сценариев
@@ -14219,7 +14219,7 @@ function renderTabCurrent(container, d) {
       card.innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
           <div>
-            <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">ИНТЕРАКТИВНЫЙ ПОЧАСОВОЙ АНАЛИЗ (APEXCHARTS)</h2>
+            <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Интерактивный почасовой анализ (ApexCharts)</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Синхронный зум, перекрестие, давление в мм рт. ст., осадки и ветер</p>
           </div>
           <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
@@ -14626,7 +14626,7 @@ function renderTabCurrent(container, d) {
 
     const PLANETA_CHANNELS = {
       'etr': {
-        title: 'Евразия & ЕТР • Мультиспектральный композит облачности (EUMETSAT)',
+        title: 'Евразия и ЕТР • Мультиспектральный композит облачности (EUMETSAT)',
         baseUrl: 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
         frames: [
           'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg',
@@ -15293,7 +15293,7 @@ function renderTabCurrent(container, d) {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">ПРАВОВОЙ СТАТУС И ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ</h2>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Правовой статус и отказ от ответственности</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">99-ФЗ • 113-ФЗ • 152-ФЗ • ст. 13.15, 17.10 КоАП РФ • ст. 1334 ГК РФ</p>
           </div>
         </div>
@@ -15386,7 +15386,7 @@ function renderTabCurrent(container, d) {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И COOKIES</h2>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Политика конфиденциальности и cookies</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»</p>
           </div>
         </div>
