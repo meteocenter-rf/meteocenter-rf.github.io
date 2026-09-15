@@ -1134,7 +1134,7 @@
         <!-- Anomaly Gauge Badge -->
         <div class="flex items-center space-x-3">
           <div id="card-gauge-temp" class="text-right p-1.5 rounded-lg border border-transparent transition-all">
-            <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase">Ожидаемая аномалия ΔT</div>
+            <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase" id="insp-gauge-title">Аномалия ΔT (Текущий период)</div>
             <div class="text-2xl sm:text-3xl font-black font-mono text-sky-600 dark:text-sky-400" id="insp-anomaly-val">-2.7 °C</div>
           </div>
           <div class="h-10 w-px bg-slate-200 dark:bg-slate-800"></div>
@@ -2794,6 +2794,19 @@
       var precipVal = getRegionVal(r, currentDecade, currentModel, 'precip');
 
       var tempStr = (tempVal > 0 ? '+' : '') + tempVal.toFixed(1) + ' °C';
+      var periodLabels = {
+        1: "Аномалия 1-й дек ΔT",
+        2: "Аномалия 2-й дек ΔT",
+        3: "Аномалия 3-й дек ΔT",
+        0: "Месячная аномалия ΔT",
+        10: "Октябрь 2026 ΔT",
+        11: "Ноябрь 2026 ΔT",
+        12: "Зима 2026/27 ΔT"
+      };
+      var gaugeTitleEl = document.getElementById('insp-gauge-title');
+      if (gaugeTitleEl) {
+        gaugeTitleEl.textContent = (currentMetric === 'temp' ? (periodLabels[currentDecade] || "Аномалия ΔT") : "Осадки % нормы");
+      }
       var precipStr = precipVal + ' %';
 
       var displayName = st ? ('г. ' + st.name + ' (' + r.name + ')') : r.name;
@@ -3653,7 +3666,7 @@
           // Метеорологическая классификация барических систем:
           // 1. Антициклон (H) / Гребень: pNow >= 1018 гПа либо быстрый барический рост >= +6..+8 гПа/48ч
           // 2. Циклон (L) / Ложбина: pNow <= 1008 гПа либо барическое падение <= -6..-8 гПа/48ч
-          if (pNow >= 1018 || trend >= 8.0) {
+          if ((pNow >= 1016) || (pNow >= 1013 && trend >= 5.0)) {
             var isForming = (trend >= 6.0);
             var isRidge = (pNow >= 1014 && pNow < 1020 && trend < 6.0);
             var hType = isRidge ? 'Гребень высокого давления (H)' : (isForming ? 'Зарождающийся антициклон (H)' : 'Антициклон (H)');
