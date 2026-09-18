@@ -223,10 +223,10 @@
       background: rgba(30, 41, 59, 0.8);
     }
     .toggle-pill.active {
-      background: rgba(2, 132, 199, 0.2);
-      border-color: #38bdf8;
-      color: #38bdf8;
-      box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+      background: rgba(2, 100, 180, 0.55);
+      border-color: #7dd3fc;
+      color: #f0f9ff;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
     }
     html.light .toggle-pill {
       background: #f1f5f9;
@@ -570,6 +570,12 @@
       border-color: rgba(255, 255, 255, 0.18);
       transform: translateY(-1px);
     }
+    /* High-contrast nav active state overrides */
+    a.nav-btn[class*="!bg-rose"] { color: #fecdd3 !important; }
+    a.nav-btn[class*="!bg-rose"]:hover { color: #ffffff !important; }
+    a.nav-btn[class*="!bg-sky"] { color: #e0f2fe !important; }
+    a.nav-btn[class*="!bg-sky"]:hover { color: #ffffff !important; }
+
 
     /* ================= EXECUTIVE ANOMALIES & CIRCULATION PORTAL BUTTON ================= */
     .nav-btn-anomalies {
@@ -676,9 +682,9 @@
       border-color: #fda4af;
     }
     html.dark .nav-btn-donate {
-      background-color: rgba(159, 18, 57, 0.25);
-      color: #fda4af;
-      border-color: rgba(244, 63, 94, 0.35);
+      background-color: rgba(159, 18, 57, 0.18);
+      color: #fecdd3;
+      border-color: rgba(244, 63, 94, 0.4);
     }
     html.dark .nav-btn-donate:hover {
       background-color: rgba(159, 18, 57, 0.4);
@@ -786,7 +792,18 @@
       color: #0f172a;
     }
 
-  </style>
+  
+    /* Refresh synoptic centers button — explicit dark solid bg for contrast */
+    button[onclick="fetchRealSynopticCenters()"] {
+      background: rgba(15, 23, 42, 0.7) !important;
+      color: #f1f5f9 !important;
+      border: 1px solid rgba(255,255,255,0.2) !important;
+    }
+    button[onclick="fetchRealSynopticCenters()"]:hover {
+      background: rgba(30, 41, 59, 0.85) !important;
+      color: #ffffff !important;
+    }
+</style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
 
@@ -926,7 +943,7 @@
               Расчет: Актуально на сегодня
             </span>
           </div>
-          <button onclick="syncAnomalies(true)" id="btn-refresh-anom" class="inline-flex items-center gap-2 px-4 py-2 min-h-[38px] rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-700 dark:text-sky-300 font-bold text-xs transition shadow-sm" title="Запросить свежий расчет суперкомпьютеров из первоисточников (00Z/12Z)">
+          <button onclick="syncAnomalies(true)" id="btn-refresh-anom" class="inline-flex items-center gap-2 px-4 py-2 min-h-[38px] rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-700 dark:text-sky-100 font-bold text-xs transition shadow-sm" title="Запросить свежий расчет суперкомпьютеров из первоисточников (00Z/12Z)">
             <svg class="w-4 h-4 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Обновить расчет</span>
           </button>
