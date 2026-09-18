@@ -168,8 +168,9 @@
       color: #f1f5f9;
       border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 0.75rem;
-      padding: 0.45rem 2.2rem 0.45rem 0.85rem;
-      font-size: 0.8rem;
+      min-height: 38px;
+      padding: 0.45rem 2.2rem 0.45rem 0.95rem;
+      font-size: 0.8125rem;
       font-weight: 700;
       font-family: var(--font-mono);
       outline: none;
@@ -201,19 +202,25 @@
     .toggle-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.38rem 0.75rem;
+      gap: 0.45rem;
+      min-height: 36px;
+      padding: 0.4rem 0.85rem;
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 600;
       font-family: var(--font-mono);
-      border-radius: 9999px;
+      border-radius: 0.625rem;
       cursor: pointer;
       border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(15, 23, 42, 0.6);
       color: #94a3b8;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
       white-space: nowrap;
       user-select: none;
+    }
+    .toggle-pill:hover {
+      color: #f1f5f9;
+      border-color: rgba(255,255,255,0.22);
+      background: rgba(30, 41, 59, 0.8);
     }
     .toggle-pill.active {
       background: rgba(2, 132, 199, 0.2);
@@ -244,9 +251,10 @@
 
     /* Toolbar Pills (Timeline, Metrics, Models) */
     .pill-opt {
-      padding: 0.42rem 0.85rem;
-      font-size: 0.75rem;
-      font-weight: 700;
+      min-height: 38px;
+      padding: 0.45rem 0.95rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
       border-radius: 0.75rem;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -254,7 +262,9 @@
       border: 1px solid transparent;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: center;
+      gap: 0.45rem;
+      user-select: none;
     }
     html.dark .pill-opt-inactive {
       background: rgba(15, 23, 42, 0.65);
@@ -523,9 +533,10 @@
     .nav-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.32rem 0.65rem;
-      font-size: 0.75rem;
+      gap: 0.45rem;
+      min-height: 36px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       border-radius: 0.625rem;
       transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
@@ -739,6 +750,42 @@
       color: #ffffff !important;
       border-color: rgba(255, 255, 255, 0.25) !important;
     }
+  
+    /* Senior Touch-Optimized Controls */
+    .station-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 36px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 0.625rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(15, 23, 42, 0.6);
+      color: #cbd5e1;
+      transition: all 0.18s ease;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .station-chip:hover {
+      background: rgba(30, 41, 59, 0.9);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    html.light .station-chip {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #334155;
+    }
+    html.light .station-chip:hover {
+      background: #f1f5f9;
+      border-color: #0284c7;
+      color: #0f172a;
+    }
+
   </style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
@@ -771,20 +818,20 @@
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Main Forecast Link -->
         <a href="index.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Главный прогноз погоды и радар">
-          <span class="text-xs shrink-0">🏠</span>
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span class="hidden sm:inline">Прогноз</span>
         </a>
 
         <!-- Dedicated Anomalies & Circulation Page Link -->
         <a href="anomalies.html" class="nav-btn !bg-rose-500/20 !border-rose-400 dark:!border-rose-500/50 text-rose-600 dark:text-rose-400 font-black shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
-          <span class="text-xs shrink-0">🌀</span>
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span class="hidden sm:inline">Аномалии</span>
           <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">LIVE</span>
         </a>
 
         <!-- Snow Monitor Link -->
         <a href="snow.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
-          <span class="text-xs shrink-0">❄️</span>
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
           <span class="hidden sm:inline">Снег</span>
           <span class="text-[9px] font-mono px-1 rounded bg-sky-500 text-white font-black hidden md:inline">NEW</span>
         </a>
@@ -831,7 +878,7 @@
 
         <!-- Light / Dark Theme Switcher Button -->
         <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
-          <span id="theme-toggle-icon" class="text-sm">☀️</span>
+          <svg id="theme-toggle-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
           <span id="theme-toggle-text" class="hidden sm:inline font-bold">Светлая</span>
         </button>
       </div>
@@ -879,8 +926,8 @@
               Расчет: Актуально на сегодня
             </span>
           </div>
-          <button onclick="syncAnomalies(true)" id="btn-refresh-anom" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-700 dark:text-sky-300 font-bold text-xs transition shadow-sm" title="Запросить свежий расчет суперкомпьютеров из первоисточников (00Z/12Z)">
-            <svg id="sync-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          <button onclick="syncAnomalies(true)" id="btn-refresh-anom" class="inline-flex items-center gap-2 px-4 py-2 min-h-[38px] rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-700 dark:text-sky-300 font-bold text-xs transition shadow-sm" title="Запросить свежий расчет суперкомпьютеров из первоисточников (00Z/12Z)">
+            <svg class="w-4 h-4 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Обновить расчет</span>
           </button>
         </div>
@@ -932,29 +979,32 @@
         <!-- Timeline Segmented Tabs -->
         <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
           <span class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
-            📅 Период:
+            Период анализа:
           </span>
-          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 shrink-0">
-            <button onclick="setDecade(1)" id="btn-dec-1" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">1-я дек</button>
-            <button onclick="setDecade(2)" id="btn-dec-2" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">2-я дек</button>
-            <button onclick="setDecade(3)" id="btn-dec-3" class="pill-opt pill-opt-active !py-1 !px-2.5 !text-xs">3-я дек ★</button>
-            <button onclick="setDecade(0)" id="btn-dec-0" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Сентябрь</button>
-            <button onclick="setDecade(10)" id="btn-dec-10" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Октябрь</button>
-            <button onclick="setDecade(11)" id="btn-dec-11" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Ноябрь</button>
-            <button onclick="setDecade(12)" id="btn-dec-12" class="pill-opt pill-opt-inactive !py-1 !px-2.5 !text-xs">Зима</button>
+          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 shrink-0 gap-1">
+            <button onclick="setDecade(1)" id="btn-dec-1" class="pill-opt pill-opt-inactive">1-я дек</button>
+            <button onclick="setDecade(2)" id="btn-dec-2" class="pill-opt pill-opt-inactive">2-я дек</button>
+            <button onclick="setDecade(3)" id="btn-dec-3" class="pill-opt pill-opt-active flex items-center gap-1.5">
+              <span>3-я дек</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+            </button>
+            <button onclick="setDecade(0)" id="btn-dec-0" class="pill-opt pill-opt-inactive">Сентябрь</button>
+            <button onclick="setDecade(10)" id="btn-dec-10" class="pill-opt pill-opt-inactive">Октябрь</button>
+            <button onclick="setDecade(11)" id="btn-dec-11" class="pill-opt pill-opt-inactive">Ноябрь</button>
+            <button onclick="setDecade(12)" id="btn-dec-12" class="pill-opt pill-opt-inactive">Зима 26/27</button>
           </div>
         </div>
 
         <!-- Metric Toggle: Temp vs Precip -->
         <div class="flex items-center gap-2 shrink-0">
-          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800">
-            <button onclick="setMetric('temp')" id="btn-metric-temp" class="pill-opt pill-opt-active !py-1 !px-3 !text-xs flex items-center gap-1.5">
-              <span>🌡️</span>
-              <span>Температура (°C)</span>
+          <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 gap-1">
+            <button onclick="setMetric('temp')" id="btn-metric-temp" class="pill-opt pill-opt-active">
+              <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+              <span>Температура (ΔT)</span>
             </button>
-            <button onclick="setMetric('precip')" id="btn-metric-precip" class="pill-opt pill-opt-inactive !py-1 !px-3 !text-xs flex items-center gap-1.5">
-              <span>💧</span>
-              <span>Осадки (%)</span>
+            <button onclick="setMetric('precip')" id="btn-metric-precip" class="pill-opt pill-opt-inactive">
+              <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>Осадки (% нормы)</span>
             </button>
           </div>
         </div>
@@ -973,12 +1023,12 @@
               Модель:
             </label>
             <select id="select-model" onchange="onModelSelectChange(this.value)" class="meteo-select">
-              <option value="ecmwf" selected>🇪🇺 ECMWF SEAS5 (Эталон C3S)</option>
-              <option value="consensus">🌐 Консенсус ВМО (Мультиансамбль)</option>
-              <option value="ukmo">🇬🇧 UKMO GloSea6 (Великобритания)</option>
-              <option value="jma">🇯🇵 JMA CPS3 (Япония)</option>
-              <option value="cfsv2">🇺🇸 NOAA CFSv2 (США)</option>
-              <option value="meteoinfo">🇷🇺 Росгидромет (Аналоги)</option>
+              <option value="ecmwf" selected>ECMWF SEAS5 (Эталон Copernicus / C3S)</option>
+              <option value="consensus">Консенсус ВМО (Мультиансамбль)</option>
+              <option value="ukmo">UKMO GloSea6 (Великобритания)</option>
+              <option value="jma">JMA CPS3 (Япония)</option>
+              <option value="cfsv2">NOAA CFSv2 (США)</option>
+              <option value="meteoinfo">Росгидромет (Аналоги)</option>
             </select>
           </div>
 
@@ -988,12 +1038,12 @@
               Фокус:
             </label>
             <select id="select-region-zoom" onchange="zoomToRegion(this.value)" class="meteo-select">
-              <option value="russia">🇷🇺 Вся Россия</option>
-              <option value="arctic" selected>❄️ Арктика и Таймыр (Эпицентр)</option>
-              <option value="europe">🏛️ Европейская часть РФ</option>
-              <option value="siberia">🌲 Урал и Сибирь</option>
-              <option value="fareast">🌊 Дальний Восток</option>
-              <option value="world">🌍 Северное полушарие</option>
+              <option value="russia">Вся Россия (Обзор)</option>
+              <option value="arctic" selected>Арктика и Таймыр (Эпицентр)</option>
+              <option value="europe">Европейская территория РФ</option>
+              <option value="siberia">Урал и Сибирь</option>
+              <option value="fareast">Дальний Восток и Приморье</option>
+              <option value="world">Северное полушарие (ВМО)</option>
             </select>
           </div>
 
@@ -1003,16 +1053,20 @@
         <div class="flex items-center gap-2 flex-wrap">
           <span class="text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1">Слои:</span>
           <button onclick="toggleContourLayer()" id="btn-layer-contour" class="toggle-pill active" title="Плавные изолинии метеорологических аномалий">
-            <span>🌡️</span> Изоаномалы
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>Изоаномалы</span>
           </button>
           <button onclick="toggleRegionsLayer()" id="btn-layer-regions" class="toggle-pill active" title="Административные и климатические регионы">
-            <span>🗺️</span> Регионы
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+            <span>Регионы</span>
           </button>
           <button onclick="toggleWindParticles()" id="btn-layer-wind" class="toggle-pill active" title="Анимированные струйные течения атмосферы">
-            <span>🌀</span> Ветер
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <span>Ветер</span>
           </button>
           <button onclick="togglePressureCenters()" id="btn-layer-pressure" class="toggle-pill active" title="Барические центры (Антициклоны H и Циклоны L)">
-            <span>🔘</span> Давление H/L
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8"/></svg>
+            <span>Давление H/L</span>
           </button>
         </div>
 
@@ -1050,8 +1104,9 @@
             <span>• Зап. Сибирь: <strong>H 1024 гПа</strong></span>
             <span>• Центр РФ: <strong>1013 гПа (Гребень)</strong></span>
           </div>
-          <button onclick="fetchRealSynopticCenters()" class="px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-white font-bold transition flex items-center gap-1 text-[10px]">
-            <span>🔄</span> Обновить факт
+          <button onclick="fetchRealSynopticCenters()" class="px-3.5 py-1.5 min-h-[36px] rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold transition flex items-center gap-1.5 text-xs">
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Обновить факт</span>
           </button>
         </div>
       </div>
@@ -1065,14 +1120,16 @@
             </div>
             <input id="anom-city-input" type="text" placeholder="Введите любой город мира, координаты (напр. 55.75, 37.62) или индекс WMO..." 
                    class="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm font-medium rounded-xl border border-slate-300 dark:border-slate-700 bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm transition">
-            <button type="button" onclick="clearAnomInput()" id="anom-clear-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200" title="Очистить">✕</button>
+            <button type="button" onclick="clearAnomInput()" id="anom-clear-btn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center justify-center text-slate-400 hover:text-slate-200 w-9 h-full" title="Очистить">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
           </div>
           <div class="flex items-center gap-2">
             <button type="submit" class="btn-action !bg-sky-600 hover:!bg-sky-500 !text-white !border-transparent shadow-lg shrink-0 flex items-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-bold transition">
-              <span>🔍 Рассчитать аномалию</span>
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg><span>Рассчитать аномалию</span>
             </button>
             <button type="button" onclick="locateUserPosition()" class="btn-action shrink-0 flex items-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold transition" title="Определить мое местоположение по GPS">
-              <span>📍 Мой город</span>
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Мой город</span>
             </button>
           </div>
         </form>
@@ -1081,15 +1138,15 @@
         <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-200/60 dark:border-slate-800/60 text-xs font-mono">
           <div class="flex flex-wrap items-center gap-1.5">
             <span class="text-slate-500 dark:text-slate-400 font-sans font-medium text-[11px]">Быстрый расчет:</span>
-            <button type="button" onclick="inspectByName('Москва')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Москва</button>
-            <button type="button" onclick="inspectByName('Норильск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Норильск</button>
-            <button type="button" onclick="inspectByName('Сочи')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Сочи</button>
-            <button type="button" onclick="inspectByName('Санкт-Петербург')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">СПб</button>
-            <button type="button" onclick="inspectByName('Новосибирск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Новосибирск</button>
-            <button type="button" onclick="inspectByName('Екатеринбург')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Екатеринбург</button>
-            <button type="button" onclick="inspectByName('Якутск')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Якутск</button>
-            <button type="button" onclick="inspectByName('Владивосток')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Владивосток</button>
-            <button type="button" onclick="inspectByName('Диксон')" class="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 hover:border-sky-400 text-slate-700 dark:text-slate-200 transition text-[11px]">Диксон</button>
+            <button type="button" onclick="inspectByName('Москва')" class="station-chip">Москва</button>
+            <button type="button" onclick="inspectByName('Норильск')" class="station-chip">Норильск</button>
+            <button type="button" onclick="inspectByName('Сочи')" class="station-chip">Сочи</button>
+            <button type="button" onclick="inspectByName('Санкт-Петербург')" class="station-chip">СПб</button>
+            <button type="button" onclick="inspectByName('Новосибирск')" class="station-chip">Новосибирск</button>
+            <button type="button" onclick="inspectByName('Екатеринбург')" class="station-chip">Екатеринбург</button>
+            <button type="button" onclick="inspectByName('Якутск')" class="station-chip">Якутск</button>
+            <button type="button" onclick="inspectByName('Владивосток')" class="station-chip">Владивосток</button>
+            <button type="button" onclick="inspectByName('Диксон')" class="station-chip">Диксон</button>
           </div>
           <div class="text-sky-600 dark:text-sky-400 text-[11px] font-sans font-semibold flex items-center gap-1">
             <span>💡 Кликните в любую точку карты мира для мгновенного расчета аномалии</span>
@@ -1117,12 +1174,12 @@
                 ΔT: -7.0°C (Таймыр)
               </span>
               <!-- Arrow Down/Up button to minimize -->
-              <button onclick="event.stopPropagation(); toggleHudCollapse();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Свернуть вниз / Развернуть">
-                <span id="hud-collapse-arrow">▲</span>
+              <button onclick="event.stopPropagation(); toggleHudCollapse();" type="button" class="w-9 h-9 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-lg bg-slate-200/80 dark:bg-slate-800/80 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200" title="Свернуть вниз / Развернуть">
+                <svg id="hud-collapse-arrow" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
               </button>
               <!-- Cross button to close completely -->
-              <button onclick="event.stopPropagation(); closeHudBox();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Полностью закрыть сводку (открыть карту)">
-                ✕
+              <button onclick="event.stopPropagation(); closeHudBox();" type="button" class="w-9 h-9 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-lg bg-slate-200/80 dark:bg-slate-800/80 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200" title="Закрыть сводку">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
             </div>
           </div>
@@ -1140,9 +1197,9 @@
         </div>
 
         <!-- Floating Re-open Button when closed completely -->
-        <button id="map-hud-reopen-btn" onclick="openHudBox()" type="button" class="hidden absolute bottom-3 left-3 z-[500] px-3 py-1.5 rounded-xl glass-panel border border-sky-400/50 bg-slate-900/90 hover:bg-sky-600 text-white font-mono font-bold text-xs shadow-2xl flex items-center gap-1.5">
-          <span>🧭</span>
-          <span id="reopen-hud-title">Сводка аномалий ▲</span>
+        <button id="map-hud-reopen-btn" onclick="openHudBox()" type="button" class="hidden absolute bottom-3 left-3 z-[500] px-3.5 py-2 min-h-[38px] rounded-xl glass-panel border border-sky-400/50 bg-slate-900/95 hover:bg-sky-600 text-white font-mono font-bold text-xs shadow-2xl flex items-center gap-2">
+          <svg class="w-4 h-4 shrink-0 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></svg>
+          <span id="reopen-hud-title">Сводка аномалий</span>
         </button>
 
         <!-- Floating Map Legend (Bottom Right) -->
@@ -1161,24 +1218,24 @@
       <!-- Quick Station Selector Strip (Clickable Chips) -->
       <div id="quick-stations-strip" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
-        <button onclick="inspectStation('norilsk')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-sky-600 dark:text-sky-300 border-sky-400">★ Норильск (-2.7°C)</button>
-        <button onclick="inspectStation('armavir')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-amber-500 border-amber-400">★ Армавир (+1.8°C)</button>
-        <button onclick="inspectStation('krasnodar')" class="btn-action !py-1 !px-2.5 !text-xs">Краснодар (+1.9°C)</button>
-        <button onclick="inspectStation('sochi')" class="btn-action !py-1 !px-2.5 !text-xs">Сочи (Субтропики)</button>
-        <button onclick="inspectStation('moscow')" class="btn-action !py-1 !px-2.5 !text-xs">Москва (+1.2°C)</button>
-        <button onclick="inspectStation('spb')" class="btn-action !py-1 !px-2.5 !text-xs">Санкт-Петербург (+0.2°C)</button>
-        <button onclick="inspectStation('dikson')" class="btn-action !py-1 !px-2.5 !text-xs">Диксон (Арктика)</button>
-        <button onclick="inspectStation('murmansk')" class="btn-action !py-1 !px-2.5 !text-xs">Мурманск</button>
-        <button onclick="inspectStation('ekb')" class="btn-action !py-1 !px-2.5 !text-xs">Екатеринбург</button>
-        <button onclick="inspectStation('novosib')" class="btn-action !py-1 !px-2.5 !text-xs">Новосибирск (-0.7°C)</button>
-        <button onclick="inspectStation('krasnoyarsk')" class="btn-action !py-1 !px-2.5 !text-xs">Красноярск</button>
-        <button onclick="inspectStation('yakutsk')" class="btn-action !py-1 !px-2.5 !text-xs">Якутск (-1.7°C)</button>
-        <button onclick="inspectStation('oymyakon')" class="btn-action !py-1 !px-2.5 !text-xs">Оймякон (-2.6°C)</button>
-        <button onclick="inspectStation('vladivostok')" class="btn-action !py-1 !px-2.5 !text-xs">Владивосток (+1.3°C)</button>
-        <button onclick="inspectStation('salekhard')" class="btn-action !py-1 !px-2.5 !text-xs">Салехард</button>
-        <button onclick="inspectStation('anadyr')" class="btn-action !py-1 !px-2.5 !text-xs">Анадырь (Чукотка)</button>
-        <button onclick="inspectStation('petropavlovsk')" class="btn-action !py-1 !px-2.5 !text-xs">Камчатка</button>
-        <button onclick="inspectStation('kazan')" class="btn-action !py-1 !px-2.5 !text-xs">Казань</button>
+        <button onclick="inspectStation(\'norilsk\')" class="station-chip !border-sky-500/50 !text-sky-300"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Норильск (-2.7°C)</button>
+        <button onclick="inspectStation(\'armavir\')" class="station-chip !border-amber-500/50 !text-amber-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Армавир (+1.8°C)</button>
+        <button onclick="inspectStation(\'krasnodar\')" class="station-chip">Краснодар (+1.9°C)</button>
+        <button onclick="inspectStation(\'sochi\')" class="station-chip">Сочи (Субтропики)</button>
+        <button onclick="inspectStation(\'moscow\')" class="station-chip">Москва (+1.2°C)</button>
+        <button onclick="inspectStation(\'spb\')" class="station-chip">Санкт-Петербург (+0.2°C)</button>
+        <button onclick="inspectStation(\'dikson\')" class="station-chip">Диксон (Арктика)</button>
+        <button onclick="inspectStation(\'murmansk\')" class="station-chip">Мурманск</button>
+        <button onclick="inspectStation(\'ekb\')" class="station-chip">Екатеринбург</button>
+        <button onclick="inspectStation(\'novosib\')" class="station-chip">Новосибирск (-0.7°C)</button>
+        <button onclick="inspectStation(\'krasnoyarsk\')" class="station-chip">Красноярск</button>
+        <button onclick="inspectStation(\'yakutsk\')" class="station-chip">Якутск (-1.7°C)</button>
+        <button onclick="inspectStation(\'oymyakon\')" class="station-chip">Оймякон (-2.6°C)</button>
+        <button onclick="inspectStation(\'vladivostok\')" class="station-chip">Владивосток (+1.3°C)</button>
+        <button onclick="inspectStation(\'salekhard\')" class="station-chip">Салехард</button>
+        <button onclick="inspectStation(\'anadyr\')" class="station-chip">Анадырь (Чукотка)</button>
+        <button onclick="inspectStation(\'petropavlovsk\')" class="station-chip">Камчатка</button>
+        <button onclick="inspectStation(\'kazan\')" class="station-chip">Казань</button>
       </div>
 
     </div>
@@ -1501,17 +1558,21 @@
       <!-- Interactive Tab Switches -->
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="inline-flex rounded-xl bg-slate-800/80 p-1 border border-slate-700/80 text-xs font-bold" id="wavelet-tabs">
-          <button onclick="switchWaveletTab('enso')" id="wtab-enso" class="px-3.5 py-1.5 rounded-lg bg-indigo-600 text-white shadow transition flex items-center gap-1.5">
-            <span>🔥 ENSO (3–4 года)</span>
+          <button onclick="switchWaveletTab('enso')" id="wtab-enso" class="px-4 py-2 min-h-[38px] rounded-lg bg-sky-600 text-white shadow transition flex items-center gap-2 font-semibold">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span>ENSO (3–4 года)</span>
           </button>
-          <button onclick="switchWaveletTab('nao')" id="wtab-nao" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
-            <span>🌀 NAO (50 лет)</span>
+          <button onclick="switchWaveletTab('nao')" id="wtab-nao" class="px-4 py-2 min-h-[38px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2 font-semibold">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <span>NAO (50 лет)</span>
           </button>
-          <button onclick="switchWaveletTab('amo')" id="wtab-amo" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
-            <span>🌊 AMO (70 лет угасает)</span>
+          <button onclick="switchWaveletTab('amo')" id="wtab-amo" class="px-4 py-2 min-h-[38px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2 font-semibold">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+            <span>AMO (70 лет)</span>
           </button>
-          <button onclick="switchWaveletTab('all')" id="wtab-all" class="px-3.5 py-1.5 rounded-lg text-slate-300 hover:text-white transition flex items-center gap-1.5">
-            <span>📊 Все 3 индекса</span>
+          <button onclick="switchWaveletTab('all')" id="wtab-all" class="px-4 py-2 min-h-[38px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2 font-semibold">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Все 3 индекса</span>
           </button>
         </div>
         <div class="text-[11px] text-slate-400 font-mono flex items-center gap-2">
@@ -2728,7 +2789,7 @@
           : (val + '%');
 
         var pinHtml = '<div class="station-marker-pin" onclick="inspectStation(\'' + st.id + '\')">' +
-          '<span>' + (st.isPrimary ? '★ ' : '● ') + st.name + '</span>' +
+          '<span>' + (st.isPrimary ? '● ' : '● ') + st.name + '</span>' +
           '<span style="color:' + (val < 0 ? '#38bdf8' : '#f59e0b') + '; font-weight:900;">' + valStr + '</span>' +
           '</div>';
 
@@ -2797,7 +2858,7 @@
       var periodMap = {
         1: "1-я декада (1–10 сен): Тёплый сектор атлантических циклонов",
         2: "2-я декада (11–20 сен): Зарождение Карского антициклона",
-        3: "3-я декада (21–30 сен): ★ Ультраполярный прорыв в Сибирь",
+        3: "3-я декада (21–30 сен): Ультраполярный прорыв в Сибирь",
         0: "Сентябрь 2026: Итог месяца по ансамблю моделей",
         10: "Октябрь 2026: Сезонный горизонт глубокой осени",
         11: "Ноябрь 2026: Предзимье и очаги арктического холода",
@@ -3078,7 +3139,7 @@
       var hudBadgeEl = document.getElementById('hud-anomaly-badge');
       var hudDescEl = document.getElementById('hud-desc');
       if (hudPeriodEl) {
-        hudPeriodEl.textContent = (st ? ('★ ' + st.name.toUpperCase()) : r.name.toUpperCase()) + ' · ' + synInfo.title.toUpperCase();
+        hudPeriodEl.textContent = (st ? st.name.toUpperCase() : r.name.toUpperCase()) + ' · ' + synInfo.title.toUpperCase();
       }
       if (hudBadgeEl) {
         if (currentMetric === 'temp') {
@@ -3095,7 +3156,7 @@
       var reopenTitleEl = document.getElementById('reopen-hud-title');
       if (reopenTitleEl && st) {
         var activeLabelStr = (currentMetric === 'temp') ? tempStr : ('Осадки ' + precipStr);
-        reopenTitleEl.textContent = '★ ' + st.name + ' (' + activeLabelStr + ') ▲';
+        reopenTitleEl.textContent = st.name + ' (' + activeLabelStr + ')';
       }
 
       // Decades trajectory strip
@@ -3153,7 +3214,7 @@
         var titleText = periodEl ? periodEl.textContent.trim().split(':')[0] : 'Сводка аномалий';
         var badgeEl = document.getElementById('hud-anomaly-badge');
         var badgeText = badgeEl ? badgeEl.textContent.trim() : '';
-        document.getElementById('reopen-hud-title').textContent = titleText + (badgeText ? ' (' + badgeText + ')' : '') + ' ▲';
+        document.getElementById('reopen-hud-title').textContent = titleText + (badgeText ? ' (' + badgeText + ')' : '') ;
       }
       hudState = 'closed';
     }
@@ -3217,8 +3278,8 @@
         var isSelected = (st.id === activeStationId);
         var color = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
         var activeCls = isSelected ? 'border-sky-500 ring-2 ring-sky-500/20 font-bold bg-sky-50 dark:bg-sky-950/40' : '';
-        html += '<button onclick="inspectStation(\'' + st.id + '\')" class="btn-action !py-1 !px-2.5 !text-xs shrink-0 transition-all ' + activeCls + '">' +
-          (st.isPrimary ? '★ ' : '') + st.name + ' <span style="color:' + color + '; font-weight:800; margin-left:3px;">' + valStr + '</span>' +
+        html += '<button onclick="inspectStation(\'' + st.id + '\')" class="station-chip shrink-0 transition-all ' + activeCls + '">' +
+          ('') + st.name + ' <span style="color:' + color + '; font-weight:800; margin-left:3px;">' + valStr + '</span>' +
           '</button>';
       });
       strip.innerHTML = html;
@@ -3772,9 +3833,9 @@
       var b3 = document.getElementById('btn-dec-3');
       var b0 = document.getElementById('btn-dec-0');
       
-      if (b1) b1.innerHTML = '1-я дек (1–10 ' + info.monthShort + ')' + (info.currentDecade === 1 ? ' <span class="text-[9px] font-bold text-amber-400">★ Текущая</span>' : '');
-      if (b2) b2.innerHTML = '2-я дек (11–20 ' + info.monthShort + ')' + (info.currentDecade === 2 ? ' <span class="text-[9px] font-bold text-amber-400">★ Текущая</span>' : '');
-      if (b3) b3.innerHTML = '3-я дек (21–30 ' + info.monthShort + ')' + (info.currentDecade === 3 ? ' <span class="text-[9px] font-bold text-amber-400">★ Текущая</span>' : '');
+      if (b1) b1.innerHTML = '1-я дек (1–10 ' + info.monthShort + ')' + (info.currentDecade === 1 ? ' <span class="text-[9px] font-bold text-amber-400">Текущая</span>' : '');
+      if (b2) b2.innerHTML = '2-я дек (11–20 ' + info.monthShort + ')' + (info.currentDecade === 2 ? ' <span class="text-[9px] font-bold text-amber-400">Текущая</span>' : '');
+      if (b3) b3.innerHTML = '3-я дек (21–30 ' + info.monthShort + ')' + (info.currentDecade === 3 ? ' <span class="text-[9px] font-bold text-amber-400">Текущая</span>' : '');
       if (b0) b0.textContent = info.monthName + ' ' + info.year;
     }
 
