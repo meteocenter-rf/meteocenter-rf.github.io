@@ -485,6 +485,16 @@
     html.dark .dropdown-item {
       color: #cbd5e1;
     }
+    html.dark .dropdown-item {
+      color: #0f172a;
+    }
+    html.dark .dropdown-item {
+      color: #f1f5f9;
+    }
+    .dropdown-item:hover {
+      background-color: rgba(15, 23, 42, 0.06);
+      color: #020617;
+    }
     html.dark .dropdown-item:hover {
       background-color: rgba(255, 255, 255, 0.08);
       color: #ffffff;
@@ -1650,6 +1660,46 @@
     nav a[href="index.html"]:first-of-type,
     nav a[href="/"]:first-of-type,
     header a.flex.items-center { color: #f8fafc !important; text-decoration: none; }
+
+    /* === CONTRAST FIXES (WCAG AA compliance) === */
+
+    /* Active nav pill buttons */
+    a.nav-btn[class*="\!bg-rose"] { color: #fecdd3 !important; }
+    a.nav-btn[class*="\!bg-rose"]:hover { color: #ffe4e6 !important; }
+    a.nav-btn[class*="\!bg-sky"] { color: #bae6fd !important; }
+    a.nav-btn[class*="\!bg-sky"]:hover { color: #e0f2fe !important; }
+
+    /* Share dropdown buttons — explicit dark bg for contrast */
+    [id*="share"] button,
+    [id*="social"] button,
+    button[onclick*="share"], button[onclick*="copy"],
+    button[onclick*="vk"], button[onclick*="telegram"],
+    button[onclick*="ok.ru"], button[onclick*="clipboard"] {
+      color: #f1f5f9 !important;
+      background: rgba(15, 23, 42, 0.85) !important;
+    }
+    [id*="share"] button:hover,
+    [id*="social"] button:hover {
+      color: #ffffff !important;
+      background: rgba(30, 41, 59, 0.95) !important;
+    }
+
+    /* Share dropdown items — explicit contrast in both modes */
+    .dropdown-item {
+      color: #0f172a;
+      background: transparent;
+    }
+    html.dark .dropdown-item {
+      color: #f1f5f9;
+    }
+    .dropdown-item:hover {
+      background: rgba(15, 23, 42, 0.07);
+      color: #020617;
+    }
+    html.dark .dropdown-item:hover {
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+    }
 </style>
 
   <!-- Yandex.Metrika counter -->
