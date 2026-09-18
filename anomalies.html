@@ -803,6 +803,70 @@
       background: rgba(30, 41, 59, 0.85) !important;
       color: #ffffff !important;
     }
+
+    /* === CONTRAST FIXES (WCAG AA compliance) === */
+
+    /* Active nav pill buttons — rose highlight (Аномалии LIVE) */
+    a.nav-btn.\!bg-rose-500\/20,
+    a.nav-btn[class*="\!bg-rose"] {
+      color: #fecdd3 !important;
+    }
+    a.nav-btn.\!bg-rose-500\/20:hover,
+    a.nav-btn[class*="\!bg-rose"]:hover {
+      color: #ffe4e6 !important;
+    }
+
+    /* Active nav pill buttons — sky highlight (Прогноз, Снег) */
+    a.nav-btn.\!bg-sky-500\/10,
+    a.nav-btn[class*="\!bg-sky"] {
+      color: #bae6fd !important;
+    }
+    a.nav-btn.\!bg-sky-500\/10:hover,
+    a.nav-btn[class*="\!bg-sky"]:hover {
+      color: #e0f2fe !important;
+    }
+
+    /* Refresh button — always sufficient contrast */
+    #btn-refresh-anom {
+      color: #bae6fd !important;
+    }
+
+    /* Рассчитать аномалию — btn-action sky-600 */
+    .btn-action.\!bg-sky-600,
+    button.btn-action[class*="\!bg-sky"] {
+      background: #0369a1 !important;
+      color: #f0f9ff !important;
+    }
+    button.btn-action[class*="\!bg-sky"]:hover {
+      background: #0284c7 !important;
+    }
+
+    /* Share dropdown items — explicit contrast in both modes */
+    .dropdown-item {
+      color: #0f172a;
+      background: transparent;
+    }
+    html.dark .dropdown-item {
+      color: #f1f5f9;
+    }
+    .dropdown-item {
+      color: #0f172a;
+    }
+    html.dark .dropdown-item {
+      color: #f1f5f9;
+    }
+    .dropdown-item:hover {
+      background-color: rgba(15, 23, 42, 0.06);
+      color: #020617;
+    }
+    html.dark .dropdown-item:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+    html.dark .dropdown-item:hover {
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+    }
 </style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
@@ -834,20 +898,20 @@
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Main Forecast Link -->
-        <a href="index.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Главный прогноз погоды и радар">
+        <a href="index.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-800 dark:text-sky-400 font-bold shadow-sm" title="Главный прогноз погоды и радар">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span class="hidden sm:inline">Прогноз</span>
         </a>
 
         <!-- Dedicated Anomalies & Circulation Page Link -->
-        <a href="anomalies.html" class="nav-btn !bg-rose-500/20 !border-rose-400 dark:!border-rose-500/50 text-rose-600 dark:text-rose-400 font-black shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+        <a href="anomalies.html" class="nav-btn !bg-rose-500/20 !border-rose-400 dark:!border-rose-500/50 text-rose-800 dark:text-rose-400 font-black shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span class="hidden sm:inline">Аномалии</span>
           <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">LIVE</span>
         </a>
 
         <!-- Snow Monitor Link -->
-        <a href="snow.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
+        <a href="snow.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-800 dark:text-sky-400 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
           <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
           <span class="hidden sm:inline">Снег</span>
           <span class="text-[9px] font-mono px-1 rounded bg-sky-500 text-white font-black hidden md:inline">NEW</span>
