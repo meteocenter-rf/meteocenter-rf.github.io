@@ -829,25 +829,37 @@
 
         <!-- KPI Strip: Russia Overview -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 pt-1">
-          <div class="glass-card p-3 sm:p-3.5">
-            <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Таймыр и Енисей</span>
-            <div id="kpi-taimyr-val" class="text-xl sm:text-2xl font-black font-mono text-sky-600 dark:text-sky-400">-2.7 °C</div>
-            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Эпицентр арктического холода</span>
+          <div onclick="selectKpiRegion('taimyr')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Нажмите для перехода к Таймыру и Норильску на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition">Таймыр и Енисей</span>
+              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-taimyr-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-sky-600 dark:text-sky-400">+1.4 °C</div>
+            <span id="kpi-taimyr-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Умеренно выше нормы</span>
           </div>
-          <div class="glass-card p-3 sm:p-3.5">
-            <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Центр и Москва</span>
-            <div id="kpi-central-val" class="text-xl sm:text-2xl font-black font-mono text-amber-600 dark:text-amber-400">+1.2 °C</div>
-            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Теплый антициклонический блок</span>
+          <div onclick="selectKpiRegion('central')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Нажмите для перехода к Москве и Центральной России">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition">Центр и Москва</span>
+              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-central-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-amber-600 dark:text-amber-400">+1.9 °C</div>
+            <span id="kpi-central-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Теплее обычного</span>
           </div>
-          <div class="glass-card p-3 sm:p-3.5">
-            <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Юг России и Сочи</span>
-            <div id="kpi-south-val" class="text-xl sm:text-2xl font-black font-mono text-rose-600 dark:text-rose-400">+2.0 °C</div>
-            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Устойчивый бархатный сезон</span>
+          <div onclick="selectKpiRegion('south')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-rose-500/50 hover:bg-rose-500/5 transition group" title="Нажмите для перехода к Сочи и Черноморскому побережью">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-rose-500 transition">Юг России и Сочи</span>
+              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-south-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-rose-600 dark:text-rose-400">+1.5 °C</div>
+            <span id="kpi-south-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Бархатный сезон</span>
           </div>
-          <div class="glass-card p-3 sm:p-3.5">
-            <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Якутия (Саха)</span>
-            <div id="kpi-yakutia-val" class="text-xl sm:text-2xl font-black font-mono text-indigo-600 dark:text-indigo-400">-1.7 °C</div>
-            <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400">Радиационное выхолаживание</span>
+          <div onclick="selectKpiRegion('yakutia')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-indigo-500/50 hover:bg-indigo-500/5 transition group" title="Нажмите для перехода к Якутску и Полюсу Холода">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-indigo-500 transition">Якутия (Саха)</span>
+              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-yakutia-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-indigo-600 dark:text-indigo-400">-9.7 °C</div>
+            <span id="kpi-yakutia-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Очаг арктического холода</span>
           </div>
         </div>
       </div>
@@ -1089,7 +1101,7 @@
       </div>
 
       <!-- Quick Station Selector Strip (Clickable Chips) -->
-      <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
+      <div id="quick-stations-strip" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
         <button onclick="inspectStation('norilsk')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-sky-600 dark:text-sky-300 border-sky-400">★ Норильск (-2.7°C)</button>
         <button onclick="inspectStation('armavir')" class="btn-action !py-1 !px-2.5 !text-xs font-black text-amber-500 border-amber-400">★ Армавир (+1.8°C)</button>
@@ -2681,6 +2693,7 @@
         var marker = L.marker(st.coords, { icon: icon }).addTo(map);
         stationMarkers.push(marker);
       });
+      renderQuickStationsStrip();
     }
 
     // ================= MAP LEGEND RENDERER =================
@@ -2775,6 +2788,60 @@
       };
       document.getElementById('hud-model-name').textContent = modelNames[currentModel] || 'ECMWF SEAS5';
       document.getElementById('hud-metric-name').textContent = (currentMetric === 'temp') ? 'Аномалия ΔT (°C)' : 'Осадки (% нормы)';
+
+      // ================= TOP 4 KPI OVERVIEW CARDS DYNAMIC UPDATE =================
+      var kpiCards = [
+        { id: 'taimyr', regKey: 'taimyr' },
+        { id: 'central', regKey: 'central' },
+        { id: 'south', regKey: 'south' },
+        { id: 'yakutia', regKey: 'yakutia' }
+      ];
+
+      kpiCards.forEach(function(card) {
+        var r = REGIONS[card.regKey];
+        if (!r) return;
+        var elVal = document.getElementById('kpi-' + card.id + '-val');
+        var elDesc = document.getElementById('kpi-' + card.id + '-desc');
+
+        var val = getRegionVal(r, currentDecade, currentModel, currentMetric);
+
+        if (currentMetric === 'temp') {
+          var sign = val > 0 ? '+' : '';
+          var valStr = sign + val.toFixed(1) + ' °C';
+          var color = getTempColor(val);
+          if (elVal) {
+            elVal.textContent = valStr;
+            elVal.style.color = color;
+          }
+          if (elDesc) {
+            var tag = 'Около нормы';
+            if (val >= 3.0) tag = 'Экстремальное тепло';
+            else if (val >= 1.5) tag = 'Значительно выше нормы';
+            else if (val > 0.4) tag = 'Умеренно выше нормы';
+            else if (val >= -0.4) tag = 'Около нормы (±0.4°C)';
+            else if (val >= -1.5) tag = 'Умеренно ниже нормы';
+            else if (val >= -4.0) tag = 'Значительно ниже нормы';
+            else tag = 'Очаг арктического холода';
+            elDesc.textContent = tag;
+          }
+        } else {
+          var valStr = Math.round(val) + ' %';
+          var color = getPrecipColor(val);
+          if (elVal) {
+            elVal.textContent = valStr;
+            elVal.style.color = color;
+          }
+          if (elDesc) {
+            var tag = 'Норма осадков';
+            if (val < 50) tag = 'Острый дефицит осадков';
+            else if (val < 80) tag = 'Дефицит влаги';
+            else if (val <= 125) tag = 'В пределах нормы';
+            else if (val <= 175) tag = 'Избыток осадков';
+            else tag = 'Аномальные осадки';
+            elDesc.textContent = tag;
+          }
+        }
+      });
     }
 
     // ================= INSPECTOR POPULATION =================
@@ -2974,6 +3041,37 @@
         map.flyTo(st.coords, 5, { duration: 1.2 });
         inspectRegion(st.regKey, st.id);
       }
+    }
+
+    function selectKpiRegion(regKey) {
+      var r = REGIONS[regKey];
+      if (!r) return;
+      if (r.stationId) {
+        inspectStation(r.stationId);
+      } else {
+        if (r.center && map) map.flyTo(r.center, 5, { duration: 1.2 });
+        inspectRegion(regKey);
+      }
+    }
+
+    function renderQuickStationsStrip() {
+      var strip = document.getElementById('quick-stations-strip');
+      if (!strip) return;
+      var html = '<span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>';
+      STATIONS.forEach(function(st) {
+        var r = REGIONS[st.regKey];
+        var val = r ? getRegionVal(r, currentDecade, currentModel, currentMetric) : 0;
+        var valStr = (currentMetric === 'temp')
+          ? ((val > 0 ? '+' : '') + val.toFixed(1) + '°')
+          : (Math.round(val) + '%');
+        var isSelected = (st.id === activeStationId);
+        var color = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
+        var activeCls = isSelected ? 'border-sky-500 ring-2 ring-sky-500/20 font-bold bg-sky-50 dark:bg-sky-950/40' : '';
+        html += '<button onclick="inspectStation(\'' + st.id + '\')" class="btn-action !py-1 !px-2.5 !text-xs shrink-0 transition-all ' + activeCls + '">' +
+          (st.isPrimary ? '★ ' : '') + st.name + ' <span style="color:' + color + '; font-weight:800; margin-left:3px;">' + valStr + '</span>' +
+          '</button>';
+      });
+      strip.innerHTML = html;
     }
 
     // ================= APEXCHARTS: MULTI-MODEL COMPARISON FOR INSPECTOR =================
