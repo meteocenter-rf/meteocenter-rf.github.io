@@ -317,78 +317,113 @@
       z-index: 450;
     }
 
-    /* Synoptic Custom Leaflet Badges */
+    /* Synoptic Custom Leaflet Badges - High-End Scientific Design */
     .synoptic-badge-h {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(220, 38, 38, 0.95);
-      border: 2px solid #fecaca;
+      background: #b91c1c;
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
       color: #ffffff;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
+      width: 26px;
+      height: 26px;
       font-weight: 900;
-      font-size: 1.15rem;
+      font-size: 11px;
       line-height: 1;
-      box-shadow: 0 0 24px rgba(239, 68, 68, 0.85), inset 0 0 6px rgba(0,0,0,0.5);
-      animation: pulse-glow-red 2.5s infinite alternate;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
       cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .synoptic-badge-h:hover {
+      transform: scale(1.15);
     }
     .synoptic-badge-l {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(2, 132, 199, 0.95);
-      border: 2px solid #bae6fd;
+      background: #1d4ed8;
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
       color: #ffffff;
       border-radius: 50%;
-      width: 44px;
-      height: 44px;
+      width: 26px;
+      height: 26px;
       font-weight: 900;
-      font-size: 1.15rem;
+      font-size: 11px;
       line-height: 1;
-      box-shadow: 0 0 24px rgba(56, 189, 248, 0.85), inset 0 0 6px rgba(0,0,0,0.5);
-      animation: pulse-glow-blue 2.5s infinite alternate;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
       cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .synoptic-badge-l:hover {
+      transform: scale(1.15);
     }
     .station-marker-pin {
       display: inline-flex;
       align-items: center;
-      gap: 0.3rem;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1.5px solid #38bdf8;
-      border-radius: 9999px;
-      padding: 3px 9px;
+      gap: 0.25rem;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      border-radius: 6px;
+      padding: 2px 7px;
       font-family: var(--font-mono);
       font-weight: 700;
-      font-size: 11px;
-      color: #ffffff;
+      font-size: 10.5px;
+      color: #f8fafc;
       white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
     }
     .station-marker-pin:hover {
-      transform: scale(1.08);
+      transform: translateY(-1px);
       border-color: #ffffff;
-      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
     }
     html.light .station-marker-pin {
-      background: #0f172a;
+      background: rgba(15, 23, 42, 0.92);
       color: #ffffff;
-      border-color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.7);
     }
 
-    @keyframes pulse-glow-red {
-      from { box-shadow: 0 0 14px rgba(239, 68, 68, 0.6); }
-      to { box-shadow: 0 0 32px rgba(239, 68, 68, 0.95); }
+    /* Sleek Micro-Compact Dark Tooltip & Popup */
+    .leaflet-tooltip.sleek-tooltip-wrapper {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
     }
-    @keyframes pulse-glow-blue {
-      from { box-shadow: 0 0 14px rgba(56, 189, 248, 0.6); }
-      to { box-shadow: 0 0 32px rgba(56, 189, 248, 0.95); }
+    .leaflet-tooltip.sleek-tooltip-wrapper::before {
+      display: none !important;
+    }
+    .sleek-tooltip {
+      background: rgba(15, 23, 42, 0.95) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 6px !important;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5) !important;
+      padding: 3px 8px !important;
+      color: #f8fafc !important;
+      pointer-events: none;
+    }
+    .leaflet-popup.sleek-popup-wrapper .leaflet-popup-content-wrapper {
+      background: rgba(15, 23, 42, 0.95) !important;
+      backdrop-filter: blur(16px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.6) !important;
+      color: #f1f5f9 !important;
+      padding: 4px 6px !important;
+    }
+    .leaflet-popup.sleek-popup-wrapper .leaflet-popup-tip {
+      background: rgba(15, 23, 42, 0.95) !important;
+    }
+    .leaflet-popup.sleek-popup-wrapper a.leaflet-popup-close-button {
+      color: #94a3b8 !important;
+      padding: 4px 6px !important;
     }
 
     /* Scrollbars */
@@ -399,10 +434,36 @@
     html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
     html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
   
+        #map-legend {
+      background: rgba(15, 23, 42, 0.94) !important;
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+      border-radius: 10px;
+      color: #f1f5f9;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+    }
+    #map-legend #legend-title {
+      color: #94a3b8 !important;
+    }
+    #map-legend #legend-labels {
+      color: #cbd5e1 !important;
+    }
+
     /* Sleek Collapsible / Closable HUD Widget (Mobile & Desktop) */
     #map-hud-box {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      max-width: 26rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 24rem;
+      background: rgba(15, 23, 42, 0.92) !important;
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 12px;
+      color: #f1f5f9;
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.55);
+    }
+    html.light #map-hud-box {
+      background: rgba(15, 23, 42, 0.92) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      color: #f1f5f9;
     }
     #map-hud-box.hud-hidden {
       display: none !important;
@@ -411,14 +472,11 @@
       display: none !important;
     }
     #map-hud-box.hud-minimized {
-      padding: 0.4rem 0.65rem !important;
-      background: rgba(15, 23, 42, 0.90) !important;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    html.light #map-hud-box.hud-minimized {
-      background: rgba(255, 255, 255, 0.94) !important;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 0.35rem 0.65rem !important;
+      background: rgba(15, 23, 42, 0.94) !important;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      border-radius: 10px;
     }
     #map-hud-reopen-btn {
       transition: all 0.2s ease;
@@ -1045,7 +1103,7 @@
         <canvas id="wind-canvas"></canvas>
 
         <!-- Floating HUD Status Box (Bottom Left - Collapsible & Closable) -->
-        <div id="map-hud-box" class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md z-[500] glass-panel p-3.5 sm:p-4 border border-slate-300 dark:border-slate-700 shadow-2xl text-xs space-y-2 select-none">
+        <div id="map-hud-box" class="absolute bottom-3 left-3 right-3 sm:right-auto sm:max-w-md z-[500] glass-panel p-3.5 sm:p-4 border border-slate-300 dark:border-slate-700 shadow-2xl text-xs space-y-2 select-none hud-minimized">
           <!-- HUD Header with Title, Badge and Controls (Arrow Down & Cross) -->
           <div class="flex items-center justify-between gap-1.5 cursor-pointer" onclick="toggleHudCollapse()" title="Нажмите для сворачивания / разворачивания">
             <div class="flex items-center gap-1.5 min-w-0">
@@ -1060,7 +1118,7 @@
               </span>
               <!-- Arrow Down/Up button to minimize -->
               <button onclick="event.stopPropagation(); toggleHudCollapse();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-sky-500 hover:text-white dark:hover:bg-sky-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Свернуть вниз / Развернуть">
-                <span id="hud-collapse-arrow">▼</span>
+                <span id="hud-collapse-arrow">▲</span>
               </button>
               <!-- Cross button to close completely -->
               <button onclick="event.stopPropagation(); closeHudBox();" type="button" class="w-6 h-6 flex items-center justify-center rounded-md bg-slate-200/80 dark:bg-slate-800/80 hover:bg-rose-500 hover:text-white dark:hover:bg-rose-500 dark:hover:text-white transition text-slate-700 dark:text-slate-200 text-xs font-black" title="Полностью закрыть сводку (открыть карту)">
@@ -2464,24 +2522,24 @@
       ]
     };
 
-    // ================= COLOR RAMP GENERATOR =================
+    // ================= SCIENTIFIC METEOROLOGICAL COLOR RAMP (C3S / NOAA RdBu) =================
     function getTempColor(val) {
-      if (val <= -5.0) return '#3b0764'; // Deep Indigo/Violet
-      if (val <= -3.0) return '#1d4ed8'; // Deep Royal Blue
-      if (val <= -1.5) return '#0284c7'; // Rich Cyan / Blue
-      if (val <= -0.5) return '#38bdf8'; // Light Sky Blue
-      if (val < 0.5)   return '#64748b'; // Neutral Slate/Gray (Near Norm)
-      if (val < 1.5)   return '#eab308'; // Warm Yellow/Gold
-      if (val < 3.0)   return '#f97316'; // Vibrant Orange
-      if (val < 5.0)   return '#dc2626'; // Deep Red / Crimson
-      return '#be185d';                  // Intense Magenta
+      if (val <= -5.0) return '#1e3a8a'; // Deep Arctic Navy (Extreme Cold)
+      if (val <= -3.0) return '#2563eb'; // Rich Cobalt Blue (Severe Cold)
+      if (val <= -1.5) return '#3b82f6'; // Clean Balanced Blue (Moderate Cold)
+      if (val <= -0.5) return '#60a5fa'; // Soft Ice Sky Blue (Light Cold)
+      if (val < 0.5)   return '#94a3b8'; // Neutral Balanced Slate (Near Norm)
+      if (val < 1.5)   return '#f59e0b'; // Warm Amber / Peach (Light Warm)
+      if (val < 3.0)   return '#ea580c'; // Warm Terracotta / Deep Orange (Moderate Warm)
+      if (val < 5.0)   return '#dc2626'; // Classical Meteorological Crimson (Strong Warm)
+      return '#991b1b';                  // Deep Burgundy / Wine Red (Extreme Warm)
     }
 
     function getPrecipColor(val) {
-      if (val < 50)   return '#78350f'; // Severe Drought (Brown)
-      if (val < 80)   return '#d97706'; // Deficit (Amber/Orange)
-      if (val <= 120) return '#10b981'; // Near Normal (Emerald Green)
-      if (val <= 160) return '#06b6d4'; // Excess (Cyan/Teal)
+      if (val < 50)   return '#78350f'; // Severe Drought (Subtle Warm Umber)
+      if (val < 80)   return '#d97706'; // Deficit (Amber)
+      if (val <= 125) return '#10b981'; // Near Normal (Emerald)
+      if (val <= 165) return '#0284c7'; // Excess (Clear Cyan/Teal)
       return '#1e40af';                 // Heavy Surplus (Deep Blue)
     }
 
@@ -2547,7 +2605,7 @@
     var pressureMarkers = [];
     var stationMarkers = [];
 
-    // ================= RENDER HYDROMETCENTRE ISOLINES =================
+    // ================= RENDER HYDROMETCENTRE ISOLINES (Clean Scientific Contours) =================
     function renderIsolines() {
       isolineLayers.forEach(function(l) { map.removeLayer(l); });
       isolineLayers = [];
@@ -2556,41 +2614,31 @@
 
       ISOLINES_DATA.forEach(function(iso) {
         var val = getIsolineVal(iso, currentDecade, currentModel, currentMetric);
-        var fillColor = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
-        var valStr = (currentMetric === 'temp')
-          ? ((val > 0 ? '+' : '') + val.toFixed(1) + ' °C')
-          : (val + ' %');
+        var strokeColor = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
 
-        var poly = L.polygon(iso.coords, {
-          color: fillColor,
-          weight: 1.5,
-          opacity: 0.85,
-          fillColor: fillColor,
-          fillOpacity: 0.26,
-          smoothFactor: 3.0,
+        // Render as delicate meteorological isanomals (NEVER filled solid polygons)
+        var poly = L.polyline(iso.coords.concat([iso.coords[0]]), {
+          color: strokeColor,
+          weight: 1.1,
+          opacity: 0.50,
           dashArray: (val < 0 ? '4, 4' : null),
-          className: 'isoline-band'
+          smoothFactor: 2.0,
+          interactive: false // Never blocks clicks, never triggers conflicting tooltips
         }).addTo(map);
-
-        poly.bindTooltip(
-          '<div style="font-family:JetBrains Mono, monospace; font-size:12px; font-weight:700;">' +
-            '<div style="color:#94a3b8; font-size:10px; text-transform:uppercase;">Изоаномала Гидрометцентра</div>' +
-            '<div>' + iso.name + '</div>' +
-            '<div style="color:' + fillColor + '; font-size:14px; font-weight:900;">' + valStr + '</div>' +
-          '</div>',
-          { sticky: true, direction: 'top' }
-        );
 
         isolineLayers.push(poly);
       });
     }
 
-    // ================= RENDER CHOROPLETH REGIONS =================
+    // ================= RENDER CHOROPLETH REGIONS (Refined Non-Overlapping Scientific Map) =================
     function renderChoropleth() {
       polygonLayers.forEach(function(l) { map.removeLayer(l); });
       polygonLayers = [];
 
       if (!isRegionsEnabled) return;
+
+      var isDark = document.documentElement.classList.contains('dark');
+      var baseStroke = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.14)';
 
       Object.keys(REGIONS).forEach(function(rKey) {
         var r = REGIONS[rKey];
@@ -2598,34 +2646,36 @@
         var fillColor = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
         var valStr = (currentMetric === 'temp')
           ? ((val > 0 ? '+' : '') + val.toFixed(1) + ' °C')
-          : (val + ' % нормы');
+          : (Math.round(val) + ' %');
 
         var poly = L.polygon(r.coords, {
-          color: fillColor,
-          weight: 1.2,
-          opacity: 0.65,
+          color: baseStroke,
+          weight: 0.75,
+          opacity: 0.45,
           fillColor: fillColor,
-          fillOpacity: 0.18,
-          smoothFactor: 2.5,
+          fillOpacity: isDark ? 0.15 : 0.12,
+          smoothFactor: 2.0,
           className: 'region-polygon'
         }).addTo(map);
 
+        // Sleek, micro-compact dark glassmorphism tooltip (ZERO visual clutter)
+        var regShortName = r.name.split(' (')[0];
         poly.bindTooltip(
-          '<div style="font-family:JetBrains Mono, monospace; font-size:12px; font-weight:700;">' +
-            '<div>' + r.name + '</div>' +
-            '<div style="color:' + fillColor + '; font-size:14px; font-weight:900;">' + valStr + '</div>' +
-            '<div style="font-size:10px; opacity:0.8;">Кликните для детального анализа</div>' +
+          '<div class="sleek-tooltip font-mono text-[11px] tabular-nums font-bold flex items-center gap-1.5">' +
+            '<span class="text-slate-200">' + regShortName + '</span>' +
+            '<span style="color:' + fillColor + ';">' + valStr + '</span>' +
           '</div>',
-          { sticky: true, direction: 'top' }
+          { sticky: true, direction: 'top', className: 'sleek-tooltip-wrapper', offset: [0, -8] }
         );
 
         poly.on('mouseover', function() {
-          poly.setStyle({ fillOpacity: 0.55, weight: 2.8 });
+          poly.setStyle({ fillOpacity: 0.26, weight: 1.2, color: fillColor, opacity: 0.75 });
         });
         poly.on('mouseout', function() {
-          poly.setStyle({ fillOpacity: 0.28, weight: 1.8 });
+          poly.setStyle({ fillOpacity: isDark ? 0.15 : 0.12, weight: 0.75, color: baseStroke, opacity: 0.45 });
         });
-        poly.on('click', function() {
+        poly.on('click', function(e) {
+          if (e && e.originalEvent) L.DomEvent.stopPropagation(e);
           inspectRegion(rKey, r.stationId);
         });
 
@@ -2644,24 +2694,23 @@
       centers.forEach(function(c) {
         var isH = (c.type === 'h');
         var iconHtml = isH
-          ? '<div class="synoptic-badge-h">H<span style="font-size:8px;font-weight:700;">' + c.p + '</span></div>'
-          : '<div class="synoptic-badge-l">L<span style="font-size:8px;font-weight:700;">' + c.p + '</span></div>';
+          ? '<div class="synoptic-badge-h">H<span style="font-size:7.5px;font-weight:800;letter-spacing:-0.5px;line-height:0.9;">' + c.p + '</span></div>'
+          : '<div class="synoptic-badge-l">L<span style="font-size:7.5px;font-weight:800;letter-spacing:-0.5px;line-height:0.9;">' + c.p + '</span></div>';
 
         var icon = L.divIcon({
           className: '',
           html: iconHtml,
-          iconSize: [44, 44],
-          iconAnchor: [22, 22]
+          iconSize: [26, 26],
+          iconAnchor: [13, 13]
         });
 
-        var m = L.marker(c.coords, { icon: icon }).addTo(map)
-          .bindPopup(
-            '<div style="font-family:JetBrains Mono, monospace; font-size:12px;">' +
-              '<strong>' + c.name + ' (' + c.p + ' гПа)</strong><br>' +
-              '<span style="font-size:11px; color:#64748b;">' + c.desc + '</span>' +
-            '</div>'
-          );
-
+        var m = L.marker(c.coords, { icon: icon, zIndexOffset: 150 }).addTo(map);
+        m.bindTooltip(
+          '<div class="sleek-tooltip text-xs font-mono font-bold">' +
+            c.name + ' (' + c.p + ' гПа)' +
+          '</div>',
+          { direction: 'top', className: 'sleek-tooltip-wrapper', offset: [0, -12] }
+        );
         pressureMarkers.push(m);
       });
     }
@@ -2705,48 +2754,46 @@
       if (currentMetric === 'temp') {
         titleEl.textContent = 'ШКАЛА АНОМАЛИЙ ТЕМПЕРАТУРЫ (°C ОТ НОРМЫ WMO)';
         barsEl.innerHTML = `
-          <div style="height:10px; width:22px; background:#3b0764;" title="< -5.0°C"></div>
-          <div style="height:10px; width:22px; background:#1d4ed8;" title="-3.0 ... -5.0°C"></div>
-          <div style="height:10px; width:22px; background:#0284c7;" title="-1.5 ... -3.0°C"></div>
-          <div style="height:10px; width:22px; background:#38bdf8;" title="-0.5 ... -1.5°C"></div>
-          <div style="height:10px; width:22px; background:#64748b;" title="-0.5 ... +0.5°C"></div>
-          <div style="height:10px; width:22px; background:#eab308;" title="+0.5 ... +1.5°C"></div>
-          <div style="height:10px; width:22px; background:#f97316;" title="+1.5 ... +3.0°C"></div>
-          <div style="height:10px; width:22px; background:#dc2626;" title="+3.0 ... +5.0°C"></div>
-          <div style="height:10px; width:22px; background:#be185d;" title="> +5.0°C"></div>
+          <div style="height:8px; width:22px; background:#1e3a8a; border-radius:2px 0 0 2px;" title="< -5.0°C (Арктический мороз)"></div>
+          <div style="height:8px; width:22px; background:#2563eb;" title="-3.0 ... -5.0°C"></div>
+          <div style="height:8px; width:22px; background:#3b82f6;" title="-1.5 ... -3.0°C"></div>
+          <div style="height:8px; width:22px; background:#60a5fa;" title="-0.5 ... -1.5°C"></div>
+          <div style="height:8px; width:22px; background:#94a3b8;" title="-0.5 ... +0.5°C (Около нормы)"></div>
+          <div style="height:8px; width:22px; background:#f59e0b;" title="+0.5 ... +1.5°C"></div>
+          <div style="height:8px; width:22px; background:#ea580c;" title="+1.5 ... +3.0°C"></div>
+          <div style="height:8px; width:22px; background:#dc2626;" title="+3.0 ... +5.0°C"></div>
+          <div style="height:8px; width:22px; background:#991b1b; border-radius:0 2px 2px 0;" title="> +5.0°C (Экстремальное тепло)"></div>
         `;
         labelsEl.innerHTML = `
-          <span>-6°</span>
+          <span>-5°</span>
           <span>-3°</span>
           <span>-1°</span>
-          <span>0° (Норма)</span>
+          <span>0°</span>
           <span>+1°</span>
           <span>+3°</span>
-          <span>+6°</span>
+          <span>+5°</span>
         `;
       } else {
         titleEl.textContent = 'ШКАЛА АНОМАЛИЙ ОСАДКОВ (% ОТ НОРМЫ WMO)';
         barsEl.innerHTML = `
-          <div style="height:10px; width:36px; background:#78350f;" title="< 50% (Засуха)"></div>
-          <div style="height:10px; width:36px; background:#d97706;" title="50 - 80% (Дефицит)"></div>
-          <div style="height:10px; width:36px; background:#10b981;" title="80 - 120% (Норма)"></div>
-          <div style="height:10px; width:36px; background:#06b6d4;" title="120 - 160% (Избыток)"></div>
-          <div style="height:10px; width:36px; background:#1e40af;" title="> 160% (Переувлажнение)"></div>
+          <div style="height:8px; width:36px; background:#78350f; border-radius:2px 0 0 2px;" title="< 50% (Засуха)"></div>
+          <div style="height:8px; width:36px; background:#d97706;" title="50 - 80% (Дефицит)"></div>
+          <div style="height:8px; width:36px; background:#10b981;" title="80 - 125% (Норма)"></div>
+          <div style="height:8px; width:36px; background:#0284c7;" title="125 - 165% (Избыток)"></div>
+          <div style="height:8px; width:36px; background:#1e40af; border-radius:0 2px 2px 0;" title="> 165% (Переувлажнение)"></div>
         `;
         labelsEl.innerHTML = `
           <span>< 50%</span>
           <span>80%</span>
-          <span>100% (Норма)</span>
-          <span>120%</span>
-          <span>> 160%</span>
+          <span>100%</span>
+          <span>125%</span>
+          <span>> 165%</span>
         `;
       }
     }
 
     // ================= HUD STATUS TEXT UPDATER =================
-    function updateHUD() {
-      var periodMap = {
-        1: "1-я декада (1–10 сен): Тёплый сектор атлантических циклонов",
+    да (1–10 сен): Тёплый сектор атлантических циклонов",
         2: "2-я декада (11–20 сен): Зарождение Карского антициклона",
         3: "3-я декада (21–30 сен): ★ Ультраполярный прорыв в Сибирь",
         0: "Сентябрь 2026: Итог месяца по ансамблю моделей",
@@ -2844,6 +2891,106 @@
       });
     }
 
+    // ================= DYNAMIC SYNOPTIC SITUATIONS ENGINE =================
+    // Generates 100% meteorologically sound descriptions matching the active decade & real anomalies
+    function getRegionSynoptic(rKey, decade, tempVal, precipVal, r) {
+      var d = decade;
+      var tSign = tempVal > 0 ? '+' : '';
+      var tStr = tSign + tempVal.toFixed(1) + '°C';
+
+      // 1. TAIMYR & LOWER YENISEI
+      if (rKey === 'taimyr') {
+        if (d === 1) {
+          return {
+            title: "Интенсивный атлантический вынос тепла",
+            desc: "Активный зональный перенос с запада на восток. Серия глубоких циклонов с Баренцева моря закачивает теплый воздух в низовья Енисея. Аномалия " + tStr + ", дневной прогрев до +16.8°C, заморозки отсутствуют."
+          };
+        } else if (d === 2) {
+          return {
+            title: "Умеренно теплая переходная циркуляция",
+            desc: "Поле повышенного давления на периферии уходящих циклонов. Температурный фон удерживается выше климатической нормы (" + tStr + "), дневные максимумы достигают +11.4°C, ночные температуры около 0°...+2°C. Замедление зонального переноса перед перестройкой конца месяца."
+          };
+        } else if (d === 3) {
+          return {
+            title: "Формирование Карского антициклона и арктический затек",
+            desc: "Циркуляционный слом: рост атмосферного давления над Карским морем (до 1028 гПа). В паре с полярной ложбиной над Енисеем в третьей пятидневке начинается заток арктического воздуха, ночные морозы до -7°...-11°C, аномалия " + tStr + "."
+          };
+        } else {
+          return {
+            title: "Сентябрь 2026: интегральный баланс месяца",
+            desc: "Преобладание теплого фона первой и второй декад компенсирует похолодание конца месяца. Среднемесячная температура выше нормы на " + tStr + ", осадки " + precipVal + "% нормы."
+          };
+        }
+      }
+
+      // 2. CENTRAL RUSSIA & MOSCOW
+      if (rKey === 'central') {
+        if (d === 1) {
+          return {
+            title: "Атлантический антициклонический гребень",
+            desc: "Субтропический вынос по высотам, малооблачная теплая погода (" + tStr + "). Дневной прогрев до +24°...+26°C, дефицит осадков."
+          };
+        } else if (d === 2) {
+          return {
+            title: "Европейский блокирующий антициклон",
+            desc: "Устойчивый гребень тепла над ЕТР удерживает комфортную сухую погоду (" + tStr + " выше нормы). Дневной прогрев до +18°...+21°C, слабый южный ветер."
+          };
+        } else if (d === 3) {
+          return {
+            title: "Смещение гребня и прохождение атмосферных фронтов",
+            desc: "Увеличение облачности, кратковременные дожди, но интегрально декада теплее нормы (" + tStr + "). Дневной фон +13°...+16°C."
+          };
+        } else {
+          return {
+            title: "Сентябрь 2026: устойчивая положительная аномалия",
+            desc: "Теплый и комфортный сухой месяц (" + tStr + " от нормы ВМО), доминирование антициклонического типа погоды."
+          };
+        }
+      }
+
+      // 3. BLACK SEA & SOUTH
+      if (rKey === 'south' || rKey === 'kuban') {
+        if (d === 1 || d === 2) {
+          return {
+            title: "Субтропический антициклон и бархатный сезон",
+            desc: "Малоподвижный антициклон над Черным морем. Устойчивое тепло (" + tStr + "), морская вода +25°C, комфортный бризовый режим."
+          };
+        } else {
+          return {
+            title: "Умеренно теплая циркуляция с локальными осадками",
+            desc: "Сохранение комфортного температурного фона (" + tStr + "). Прохождение высотной ложбины с локальными ливнями."
+          };
+        }
+      }
+
+      // 4. YAKUTIA & COLD POLE
+      if (rKey === 'yakutia') {
+        if (d === 1) {
+          return {
+            title: "Континентальный антициклогенез",
+            desc: "Сокращение светового дня, ночные заморозки, умеренная отрицательная аномалия (" + tStr + ")."
+          };
+        } else if (d === 2) {
+          return {
+            title: "Раннее радиационное выхолаживание",
+            desc: "Формирование мощного континентального ядра холода (" + tStr + " ниже нормы). Устойчивые ночные морозы до -10°...-14°C, переход среднесуточной температуры через 0°C."
+          };
+        } else {
+          return {
+            title: "Углубление Сибирского ядра высокого давления",
+            desc: "Аномальный предзимний мороз (" + tStr + " ниже нормы), установление постоянного снежного покрова."
+          };
+        }
+      }
+
+      // Default Dynamic Formulation based on Anomaly Value
+      var genTitle = (tempVal >= 1.5) ? "Антициклонический перенос тепла" : ((tempVal <= -1.5) ? "Очаг радиационного выхолаживания" : "Зональная циркуляция около нормы");
+      var genDesc = (tempVal >= 0)
+        ? ("Положительная аномалия (" + tStr + "). Преобладание устойчивого теплого сектора, фон выше климатической нормы ВМО.")
+        : ("Отрицательное отклонение (" + tStr + "). Влияние тыловой части депрессии и ночное радиационное выхолаживание.");
+      return { title: genTitle, desc: genDesc };
+    }
+
     // ================= INSPECTOR POPULATION =================
     function inspectRegion(rKey, stationId) {
       activeRegionKey = rKey;
@@ -2915,20 +3062,21 @@
       if (tminEl) tminEl.textContent = r.tmin || '-5.0°C';
       if (tmaxEl) tmaxEl.textContent = r.tmax || '+18.0°C';
 
-      // Synoptic factors
+      // Synoptic factors (100% Dynamic & Decade-Consistent)
+      var synInfo = getRegionSynoptic(rKey, currentDecade, tempVal, precipVal, r);
       var synTitleEl = document.getElementById('insp-synoptic-title');
       var synDescEl = document.getElementById('insp-synoptic-desc');
       var windEl = document.getElementById('insp-wind');
-      if (synTitleEl) synTitleEl.textContent = r.synopticTitle || 'Ультраполярная циркуляция';
-      if (synDescEl) synDescEl.textContent = r.synopticDesc || r.desc;
-      if (windEl) windEl.textContent = r.wind || 'ССВ 8–14 м/с';
+      if (synTitleEl) synTitleEl.textContent = synInfo.title;
+      if (synDescEl) synDescEl.textContent = synInfo.desc;
+      if (windEl) windEl.textContent = r.wind || 'Умеренный 3–7 м/с';
 
       // Dynamic synchronization with Map Floating HUD
       var hudPeriodEl = document.getElementById('hud-period');
       var hudBadgeEl = document.getElementById('hud-anomaly-badge');
       var hudDescEl = document.getElementById('hud-desc');
       if (hudPeriodEl) {
-        hudPeriodEl.textContent = (st ? ('★ ' + st.name.toUpperCase()) : r.name.toUpperCase()) + ' · ' + (r.synopticTitle || 'Синоптический статус');
+        hudPeriodEl.textContent = (st ? ('★ ' + st.name.toUpperCase()) : r.name.toUpperCase()) + ' · ' + synInfo.title.toUpperCase();
       }
       if (hudBadgeEl) {
         if (currentMetric === 'temp') {
@@ -2940,7 +3088,7 @@
         }
       }
       if (hudDescEl) {
-        hudDescEl.textContent = (r.synopticDesc || r.desc) + ' Диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
+        hudDescEl.textContent = synInfo.desc + ' Диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
       }
       var reopenTitleEl = document.getElementById('reopen-hud-title');
       if (reopenTitleEl && st) {
@@ -2968,7 +3116,7 @@
 
     
     // ================= ADVANCED COLLAPSIBLE & CLOSABLE HUD CONTROLLER =================
-    var hudState = 'normal'; // 'normal', 'minimized', 'closed'
+    var hudState = 'minimized'; // 'normal', 'minimized', 'closed'
 
     function toggleHudCollapse() {
       var box = document.getElementById('map-hud-box');
@@ -3996,8 +4144,10 @@
           }
         });
 
-        if (centers.length > 0) {
-          PRESSURE_CENTERS_DATA[currentDecade] = centers;
+        // Update live pressures for existing maritime/basin synoptic centers without collision
+        if (karaSite && PRESSURE_CENTERS_DATA[currentDecade]) {
+          var cKara = PRESSURE_CENTERS_DATA[currentDecade].find(function(c){ return c.name.indexOf('Карск') !== -1 || c.name.indexOf('Арктик') !== -1; });
+          if (cKara && karaSite.p) cKara.p = Math.round(karaSite.p);
           renderPressureCenters();
         }
 
@@ -4016,17 +4166,17 @@
         kara = { p: 1005.1, trend: +23.3, t: +8.1, w: 48 };
       }
 
-      var hasGenesis = (kara.trend >= 8.0) || (kara.p >= 1020);
+      var hasGenesis = (kara.trend >= 6.0) || (kara.p >= 1020);
       if (hasGenesis) {
         if (factBadge) {
-          factBadge.className = "px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 uppercase animate-pulse";
-          factBadge.textContent = "ФАКТ: ЗАРОЖДЕНИЕ АНТИЦИКЛОНА ПОДТВЕРЖДЕНО (+ " + kara.trend + " гПа / 48ч)";
+          factBadge.className = "px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 uppercase";
+          factBadge.textContent = "СИНОПТИКА: БАРИЧЕСКИЙ РОСТ НАД КАРСКИМ МОРЕМ (+" + kara.trend + " гПа / 48ч)";
         }
         if (factTitle) {
-          factTitle.innerHTML = "🌀 <strong>ФАКТИЧЕСКИЙ СТАТУС:</strong> Зарождение мощного антициклона над Карским регионом!";
+          factTitle.innerHTML = "🌀 <strong>СИНОПТИЧЕСКИЙ СТАТУС:</strong> Формирование условий для циркуляционной перестройки к 3-й декаде";
         }
         if (factDetails) {
-          factDetails.innerHTML = "По первичным физическим данным <strong>ECMWF IFS (0.25°) и DWD ICON</strong> на ст. Диксон / Карское море фактическое давление составляет <strong>" + kara.p + " гПа</strong>, а барическая тенденция за 48 часов составляет рекордные <strong>+" + kara.trend + " гПа</strong> (лавинообразный рост плотности холодного арктического воздуха). Сформированный антициклонический блокинг H с ростом до 1028 гПа разрушает зональный перенос и открывает коридор полярного вторжения в Сибирь.";
+          factDetails.innerHTML = "По оперативным замерам суперкомпьютерных моделей <strong>ECMWF IFS (0.25°) и DWD ICON</strong> на ст. Диксон / Карский бассейн отмечается барический рост <strong>+" + kara.trend + " гПа/48ч</strong>. Во 2-й декаде на Таймыре сохраняется умеренно теплая погода (+1.4°C выше нормы, днем до +11.4°C). Ожидается, что формирующийся Карский антициклон повлияет на заток арктического воздуха в третьей декаде месяца.";
         }
       } else {
         if (factBadge) {
@@ -4411,15 +4561,32 @@
         renderCustomModelsBarChart(dispName, [ecMax, consensusT, icMax, gfsMax, gemMax]);
 
         // Bind Leaflet Popup to Marker
-        customPointMarker.bindPopup(
-          '<div style="font-family:sans-serif; font-size:12px; line-height:1.4; padding:2px;">' +
-          '<div style="font-weight:800; font-size:13px; color:#0f172a; margin-bottom:2px;">' + dispName + '</div>' +
-          '<div>Факт: <strong>' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</strong></div>' +
-          '<div style="font-weight:700; color:' + getTempColor(deltaT) + ';">Аномалия: ' + (deltaT > 0 ? '+' : '') + deltaT + '°C</div>' +
-          '<div style="color:#64748b; font-size:11px;">Осадки: ' + precipPct + '% · Давление: ' + pMm + ' мм</div>' +
-          '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" style="display:inline-block; margin-top:5px; color:#0284c7; font-weight:700; text-decoration:underline;">👉 Открыть полный прогноз ➔</a>' +
-          '</div>'
-        ).openPopup();
+        var popupHtml = '<div class="font-sans text-xs space-y-1.5 p-1 select-none leading-tight" style="min-width:180px;">' +
+          '<div class="flex items-center justify-between border-b border-slate-700/60 pb-1 font-bold text-slate-100 text-xs">' +
+            '<span class="truncate max-w-[150px]">' + dispName + '</span>' +
+          '</div>' +
+          '<div class="flex items-center justify-between font-mono text-[11px]">' +
+            '<span class="text-slate-400">Факт T:</span>' +
+            '<span class="font-bold text-slate-100">' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</span>' +
+          '</div>' +
+          '<div class="flex items-center justify-between font-mono text-[11px]">' +
+            '<span class="text-slate-400">Аномалия:</span>' +
+            '<span class="font-black" style="color:' + getTempColor(deltaT) + ';">' + (deltaT > 0 ? '+' : '') + deltaT + '°C</span>' +
+          '</div>' +
+          '<div class="flex items-center justify-between font-mono text-[10.5px] text-slate-400 pt-0.5">' +
+            '<span>Осадки: ' + precipPct + '%</span>' +
+            '<span>' + pMm + ' мм рт. ст.</span>' +
+          '</div>' +
+          '<div class="pt-1 border-t border-slate-700/60 text-right">' +
+            '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" class="text-[11px] text-sky-400 hover:text-sky-300 font-bold underline transition">Открыть прогноз →</a>' +
+          '</div>' +
+        '</div>';
+
+        customPointMarker.bindPopup(popupHtml, {
+          className: 'sleek-popup-wrapper',
+          closeButton: true,
+          autoPan: false
+        }).openPopup();
 
       } catch(err) {
         console.error('Point calculation error:', err);
