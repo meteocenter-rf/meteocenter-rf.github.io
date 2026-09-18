@@ -268,6 +268,12 @@
       border-color: rgba(255, 255, 255, 0.18);
       transform: translateY(-1px);
     }
+    /* High-contrast nav active state overrides */
+    a.nav-btn[class*="!bg-rose"] { color: #fecdd3 !important; }
+    a.nav-btn[class*="!bg-rose"]:hover { color: #ffffff !important; }
+    a.nav-btn[class*="!bg-sky"] { color: #e0f2fe !important; }
+    a.nav-btn[class*="!bg-sky"]:hover { color: #ffffff !important; }
+
 
     /* ================= EXECUTIVE ANOMALIES & CIRCULATION PORTAL BUTTON ================= */
     .nav-btn-anomalies {
@@ -1633,7 +1639,18 @@
       overscroll-behavior-x: auto;
     }
 
-  </style>
+  
+    /* Share dropdown buttons — explicit contrast */
+    button.w-full.text-left { color: #f1f5f9 !important; }
+    button.w-full.text-left:hover { color: #ffffff !important; background: rgba(30,41,59,0.9) !important; }
+    html.light button.w-full.text-left { color: #0f172a !important; }
+    html.light button.w-full.text-left:hover { color: #020617 !important; }
+
+    /* МЕТЕОПОРТАЛ logo link — always readable */
+    nav a[href="index.html"]:first-of-type,
+    nav a[href="/"]:first-of-type,
+    header a.flex.items-center { color: #f8fafc !important; text-decoration: none; }
+</style>
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
