@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru" class="light">
 <head>
   <meta charset="UTF-8">
@@ -21,7 +21,7 @@
       }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
   <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
   <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
@@ -124,7 +124,7 @@
   </script>
 
   <!-- Tailwind CSS & Custom Config -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com" defer></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -143,9 +143,9 @@
   </script>
 
   <!-- External Libraries: ApexCharts & Leaflet -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.0/apexcharts.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.0/apexcharts.min.js" defer></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" defer></script>
 
   <style>
     :root {
@@ -1700,6 +1700,61 @@
       background: rgba(255,255,255,0.08);
       color: #ffffff;
     }
+
+    /* ================= ACCESSIBILITY & MOTION ================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    :focus-visible {
+      outline: 2.5px solid #38bdf8;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    html.dark :focus-visible {
+      outline-color: #7dd3fc;
+    }
+
+    /* Remove tap flash on touch devices */
+    a, button, [role="button"], input, select, textarea, label {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Minimum touch target for interactive controls */
+    button, a, [role="button"], input[type="checkbox"], input[type="radio"], select {
+      min-height: 40px;
+      min-width: 40px;
+    }
+    .nav-btn, .station-chip, .tab-btn {
+      min-height: 40px;
+    }
+    .don-preset-btn {
+      min-height: 44px;
+    }
+
+    /* Skip-link for keyboard navigation */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 0.75rem;
+      z-index: 99999;
+      padding: 0.5rem 1rem;
+      background: #0c4a6e;
+      color: #f0f9ff;
+      font-size: 0.8125rem;
+      font-weight: 700;
+      border-radius: 0 0 0.5rem 0.5rem;
+      text-decoration: none;
+      transition: top 0.15s ease;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
 </style>
 
   <!-- Yandex.Metrika counter -->
@@ -1714,6 +1769,7 @@
   <noscript><div><img src="https://mc.yandex.ru/watch/112330199" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
+  <a href="#main-content" class="skip-link">Перейти к содержимому</a>
 
   <!-- ================= TOP HEADER ================= -->
   <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 z-40">
@@ -1766,15 +1822,15 @@
         </a>
 
         <!-- Donation Button -->
-        <button onclick="openDonationModal()" class="nav-btn nav-btn-donate" title="Фонд поддержки метеопортала">
-          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
+        <button onclick="openDonationModal()" class="nav-btn nav-btn-donate" title="Фонд поддержки метеопортала" aria-label="Поддержать проект — открыть окно пожертвования">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
           <span class="hidden sm:inline">Поддержать</span>
         </button>
 
         <!-- Social Share Dropdown -->
         <div class="relative inline-block text-left group">
-          <button onclick="toggleShareDropdown()" class="nav-btn" title="Поделиться">
-            <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <button onclick="toggleShareDropdown()" class="nav-btn" title="Поделиться" aria-label="Поделиться ссылкой на страницу" aria-expanded="false" aria-controls="share-dropdown">
+            <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
             <span class="hidden md:inline">Поделиться</span>
           </button>
           <div id="share-dropdown" class="hidden absolute right-0 mt-1 w-44 rounded-xl dropdown-panel shadow-2xl py-1 z-50 text-xs font-medium">
@@ -1794,8 +1850,8 @@
         </div>
 
         <!-- Light / Dark Theme Switcher Button -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
-          <svg id="theme-toggle-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)" aria-label="Переключить тему оформления">
+          <svg id="theme-toggle-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
       </div>
     </div>
@@ -1859,7 +1915,7 @@
   </div>
 
   <!-- ================= MASTER MAIN VIEWPORT CONTAINER (ПРЕМИУМ ШИРОКИЙ ИНТЕРФЕЙС) ================= -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-5 flex-1 w-full space-y-3 sm:space-y-4">
+  <main id="main-content" class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-5 flex-1 w-full space-y-3 sm:space-y-4">
 
     <!-- ================= SEARCH BAR & QUICK CITIES ================= -->
     <div class="glass rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200/80 dark:border-slate-800/80 relative z-40">
@@ -2031,11 +2087,11 @@
         </p>
       </div>
       <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2.5">
-        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2">
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
           <span>Запросить выборку</span>
         </a>
-        <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5">
+        <a href="https://vk.me/id444630800" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5">
           <span>ВКонтакте</span>
         </a>
       </div>
@@ -2127,7 +2183,7 @@
             <span>Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</span>
           </div>
           <p class="text-slate-600 dark:text-slate-300">
-            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" rel="noopener noreferrer" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
           </p>
           <p class="text-slate-500 dark:text-slate-400 font-medium">
             Сервис <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ) и не выполняет расчет оригинальных прогнозов погоды.
@@ -2158,7 +2214,7 @@
             Информация о погоде предоставляется <strong>«как есть» (as is) исключительно в ознакомительных целях</strong>. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).
           </p>
           <p class="text-slate-500 dark:text-slate-400">
-            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline">Росгидромета</a>.
+            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" rel="noopener noreferrer" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" rel="noopener noreferrer" class="text-sky-500 hover:underline">Росгидромета</a>.
           </p>
         </div>
 
@@ -2175,15 +2231,15 @@
             Политика конфиденциальности и Cookies (152-ФЗ)
           </button>
           <span>·</span>
-          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
             Open-Meteo API (CC BY 4.0)
           </a>
           <span>·</span>
-          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://rainviewer.com/api" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
             RainViewer Radar API
           </a>
           <span>·</span>
-          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://mchs.gov.ru" target="_blank" rel="noopener noreferrer" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
             Официальный портал МЧС РФ
           </a>
         </div>
@@ -6266,7 +6322,7 @@ function renderTabCurrent(container, d) {
             </div>
           </div>
           <p class="text-[10.5px] text-slate-400 leading-relaxed">
-            Сервис является <strong>информационным агрегатором</strong> открытых данных (Open Data) и <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong>. Сайт <strong>не является государственным ресурсом</strong> и не публикует официальные штормовые предупреждения или режим ЧС. При возникновении угрозы опасных природных явлений руководствуйтесь исключительно официальными источниками: <a href="https://mchs.gov.ru" target="_blank" class="text-sky-400 hover:underline">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-400 hover:underline">Гидрометцентр России (Росгидромет)</a>.
+            Сервис является <strong>информационным агрегатором</strong> открытых данных (Open Data) и <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong>. Сайт <strong>не является государственным ресурсом</strong> и не публикует официальные штормовые предупреждения или режим ЧС. При возникновении угрозы опасных природных явлений руководствуйтесь исключительно официальными источниками: <a href="https://mchs.gov.ru" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">Гидрометцентр России (Росгидромет)</a>.
           </p>
         </div>
 
@@ -6799,8 +6855,7 @@ function renderTabCurrent(container, d) {
 
           <!-- Satellite Display Frame with Interactive Playback Controls -->
           <div class="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 aspect-[16/9] sm:aspect-[21/9] flex items-center justify-center">
-            <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" alt="Спутниковый снимок облачности" 
-              alt="Спутниковый снимок EUMETSAT и NASA" 
+            <img id="planeta-sat-img" src="https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=26,42,66,66&crs=EPSG:4326&width=1200&height=600&format=image/jpeg" alt="Спутниковый снимок EUMETSAT и NASA — облачность над Евразией" loading="lazy" 
               class="w-full h-full object-cover transition-opacity duration-300" 
               onerror="handleSatelliteImgError(this)" />
             
@@ -6836,11 +6891,11 @@ function renderTabCurrent(container, d) {
 
             <div class="flex items-center space-x-2 text-[11px] text-slate-400 font-mono">
               <span>Источники:</span>
-              <a href="https://www.eumetsat.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">EUMETSAT Open Data</a>
+              <a href="https://www.eumetsat.int/" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white hover:underline">EUMETSAT Open Data</a>
               <span>•</span>
-              <a href="https://earthdata.nasa.gov/" target="_blank" class="text-slate-300 hover:text-white hover:underline">NASA GIBS</a>
+              <a href="https://earthdata.nasa.gov/" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white hover:underline">NASA GIBS</a>
               <span>•</span>
-              <a href="https://wmo.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">Опорная сеть ВМО</a>
+              <a href="https://wmo.int/" target="_blank" rel="noopener noreferrer" class="text-slate-300 hover:text-white hover:underline">Опорная сеть ВМО</a>
             </div>
           </div>
         </div>
@@ -15042,7 +15097,9 @@ function renderTabCurrent(container, d) {
 
     function toggleShareDropdown() {
       const d = document.getElementById('share-dropdown');
+      const btn = document.querySelector('[aria-controls="share-dropdown"]');
       if (d) d.classList.toggle('hidden');
+      if (btn) btn.setAttribute('aria-expanded', d && !d.classList.contains('hidden') ? 'true' : 'false');
     }
 
     document.addEventListener('click', (e) => {
@@ -15358,7 +15415,7 @@ function renderTabCurrent(container, d) {
   </script>
 
   <!-- ================= MODAL 1: 100% BULLETPROOF LEGAL DISCLAIMER & STATUTORY REGULATIONS ================= -->
-  <div id="legal-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeLegalModal()">
+  <div id="legal-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title" onclick="if(event.target===this) closeLegalModal()">
     <div class="modal-card p-5 sm:p-7 space-y-4 max-w-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2.5">
@@ -15366,7 +15423,7 @@ function renderTabCurrent(container, d) {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Правовой статус и отказ от ответственности</h2>
+            <h2 id="legal-modal-title" class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Правовой статус и отказ от ответственности</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">99-ФЗ • 113-ФЗ • 152-ФЗ • ст. 13.15, 17.10 КоАП РФ • ст. 1334 ГК РФ</p>
           </div>
         </div>
@@ -15399,7 +15456,7 @@ function renderTabCurrent(container, d) {
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
             Сайт <strong>не публикует официальные штормовые предупреждения</strong>, прогнозы стихийных бедствий, гидрологических паводков или режимов неблагоприятных метеорологических условий («черного неба» / НМУ). Все отображаемые погодные индикаторы являются расчетными параметрами математических моделей (ст. 13.15 КоАП РФ).
             При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при принятии критически важных решений граждане и организации ОБЯЗАНЫ руководствоваться исключительно официальными штормовыми предупреждениями:
-            <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">ФГБУ «Гидрометцентр России» (meteoinfo.ru)</a>.
+            <a href="https://mchs.gov.ru" target="_blank" rel="noopener noreferrer" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" rel="noopener noreferrer" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">ФГБУ «Гидрометцентр России» (meteoinfo.ru)</a>.
           </p>
         </div>
 
@@ -15451,7 +15508,7 @@ function renderTabCurrent(container, d) {
     </div>
   </div>
   <!-- ================= MODAL: 152-FZ PRIVACY & COOKIE POLICY ================= -->
-  <div id="privacy-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closePrivacyModal()">
+  <div id="privacy-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="privacy-modal-title" onclick="if(event.target===this) closePrivacyModal()">
     <div class="modal-card p-5 sm:p-7 space-y-4 max-w-2xl">
       <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
         <div class="flex items-center space-x-2.5">
@@ -15459,7 +15516,7 @@ function renderTabCurrent(container, d) {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Политика конфиденциальности и cookies</h2>
+            <h2 id="privacy-modal-title" class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Политика конфиденциальности и cookies</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»</p>
           </div>
         </div>
@@ -15518,7 +15575,7 @@ function renderTabCurrent(container, d) {
 
 
   <!-- ================= MODAL 2: DONATIONS & SBP CHECKOUT (422-FZ SELF-EMPLOYED) ================= -->
-  <div id="donation-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDonationModal()">
+  <div id="donation-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="donation-modal-title" onclick="if(event.target===this) closeDonationModal()">
     <div class="modal-card p-5 sm:p-7 space-y-4 max-w-lg">
       
       <!-- STEP 1: Amount Selection & Receipt Contact -->
@@ -15529,7 +15586,7 @@ function renderTabCurrent(container, d) {
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
             </div>
             <div>
-              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Поддержка независимого метеопортала</h2>
+              <h2 id="donation-modal-title" class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Поддержка независимого метеопортала</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Автономная климатическая инфраструктура и архив ВМО</p>
             </div>
           </div>
@@ -15609,7 +15666,7 @@ function renderTabCurrent(container, d) {
           <!-- QR-Code for Mobile Scanning -->
           <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center space-y-2.5">
             <div class="p-2 bg-white rounded-xl shadow-md border border-slate-200">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=https%3A%2F%2Fwww.sberbank.com%2Fsms%2Fpbp.html%3Fp%3D79803484053" alt="QR-код СБП СберБанк" class="w-40 h-40 object-contain rounded-lg" />
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=https%3A%2F%2Fwww.sberbank.com%2Fsms%2Fpbp.html%3Fp%3D79803484053" alt="QR-код для оплаты через СБП СберБанк" loading="lazy" class="w-40 h-40 object-contain rounded-lg" />
             </div>
             <p class="text-[11px] text-slate-600 dark:text-slate-300">
               Отсканируйте камерой смартфона или приложением любого банка (Сбер, Т-Банк, ВТБ, Альфа) для быстрой оплаты по СБП
@@ -15714,7 +15771,7 @@ function renderTabCurrent(container, d) {
 
           <!-- 1-Click Telegram Confirmation & Instant Receipt Action -->
           <div class="space-y-2 pt-1">
-            <a id="step3-tg-btn" href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-center flex items-center justify-center gap-2 transition text-xs shadow-md">
+            <a id="step3-tg-btn" href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-center flex items-center justify-center gap-2 transition text-xs shadow-md">
               <svg class="w-4 h-4 fill-currentColor shrink-0" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
               <span>Отправить подтверждение и запросить чек в Telegram</span>
             </a>
@@ -15730,7 +15787,7 @@ function renderTabCurrent(container, d) {
   </div>
 
   <!-- ================= MODAL 3: SATELLITE FULLSCREEN LIGHTBOX ================= -->
-  <div id="satellite-lightbox" class="modal-backdrop hidden" onclick="if(event.target===this) closeSatelliteLightbox()">
+  <div id="satellite-lightbox" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Спутниковый снимок высокого разрешения" onclick="if(event.target===this) closeSatelliteLightbox()">
     <div class="modal-card p-3 sm:p-5 max-w-5xl space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
         <span class="font-bold text-slate-100 uppercase font-mono" id="lightbox-title">Спутниковый снимок высокого разрешения</span>
@@ -15790,6 +15847,23 @@ function renderTabCurrent(container, d) {
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
   </button>
   <script>
+    // Global Escape key handler for all modals & dropdowns
+    document.addEventListener('keydown', function(e) {
+      if (e.key !== 'Escape') return;
+      ['legal-modal','privacy-modal','donation-modal','satellite-lightbox'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el && !el.classList.contains('hidden')) {
+          el.classList.add('hidden');
+        }
+      });
+      var dd = document.getElementById('share-dropdown');
+      if (dd && !dd.classList.contains('hidden')) {
+        dd.classList.add('hidden');
+        var btn = document.querySelector('[aria-controls="share-dropdown"]');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
     window.addEventListener('scroll', () => {
       const btn = document.getElementById('btn-scroll-top');
       if (btn) {
@@ -15801,7 +15875,7 @@ function renderTabCurrent(container, d) {
           btn.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
         }
       }
-    });
+    }, { passive: true });
   </script>
 
 
