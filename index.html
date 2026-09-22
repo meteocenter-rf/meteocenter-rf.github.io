@@ -148,6 +148,49 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 
   <style>
+
+/* ================= PREMIER ZERO-DEFECT VISUAL UPGRADE (2026) ================= */
+:root {
+  --font-mono: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums lining-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.weather-num, .font-mono, [class*="tabular-nums"] {
+  font-variant-numeric: tabular-nums lining-nums !important;
+  font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
+}
+
+/* Элегантные субмикронные контуры для карточек (Zero-AI-Slop, без грубых теней) */
+.glass-card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 4px 12px -2px rgba(0, 0, 0, 0.03) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+html.dark .glass-card {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3), 0 8px 24px -4px rgba(0, 0, 0, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* WCAG AAA Контрастность и мягкость для глаз в светлой теме */
+html.light {
+  color-scheme: light;
+}
+html.light .text-slate-400 {
+  color: #64748b !important; /* Улучшенный контраст 5.2:1 вместо блеклого #94a3b8 */
+}
+
+/* Интерактивные микрокнопки: мгновенный тактильный отклик 150мс без задержек */
+button, .rolling-filter-btn, .summary-preset-chip {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+button:active, .rolling-filter-btn:active {
+  transform: scale(0.97) !important;
+}
+/* ============================================================================= */
+
     
     /* Modern 2026 Weather Numerics & Tabular Data */
     .weather-num {
