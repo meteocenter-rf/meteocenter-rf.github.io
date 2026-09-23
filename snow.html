@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru" class="light">
 <head>
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
   <link rel="dns-prefetch" href="https://api.open-meteo.com">
@@ -1269,7 +1281,7 @@
     // THEME MANAGEMENT
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light'); localStorage.setItem('meteo_theme', isDark ? 'dark' : 'light');
       updateThemeIcons(isDark);
       if (chartInstance) {
         chartInstance.options.scales.y.grid.color = isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.25)';
