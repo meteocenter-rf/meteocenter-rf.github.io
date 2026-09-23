@@ -2377,6 +2377,13 @@
 
     // Tab Switching
     function switchTab(mode) {
+      // Clear background radar timer on leaving radar tab
+      if (mode !== 'radar' && radarPlaying) {
+        clearInterval(radarTimer);
+        radarPlaying = false;
+        const playBtn = document.getElementById('radar-play-btn');
+        if (playBtn) playBtn.innerHTML = '▶ Играть';
+      }
       currentMode = mode;
       for (const [k, btn] of Object.entries(tabButtons)) {
         if (btn) {
@@ -2403,10 +2410,12 @@
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
-      // Update URL param without page reload
+      // Update URL param with pushState for true SPA navigation
       try {
         const newUrl = `?city=${encodeURIComponent(currentCity)}${mode !== 'current' ? `&mode=${mode}` : ''}`;
-        window.history.replaceState({}, '', newUrl);
+        if (window.location.search !== newUrl) {
+          window.history.pushState({ city: currentCity, mode: mode }, '', newUrl);
+        }
       } catch(e) {}
 
       // Re-render view immediately
