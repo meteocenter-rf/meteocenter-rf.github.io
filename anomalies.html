@@ -1031,7 +1031,7 @@
     html.light td, html.light th, html.light table {
       color: #0f172a !important;
     }
-    html.light .gismeteo-temp, html.light .hourly-temp {
+    html.light .synoptic-temp, html.light .hourly-temp {
       color: #0f172a !important;
       font-weight: 800 !important;
     }
@@ -1045,6 +1045,46 @@
     html.light .station-chip:hover {
       background-color: #e2e8f0 !important;
       color: #0f172a !important;
+    }
+
+
+    /* ================= SENIOR QA MASTER: MINIMALIST CONTRAST & STRAY CIRCLE FIX ================= */
+    html.light {
+      color-scheme: light;
+      --bg-primary: #ffffff;
+      --text-primary: #0f172a;
+    }
+    
+    html.dark {
+      color-scheme: dark;
+      --bg-primary: #060a14;
+      --text-primary: #f1f5f9;
+    }
+
+    /* Prevent empty/stray rounded badge dots from rendering without content */
+    span.rounded-full:empty,
+    div.rounded-full:empty {
+      display: none !important;
+    }
+
+    /* Table & Matrix readability in Light Theme */
+    html.light th, 
+    html.light td, 
+    html.light .synoptic-temp,
+    html.light .hourly-temp {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+
+    html.light .station-chip {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    html.light .station-chip:hover {
+      background-color: #f1f5f9 !important;
+      color: #0284c7 !important;
+      border-color: #94a3b8 !important;
     }
 
 </style>
