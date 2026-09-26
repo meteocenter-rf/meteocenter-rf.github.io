@@ -30,6 +30,18 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
   </style>
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || 'dark';
+      if (t === 'light') {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased select-none">
 
