@@ -2043,6 +2043,76 @@
     color: #0f172a !important;
   }
 </style>
+<style id="leaflet-theme-contrast-master">
+  /* Leaflet Container & Popup Core */
+  .leaflet-popup-content-wrapper {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+  .leaflet-popup-content {
+    margin: 0 !important;
+    line-height: 1.4 !important;
+  }
+  
+  /* LIGHT THEME POPUP */
+  html.light .leaflet-popup-content-wrapper,
+  html.light .leaflet-popup-tip {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 8px 10px -6px rgba(15, 23, 42, 0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+  html.light .picker-popup-inner {
+    color: #0f172a !important;
+  }
+  html.light .popup-subcard {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  html.light .popup-subcard * {
+    color: #0f172a !important;
+  }
+  html.light .popup-action-btn {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+    border: 1px solid #0369a1 !important;
+    box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25) !important;
+  }
+  html.light .popup-action-btn:hover {
+    background-color: #0369a1 !important;
+  }
+
+  /* DARK THEME POPUP */
+  html.dark .leaflet-popup-content-wrapper,
+  html.dark .leaflet-popup-tip {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    box-shadow: 0 14px 35px -4px rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+  html.dark .picker-popup-inner {
+    color: #f8fafc !important;
+  }
+  html.dark .popup-subcard {
+    background-color: rgba(30, 41, 59, 0.9) !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  html.dark .popup-subcard * {
+    color: #f8fafc !important;
+  }
+  html.dark .popup-action-btn {
+    background-color: #38bdf8 !important;
+    color: #082f49 !important;
+    border: 1px solid #7dd3fc !important;
+    box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3) !important;
+  }
+  html.dark .popup-action-btn:hover {
+    background-color: #7dd3fc !important;
+  }
+</style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
 
@@ -15297,23 +15367,23 @@ function renderTabCurrent(container, d) {
                 <div style="display:flex; align-items:center; gap:6px;">
                   <span style="font-size:24px;">${icon}</span>
                   <div>
-                    <div style="font-size:20px; font-weight:800; color:#f8fafc; font-family:monospace; line-height:1;">${tVal > 0 ? '+' : ''}${tVal}°C</div>
-                    <div style="font-size:10px; color:#94a3b8;">Ощущ. ${feelsVal > 0 ? '+' : ''}${feelsVal}°C</div>
+                    <div style="font-size:20px; font-weight:800; font-family:monospace; line-height:1;">${tVal > 0 ? '+' : ''}${tVal}°C</div>
+                    <div style="font-size:10px; opacity:0.8;">Ощущ. ${feelsVal > 0 ? '+' : ''}${feelsVal}°C</div>
                   </div>
                 </div>
                 <div style="text-align:right;">
-                  <div style="font-size:11px; font-weight:600; color:#e2e8f0;">${desc}</div>
-                  <div style="font-size:10px; color:#94a3b8;">${pMm} мм • ${c.relative_humidity_2m || 0}%</div>
+                  <div style="font-size:11px; font-weight:600;">${desc}</div>
+                  <div style="font-size:10px; opacity:0.8;">${pMm} мм • ${c.relative_humidity_2m || 0}%</div>
                 </div>
               </div>
-              <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(15,23,42,0.85); padding:5px 8px; border-radius:8px; margin-bottom:8px; font-size:11px;">
-                <div style="display:flex; align-items:center; gap:4px; color:#e2e8f0;">
+              <div class="popup-subcard" style="display:flex; align-items:center; justify-content:space-between; padding:6px 10px; border-radius:8px; margin-bottom:8px; font-size:11px;">
+                <div style="display:flex; align-items:center; gap:4px;">
                   <span style="display:inline-block; transform:rotate(${wDir}deg); font-weight:900;">➤</span>
                   <span>Ветер: <strong>${wSpd} м/с</strong> (${dirName})</span>
                 </div>
-                <div style="color:#cbd5e1;">Осадки: <strong style="color:#f8fafc;">${c.precipitation || 0} мм</strong></div>
+                <div>Осадки: <strong>${c.precipitation || 0} мм</strong></div>
               </div>
-              <button onclick="loadCoordsWeather(${lat}, ${lon})" style="width:100%; padding:7px; background:#0f172a; color:#f8fafc; font-weight:600; font-size:11px; border:1px solid #334155; border-radius:8px; cursor:pointer; transition:all 0.2s;">
+              <button onclick="loadCoordsWeather(${lat}, ${lon})" class="popup-action-btn" style="width:100%; padding:8px 12px; font-weight:700; font-size:11px; border-radius:8px; cursor:pointer; transition:all 0.2s;">
                 Загрузить полный архив 120 лет
               </button>
             `;
