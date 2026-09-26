@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="light">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
@@ -11,17 +11,17 @@
 
   <script>
     (function() {
-      var t = localStorage.getItem('meteo_theme') || 'light';
-      if (t === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
-      } else {
-        document.documentElement.classList.remove('dark');
+      var t = localStorage.getItem('meteo_theme') || 'dark';
+      if (t === 'light') {
         document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.remove('light');
+        document.documentElement.classList.add('dark');
       }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Карта климатических аномалий России и мира — ECMWF SEAS5, UKMO, JMA, CFSv2 | МетеоПортал</title>
     <!-- OpenGraph SEO -->
     <meta property="og:title" content="МетеоПортал — Информационный агрегатор">
@@ -1850,30 +1850,27 @@
         document.documentElement.classList.remove('dark');
         document.documentElement.classList.add('light');
         localStorage.setItem('meteo_theme', 'light');
+        document.getElementById('theme-icon').textContent = '🌙';
+        document.getElementById('theme-text').textContent = 'Светлая';
       } else {
         document.documentElement.classList.remove('light');
         document.documentElement.classList.add('dark');
         localStorage.setItem('meteo_theme', 'dark');
+        document.getElementById('theme-icon').textContent = '☀️';
+        document.getElementById('theme-text').textContent = 'Тёмная';
       }
-      updateThemeUI(!isDark);
-      if (typeof updateTileLayer === 'function') updateTileLayer();
-      if (typeof updateChartsTheme === 'function') updateChartsTheme();
-      if (typeof renderLegend === 'function') renderLegend();
+      updateTileLayer();
+      updateChartsTheme();
+      renderLegend();
     }
 
-    function updateThemeUI(isDark) {
-      var btn = document.getElementById('theme-toggle-btn');
-      var icon = document.getElementById('theme-toggle-icon') || document.getElementById('theme-icon');
-      var text = document.getElementById('theme-toggle-text') || document.getElementById('theme-text');
-      if (icon) icon.textContent = isDark ? '🌙' : '☀️';
-      if (text) text.textContent = isDark ? 'Тёмная' : 'Светлая';
-      if (btn) btn.title = isDark ? 'Текущая: Тёмная. Нажмите для переключения на Светлую' : 'Текущая: Светлая. Нажмите для переключения на Тёмную';
-    }
-
-    // Initialize Theme Icon on load
+    // Initialize Theme Icon
     (function() {
       var isDark = document.documentElement.classList.contains('dark');
-      updateThemeUI(isDark);
+      var icon = document.getElementById('theme-icon');
+      var text = document.getElementById('theme-text');
+      if (icon) icon.textContent = isDark ? '☀️' : '🌙';
+      if (text) text.textContent = isDark ? 'Тёмная' : 'Светлая';
     })();
 
     function sharePage() {
