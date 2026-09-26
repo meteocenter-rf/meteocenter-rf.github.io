@@ -1088,6 +1088,29 @@
     }
 
 </style>
+<style id="light-mode-contrast-fix">
+  html.light .bg-slate-900, html.light .bg-slate-950 {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+  html.light button.bg-slate-900, 
+  html.light button.bg-slate-950,
+  html.light button[class*="bg-slate-900"], 
+  html.light [aria-pressed="true"] {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+    border-color: #0369a1 !important;
+  }
+  html.light select, html.light input {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+  html.light select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+</style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
 
