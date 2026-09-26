@@ -1088,20 +1088,76 @@
     }
 
 </style>
-<style id="light-mode-contrast-fix">
-  html.light .bg-slate-900, html.light .bg-slate-950 {
-    background-color: #f1f5f9 !important;
+
+<style id="global-light-mode-contrast-override">
+  /* Global Leaflet Popup Light Mode Fix */
+  html.light .leaflet-popup-content-wrapper,
+  html.light .leaflet-popup-tip {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  }
+  html.light .leaflet-popup-content {
     color: #0f172a !important;
   }
+  html.light .leaflet-container a.leaflet-popup-close-button {
+    color: #475569 !important;
+  }
+
+  /* Global Dark Pill / Card / Container Light Mode Fix */
+  html.light .bg-slate-900, 
+  html.light .bg-slate-950, 
+  html.light .bg-[#0f172a],
+  html.light .bg-[#1e293b],
+  html.light .bg-[#0f172a]/90,
+  html.light .bg-slate-800/80 {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+  }
+
+  /* Specific fix for elements inside dark-turned-light containers */
+  html.light .bg-slate-900 *, 
+  html.light .bg-slate-950 *, 
+  html.light .bg-[#0f172a] *,
+  html.light .bg-[#1e293b] * {
+    color: #0f172a !important;
+  }
+
+  /* Text opacity overrides in light mode */
+  html.light .text-slate-400,
+  html.light .text-slate-500,
+  html.light .text-slate-300,
+  html.light .text-gray-400 {
+    color: #475569 !important;
+  }
+
+  /* Action Buttons in Light Mode */
   html.light button.bg-slate-900, 
   html.light button.bg-slate-950,
   html.light button[class*="bg-slate-900"], 
-  html.light [aria-pressed="true"] {
+  html.light [aria-pressed="true"],
+  html.light .active-filter-btn {
     background-color: #0284c7 !important;
     color: #ffffff !important;
     border-color: #0369a1 !important;
   }
-  html.light select, html.light input {
+
+  html.light button.bg-slate-900 *,
+  html.light button.bg-slate-950 *,
+  html.light [aria-pressed="true"] * {
+    color: #ffffff !important;
+  }
+
+  /* Secondary / Ghost buttons in Light mode */
+  html.light button.bg-slate-800,
+  html.light button.bg-slate-800/80 {
+    background-color: #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+
+  /* Form Elements in Light Mode */
+  html.light select, html.light input, html.light textarea {
     background-color: #ffffff !important;
     color: #0f172a !important;
     border-color: #cbd5e1 !important;
