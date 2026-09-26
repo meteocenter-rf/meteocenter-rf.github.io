@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="light">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
@@ -11,7 +11,7 @@
 
   <script>
     (function() {
-      var t = localStorage.getItem('meteo_theme') || 'light';
+      var t = localStorage.getItem('meteo_theme') || 'dark';
       if (t === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.classList.remove('light');
@@ -21,7 +21,7 @@
       }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Мультимодельный верификатор: сравнение ECMWF, GFS, ICON, GEM и ПЛАВ | МетеоПортал</title>
     <!-- OpenGraph SEO -->
     <meta property="og:title" content="МетеоПортал — Информационный агрегатор">
