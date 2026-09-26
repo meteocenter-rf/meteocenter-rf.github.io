@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="light">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
@@ -11,7 +11,7 @@
 
   <script>
     (function() {
-      var t = localStorage.getItem('meteo_theme') || 'light';
+      var t = localStorage.getItem('meteo_theme') || 'dark';
       if (t === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.classList.remove('light');
@@ -21,7 +21,7 @@
       }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>МетеоЖурнал — экспертные статьи о физике погоды, численных моделях и климате | МетеоПортал</title>
   <meta name="description" content="Увлекательные и научно выверенные статьи практикующих синоптиков и метеорологов: теория хаоса Лоренца, физика арктических блокировок, сравнение суперкомпьютеров ECMWF и GFS, расчет комфорта и новые нормы ВМО 1991–2020.">
   <meta name="keywords" content="метеорология статьи, почему прогноз погоды врет, ecmwf против gfs, блокирующий антициклон таймыр, как рассчитывается ощущается как, климатические нормы вмо, физика атмосферы, теория хаоса погода">
