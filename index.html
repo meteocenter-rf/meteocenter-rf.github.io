@@ -1933,7 +1933,7 @@
     html.light td, html.light th, html.light table {
       color: #0f172a !important;
     }
-    html.light .gismeteo-temp, html.light .hourly-temp {
+    html.light .synoptic-temp, html.light .hourly-temp {
       color: #0f172a !important;
       font-weight: 800 !important;
     }
@@ -1947,6 +1947,46 @@
     html.light .station-chip:hover {
       background-color: #e2e8f0 !important;
       color: #0f172a !important;
+    }
+
+
+    /* ================= SENIOR QA MASTER: MINIMALIST CONTRAST & STRAY CIRCLE FIX ================= */
+    html.light {
+      color-scheme: light;
+      --bg-primary: #ffffff;
+      --text-primary: #0f172a;
+    }
+    
+    html.dark {
+      color-scheme: dark;
+      --bg-primary: #060a14;
+      --text-primary: #f1f5f9;
+    }
+
+    /* Prevent empty/stray rounded badge dots from rendering without content */
+    span.rounded-full:empty,
+    div.rounded-full:empty {
+      display: none !important;
+    }
+
+    /* Table & Matrix readability in Light Theme */
+    html.light th, 
+    html.light td, 
+    html.light .synoptic-temp,
+    html.light .hourly-temp {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+
+    html.light .station-chip {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    html.light .station-chip:hover {
+      background-color: #f1f5f9 !important;
+      color: #0284c7 !important;
+      border-color: #94a3b8 !important;
     }
 
 </style>
@@ -5276,7 +5316,7 @@
       if (eAqi > 40) aqiDesc = 'Умеренный';
       if (eAqi > 60) aqiDesc = 'Нездоровый';
 
-      // 48h Hourly list: Синхронизированный срез от текущего часа (расширенные метеопараметры Gismeteo/ECMWF)
+      // 48h Hourly list: Синхронизированный срез от текущего часа (расширенные метеопараметры Синоптический/ECMWF)
       const hourly_list = [];
       const hTimes = hourly.time || [];
       const hTemps = getField(hourly, 'temperature_2m');
@@ -6210,17 +6250,17 @@ function renderTabCurrent(container, d) {
         : (anomDiff < 0 ? `Ниже нормы на ${anomSign}°C` : `В пределах климатической нормы ВМО`);
       const pureCity = (d.city || currentCity).replace(/\s*\(.*?\)/g, '').trim() || d.city;
 
-      // Build Gismeteo High-Density Matrix Table
+      // Build Синоптический High-Density Matrix Table
       const hList = d.hourly || [];
-      let gismeteoTimesTh = '';
-      let gismeteoIconTd = '';
-      let gismeteoTempTd = '';
-      let gismeteoAppTd = '';
-      let gismeteoWindTd = '';
-      let gismeteoPrecipTd = '';
-      let gismeteoPressTd = '';
-      let gismeteoHumTd = '';
-      let gismeteoUvTd = '';
+      let synopticTimesTh = '';
+      let synopticIconTd = '';
+      let synopticTempTd = '';
+      let synopticAppTd = '';
+      let synopticWindTd = '';
+      let synopticPrecipTd = '';
+      let synopticPressTd = '';
+      let synopticHumTd = '';
+      let synopticUvTd = '';
 
       let currentDayTag = 'Сегодня';
       hList.forEach((h, idx) => {
@@ -6231,7 +6271,7 @@ function renderTabCurrent(container, d) {
         const borderLeft = isSep ? 'border-l-2 border-amber-500/70 dark:border-amber-400/80' : 'border-l border-slate-200/60 dark:border-slate-800/60';
         
         // Header Time Cell
-        gismeteoTimesTh += `
+        synopticTimesTh += `
           <th class="px-2 py-2 min-w-[68px] ${borderLeft} font-mono ${isNow ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-300 font-bold' : (isSep ? 'bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400' : 'text-slate-700 dark:text-slate-300')}">
             <div class="text-[9px] uppercase tracking-wider ${isSep ? 'text-amber-500 font-bold' : 'text-slate-600 dark:text-slate-300'}">${isNow ? 'Сейчас' : (isSep ? 'Завтра' : '')}</div>
             <div class="text-[11px] font-bold">${dayLabel}</div>
@@ -6239,7 +6279,7 @@ function renderTabCurrent(container, d) {
         `;
 
         // Icon Cell
-        gismeteoIconTd += `
+        synopticIconTd += `
           <td class="px-2 py-1.5 ${borderLeft} text-xl select-none ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}" title="${h.desc || ''}">
             ${h.icon || '⛅'}
           </td>
@@ -6248,7 +6288,7 @@ function renderTabCurrent(container, d) {
         // Temp Cell
         const tNum = Math.round(h.temp);
         const tBadgeColor = tNum > 15 ? 'text-amber-600 dark:text-amber-400' : (tNum > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-cyan-600 dark:text-cyan-400');
-        gismeteoTempTd += `
+        synopticTempTd += `
           <td class="px-2 py-1.5 ${borderLeft} font-mono font-black text-sm weather-num ${tBadgeColor} ${isNow ? 'bg-sky-50/60 dark:bg-sky-950/40' : ''}">
             ${tNum > 0 ? '+' : ''}${tNum}°
           </td>
@@ -6256,7 +6296,7 @@ function renderTabCurrent(container, d) {
 
         // Feels Like Cell
         const appNum = h.app_temp != null ? Math.round(h.app_temp) : (tNum - 2);
-        gismeteoAppTd += `
+        synopticAppTd += `
           <td class="px-2 py-1 ${borderLeft} font-mono text-[11px] text-slate-700 dark:text-slate-300 ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             ${appNum > 0 ? '+' : ''}${appNum}°
           </td>
@@ -6266,7 +6306,7 @@ function renderTabCurrent(container, d) {
         const wSpeed = h.wind != null ? h.wind : 3;
         const wDir = h.wind_dir != null ? h.wind_dir : 0;
         const wDirName = h.wind_dir_name || 'С';
-        gismeteoWindTd += `
+        synopticWindTd += `
           <td class="px-1.5 py-1.5 ${borderLeft} text-[10.5px] font-mono text-slate-700 dark:text-slate-300 ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             <div class="flex items-center justify-center gap-0.5">
               <svg style="transform: rotate(${wDir}deg)" class="w-3 h-3 text-sky-500 shrink-0 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -6285,7 +6325,7 @@ function renderTabCurrent(container, d) {
         } else if (h.precip && h.precip >= 0.1) {
           pDisplay = `<span class="text-cyan-600 dark:text-cyan-400 font-bold">💧 ${h.precip}мм</span>`;
         }
-        gismeteoPrecipTd += `
+        synopticPrecipTd += `
           <td class="px-1.5 py-1.5 ${borderLeft} font-mono text-[10.5px] ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             ${pDisplay}
           </td>
@@ -6293,7 +6333,7 @@ function renderTabCurrent(container, d) {
 
         // Pressure Cell
         const prVal = h.press_mm || 750;
-        gismeteoPressTd += `
+        synopticPressTd += `
           <td class="px-1.5 py-1 ${borderLeft} font-mono text-[10.5px] text-slate-700 dark:text-slate-300 ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             ${prVal}
           </td>
@@ -6301,7 +6341,7 @@ function renderTabCurrent(container, d) {
 
         // Humidity Cell
         const humVal = h.humidity != null ? h.humidity : 70;
-        gismeteoHumTd += `
+        synopticHumTd += `
           <td class="px-1.5 py-1 ${borderLeft} font-mono text-[10.5px] text-slate-700 dark:text-slate-300 ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             ${humVal}%
           </td>
@@ -6310,7 +6350,7 @@ function renderTabCurrent(container, d) {
         // UV Index Cell
         const uvVal = h.uv_index != null ? h.uv_index : 0;
         const uvBadge = uvVal >= 6 ? 'text-red-500 font-bold' : (uvVal >= 3 ? 'text-amber-500 font-bold' : 'text-slate-600 dark:text-slate-400');
-        gismeteoUvTd += `
+        synopticUvTd += `
           <td class="px-1.5 py-1 ${borderLeft} font-mono text-[10.5px] ${uvBadge} ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
             ${uvVal > 0 ? uvVal : '0'}
           </td>
@@ -6398,57 +6438,57 @@ function renderTabCurrent(container, d) {
                   <th class="sticky left-0 bg-slate-100 dark:bg-slate-800 z-10 px-3 py-2 text-left font-bold border-r border-slate-200 dark:border-slate-700 min-w-[130px] shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     Параметр
                   </th>
-                  ${gismeteoTimesTh}
+                  ${synopticTimesTh}
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800/70">
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     ⛅ Погода
                   </td>
-                  ${gismeteoIconTd}
+                  ${synopticIconTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     🌡️ Температура
                   </td>
-                  ${gismeteoTempTd}
+                  ${synopticTempTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     🧣 Ощущается
                   </td>
-                  ${gismeteoAppTd}
+                  ${synopticAppTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     💨 Ветер, м/с
                   </td>
-                  ${gismeteoWindTd}
+                  ${synopticWindTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     ❄️💧 Осадки/Снег
                   </td>
-                  ${gismeteoPrecipTd}
+                  ${synopticPrecipTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     🧭 Давление, мм
                   </td>
-                  ${gismeteoPressTd}
+                  ${synopticPressTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     💧 Влажность, %
                   </td>
-                  ${gismeteoHumTd}
+                  ${synopticHumTd}
                 </tr>
-                <tr class="gismeteo-row">
+                <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                     ☀️ УФ-индекс
                   </td>
-                  ${gismeteoUvTd}
+                  ${synopticUvTd}
                 </tr>
               </tbody>
             </table>
