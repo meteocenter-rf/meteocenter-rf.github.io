@@ -780,7 +780,7 @@
       <!-- POPULAR CITY CHIPS -->
       <div class="mt-4 pt-4 border-t border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-bold uppercase tracking-wider shrink-0 mr-1">Быстрый выбор:</span>
-        <button onclick="selectPreset('norilsk')" id="chip-norilsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all active-city-chip">
+        <button onclick="selectPreset('norilsk')" id="chip-norilsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
           Норильск (НПР)
         </button>
         <button onclick="selectPreset('oganer')" id="chip-oganer" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
@@ -801,7 +801,7 @@
         <button onclick="selectPreset('yakutsk')" id="chip-yakutsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
           Якутск
         </button>
-        <button onclick="selectPreset('moscow')" id="chip-moscow" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
+        <button onclick="selectPreset('moscow')" id="chip-moscow" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all active-city-chip">
           Москва
         </button>
         <button onclick="selectPreset('spb')" id="chip-spb" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
@@ -1329,10 +1329,15 @@
     
       const urlParams = new URLSearchParams(window.location.search);
       const queryCity = (urlParams.get('city') || localStorage.getItem('meteo_current_city') || 'moscow').toLowerCase();
-      let currentCityKey = queryCity.includes('норильск') || queryCity.includes('norilsk') ? 'norilsk' :
-                           queryCity.includes('спб') || queryCity.includes('петербург') ? 'spb' :
-                           queryCity.includes('екатеринбург') ? 'ekb' :
-                           queryCity.includes('новосибирск') ? 'nsk' : 'moscow';
+      let currentCityKey = 'moscow';
+      if (queryCity.includes('норильск') || queryCity.includes('norilsk')) currentCityKey = 'norilsk';
+      else if (queryCity.includes('спб') || queryCity.includes('петербург')) currentCityKey = 'spb';
+      else if (queryCity.includes('екатеринбург') || queryCity.includes('ekb')) currentCityKey = 'ekb';
+      else if (queryCity.includes('новосибирск') || queryCity.includes('nsk')) currentCityKey = 'nsk';
+      else if (queryCity.includes('мурманск')) currentCityKey = 'murmansk';
+      else if (queryCity.includes('якутск')) currentCityKey = 'yakutsk';
+      else if (queryCity.includes('диксон')) currentCityKey = 'dikson';
+      else if (queryCity.includes('семилуки') || queryCity.includes('воронеж')) currentCityKey = 'semiluki';
 
     let chartInstance = null;
     let spectralMode = 'truecolor';
@@ -1448,20 +1453,23 @@
       const badge = document.getElementById('sat-source-badge');
 
       if (spectralMode === 'ndsi') {
-        // High-contrast false-color NDSI representation
         imgEl.style.filter = 'contrast(160%) hue-rotate(170deg) saturate(190%)';
         badge.innerText = 'NDSI Снежный индекс (Снег = Бирюзовый)';
       } else {
         imgEl.style.filter = 'none';
-        badge.innerText = 'Sentinel-2 True Color (10м RGB)';
+        badge.innerText = 'EUMETSAT HD & Sentinel-2 (High-Res 1080p)';
       }
 
-      if (d.satImg) {
+      if (d.satImg && d.satImg.trim() !== '') {
         imgEl.src = d.satImg;
       } else {
-        // Fallback to NASA GIBS snapshot API for arbitrary cities
-        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
-        imgEl.src = gibsUrl;
+        // High-definition WMS live tile centered on target coordinates
+        const minLat = (d.lat - 1.2).toFixed(2);
+        const maxLat = (d.lat + 1.2).toFixed(2);
+        const minLon = (d.lon - 1.8).toFixed(2);
+        const maxLon = (d.lon + 1.8).toFixed(2);
+        const wmsUrl = `https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=${minLon},${minLat},${maxLon},${maxLat}&crs=EPSG:4326&width=1200&height=650&format=image/jpeg`;
+        imgEl.src = wmsUrl;
       }
     }
 
@@ -1479,7 +1487,7 @@
     }
 
     function handleSatImageError(img) {
-      img.src = 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg';
+      img.src = 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=20,35,70,68&crs=EPSG:4326&width=1400&height=700&format=image/jpeg';
     }
 
     // SEARCH GEOCODING
