@@ -808,23 +808,15 @@
 
     /* Active nav pill buttons — rose highlight (Аномалии LIVE) */
     a.nav-btn.\!bg-rose-500\/20,
-    a.nav-btn[class*="\!bg-rose"] {
-      color: #fecdd3 !important;
-    }
+    
     a.nav-btn.\!bg-rose-500\/20:hover,
-    a.nav-btn[class*="\!bg-rose"]:hover {
-      color: #ffe4e6 !important;
-    }
+    
 
     /* Active nav pill buttons — sky highlight (Прогноз, Снег) */
     a.nav-btn.\!bg-sky-500\/10,
-    a.nav-btn[class*="\!bg-sky"] {
-      color: #bae6fd !important;
-    }
+    
     a.nav-btn.\!bg-sky-500\/10:hover,
-    a.nav-btn[class*="\!bg-sky"]:hover {
-      color: #e0f2fe !important;
-    }
+    
 
     /* Refresh button — always sufficient contrast */
     #btn-refresh-anom {
@@ -867,6 +859,109 @@
       background: rgba(255,255,255,0.08);
       color: #ffffff;
     }
+
+    /* ================= 100% WCAG AAA HIGH CONTRAST NAVIGATION RULES ================= */
+    html.light nav a[href="index.html"]:first-of-type,
+    html.light nav a[href="/"]:first-of-type,
+    html.light header a.flex.items-center,
+    html.light header span.font-extrabold { 
+      color: #0f172a !important; 
+      text-decoration: none; 
+    }
+
+    html.dark nav a[href="index.html"]:first-of-type,
+    html.dark nav a[href="/"]:first-of-type,
+    html.dark header a.flex.items-center,
+    html.dark header span.font-extrabold { 
+      color: #f8fafc !important; 
+      text-decoration: none; 
+    }
+
+    /* Light Theme Nav Button Contrast */
+    html.light .nav-btn {
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
+    }
+    html.light .nav-btn:hover {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #94a3b8 !important;
+    }
+
+    html.light a.nav-btn[class*="bg-sky"],
+    html.light button.nav-btn[class*="bg-sky"],
+    html.light .nav-btn-sky {
+      background-color: #e0f2fe !important;
+      color: #0369a1 !important;
+      border: 1px solid #7dd3fc !important;
+      font-weight: 800 !important;
+    }
+    html.light a.nav-btn[class*="bg-sky"]:hover,
+    html.light button.nav-btn[class*="bg-sky"]:hover,
+    html.light .nav-btn-sky:hover {
+      background-color: #bae6fd !important;
+      color: #0284c7 !important;
+    }
+
+    html.light a.nav-btn[class*="bg-rose"],
+    html.light button.nav-btn[class*="bg-rose"],
+    html.light .nav-btn-rose {
+      background-color: #ffe4e6 !important;
+      color: #9f1239 !important;
+      border: 1px solid #fecdd3 !important;
+      font-weight: 800 !important;
+    }
+    html.light a.nav-btn[class*="bg-rose"]:hover,
+    html.light button.nav-btn[class*="bg-rose"]:hover,
+    html.light .nav-btn-rose:hover {
+      background-color: #fecdd3 !important;
+      color: #881337 !important;
+    }
+
+    /* Dark Theme Nav Button Contrast */
+    html.dark .nav-btn {
+      background-color: rgba(15, 23, 42, 0.8) !important;
+      color: #cbd5e1 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    html.dark .nav-btn:hover {
+      background-color: rgba(30, 41, 59, 0.95) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.22) !important;
+    }
+
+    html.dark a.nav-btn[class*="bg-sky"],
+    html.dark button.nav-btn[class*="bg-sky"],
+    html.dark .nav-btn-sky {
+      background-color: rgba(2, 132, 199, 0.25) !important;
+      color: #7dd3fc !important;
+      border: 1px solid rgba(56, 189, 248, 0.45) !important;
+      font-weight: 800 !important;
+    }
+    html.dark a.nav-btn[class*="bg-sky"]:hover,
+    html.dark button.nav-btn[class*="bg-sky"]:hover,
+    html.dark .nav-btn-sky:hover {
+      background-color: rgba(2, 132, 199, 0.4) !important;
+      color: #ffffff !important;
+    }
+
+    html.dark a.nav-btn[class*="bg-rose"],
+    html.dark button.nav-btn[class*="bg-rose"],
+    html.dark .nav-btn-rose {
+      background-color: rgba(225, 29, 72, 0.25) !important;
+      color: #fda4af !important;
+      border: 1px solid rgba(244, 63, 94, 0.45) !important;
+      font-weight: 800 !important;
+    }
+    html.dark a.nav-btn[class*="bg-rose"]:hover,
+    html.dark button.nav-btn[class*="bg-rose"]:hover,
+    html.dark .nav-btn-rose:hover {
+      background-color: rgba(225, 29, 72, 0.4) !important;
+      color: #ffffff !important;
+    }
+
 </style>
 </head>
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
