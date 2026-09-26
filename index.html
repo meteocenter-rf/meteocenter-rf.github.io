@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" class="light">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
@@ -11,7 +11,7 @@
 
   <script>
     (function() {
-      var t = localStorage.getItem('meteo_theme') || 'light';
+      var t = localStorage.getItem('meteo_theme') || 'dark';
       if (t === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.classList.remove('light');
@@ -21,7 +21,7 @@
       }
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
   <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
   <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
@@ -2377,13 +2377,6 @@
 
     // Tab Switching
     function switchTab(mode) {
-      // Clear background radar timer on leaving radar tab
-      if (mode !== 'radar' && radarPlaying) {
-        clearInterval(radarTimer);
-        radarPlaying = false;
-        const playBtn = document.getElementById('radar-play-btn');
-        if (playBtn) playBtn.innerHTML = '▶ Играть';
-      }
       currentMode = mode;
       for (const [k, btn] of Object.entries(tabButtons)) {
         if (btn) {
@@ -2410,12 +2403,10 @@
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
-      // Update URL param with pushState for true SPA navigation
+      // Update URL param without page reload
       try {
         const newUrl = `?city=${encodeURIComponent(currentCity)}${mode !== 'current' ? `&mode=${mode}` : ''}`;
-        if (window.location.search !== newUrl) {
-          window.history.pushState({ city: currentCity, mode: mode }, '', newUrl);
-        }
+        window.history.replaceState({}, '', newUrl);
       } catch(e) {}
 
       // Re-render view immediately
@@ -15518,7 +15509,7 @@ function renderTabCurrent(container, d) {
     // THEME SWITCHER (LIGHT BY DEFAULT / DARK OPTIONAL)
     // =========================================================================
     function initTheme() {
-      const savedTheme = localStorage.getItem('meteo_theme') || 'light';
+      const savedTheme = localStorage.getItem('meteo_theme') || 'dark';
       applyTheme(savedTheme);
     }
 
