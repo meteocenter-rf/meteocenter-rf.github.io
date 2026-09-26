@@ -1501,43 +1501,7 @@
       border-color: #334155 !important;
     }
   
-    /* Windy Streamlines Canvas & Weather Picker */
-    #windy-particle-canvas {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 450;
-    }
-    .windy-hud-popup .leaflet-popup-content-wrapper {
-      background: rgba(12, 19, 36, 0.96) !important;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 14px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
-      padding: 0;
-      color: #f8fafc;
-    }
-    .windy-hud-popup .leaflet-popup-content {
-      margin: 0;
-      line-height: 1.4;
-    }
-    .windy-hud-popup .leaflet-popup-tip {
-      background: #0c1324 !important;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .windy-stream-btn-active {
-      background-color: #0f172a !important;
-      color: #ffffff !important;
-      border: 1px solid #0f172a !important;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2) !important;
-    }
-    html.dark .windy-stream-btn-active {
-      background-color: #f8fafc !important;
-      color: #0f172a !important;
-      border: 1px solid #ffffff !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-    }
+    
 
     /* Modal dialog backdrops and containers */
     .modal-backdrop {
@@ -6795,12 +6759,8 @@ function renderTabCurrent(container, d) {
                 Картографический движок:
               </span>
               <div class="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-inner">
-                <button onclick="switchMapEngine('windy')" id="btn-engine-windy" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
-                  <span>🌀 Windy Pro 4K</span>
-                </button>
-                <button onclick="switchMapEngine('ventusky')" id="btn-engine-ventusky" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
-                  <span>⚡ Ventusky Live</span>
-                </button>
+                
+                
                 <button onclick="switchMapEngine('leaflet')" id="btn-engine-leaflet" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md">
                   <span>🛰️ Leaflet HD (ВМО/NASA)</span>
                 </button>
@@ -6838,16 +6798,16 @@ function renderTabCurrent(container, d) {
         <!-- Radar Map Wrapper Container with Multi-Engine Embeds -->
         <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-200/90 dark:border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
           <!-- 1. Windy 4K Interactive Embed -->
-          <iframe id="windy-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:block;" allow="geolocation"></iframe>
+          
           
           <!-- 2. Ventusky Live Embed -->
-          <iframe id="ventusky-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:none;" allow="geolocation"></iframe>
+          
 
           <!-- 3. Leaflet Native GIS Map -->
           <div id="radar-map" class="w-full h-full z-0" style="display:none;"></div>
           
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
-          <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]" style="display:none;"></canvas>
+          
 
           <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
           <div id="radar-left-dock" class="absolute top-3 left-3 z-20 pointer-events-auto transition-all duration-300 max-w-[240px] sm:max-w-[280px]">
@@ -7864,7 +7824,7 @@ function renderTabCurrent(container, d) {
         if (ventuskyIframe) ventuskyIframe.style.display = 'none';
         if (windyIframe) {
           windyIframe.style.display = 'block';
-          updateWindyIframeSrc(curLat, curLon);
+          
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -7874,7 +7834,7 @@ function renderTabCurrent(container, d) {
         if (windyIframe) windyIframe.style.display = 'none';
         if (ventuskyIframe) {
           ventuskyIframe.style.display = 'block';
-          updateVentuskyIframeSrc(curLat, curLon);
+          
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -7947,9 +7907,9 @@ function renderTabCurrent(container, d) {
       const curLon = (lastCoords && lastCoords.lon) || (latestData && latestData.lon) || 37.62;
 
       if (activeMapEngine === 'windy') {
-        updateWindyIframeSrc(curLat, curLon);
+        
       } else if (activeMapEngine === 'ventusky') {
-        updateVentuskyIframeSrc(curLat, curLon);
+        
       } else {
         applyLeafletUniversalLayer();
       }
@@ -8132,9 +8092,9 @@ function renderTabCurrent(container, d) {
         radarMap.flyTo([lt, ln], z, { duration: 1.2 });
       }
       if (activeMapEngine === 'windy') {
-        updateWindyIframeSrc(lt, ln);
+        
       } else if (activeMapEngine === 'ventusky') {
-        updateVentuskyIframeSrc(lt, ln);
+        
       }
     }
 
