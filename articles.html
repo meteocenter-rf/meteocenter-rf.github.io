@@ -470,6 +470,57 @@
       color: #ffffff !important;
     }
 
+
+    /* ================= 100% LIGHT/DARK ADAPTIVE CONTAINERS & TEXT ================= */
+    html.light .glass-card,
+    html.light .card,
+    html.light .dropdown-panel {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06) !important;
+    }
+
+    html.light [class*="bg-slate-900"]:not(.keep-dark),
+    html.light [class*="bg-slate-950"]:not(.keep-dark),
+    html.light [class*="bg-indigo-950"]:not(.keep-dark),
+    html.light [class*="bg-sky-950"]:not(.keep-dark) {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    html.light [class*="bg-slate-900"] h1,
+    html.light [class*="bg-slate-900"] h2,
+    html.light [class*="bg-slate-900"] h3,
+    html.light [class*="bg-slate-900"] h4,
+    html.light [class*="bg-slate-900"] p,
+    html.light [class*="bg-slate-900"] span,
+    html.light [class*="bg-slate-950"] span,
+    html.light [class*="bg-slate-950"] div {
+      color: #0f172a !important;
+    }
+
+    html.light .text-slate-400,
+    html.light .text-slate-500 {
+      color: #475569 !important;
+    }
+
+    html.light .text-sky-200,
+    html.light .text-sky-300 {
+      color: #0369a1 !important;
+    }
+
+    html.light .text-rose-200,
+    html.light .text-rose-300 {
+      color: #9f1239 !important;
+    }
+
+    html.light .text-emerald-200,
+    html.light .text-emerald-300 {
+      color: #047857 !important;
+    }
+
 </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
