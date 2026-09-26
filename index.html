@@ -1915,6 +1915,40 @@
       color: #047857 !important;
     }
 
+
+    /* ================= SENIOR QA ENGINE: WCAG AAA MINIMALIST CONTRAST ================= */
+    html.light {
+      color-scheme: light;
+      --bg-primary: #f8fafc;
+      --text-primary: #0f172a;
+    }
+    
+    html.dark {
+      color-scheme: dark;
+      --bg-primary: #060a14;
+      --text-primary: #f1f5f9;
+    }
+
+    /* Fix table hourly matrix text contrast in Light theme */
+    html.light td, html.light th, html.light table {
+      color: #0f172a !important;
+    }
+    html.light .gismeteo-temp, html.light .hourly-temp {
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+
+    /* Remove phantom AI borders & clean up chips */
+    html.light .station-chip {
+      background-color: #ffffff !important;
+      color: #1e293b !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    html.light .station-chip:hover {
+      background-color: #e2e8f0 !important;
+      color: #0f172a !important;
+    }
+
 </style>
 
   <!-- Yandex.Metrika counter -->
@@ -6342,13 +6376,13 @@ function renderTabCurrent(container, d) {
           </span>
         </div>
 
-        <!-- ================= GISMETEO-STYLE HIGH-DENSITY METEOROLOGICAL MATRIX (ПОЧАСОВАЯ СЕТКА) ================= -->
+        <!-- =================  HIGH-DENSITY METEOROLOGICAL MATRIX (ПОЧАСОВАЯ СЕТКА) ================= -->
         <div class="glass-card rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-lg space-y-2.5">
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
               <h3 class="font-black uppercase tracking-wider text-slate-900 dark:text-white">
-                Почасовая синоптическая матрица (стиль Gismeteo · 48 часов)
+                Почасовая синоптическая матрица (48 часов)
               </h3>
             </div>
             <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-700 dark:text-slate-300">
@@ -6741,7 +6775,7 @@ function renderTabCurrent(container, d) {
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             <button onclick="switchUniversalLayer('snow')" id="btn-unilayer-snow" class="shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-sky-600 text-white shadow-md">
               <span>❄️ Толщина снега (Snow Depth)</span>
-              <span class="px-1.5 py-0.2 rounded bg-amber-400 text-slate-950 text-[9.5px] font-mono font-black">PRO</span>
+              
             </button>
             <button onclick="switchUniversalLayer('radar')" id="btn-unilayer-radar" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
               <span>📡 Радар осадков RainViewer</span>
@@ -13126,7 +13160,7 @@ function renderTabCurrent(container, d) {
           <div>
             <div class="text-xs text-slate-500 dark:text-slate-400">ЕВРОПЕЙСКИЙ ИНДЕКС КАЧЕСТВА ВОЗДУХА (CAQI):</div>
             <div class="text-3xl font-black font-mono text-slate-900 dark:text-white my-1">${aq.aqi} / 100</div>
-            <div class="text-xs text-slate-700 dark:text-slate-300 font-semibold">${aq.aqi_desc} уровень чистоты атмосферы</div>
+            <div class="text-xs text-slate-700 dark:text-slate-300 font-semibold">${aq.aqi_desc} индекс качества атмосферы</div>
           </div>
           <div class="text-right text-[11px] text-slate-500 dark:text-slate-400">
             Воздух безопасен для прогулок и проветривания помещений.<br>
