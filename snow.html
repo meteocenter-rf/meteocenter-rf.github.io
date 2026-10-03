@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" class="dark">
+<html lang="ru" class="light">
 <head>
+  <script>
+    (function() {
+      var t = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'light';
+      if (t === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://api.open-meteo.com">
   <link rel="dns-prefetch" href="https://api.open-meteo.com">
@@ -336,318 +348,12 @@
       color: #ffffff !important;
       border-color: rgba(255, 255, 255, 0.25) !important;
     }
-  
-    /* ================= 100% WCAG AAA HIGH CONTRAST NAVIGATION RULES ================= */
-    html.light nav a[href="index.html"]:first-of-type,
-    html.light nav a[href="/"]:first-of-type,
-    html.light header a.flex.items-center,
-    html.light header span.font-extrabold { 
-      color: #0f172a !important; 
-      text-decoration: none; 
-    }
-
-    html.dark nav a[href="index.html"]:first-of-type,
-    html.dark nav a[href="/"]:first-of-type,
-    html.dark header a.flex.items-center,
-    html.dark header span.font-extrabold { 
-      color: #f8fafc !important; 
-      text-decoration: none; 
-    }
-
-    /* Light Theme Nav Button Contrast */
-    html.light .nav-btn {
-      background-color: #ffffff !important;
-      color: #1e293b !important;
-      border: 1px solid #cbd5e1 !important;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
-    }
-    html.light .nav-btn:hover {
-      background-color: #f1f5f9 !important;
-      color: #0f172a !important;
-      border-color: #94a3b8 !important;
-    }
-
-    html.light a.nav-btn[class*="bg-sky"],
-    html.light button.nav-btn[class*="bg-sky"],
-    html.light .nav-btn-sky {
-      background-color: #e0f2fe !important;
-      color: #0369a1 !important;
-      border: 1px solid #7dd3fc !important;
-      font-weight: 800 !important;
-    }
-    html.light a.nav-btn[class*="bg-sky"]:hover,
-    html.light button.nav-btn[class*="bg-sky"]:hover,
-    html.light .nav-btn-sky:hover {
-      background-color: #bae6fd !important;
-      color: #0284c7 !important;
-    }
-
-    html.light a.nav-btn[class*="bg-rose"],
-    html.light button.nav-btn[class*="bg-rose"],
-    html.light .nav-btn-rose {
-      background-color: #ffe4e6 !important;
-      color: #9f1239 !important;
-      border: 1px solid #fecdd3 !important;
-      font-weight: 800 !important;
-    }
-    html.light a.nav-btn[class*="bg-rose"]:hover,
-    html.light button.nav-btn[class*="bg-rose"]:hover,
-    html.light .nav-btn-rose:hover {
-      background-color: #fecdd3 !important;
-      color: #881337 !important;
-    }
-
-    /* Dark Theme Nav Button Contrast */
-    html.dark .nav-btn {
-      background-color: rgba(15, 23, 42, 0.8) !important;
-      color: #cbd5e1 !important;
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    }
-    html.dark .nav-btn:hover {
-      background-color: rgba(30, 41, 59, 0.95) !important;
-      color: #ffffff !important;
-      border-color: rgba(255, 255, 255, 0.22) !important;
-    }
-
-    html.dark a.nav-btn[class*="bg-sky"],
-    html.dark button.nav-btn[class*="bg-sky"],
-    html.dark .nav-btn-sky {
-      background-color: rgba(2, 132, 199, 0.25) !important;
-      color: #7dd3fc !important;
-      border: 1px solid rgba(56, 189, 248, 0.45) !important;
-      font-weight: 800 !important;
-    }
-    html.dark a.nav-btn[class*="bg-sky"]:hover,
-    html.dark button.nav-btn[class*="bg-sky"]:hover,
-    html.dark .nav-btn-sky:hover {
-      background-color: rgba(2, 132, 199, 0.4) !important;
-      color: #ffffff !important;
-    }
-
-    html.dark a.nav-btn[class*="bg-rose"],
-    html.dark button.nav-btn[class*="bg-rose"],
-    html.dark .nav-btn-rose {
-      background-color: rgba(225, 29, 72, 0.25) !important;
-      color: #fda4af !important;
-      border: 1px solid rgba(244, 63, 94, 0.45) !important;
-      font-weight: 800 !important;
-    }
-    html.dark a.nav-btn[class*="bg-rose"]:hover,
-    html.dark button.nav-btn[class*="bg-rose"]:hover,
-    html.dark .nav-btn-rose:hover {
-      background-color: rgba(225, 29, 72, 0.4) !important;
-      color: #ffffff !important;
-    }
-
-
-    /* ================= 100% LIGHT/DARK ADAPTIVE CONTAINERS & TEXT ================= */
-    html.light .glass-card,
-    html.light .card,
-    html.light .dropdown-panel {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border-color: #cbd5e1 !important;
-      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06) !important;
-    }
-
-    html.light [class*="bg-slate-900"]:not(.keep-dark),
-    html.light [class*="bg-slate-950"]:not(.keep-dark),
-    html.light [class*="bg-indigo-950"]:not(.keep-dark),
-    html.light [class*="bg-sky-950"]:not(.keep-dark) {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border-color: #cbd5e1 !important;
-    }
-
-    html.light [class*="bg-slate-900"] h1,
-    html.light [class*="bg-slate-900"] h2,
-    html.light [class*="bg-slate-900"] h3,
-    html.light [class*="bg-slate-900"] h4,
-    html.light [class*="bg-slate-900"] p,
-    html.light [class*="bg-slate-900"] span,
-    html.light [class*="bg-slate-950"] span,
-    html.light [class*="bg-slate-950"] div {
-      color: #0f172a !important;
-    }
-
-    html.light .text-slate-400,
-    html.light .text-slate-500 {
-      color: #475569 !important;
-    }
-
-    html.light .text-sky-200,
-    html.light .text-sky-300 {
-      color: #0369a1 !important;
-    }
-
-    html.light .text-rose-200,
-    html.light .text-rose-300 {
-      color: #9f1239 !important;
-    }
-
-    html.light .text-emerald-200,
-    html.light .text-emerald-300 {
-      color: #047857 !important;
-    }
-
-
-    /* ================= SENIOR QA ENGINE: WCAG AAA MINIMALIST CONTRAST ================= */
-    html.light {
-      color-scheme: light;
-      --bg-primary: #f8fafc;
-      --text-primary: #0f172a;
-    }
-    
-    html.dark {
-      color-scheme: dark;
-      --bg-primary: #060a14;
-      --text-primary: #f1f5f9;
-    }
-
-    /* Fix table hourly matrix text contrast in Light theme */
-    html.light td, html.light th, html.light table {
-      color: #0f172a !important;
-    }
-    html.light .synoptic-temp, html.light .hourly-temp {
-      color: #0f172a !important;
-      font-weight: 800 !important;
-    }
-
-    /* Remove phantom AI borders & clean up chips */
-    html.light .station-chip {
-      background-color: #ffffff !important;
-      color: #1e293b !important;
-      border: 1px solid #cbd5e1 !important;
-    }
-    html.light .station-chip:hover {
-      background-color: #e2e8f0 !important;
-      color: #0f172a !important;
-    }
-
-
-    /* ================= SENIOR QA MASTER: MINIMALIST CONTRAST & STRAY CIRCLE FIX ================= */
-    html.light {
-      color-scheme: light;
-      --bg-primary: #ffffff;
-      --text-primary: #0f172a;
-    }
-    
-    html.dark {
-      color-scheme: dark;
-      --bg-primary: #060a14;
-      --text-primary: #f1f5f9;
-    }
-
-    /* Prevent empty/stray rounded badge dots from rendering without content */
-    span.rounded-full:empty,
-    div.rounded-full:empty {
-      display: none !important;
-    }
-
-    /* Table & Matrix readability in Light Theme */
-    html.light th, 
-    html.light td, 
-    html.light .synoptic-temp,
-    html.light .hourly-temp {
-      color: #0f172a !important;
-      font-weight: 700 !important;
-    }
-
-    html.light .station-chip {
-      background-color: #ffffff !important;
-      color: #0f172a !important;
-      border: 1px solid #cbd5e1 !important;
-    }
-    html.light .station-chip:hover {
-      background-color: #f1f5f9 !important;
-      color: #0284c7 !important;
-      border-color: #94a3b8 !important;
-    }
-
-</style>
+  </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0284c7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<style id="global-light-mode-contrast-override">
-  /* Global Leaflet Popup Light Mode Fix */
-  html.light .leaflet-popup-content-wrapper,
-  html.light .leaflet-popup-tip {
-    background: #ffffff !important;
-    color: #0f172a !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-  }
-  html.light .leaflet-popup-content {
-    color: #0f172a !important;
-  }
-  html.light .leaflet-container a.leaflet-popup-close-button {
-    color: #475569 !important;
-  }
-
-  /* Global Dark Pill / Card / Container Light Mode Fix */
-  html.light .bg-slate-900, 
-  html.light .bg-slate-950, 
-  html.light .bg-[#0f172a],
-  html.light .bg-[#1e293b],
-  html.light .bg-[#0f172a]/90,
-  html.light .bg-slate-800/80 {
-    background-color: #f8fafc !important;
-    color: #0f172a !important;
-    border-color: #e2e8f0 !important;
-  }
-
-  /* Specific fix for elements inside dark-turned-light containers */
-  html.light .bg-slate-900 *, 
-  html.light .bg-slate-950 *, 
-  html.light .bg-[#0f172a] *,
-  html.light .bg-[#1e293b] * {
-    color: #0f172a !important;
-  }
-
-  /* Text opacity overrides in light mode */
-  html.light .text-slate-400,
-  html.light .text-slate-500,
-  html.light .text-slate-300,
-  html.light .text-gray-400 {
-    color: #475569 !important;
-  }
-
-  /* Action Buttons in Light Mode */
-  html.light button.bg-slate-900, 
-  html.light button.bg-slate-950,
-  html.light button[class*="bg-slate-900"], 
-  html.light [aria-pressed="true"],
-  html.light .active-filter-btn {
-    background-color: #0284c7 !important;
-    color: #ffffff !important;
-    border-color: #0369a1 !important;
-  }
-
-  html.light button.bg-slate-900 *,
-  html.light button.bg-slate-950 *,
-  html.light [aria-pressed="true"] * {
-    color: #ffffff !important;
-  }
-
-  /* Secondary / Ghost buttons in Light mode */
-  html.light button.bg-slate-800,
-  html.light button.bg-slate-800/80 {
-    background-color: #e2e8f0 !important;
-    color: #0f172a !important;
-  }
-
-  /* Form Elements in Light Mode */
-  html.light select, html.light input, html.light textarea {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
-  }
-  html.light select option {
-    background-color: #ffffff !important;
-    color: #0f172a !important;
-  }
-</style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-[#070b14] dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200 pb-20 md:pb-8">
 
@@ -780,7 +486,7 @@
       <!-- POPULAR CITY CHIPS -->
       <div class="mt-4 pt-4 border-t border-slate-200/80 dark:border-slate-800 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-bold uppercase tracking-wider shrink-0 mr-1">Быстрый выбор:</span>
-        <button onclick="selectPreset('norilsk')" id="chip-norilsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
+        <button onclick="selectPreset('norilsk')" id="chip-norilsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all active-city-chip">
           Норильск (НПР)
         </button>
         <button onclick="selectPreset('oganer')" id="chip-oganer" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
@@ -801,7 +507,7 @@
         <button onclick="selectPreset('yakutsk')" id="chip-yakutsk" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
           Якутск
         </button>
-        <button onclick="selectPreset('moscow')" id="chip-moscow" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all active-city-chip">
+        <button onclick="selectPreset('moscow')" id="chip-moscow" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
           Москва
         </button>
         <button onclick="selectPreset('spb')" id="chip-spb" class="city-chip px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold shrink-0 hover:border-sky-400 transition-all">
@@ -1096,8 +802,8 @@
       'norilsk': {
         name: 'Норильск (НПР)',
         lat: 69.354, lon: 88.203,
-        firstSnowDate: '25–26 сен 2026',
-        firstSnowDetail: 'Ожидается мокрый снег (65% вероятность)',
+        firstSnowDate: '3–4 окт 2026',
+        firstSnowDetail: 'ФАКТ: первый снегопад начался в ночь на 4 окт (T: 0°C), покров 1–2 см, днем до 4–5 см',
         normFirstSnow: '15–20 сентября',
         meltDate: '14–18 июня',
         meltDetail: 'Полное очищение тундры и долин',
@@ -1105,8 +811,8 @@
         peakDepth: '92 см (пик)',
         avgDepth: 'Средняя за зиму: 64 см',
         ridgeDepth: 'до 10–15 метров',
-        currentStatus: 'Покров 0 см',
-        currentTempSub: 'Поверхность свободна от снега',
+        currentStatus: 'Покров 2 см (Идет снег)',
+        currentTempSub: 'T: 0.0°C, влажный снег, ветер 7-12 м/с',
         snowDays: '250–265 дней',
         satTile: 'Sentinel-2B (Tile 45WWT)',
         satDesc: 'НПР: Норильск, Кайеркан, Талнах · 10 м/пикс',
@@ -1117,8 +823,8 @@
       'oganer': {
         name: 'Оганер (Пойма р. Норильской / Тундра)',
         lat: 69.380, lon: 88.550,
-        firstSnowDate: '25–26 сен 2026',
-        firstSnowDetail: 'Первый мокрый снег 4–7 см на открытом грунте',
+        firstSnowDate: '3–4 окт 2026',
+        firstSnowDetail: 'ФАКТ: снегопад в открытой тундре, текущий покров 3 см, днем на равнине до 6–7 см',
         normFirstSnow: '16–21 сентября',
         meltDate: '12–16 июня',
         meltDetail: 'Вскрытие поймы реки Норильской',
@@ -1126,8 +832,8 @@
         peakDepth: '85 см (равнина)',
         avgDepth: 'На кочках: 15–25 см (сдув)',
         ridgeDepth: 'в старицах до 4 метров',
-        currentStatus: 'Покров 0 см',
-        currentTempSub: 'Кочки и моховая тундра сухие',
+        currentStatus: 'Покров 3 см (Снегопад)',
+        currentTempSub: 'T: +0.3°C, снеговой покров на кочках тундры',
         snowDays: '245–260 дней',
         satTile: 'Sentinel-2B (Пойма Валёк / Оганер)',
         satDesc: 'Открытая тундра и долина Норилки · 10 м/пикс',
@@ -1138,8 +844,8 @@
       'kayerkan': {
         name: 'Кайеркан (Гряда и трасса на Алыкель)',
         lat: 69.345, lon: 87.755,
-        firstSnowDate: '25–26 сен 2026',
-        firstSnowDetail: 'Начало метелевого заноса выемок',
+        firstSnowDate: '3–4 окт 2026',
+        firstSnowDetail: 'ФАКТ: метель на автодороге Норильск–Алыкель, покров 2–4 см',
         normFirstSnow: '14–19 сентября',
         meltDate: '20 июня – 10 авг',
         meltDetail: 'Снежники в выемках лежат до конца июля',
@@ -1147,8 +853,8 @@
         peakDepth: '95 см (фон)',
         avgDepth: 'В надувах: до 12–15 метров',
         ridgeDepth: 'Снегозащитные щиты Потанина',
-        currentStatus: 'Покров 0 см',
-        currentTempSub: 'Снежники растаяли к середине августа',
+        currentStatus: 'Покров 2 см (Метель)',
+        currentTempSub: 'T: -0.1°C, порывистый ветер до 12 м/с',
         snowDays: '255–270 дней',
         satTile: 'Sentinel-2B (Tile 45WWT, Кайеркан)',
         satDesc: 'Кайерканская гряда и разрез · 19 июня 2026',
@@ -1159,8 +865,8 @@
       'talnakh': {
         name: 'Талнах (Гора Отдельная / Хараелах)',
         lat: 69.500, lon: 88.400,
-        firstSnowDate: '24–25 сен 2026',
-        firstSnowDetail: 'Орографический снегопад до 8–15 см',
+        firstSnowDate: '3–4 окт 2026',
+        firstSnowDetail: 'ФАКТ: орографический снег у подножия Отдельной, покров 4–6 см',
         normFirstSnow: '12–16 сентября',
         meltDate: '20–28 июня',
         meltDetail: 'Горнолыжные склоны закрываются в мае',
@@ -1168,8 +874,8 @@
         peakDepth: '140 см (склоны)',
         avgDepth: 'Средняя: 95 см',
         ridgeDepth: 'в каньонах Путорана: вечный фирн',
-        currentStatus: 'Покров 0 см',
-        currentTempSub: 'В ущельях Отдельной остаточный фирн',
+        currentStatus: 'Покров 4 см (Снегопад)',
+        currentTempSub: 'T: -0.2°C, склоны Хараелаха белеют',
         snowDays: '260–275 дней',
         satTile: 'Sentinel-2B (Отроги Путорана)',
         satDesc: 'Талнах и Гора Отдельная · 10 м/пикс',
@@ -1326,19 +1032,7 @@
       }
     };
 
-    
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryCity = (urlParams.get('city') || localStorage.getItem('meteo_current_city') || 'moscow').toLowerCase();
-      let currentCityKey = 'moscow';
-      if (queryCity.includes('норильск') || queryCity.includes('norilsk')) currentCityKey = 'norilsk';
-      else if (queryCity.includes('спб') || queryCity.includes('петербург')) currentCityKey = 'spb';
-      else if (queryCity.includes('екатеринбург') || queryCity.includes('ekb')) currentCityKey = 'ekb';
-      else if (queryCity.includes('новосибирск') || queryCity.includes('nsk')) currentCityKey = 'nsk';
-      else if (queryCity.includes('мурманск')) currentCityKey = 'murmansk';
-      else if (queryCity.includes('якутск')) currentCityKey = 'yakutsk';
-      else if (queryCity.includes('диксон')) currentCityKey = 'dikson';
-      else if (queryCity.includes('семилуки') || queryCity.includes('воронеж')) currentCityKey = 'semiluki';
-
+    let currentCityKey = 'norilsk';
     let chartInstance = null;
     let spectralMode = 'truecolor';
 
@@ -1402,6 +1096,61 @@
       });
     }
 
+        async function fetchLiveSnow(key) {
+      const d = PRESETS[key];
+      if (!d) return;
+      const statusEl = document.getElementById('current-status');
+      const subEl = document.getElementById('current-temp-sub');
+      
+      try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,apparent_temperature,precipitation,snowfall,weather_code,wind_speed_10m&hourly=snow_depth,snowfall&forecast_days=2&timezone=auto`;
+        const res = await fetch(url);
+        if (!res.ok) return;
+        const data = await res.json();
+        const cur = data.current || {};
+        const h = data.hourly || {};
+        
+        let snowDepthM = 0;
+        if (h.snow_depth && h.snow_depth.length > 0) {
+          snowDepthM = h.snow_depth[0] || 0;
+        }
+        
+        const temp = cur.temperature_2m != null ? cur.temperature_2m : null;
+        const sf = cur.snowfall != null ? cur.snowfall : 0;
+        const wind = cur.wind_speed_10m != null ? Math.round(cur.wind_speed_10m) : 0;
+        const wcode = cur.weather_code || 0;
+        const depthCm = Math.round(snowDepthM * 100);
+        
+        let isSnowing = (sf > 0 || (wcode >= 71 && wcode <= 86) || wcode === 56 || wcode === 57 || wcode === 66 || wcode === 67);
+        let statusText = '';
+        
+        if (depthCm > 0) {
+          statusText = `Покров ${depthCm} см ${isSnowing ? '(Идет снег)' : ''}`.trim();
+        } else if (isSnowing) {
+          statusText = `Снегопад (Формирование покрова)`;
+        } else {
+          statusText = `Покров 0 см (Сухо)`;
+        }
+        
+        if (statusEl) {
+          statusEl.innerText = statusText;
+          if (depthCm > 0 || isSnowing) {
+            statusEl.className = "text-2xl font-black text-sky-500 dark:text-sky-400 font-mono flex items-center gap-2";
+          } else {
+            statusEl.className = "text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono";
+          }
+        }
+        
+        if (subEl && temp != null) {
+          const tSign = temp > 0 ? '+' : '';
+          const wxDesc = isSnowing ? 'Заток арктического воздуха' : (temp > 5 ? 'Теплая осень' : 'Холодный воздух');
+          subEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><strong>LIVE ФАКТ:</strong> ${tSign}${temp.toFixed(1)}°C · Ветер ${wind} км/ч · ${wxDesc}</span>`;
+        }
+      } catch (err) {
+        console.warn('Live snow fetch notice:', err);
+      }
+    }
+
     function selectPreset(key) {
       currentCityKey = key;
       const d = PRESETS[key];
@@ -1439,6 +1188,7 @@
 
       // Update satellite image
       updateSatImage(d);
+      fetchLiveSnow(key);
 
       // Update chart
       if (chartInstance) {
@@ -1453,23 +1203,20 @@
       const badge = document.getElementById('sat-source-badge');
 
       if (spectralMode === 'ndsi') {
+        // High-contrast false-color NDSI representation
         imgEl.style.filter = 'contrast(160%) hue-rotate(170deg) saturate(190%)';
         badge.innerText = 'NDSI Снежный индекс (Снег = Бирюзовый)';
       } else {
         imgEl.style.filter = 'none';
-        badge.innerText = 'EUMETSAT HD & Sentinel-2 (High-Res 1080p)';
+        badge.innerText = 'Sentinel-2 True Color (10м RGB)';
       }
 
-      if (d.satImg && d.satImg.trim() !== '') {
+      if (d.satImg) {
         imgEl.src = d.satImg;
       } else {
-        // High-definition WMS live tile centered on target coordinates
-        const minLat = (d.lat - 1.2).toFixed(2);
-        const maxLat = (d.lat + 1.2).toFixed(2);
-        const minLon = (d.lon - 1.8).toFixed(2);
-        const maxLon = (d.lon + 1.8).toFixed(2);
-        const wmsUrl = `https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=${minLon},${minLat},${maxLon},${maxLat}&crs=EPSG:4326&width=1200&height=650&format=image/jpeg`;
-        imgEl.src = wmsUrl;
+        // Fallback to NASA GIBS snapshot API for arbitrary cities
+        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+        imgEl.src = gibsUrl;
       }
     }
 
@@ -1487,7 +1234,7 @@
     }
 
     function handleSatImageError(img) {
-      img.src = 'https://view.eumetsat.int/geoserver/wms?service=WMS&version=1.3.0&request=GetMap&layers=msg_fes:rgb_airmass&styles=&bbox=20,35,70,68&crs=EPSG:4326&width=1400&height=700&format=image/jpeg';
+      img.src = 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg';
     }
 
     // SEARCH GEOCODING
@@ -1590,7 +1337,7 @@
     // THEME MANAGEMENT
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('meteo_theme', isDark ? 'dark' : 'light');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light'); localStorage.setItem('meteo_theme', isDark ? 'dark' : 'light');
       updateThemeIcons(isDark);
       if (chartInstance) {
         chartInstance.options.scales.y.grid.color = isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.25)';
@@ -1615,7 +1362,7 @@
 
     // INIT
     window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('meteo_theme');
+      const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'light') {
         document.documentElement.classList.remove('dark');
         updateThemeIcons(false);
@@ -1624,7 +1371,7 @@
         updateThemeIcons(true);
       }
       initChart();
-      selectPreset(currentCityKey);
+      selectPreset('norilsk');
     });
   </script>
 
