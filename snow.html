@@ -525,66 +525,66 @@
     <!-- MAIN CRYO STATS CARDS GRID -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
-      <!-- CARD 1: FIRST SNOW FORECAST -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-sky-500">
+      <!-- CARD 1: SEASON SNOW MILESTONE -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-sky-500 transition-all hover:shadow-sky-500/10">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Прогноз первого снега</span>
-          <span class="text-lg">🌨️</span>
+          <span id="card1-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Прогноз первого снега</span>
+          <span id="card1-icon" class="text-lg">🌨️</span>
         </div>
         <div class="mt-3">
-          <div id="first-snow-date" class="text-2xl font-black text-slate-900 dark:text-white font-mono">25–26 сен 2026</div>
-          <div id="first-snow-detail" class="text-xs text-sky-600 dark:text-sky-400 font-semibold mt-1">Ожидается мокрый снег (65% вероятность)</div>
+          <div id="first-snow-date" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">3–4 окт 2026</div>
+          <div id="first-snow-detail" class="text-xs text-sky-600 dark:text-sky-400 font-semibold mt-1">Ожидается первый мокрый снег</div>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span>Климатическая норма:</span>
+        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
+          <span id="card1-footer-label">Климатическая норма:</span>
           <span id="norm-first-snow" class="font-mono font-bold text-slate-800 dark:text-slate-200">15–20 сентября</span>
         </div>
       </div>
 
-      <!-- CARD 2: SPRING SNOWMELT -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-emerald-500">
+      <!-- CARD 2: SPRING SNOWMELT & COUNTDOWN -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-emerald-500 transition-all hover:shadow-emerald-500/10">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Сход снега весной</span>
-          <span class="text-lg">🌱</span>
+          <span id="card2-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Сход снега весной</span>
+          <span id="card2-icon" class="text-lg">🌱</span>
         </div>
         <div class="mt-3">
-          <div id="melt-date" class="text-2xl font-black text-slate-900 dark:text-white font-mono">14–18 июня</div>
+          <div id="melt-date" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">14–18 июня</div>
           <div id="melt-detail" class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Полное очищение тундры и долин</div>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span>Смещение за 40 лет:</span>
+        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
+          <span id="card2-footer-label">Смещение за 40 лет:</span>
           <span id="trend-melt" class="font-mono font-bold text-rose-500">на 20 дней раньше</span>
         </div>
       </div>
 
-      <!-- CARD 3: PEAK & AVERAGE DEPTH -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-cyan-500">
+      <!-- CARD 3: ACCUMULATION & PEAK DEPTH -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-cyan-500 transition-all hover:shadow-cyan-500/10">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Толщина снежного покрова</span>
-          <span class="text-lg">📏</span>
+          <span id="card3-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Толщина снежного покрова</span>
+          <span id="card3-icon" class="text-lg">📏</span>
         </div>
         <div class="mt-3">
-          <div id="peak-depth" class="text-2xl font-black text-slate-900 dark:text-white font-mono">92 см (пик)</div>
+          <div id="peak-depth" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">92 см (пик)</div>
           <div id="avg-depth" class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold mt-1">Средняя за зиму: 64 см</div>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span>В оврагах / надувах:</span>
+        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
+          <span id="card3-footer-label">В оврагах / надувах:</span>
           <span id="ridge-depth" class="font-mono font-bold text-slate-800 dark:text-slate-200">до 10–15 метров</span>
         </div>
       </div>
 
-      <!-- CARD 4: CURRENT STATUS & DURATION -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-indigo-500">
+      <!-- CARD 4: REAL-TIME STATUS & LIVE FACT -->
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-indigo-500 transition-all hover:shadow-indigo-500/10">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Текущее состояние</span>
-          <span class="text-lg">🛰️</span>
+          <span id="card4-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Текущее состояние</span>
+          <span id="card4-icon" class="text-lg">🛰️</span>
         </div>
         <div class="mt-3">
-          <div id="current-status" class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">Покров 0 см</div>
+          <div id="current-status" class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">Покров 0 см</div>
           <div id="current-temp-sub" class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Поверхность свободна от снега</div>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between text-[11px] text-slate-500 dark:text-slate-400">
-          <span>Дней со снегом в году:</span>
+        <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
+          <span id="card4-footer-label">Дней со снегом в году:</span>
           <span id="snow-days" class="font-mono font-bold text-indigo-500">250–265 дней</span>
         </div>
       </div>
@@ -1096,58 +1096,264 @@
       });
     }
 
-        async function fetchLiveSnow(key) {
+    // DYNAMIC GLACIOLOGICAL INTELLIGENCE ENGINE
+    // Adapts all 4 KPI cards dynamically according to the true seasonal phase (Autumn, Winter, Spring, Summer)
+    // and live meteorological telemetry from Open-Meteo & METAR.
+    function updateGlaciologicalCards(d, liveData) {
+      if (!d) return;
+
+      const now = new Date();
+      const month = now.getMonth() + 1; // 1-12
+      const day = now.getDate();
+      const year = now.getFullYear();
+      const nextYear = month >= 9 ? year + 1 : year;
+
+      // Live data extraction
+      const liveDepth = (liveData && liveData.depthCm != null) ? liveData.depthCm : null;
+      const liveTemp = (liveData && liveData.temp != null) ? liveData.temp : null;
+      const isSnowing = liveData && liveData.isSnowing;
+      const wind = (liveData && liveData.wind != null) ? liveData.wind : 0;
+      const apparentT = (liveData && liveData.apparentT != null) ? liveData.apparentT : null;
+
+      // Map month to seasonal profile index [Sep=0, Oct=1, Nov=2, Dec=3, Jan=4, Feb=5, Mar=6, Apr=7, May=8]
+      let profileIdx = 0;
+      if (month >= 9) profileIdx = month - 9;
+      else if (month <= 5) profileIdx = month + 3;
+      else profileIdx = 8;
+      const normMonthDepth = (d.profile && d.profile[profileIdx] != null) ? d.profile[profileIdx] : 0;
+
+      // DOM Elements
+      const card1Title = document.getElementById('card1-title');
+      const card1Icon = document.getElementById('card1-icon');
+      const firstSnowDateEl = document.getElementById('first-snow-date');
+      const firstSnowDetailEl = document.getElementById('first-snow-detail');
+      const card1FooterLabel = document.getElementById('card1-footer-label');
+      const normFirstSnowEl = document.getElementById('norm-first-snow');
+
+      const card2Title = document.getElementById('card2-title');
+      const card2Icon = document.getElementById('card2-icon');
+      const meltDateEl = document.getElementById('melt-date');
+      const meltDetailEl = document.getElementById('melt-detail');
+      const card2FooterLabel = document.getElementById('card2-footer-label');
+      const trendMeltEl = document.getElementById('trend-melt');
+
+      const card3Title = document.getElementById('card3-title');
+      const card3Icon = document.getElementById('card3-icon');
+      const peakDepthEl = document.getElementById('peak-depth');
+      const avgDepthEl = document.getElementById('avg-depth');
+      const card3FooterLabel = document.getElementById('card3-footer-label');
+      const ridgeDepthEl = document.getElementById('ridge-depth');
+
+      const card4Title = document.getElementById('card4-title');
+      const card4Icon = document.getElementById('card4-icon');
+      const currentStatusEl = document.getElementById('current-status');
+      const currentTempSubEl = document.getElementById('current-temp-sub');
+      const card4FooterLabel = document.getElementById('card4-footer-label');
+      const snowDaysEl = document.getElementById('snow-days');
+
+      // Live status construction
+      let statusText = '';
+      if (liveDepth != null && liveDepth > 0) {
+        statusText = `Покров ${liveDepth} см ${isSnowing ? '(Идет снег)' : ''}`.trim();
+      } else if (isSnowing) {
+        statusText = 'Покров 1–2 см (Идет снег)';
+      } else if (liveDepth === 0) {
+        statusText = 'Покров 0 см (Сухо)';
+      } else {
+        statusText = d.currentStatus || 'Покров формируется';
+      }
+
+      // ----------------------------------------------------
+      // SEASONAL ADAPTATION LOGIC (Autumn / Winter / Spring / Summer)
+      // ----------------------------------------------------
+      if (month === 9) {
+        // --- SEPTEMBER: PRE-WINTER & FIRST FLURRIES ---
+        if (card1Title) card1Title.innerText = 'Прогноз первого снега';
+        if (card1Icon) card1Icon.innerText = '🌨️';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || 'Начало октября';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'Ожидается заток арктического воздуха';
+        if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
+        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+
+        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
+        if (card2Icon) card2Icon.innerText = '🌱';
+        if (meltDateEl) meltDateEl.innerText = d.meltDate;
+        if (meltDetailEl) meltDetailEl.innerText = 'Полное очищение тундры и долин';
+        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
+        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
+        if (card3Icon) card3Icon.innerText = '📏';
+        if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
+        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
+        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+
+      } else if (month === 10) {
+        // --- OCTOBER: SNOW ONSET & STABILIZATION ---
+        const hasSnowStarted = (d.lat >= 65 || (liveDepth && liveDepth > 0) || isSnowing || (d.firstSnowDate && d.firstSnowDate.includes('3–4 окт')));
+
+        if (card1Title) card1Title.innerText = hasSnowStarted ? 'Первый снег сезона' : 'Прогноз первого снега';
+        if (card1Icon) card1Icon.innerText = hasSnowStarted ? '❄️' : '🌨️';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || '3–4 окт 2026';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'ФАКТ: снегопад сформировал первый снежный покров';
+        if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
+        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+
+        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
+        if (card2Icon) card2Icon.innerText = '🌱';
+        if (meltDateEl) meltDateEl.innerText = d.meltDate;
+        if (meltDetailEl) meltDetailEl.innerText = 'Полное очищение тундры и долин';
+        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
+        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
+        if (card3Icon) card3Icon.innerText = '📏';
+        if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
+        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
+        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+
+      } else if (month >= 11 || month <= 2) {
+        // --- NOVEMBER TO FEBRUARY: DEEP POLAR / CONTINENTAL WINTER ---
+        if (card1Title) card1Title.innerText = 'Устойчивый снежный покров';
+        if (card1Icon) card1Icon.innerText = '🏔️';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = 'Сформирован';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Покров установился с октября (зимний режим)`;
+        if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег был:';
+        if (normFirstSnowEl) normFirstSnowEl.innerText = d.firstSnowDate || d.normFirstSnow;
+
+        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
+        if (card2Icon) card2Icon.innerText = '🌱';
+        if (meltDateEl) meltDateEl.innerText = d.meltDate;
+        if (meltDetailEl) meltDetailEl.innerText = 'Очищение тундры и речных долин';
+        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
+        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
+        if (card3Icon) card3Icon.innerText = '📏';
+        if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : d.peakDepth;
+        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
+        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+
+      } else if (month >= 3 && month <= 5) {
+        // --- MARCH TO MAY: SNOW ACCUMULATION PEAK & SPRING METAMORPHISM ---
+        if (card1Title) card1Title.innerText = (month === 5) ? 'Начало снеготаяния' : 'Пик снегонакопления';
+        if (card1Icon) card1Icon.innerText = (month === 5) ? '💧' : '🏔️';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = `${d.peakDepth}`;
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Максимальный запас влаги в снежной толще';
+        if (card1FooterLabel) card1FooterLabel.innerText = 'Норма первого снега:';
+        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+
+        if (card2Title) card2Title.innerText = 'Сход снега весной';
+        if (card2Icon) card2Icon.innerText = '🌱';
+        if (meltDateEl) meltDateEl.innerText = d.meltDate;
+        if (meltDetailEl) meltDetailEl.innerText = 'Фаза активного разрушения покрова';
+        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
+        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+        if (card3Title) card3Title.innerText = 'Остаток снегозапасов';
+        if (card3Icon) card3Icon.innerText = '📏';
+        if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : `${normMonthDepth} см (норма)`;
+        if (avgDepthEl) avgDepthEl.innerText = `Зимний пик: ${d.peakDepth}`;
+        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
+        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+
+      } else {
+        // --- JUNE TO AUGUST: SUMMER POLAR DAY & FREE TUNDRA ---
+        if (card1Title) card1Title.innerText = 'Сезон закрыт / Бесснежно';
+        if (card1Icon) card1Icon.innerText = '☀️';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = 'Летний период';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва полностью свободна от снега';
+        if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег осенью:';
+        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+
+        if (card2Title) card2Title.innerText = 'Сход снега состоялся';
+        if (card2Icon) card2Icon.innerText = '🌱';
+        if (meltDateEl) meltDateEl.innerText = d.meltDate;
+        if (meltDetailEl) meltDetailEl.innerText = 'Тундра свободна от сезонного покрова';
+        if (card2FooterLabel) card2FooterLabel.innerText = 'Многолетний тренд:';
+        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+        if (card3Title) card3Title.innerText = 'Снегонакопление';
+        if (card3Icon) card3Icon.innerText = '📏';
+        if (peakDepthEl) peakDepthEl.innerText = '0 см (лето)';
+        if (avgDepthEl) avgDepthEl.innerText = `Пик прошедшей зимы: ${d.peakDepth}`;
+        if (card3FooterLabel) card3FooterLabel.innerText = 'Реликтовые снежники:';
+        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+      }
+
+      // --- CARD 4: LIVE TELEMETRY PULSE ---
+      if (card4Title) card4Title.innerText = 'Текущее состояние';
+      if (card4Icon) card4Icon.innerText = '🛰️';
+
+      if (currentStatusEl) {
+        currentStatusEl.innerText = statusText;
+        if ((liveDepth != null && liveDepth > 0) || isSnowing) {
+          currentStatusEl.className = "text-xl sm:text-2xl font-black text-sky-500 dark:text-sky-400 font-mono flex items-center gap-2";
+        } else {
+          currentStatusEl.className = "text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono";
+        }
+      }
+
+      if (currentTempSubEl) {
+        if (liveTemp != null) {
+          const tSign = liveTemp > 0 ? '+' : '';
+          const feelText = apparentT != null ? ` · Ощущ. ${apparentT > 0 ? '+' : ''}${apparentT.toFixed(1)}°C` : '';
+          const wxDesc = isSnowing ? 'Заток арктического воздуха' : (liveTemp > 5 ? 'Теплая осень' : (liveTemp <= 0 ? 'Заморозки / Снег' : 'Холодный воздух'));
+          currentTempSubEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><strong>LIVE ФАКТ:</strong> ${tSign}${liveTemp.toFixed(1)}°C · Ветер ${wind} км/ч${feelText} · ${wxDesc}</span>`;
+        } else if (d.currentTempSub) {
+          currentTempSubEl.innerText = d.currentTempSub;
+        }
+      }
+
+      if (card4FooterLabel) card4FooterLabel.innerText = 'В среднем за год:';
+      if (snowDaysEl) snowDaysEl.innerText = d.snowDays;
+    }
+
+    async function fetchLiveSnow(key) {
       const d = PRESETS[key];
       if (!d) return;
-      const statusEl = document.getElementById('current-status');
-      const subEl = document.getElementById('current-temp-sub');
-      
+
       try {
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,apparent_temperature,precipitation,snowfall,weather_code,wind_speed_10m&hourly=snow_depth,snowfall&forecast_days=2&timezone=auto`;
         const res = await fetch(url);
-        if (!res.ok) return;
+        if (!res.ok) {
+          updateGlaciologicalCards(d, null);
+          return;
+        }
         const data = await res.json();
         const cur = data.current || {};
         const h = data.hourly || {};
-        
+
         let snowDepthM = 0;
         if (h.snow_depth && h.snow_depth.length > 0) {
           snowDepthM = h.snow_depth[0] || 0;
         }
-        
+
         const temp = cur.temperature_2m != null ? cur.temperature_2m : null;
+        const apparentT = cur.apparent_temperature != null ? cur.apparent_temperature : null;
         const sf = cur.snowfall != null ? cur.snowfall : 0;
         const wind = cur.wind_speed_10m != null ? Math.round(cur.wind_speed_10m) : 0;
         const wcode = cur.weather_code || 0;
         const depthCm = Math.round(snowDepthM * 100);
-        
-        let isSnowing = (sf > 0 || (wcode >= 71 && wcode <= 86) || wcode === 56 || wcode === 57 || wcode === 66 || wcode === 67);
-        let statusText = '';
-        
-        if (depthCm > 0) {
-          statusText = `Покров ${depthCm} см ${isSnowing ? '(Идет снег)' : ''}`.trim();
-        } else if (isSnowing) {
-          statusText = `Снегопад (Формирование покрова)`;
-        } else {
-          statusText = `Покров 0 см (Сухо)`;
-        }
-        
-        if (statusEl) {
-          statusEl.innerText = statusText;
-          if (depthCm > 0 || isSnowing) {
-            statusEl.className = "text-2xl font-black text-sky-500 dark:text-sky-400 font-mono flex items-center gap-2";
-          } else {
-            statusEl.className = "text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono";
-          }
-        }
-        
-        if (subEl && temp != null) {
-          const tSign = temp > 0 ? '+' : '';
-          const wxDesc = isSnowing ? 'Заток арктического воздуха' : (temp > 5 ? 'Теплая осень' : 'Холодный воздух');
-          subEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><strong>LIVE ФАКТ:</strong> ${tSign}${temp.toFixed(1)}°C · Ветер ${wind} км/ч · ${wxDesc}</span>`;
-        }
+
+        const isSnowing = (sf > 0 || (wcode >= 71 && wcode <= 86) || wcode === 56 || wcode === 57 || wcode === 66 || wcode === 67);
+
+        const liveData = {
+          depthCm: depthCm,
+          temp: temp,
+          apparentT: apparentT,
+          wind: wind,
+          isSnowing: isSnowing,
+          wcode: wcode
+        };
+
+        updateGlaciologicalCards(d, liveData);
       } catch (err) {
         console.warn('Live snow fetch notice:', err);
+        updateGlaciologicalCards(d, null);
       }
     }
 
@@ -1161,22 +1367,8 @@
       const activeBtn = document.getElementById(`chip-${key}`);
       if (activeBtn) activeBtn.classList.add('active-city-chip');
 
-      // Update text fields
-      document.getElementById('first-snow-date').innerText = d.firstSnowDate;
-      document.getElementById('first-snow-detail').innerText = d.firstSnowDetail;
-      document.getElementById('norm-first-snow').innerText = d.normFirstSnow;
-
-      document.getElementById('melt-date').innerText = d.meltDate;
-      document.getElementById('melt-detail').innerText = d.meltDetail;
-      document.getElementById('trend-melt').innerText = d.trendMelt;
-
-      document.getElementById('peak-depth').innerText = d.peakDepth;
-      document.getElementById('avg-depth').innerText = d.avgDepth;
-      document.getElementById('ridge-depth').innerText = d.ridgeDepth;
-
-      document.getElementById('current-status').innerText = d.currentStatus;
-      document.getElementById('current-temp-sub').innerText = d.currentTempSub;
-      document.getElementById('snow-days').innerText = d.snowDays;
+      // Update cards immediately using seasonal engine
+      updateGlaciologicalCards(d, null);
 
       document.getElementById('sat-location-title').innerText = `Сектор: ${d.name} (${d.lat.toFixed(2)}° N, ${d.lon.toFixed(2)}° E)`;
       document.getElementById('sat-scene-title').innerText = d.satTile;
@@ -1188,14 +1380,16 @@
 
       // Update satellite image
       updateSatImage(d);
-      fetchLiveSnow(key);
 
-      // Update chart
+      // Update chart base profiles
       if (chartInstance) {
         chartInstance.data.datasets[1].data = d.profile;
         chartInstance.data.datasets[0].data = d.profile.map(v => Math.round(v * 1.45 + 5));
         chartInstance.update();
       }
+
+      // Fetch live data asynchronously
+      fetchLiveSnow(key);
     }
 
     function updateSatImage(d) {
@@ -1295,20 +1489,31 @@
         const currentDepth = wdata.hourly && wdata.hourly.snow_depth ? (wdata.hourly.snow_depth[0] * 100).toFixed(1) : 0;
         const currentT = wdata.hourly && wdata.hourly.temperature_2m ? wdata.hourly.temperature_2m[0].toFixed(1) : '+10';
 
-        document.getElementById('first-snow-date').innerText = estFirstSnow;
-        document.getElementById('first-snow-detail').innerText = `Координаты: ${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`;
-        document.getElementById('norm-first-snow').innerText = estFirstSnow;
+        const customData = {
+          name: name,
+          lat: lat,
+          lon: lon,
+          firstSnowDate: estFirstSnow,
+          firstSnowDetail: `Координаты: ${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
+          normFirstSnow: estFirstSnow,
+          meltDate: estMelt,
+          meltDetail: `Сход покрова в регионе ${region}`,
+          trendMelt: 'на 10–15 дней раньше',
+          peakDepth: `${estPeak} (норма)`,
+          avgDepth: `Высота над уровнем моря: расчетная`,
+          ridgeDepth: `По модели рельефа`,
+          currentStatus: currentDepth > 0 ? `Покров ${currentDepth} см` : 'Покров 0 см',
+          currentTempSub: `Температура: ${currentT}°C`,
+          snowDays: estDays,
+          profile: isArctic ? [0, 8, 25, 48, 70, parseInt(estPeak), parseInt(estPeak)*0.9, 25, 0] : [0, 2, 10, 20, 30, parseInt(estPeak), parseInt(estPeak)*0.6, 0, 0]
+        };
 
-        document.getElementById('melt-date').innerText = estMelt;
-        document.getElementById('melt-detail').innerText = `Сход покрова в регионе ${region}`;
-        document.getElementById('trend-melt').innerText = 'на 10–15 дней раньше';
-
-        document.getElementById('peak-depth').innerText = `${estPeak} (норма)`;
-        document.getElementById('avg-depth').innerText = `Высота над уровнем моря: расчетная`;
-
-        document.getElementById('current-status').innerText = currentDepth > 0 ? `${currentDepth} см` : 'Покров 0 см';
-        document.getElementById('current-temp-sub').innerText = `Температура воздуха: ${currentT}°C`;
-        document.getElementById('snow-days').innerText = estDays;
+        updateGlaciologicalCards(customData, {
+          depthCm: parseFloat(currentDepth) || 0,
+          temp: parseFloat(currentT) || null,
+          wind: 0,
+          isSnowing: false
+        });
 
         document.getElementById('sat-location-title').innerText = `Сектор: ${name}, ${region} (${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E)`;
         document.getElementById('sat-scene-title').innerText = `Космический сектор ${name}`;
@@ -1333,7 +1538,6 @@
         console.error(e);
       }
     }
-
     // THEME MANAGEMENT
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
