@@ -30,7 +30,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
   <meta name="description" content="Интерактивный расчет первого снега, динамики снеготаяния и спутниковый мониторинг снежного покрова в городах России и мира. Мультиспектральная детекция Sentinel-2 и NASA VIIRS.">
-  <link rel="canonical" href="https://danil200540.github.io/meteo/snow.html">
+  <link rel="canonical" href="https://meteocenter-rf.github.io/snow.html">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -38,6 +38,10 @@
       darkMode: 'class',
       theme: {
         extend: {
+          fontFamily: {
+            sans: ['Onest', 'Inter', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          },
           colors: {
             brand: { 50: '#f0f9ff', 500: '#0284c7', 600: '#0369a1', 900: '#0c4a6e' },
             cryo: { 50: '#f8fafc', 500: '#06b6d4', 600: '#0891b2', 900: '#164e63' }
@@ -46,12 +50,12 @@
       }
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
-    .font-mono { font-family: 'Roboto Mono', monospace; }
+    body { font-family: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.011em; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'tnum' on, 'zero' on; font-variant-numeric: tabular-nums; }
     .glass-card {
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
