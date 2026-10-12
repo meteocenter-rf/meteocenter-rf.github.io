@@ -558,6 +558,7 @@
         <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Опорная станция:</span>
         <select id="model-city-select" onchange="changeModelCity(this.value)" class="bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
           <option value="moscow" selected>Москва (ВДНХ, WMO 27612)</option>
+          <option value="voronezh">Воронеж (Черноземье, WMO 34123)</option>
           <option value="spb">Санкт-Петербург (WMO 26063)</option>
           <option value="norilsk">Норильск (Таймыр, WMO 23078)</option>
           <option value="sochi">Сочи (WMO 37099)</option>
@@ -812,6 +813,27 @@
     }
 
     const CITY_MODEL_DATA = {
+      voronezh: {
+        name: "Воронеж",
+        confidence: 91,
+        spread: "±1.0 °C",
+        precip: "0.4 мм",
+        label: "Высокая сходимость (Черноземье)",
+        desc: "Ведущие численные центры (ECMWF, ICON, GFS) моделируют влияние антициклонического поля: комфортная сухая погода, дневной прогрев до +14...+18 °C при ночных +4...+7 °C.",
+        models: [
+          { name: "ECMWF IFS", org: "Европейский центр (Reading)", res: "9 км", tDay: "+16°", tNight: "+6°", prec: "0.0 мм", acc: "0.92", color: "text-sky-600 dark:text-sky-400 font-bold" },
+          { name: "DWD ICON", org: "Германия (Offenbach)", res: "13 км", tDay: "+17°", tNight: "+6°", prec: "0.0 мм", acc: "0.89", color: "text-emerald-600 dark:text-emerald-400 font-bold" },
+          { name: "NOAA GFS", org: "США (NCEP)", res: "13 км", tDay: "+18°", tNight: "+7°", prec: "0.2 мм", acc: "0.87", color: "text-rose-600 dark:text-rose-400 font-bold" },
+          { name: "ПЛАВ / SL-AV", org: "Гидрометцентр России", res: "11 км", tDay: "+16°", tNight: "+5°", prec: "0.0 мм", acc: "0.90", color: "text-amber-600 dark:text-amber-400 font-bold" },
+          { name: "CMC GEM", org: "Канада (Dorval)", res: "15 км", tDay: "+17°", tNight: "+6°", prec: "0.1 мм", acc: "0.86", color: "text-purple-600 dark:text-purple-400 font-bold" }
+        ],
+        curves: {
+          ecmwf: [14, 15, 16, 17, 16, 17, 18],
+          gfs:   [15, 16, 18, 18, 17, 18, 19],
+          icon:  [14, 15, 17, 17, 16, 18, 19],
+          plav:  [13, 15, 16, 16, 15, 17, 17]
+        }
+      },
       moscow: {
         name: "Москва",
         confidence: 93,
@@ -944,6 +966,7 @@
       const cityCoords = {
         norilsk: { lat: 69.354, lon: 88.203 },
         moscow: { lat: 55.755, lon: 37.617 },
+        voronezh: { lat: 51.672, lon: 39.184 },
         spb: { lat: 59.934, lon: 30.335 },
         sochi: { lat: 43.600, lon: 39.730 },
         novosibirsk: { lat: 55.008, lon: 82.935 },
