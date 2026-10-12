@@ -15341,7 +15341,7 @@ function renderTabCurrent(container, d) {
                 <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">
                   Интерактивный центр: Карта климатических аномалий России и мира
                 </h3>
-                <span class="px-2 py-0.5 rounded-full bg-rose-700 text-white font-mono font-bold text-[10px] shadow-sm">-2.7°C В НОРИЛЬСКЕ</span>
+                <span class="px-2 py-0.5 rounded-full bg-sky-700 text-white font-mono font-bold text-[10px] shadow-sm uppercase">СЕТЬ ВМО: ${escapeHtml((clim.station_name || d.city || "СЕЗОННЫЕ АНОМАЛИИ").toUpperCase())}</span>
               </div>
               <p class="text-xs text-slate-600 dark:text-sky-200 mt-0.5">
                 Интерактивная карта аномалий по типу Гидрометцентра (ECMWF SEAS5, UKMO, JMA, CFSv2) по всей России и миру. Декадные прогнозы и барические центры.
