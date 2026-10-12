@@ -367,12 +367,114 @@
       color: #ffffff !important;
       border-color: rgba(255, 255, 255, 0.25) !important;
     }
-  </style>
+  
+
+  /* ================= ZERO-DEFECT HIGH-CONTRAST EYE-COMFORT STYLES ================= */
+  html:not(.dark) .bg-rose-500, html.light .bg-rose-500 { background-color: #be123c !important; color: #ffffff !important; }
+  html:not(.dark) .bg-sky-500, html.light .bg-sky-500 { background-color: #0369a1 !important; color: #ffffff !important; }
+  html:not(.dark) .bg-sky-600, html.light .bg-sky-600 { background-color: #0369a1 !important; color: #ffffff !important; }
+  html:not(.dark) .text-sky-500, html.light .text-sky-500,
+  html:not(.dark) a.text-sky-500, html.light a.text-sky-500,
+  html:not(.dark) .text-sky-600, html.light .text-sky-600,
+  html:not(.dark) a.text-sky-600, html.light a.text-sky-600 { color: #0369a1 !important; }
+  html:not(.dark) .text-cyan-500, html.light .text-cyan-500,
+  html:not(.dark) .text-cyan-600, html.light .text-cyan-600 { color: #0e7490 !important; }
+  html:not(.dark) .text-emerald-600, html.light .text-emerald-600,
+  html:not(.dark) .text-emerald-500, html.light .text-emerald-500 { color: #047857 !important; }
+  html:not(.dark) .text-amber-500, html.light .text-amber-500,
+  html:not(.dark) .text-amber-600, html.light .text-amber-600 { color: #b45309 !important; }
+  html:not(.dark) .text-orange-500, html.light .text-orange-500,
+  html:not(.dark) .text-orange-600, html.light .text-orange-600 { color: #c2410c !important; }
+  html:not(.dark) .text-rose-500, html.light .text-rose-500,
+  html:not(.dark) .text-rose-600, html.light .text-rose-600 { color: #be123c !important; }
+  html:not(.dark) .text-indigo-500, html.light .text-indigo-500,
+  html:not(.dark) .text-indigo-600, html.light .text-indigo-600 { color: #4338ca !important; }
+  html:not(.dark) .text-teal-600, html.light .text-teal-600 { color: #0f766e !important; }
+
+  /* ApexCharts Legible Legend Overrides */
+  html:not(.dark) .apexcharts-legend-text, html.light .apexcharts-legend-text { color: #0f172a !important; font-weight: 700 !important; }
+  html.dark .apexcharts-legend-text { color: #f8fafc !important; font-weight: 700 !important; }
+
+  /* Dark mode low-contrast fixes */
+  html.dark .text-slate-400 { color: #cbd5e1 !important; }
+  html.dark .dark\:text-slate-500 { color: #cbd5e1 !important; }
+  html.dark #snow-days { color: #a5b4fc !important; }
+
+
+
+  /* ================= ULTIMATE WCAG AAA CONTRAST ENHANCEMENTS ================= */
+  /* Force crisp white text on colored pill badges in all themes */
+  span.bg-rose-700, span.bg-rose-700, span.bg-rose-500,
+  span.bg-sky-600, span.bg-sky-700, span.bg-sky-500,
+  .nav-btn span.bg-rose-700, .nav-btn span.bg-rose-500,
+  .nav-btn span.bg-sky-600, .nav-btn span.bg-sky-700, .nav-btn span.bg-sky-500,
+  .nav-btn-anomalies span.bg-rose-700, .nav-btn-anomalies span.bg-rose-500 {
+    color: #ffffff !important;
+  }
+
+  /* Active pills and buttons with solid contrast */
+  html:not(.dark) .pill-opt-active,
+  html.light .pill-opt-active {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html:not(.dark) .pill-opt-active *,
+  html.light .pill-opt-active * {
+    color: #ffffff !important;
+  }
+
+  /* Dark HUD box elements must have clear light text on dark background */
+  #map-hud-box, #map-hud-box span, #map-hud-box div {
+    color: #f8fafc;
+  }
+  #map-hud-box #hud-period, #map-hud-box #hud-status-icon {
+    color: #38bdf8 !important;
+  }
+
+  /* Snow chips & downloads */
+  button#chip-norilsk, a#sat-direct-download {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+
+</style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0284c7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style id="meteo-subpage-eye-comfort">
+
+  /* METEO 2026: PERFECT READABILITY & EYE-COMFORT */
+  body, input, button, select, textarea {
+    font-family: var(--font-sans, 'Geist', 'Inter', -apple-system, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .weather-num, table td, table th, [data-num], .font-mono {
+    font-feature-settings: "tnum" 1, "zero" 1;
+    font-variant-numeric: tabular-nums;
+  }
+  html.light body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+  html.light .text-slate-400, html.light .text-gray-400 { color: #334155 !important; }
+  html.light .text-slate-500, html.light .text-gray-500 { color: #1e293b !important; }
+  html.light .text-slate-600 { color: #0f172a !important; }
+  html.dark body {
+    background-color: #070b14 !important;
+    color: #f8fafc !important;
+  }
+  html.dark [class*="text-slate-600"], html.dark .text-slate-600 { color: #94a3b8 !important; }
+  html.dark .text-slate-500 { color: #cbd5e1 !important; }
+  body, header, nav, footer, button, input {
+    transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+  }
+
+</style>
 </head>
 <body class="min-h-screen flex flex-col bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 antialiased pb-20 md:pb-8">
 
@@ -412,14 +514,14 @@
         <a href="anomalies.html" class="nav-btn !bg-rose-500/10 !border-rose-300 dark:!border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
           <span class="text-xs shrink-0">🌀</span>
           <span class="hidden sm:inline">Аномалии</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-rose-500 text-white font-black hidden sm:inline">Карта</span>
+          <span class="text-[9px] font-mono px-1 rounded bg-rose-700 text-white font-black hidden sm:inline">Карта</span>
         </a>
 
         <!-- Snow Monitor Link -->
         <a href="snow.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
           <span class="text-xs shrink-0">❄️</span>
           <span class="hidden sm:inline">Снег</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-sky-500 text-white font-black hidden md:inline">NEW</span>
+          <span class="text-[9px] font-mono px-1 rounded bg-sky-700 text-white font-black hidden md:inline">NEW</span>
         </a>
 
         <!-- Models Link -->
@@ -442,7 +544,7 @@
 
         <!-- Social Share Button -->
         <div class="relative inline-block text-left group">
-          <button onclick="toggleShareDropdown()" class="nav-btn">
+          <button onclick="toggleShareDropdown()" class="nav-btn" aria-label="Поделиться" title="Поделиться ссылкой">
             <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
             <span class="hidden md:inline">Поделиться</span>
           </button>
