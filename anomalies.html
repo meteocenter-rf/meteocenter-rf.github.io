@@ -3451,6 +3451,7 @@
         <button onclick="inspectStation(\'sochi\')" class="station-chip">Сочи (Субтропики)</button>
 
         <button onclick="inspectStation(\'moscow\')" class="station-chip">Москва (+1.2°C)</button>
+        <button onclick="inspectStation(\'voronezh\')" class="station-chip">Воронеж (Черноземье)</button>
 
         <button onclick="inspectStation(\'spb\')" class="station-chip">Санкт-Петербург (+0.2°C)</button>
 
@@ -6101,6 +6102,7 @@
       { id: 'dikson', name: 'Диксон', coords: [73.5074, 80.5283], regKey: 'taimyr' },
 
       { id: 'moscow', name: 'Москва', coords: [55.7558, 37.6173], regKey: 'central' },
+      { id: 'voronezh', name: 'Воронеж (Черноземье)', coords: [51.6720, 39.1843], regKey: 'central' },
 
       { id: 'spb', name: 'Санкт-Петербург', coords: [59.9343, 30.3351], regKey: 'northwest' },
 
@@ -7089,6 +7091,14 @@
       document.getElementById('insp-wmo-badge').textContent = r.wmoCode;
 
       document.getElementById('insp-region-sub').textContent = 'Опорная станция: ' + (st ? st.name : r.station) + ' · Базовый период WMO: 1991–2020';
+
+      // Update Full Forecast Button Link dynamically
+      var fBtn = document.getElementById('insp-full-forecast-btn');
+      if (fBtn) {
+        var targetCity = st ? st.name : r.name;
+        fBtn.href = 'index.html?city=' + encodeURIComponent(targetCity);
+        fBtn.innerHTML = '<span>👉 Открыть прогноз для г. ' + targetCity + ' на Главной ➔</span>';
+      }
 
 
 
@@ -9748,6 +9758,24 @@
         document.getElementById('insp-synoptic-desc').textContent = synDesc;
 
         document.getElementById('insp-wind').textContent = Math.round(wSpd) + ' м/с (' + wDir + '°) · Давление: ' + pMm + ' мм';
+
+        // Update Expected Min/Max for searched point
+        var tminVal = (daily.temperature_2m_min_ecmwf_ifs025 && daily.temperature_2m_min_ecmwf_ifs025[0] != null) ? daily.temperature_2m_min_ecmwf_ifs025[0] : (tFact - 4);
+        var tminEl = document.getElementById('insp-tmin');
+        var tmaxEl = document.getElementById('insp-tmax');
+        if (tminEl) tminEl.textContent = (tminVal > 0 ? '+' : '') + Math.round(tminVal) + '°C';
+        if (tmaxEl) tmaxEl.textContent = (ecMax > 0 ? '+' : '') + Math.round(ecMax) + '°C';
+
+        // Update Decadal strip dynamically for searched point
+        var stripEl = document.getElementById('insp-decades-strip');
+        if (stripEl) {
+          var d1T = Math.round(tFact);
+          var d2T = Math.round(tFact - 2);
+          var d3T = Math.round(tFact - 5);
+          stripEl.innerHTML = '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">1-я дек:</span><span class="font-bold text-sky-600 dark:text-sky-400">' + (d1T > 0 ? '+' : '') + d1T + '°C (' + (deltaT >= 0 ? 'Теплее нормы' : 'Прохладнее') + ')</span></div>' +
+            '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">2-я дек:</span><span class="font-bold text-slate-700 dark:text-slate-300">' + (d2T > 0 ? '+' : '') + d2T + '°C (Сезонный тренд)</span></div>' +
+            '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">3-я дек:</span><span class="font-bold text-slate-700 dark:text-slate-300">' + (d3T > 0 ? '+' : '') + d3T + '°C (Предзимье)</span></div>';
+        }
 
 
 
