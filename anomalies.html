@@ -2180,166 +2180,448 @@
 
 
 
+
+
+  /* ================= ZERO-DEFECT HIGH-CONTRAST EYE-COMFORT STYLES ================= */
+  html:not(.dark) .bg-rose-500, html.light .bg-rose-500 { background-color: #e11d48 !important; color: #ffffff !important; }
+  html:not(.dark) .bg-sky-500, html.light .bg-sky-500 { background-color: #0369a1 !important; color: #ffffff !important; }
+  html:not(.dark) .bg-sky-600, html.light .bg-sky-600 { background-color: #0369a1 !important; color: #ffffff !important; }
+  html:not(.dark) .text-sky-500, html.light .text-sky-500,
+  html:not(.dark) a.text-sky-500, html.light a.text-sky-500,
+  html:not(.dark) .text-sky-600, html.light .text-sky-600,
+  html:not(.dark) a.text-sky-600, html.light a.text-sky-600 { color: #0369a1 !important; }
+  html:not(.dark) .text-cyan-500, html.light .text-cyan-500,
+  html:not(.dark) .text-cyan-600, html.light .text-cyan-600 { color: #0e7490 !important; }
+  html:not(.dark) .text-emerald-600, html.light .text-emerald-600,
+  html:not(.dark) .text-emerald-500, html.light .text-emerald-500 { color: #047857 !important; }
+  html:not(.dark) .text-amber-500, html.light .text-amber-500,
+  html:not(.dark) .text-amber-600, html.light .text-amber-600 { color: #b45309 !important; }
+  html:not(.dark) .text-orange-500, html.light .text-orange-500,
+  html:not(.dark) .text-orange-600, html.light .text-orange-600 { color: #c2410c !important; }
+  html:not(.dark) .text-rose-500, html.light .text-rose-500,
+  html:not(.dark) .text-rose-600, html.light .text-rose-600 { color: #be123c !important; }
+  html:not(.dark) .text-indigo-500, html.light .text-indigo-500,
+  html:not(.dark) .text-indigo-600, html.light .text-indigo-600 { color: #4338ca !important; }
+  html:not(.dark) .text-teal-600, html.light .text-teal-600 { color: #0f766e !important; }
+
+  /* ApexCharts Legible Legend Overrides */
+  html:not(.dark) .apexcharts-legend-text, html.light .apexcharts-legend-text { color: #0f172a !important; font-weight: 700 !important; }
+  html.dark .apexcharts-legend-text { color: #f8fafc !important; font-weight: 700 !important; }
+
+  /* Dark mode low-contrast fixes */
+  html.dark .text-slate-400 { color: #cbd5e1 !important; }
+  html.dark .dark\:text-slate-500 { color: #cbd5e1 !important; }
+  html.dark #snow-days { color: #a5b4fc !important; }
+
+
+
+  /* ================= ULTIMATE WCAG AAA CONTRAST ENHANCEMENTS ================= */
+  /* Force crisp white text on colored pill badges in all themes */
+  span.bg-rose-700, span.bg-rose-700, span.bg-rose-500,
+  span.bg-sky-600, span.bg-sky-700, span.bg-sky-500,
+  .nav-btn span.bg-rose-700, .nav-btn span.bg-rose-500,
+  .nav-btn span.bg-sky-600, .nav-btn span.bg-sky-700, .nav-btn span.bg-sky-500,
+  .nav-btn-anomalies span.bg-rose-700, .nav-btn-anomalies span.bg-rose-500 {
+    color: #ffffff !important;
+  }
+
+  /* Active pills and buttons with solid contrast */
+  html:not(.dark) .pill-opt-active,
+  html.light .pill-opt-active {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html:not(.dark) .pill-opt-active *,
+  html.light .pill-opt-active * {
+    color: #ffffff !important;
+  }
+
+  /* Dark HUD box elements must have clear light text on dark background */
+  #map-hud-box, #map-hud-box span, #map-hud-box div {
+    color: #f8fafc;
+  }
+  #map-hud-box #hud-period, #map-hud-box #hud-status-icon {
+    color: #38bdf8 !important;
+  }
+
+  /* Snow chips & downloads */
+  button#chip-norilsk, a#sat-direct-download {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+
+
+
+  .pill-opt-active,
+  .pill-opt-active *,
+  html.light .pill-opt-active,
+  html.light .pill-opt-active *,
+  html:not(.dark) .pill-opt-active,
+  html:not(.dark) .pill-opt-active * {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  #wtab-enso,
+  html.light #wtab-enso,
+  html:not(.dark) #wtab-enso,
+  html.dark #wtab-enso {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  #wtab-enso *,
+  html.light #wtab-enso *,
+  html:not(.dark) #wtab-enso *,
+  html.dark #wtab-enso * {
+    color: #ffffff !important;
+  }
+  button[onclick*="fetchRealSynopticCenters"],
+  button[onclick*="fetchRealSynopticCenters"] *,
+  html.light button[onclick*="fetchRealSynopticCenters"],
+  html.light button[onclick*="fetchRealSynopticCenters"] * {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html.dark #hud-anomaly-badge {
+    background-color: rgba(225, 29, 72, 0.25) !important;
+    color: #fda4af !important;
+    border-color: rgba(244, 63, 94, 0.4) !important;
+  }
+
+
+
+  .pill-opt-active,
+  .pill-opt-active *,
+  .pill-opt-active span,
+  html.light .pill-opt-active,
+  html.light .pill-opt-active *,
+  html.light .pill-opt-active span {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+  }
+  .pill-opt-active span.text-amber-400,
+  html.light .pill-opt-active span.text-amber-400 {
+    color: #ffffff !important;
+  }
+
 </style>
 
 
 
 <style id="global-light-mode-contrast-override">
-
   /* Global Leaflet Popup Light Mode Fix */
-
   html.light .leaflet-popup-content-wrapper,
-
   html.light .leaflet-popup-tip {
-
     background: #ffffff !important;
-
     color: #0f172a !important;
-
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
-
   }
-
   html.light .leaflet-popup-content {
-
     color: #0f172a !important;
-
   }
-
   html.light .leaflet-container a.leaflet-popup-close-button {
-
     color: #475569 !important;
-
   }
 
-
-
-  /* Global Dark Pill / Card / Container Light Mode Fix */
-
-  html.light .bg-slate-900, 
-
-  html.light .bg-slate-950, 
-
-  html.light .bg-[#0f172a],
-
-  html.light .bg-[#1e293b],
-
-  html.light .bg-[#0f172a]/90,
-
-  html.light .bg-slate-800/80 {
-
-    background-color: #f8fafc !important;
-
+  /* Global Container Backgrounds in Light Mode (Clean surfaces, no destructive child wildcards) */
+  html.light .bg-slate-900:not(button):not([role="button"]), 
+  html.light .bg-slate-950:not(button):not([role="button"]), 
+  html.light .bg-\[\#0f172a\]:not(button):not([role="button"]),
+  html.light .bg-\[\#1e293b\]:not(button):not([role="button"]),
+  html.light .bg-\[\#0f172a\]\/90:not(button):not([role="button"]),
+  html.light .bg-slate-800\/80:not(button):not([role="button"]),
+  html.light .glass-panel {
+    background-color: #ffffff !important;
     color: #0f172a !important;
-
-    border-color: #e2e8f0 !important;
-
+    border-color: #cbd5e1 !important;
   }
 
-
-
-  /* Specific fix for elements inside dark-turned-light containers */
-
-  html.light .bg-slate-900 *, 
-
-  html.light .bg-slate-950 *, 
-
-  html.light .bg-[#0f172a] *,
-
-  html.light .bg-[#1e293b] * {
-
-    color: #0f172a !important;
-
-  }
-
-
-
-  /* Text opacity overrides in light mode */
-
+  /* Text Opacity & Secondary Text in Light Mode */
   html.light .text-slate-400,
-
   html.light .text-slate-500,
-
   html.light .text-slate-300,
-
   html.light .text-gray-400 {
-
     color: #475569 !important;
-
   }
 
-
-
-  /* Action Buttons in Light Mode */
-
+  /* Action & Refresh Buttons in Light Mode */
+  html.light #btn-refresh-anom,
+  html.light #btn-refresh-synoptic,
   html.light button.bg-slate-900, 
-
   html.light button.bg-slate-950,
-
-  html.light button[class*="bg-slate-900"], 
-
   html.light [aria-pressed="true"],
-
   html.light .active-filter-btn {
-
-    background-color: #0284c7 !important;
-
+    background-color: #0369a1 !important;
     color: #ffffff !important;
-
-    border-color: #0369a1 !important;
-
+    border-color: #075985 !important;
   }
 
-
-
+  html.light #btn-refresh-anom *,
+  html.light #btn-refresh-synoptic *,
   html.light button.bg-slate-900 *,
-
   html.light button.bg-slate-950 *,
-
   html.light [aria-pressed="true"] * {
-
     color: #ffffff !important;
-
   }
 
+  /* Toolbar Pills in Light Mode */
+  html.light .pill-opt-active,
+  html.light .pill-opt-active * {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html.light .pill-opt-inactive {
+    background-color: #ffffff !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+  }
+  html.light .pill-opt-inactive * {
+    color: #475569 !important;
+  }
 
-
-  /* Secondary / Ghost buttons in Light mode */
-
-  html.light button.bg-slate-800,
-
-  html.light button.bg-slate-800/80 {
-
-    background-color: #e2e8f0 !important;
-
+  /* Synoptic Fact Box in Light Mode (Eye-Comfort & Impeccable European Design) */
+  html.light #anticyclone-fact-box,
+  html:not(.dark) #anticyclone-fact-box {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04) !important;
+  }
+  html.light #anticyclone-fact-box #fact-title,
+  html.light #anticyclone-fact-box #fact-title *,
+  html:not(.dark) #anticyclone-fact-box #fact-title,
+  html:not(.dark) #anticyclone-fact-box #fact-title * {
     color: #0f172a !important;
-
+    font-weight: 800 !important;
+  }
+  html.light #anticyclone-fact-box #fact-badge,
+  html:not(.dark) #anticyclone-fact-box #fact-badge {
+    background-color: #f0f9ff !important;
+    color: #0369a1 !important;
+    border-color: #bae6fd !important;
+    font-weight: 800 !important;
+  }
+  html.light #anticyclone-fact-box #fact-details,
+  html:not(.dark) #anticyclone-fact-box #fact-details {
+    color: #334155 !important;
+  }
+  html.light #anticyclone-fact-box #fact-details strong,
+  html:not(.dark) #anticyclone-fact-box #fact-details strong {
+    color: #0f172a !important;
+  }
+  html.light #anticyclone-fact-box .text-emerald-700,
+  html.light #anticyclone-fact-box .text-emerald-400,
+  html:not(.dark) #anticyclone-fact-box .text-emerald-700,
+  html:not(.dark) #anticyclone-fact-box .text-emerald-400 {
+    color: #047857 !important;
+    font-weight: 700 !important;
+  }
+  html.light #anticyclone-fact-box strong,
+  html:not(.dark) #anticyclone-fact-box strong {
+    color: #0f172a !important;
+  }
+  html.light button[onclick*="fetchRealSynopticCenters"],
+  html.light button[onclick*="fetchRealSynopticCenters"] *,
+  html:not(.dark) button[onclick*="fetchRealSynopticCenters"],
+  html:not(.dark) button[onclick*="fetchRealSynopticCenters"] * {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html.light button[onclick*="fetchRealSynopticCenters"]:hover,
+  html:not(.dark) button[onclick*="fetchRealSynopticCenters"]:hover {
+    background-color: #0284c7 !important;
+  }
+  html.light #hud-anomaly-badge,
+  html:not(.dark) #hud-anomaly-badge {
+    background-color: #ffe4e6 !important;
+    color: #be123c !important;
+    border-color: #fda4af !important;
   }
 
+  /* Universal High-Contrast Overrides for Light Mode */
+  html.light .bg-sky-600,
+  html:not(.dark) .bg-sky-600 {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+  }
+  html.light .text-sky-500,
+  html:not(.dark) .text-sky-500,
+  html.light a.text-sky-500,
+  html:not(.dark) a.text-sky-500 {
+    color: #0369a1 !important;
+  }
+  html.light .text-emerald-600,
+  html:not(.dark) .text-emerald-600,
+  html.light #live-sync-pill,
+  html:not(.dark) #live-sync-pill,
+  html.light #live-sync-text,
+  html:not(.dark) #live-sync-text {
+    color: #047857 !important;
+  }
+  html.light .text-amber-500,
+  html.light .text-amber-600,
+  html:not(.dark) .text-amber-500,
+  html:not(.dark) .text-amber-600 {
+    color: #b45309 !important;
+  }
+  html.light .text-cyan-500,
+  html:not(.dark) .text-cyan-500 {
+    color: #0e7490 !important;
+  }
+  html.light .apexcharts-legend-text,
+  html:not(.dark) .apexcharts-legend-text {
+    color: #0f172a !important;
+  }
+  html.dark .apexcharts-legend-text {
+    color: #f8fafc !important;
+  }
+  html.light .station-chip,
+  html:not(.dark) .station-chip {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+  }
 
+  /* Wavelet Analysis Section in Light Mode */
+  html.light #wavelet-oscillations-section {
+    background: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  }
+  html.light #wavelet-oscillations-section h2,
+  html.light #wavelet-oscillations-section .text-white {
+    color: #0f172a !important;
+  }
+  html.light #wavelet-oscillations-section .text-indigo-300 {
+    color: #4338ca !important;
+  }
+  html.light #wavelet-oscillations-section .text-amber-300 {
+    color: #b45309 !important;
+  }
+  html.light #wavelet-oscillations-section .text-cyan-300 {
+    color: #0e7490 !important;
+  }
+  html.light #wavelet-oscillations-section .text-sky-300 {
+    color: #0369a1 !important;
+  }
+  html.light #wavelet-oscillations-section .text-emerald-300,
+  html.light #wavelet-oscillations-section .text-emerald-400 {
+    color: #047857 !important;
+  }
+  html.light #wavelet-oscillations-section .bg-indigo-500\/20 {
+    background-color: #e0e7ff !important;
+    color: #3730a3 !important;
+    border-color: #c7d2fe !important;
+  }
+  html.light #wavelet-oscillations-section .bg-emerald-500\/20 {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+    border-color: #a7f3d0 !important;
+  }
+
+  /* Wavelet Tabs in Light Mode */
+  html.light #wavelet-tabs {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+  }
+  html.light #wavelet-tabs button:not(.bg-sky-600) {
+    color: #475569 !important;
+  }
+  html.light #wavelet-tabs button:not(.bg-sky-600) * {
+    color: #475569 !important;
+  }
+  html.light #wavelet-tabs button:not(.bg-sky-600):hover {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+  html.light #wavelet-tabs button.bg-sky-600,
+  html.light #wavelet-tabs button.bg-sky-600 * {
+    background-color: #0284c7 !important;
+    color: #ffffff !important;
+  }
 
   /* Form Elements in Light Mode */
-
   html.light select, html.light input, html.light textarea {
-
     background-color: #ffffff !important;
-
     color: #0f172a !important;
-
     border-color: #cbd5e1 !important;
-
+  }
+  html.light select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
   }
 
-  html.light select option {
+  /* Fetch synoptic button in light mode */
+  html.light button[onclick*="fetchRealSynopticCenters"] {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+    border-color: #075985 !important;
+  }
+  html.light button[onclick*="fetchRealSynopticCenters"] * {
+    color: #ffffff !important;
+  }
+  html.light #wavelet-tabs #wtab-enso,
+  html.light #wavelet-tabs #wtab-enso * {
+    background-color: #0369a1 !important;
+    color: #ffffff !important;
+  }
 
-    background-color: #ffffff !important;
-
+  /* Callout banner with 🌀 */
+  html.light .from-sky-950\/60,
+  html.light [class*="from-sky-950"] {
+    background: #f0f9ff !important;
+    border-color: #bae6fd !important;
     color: #0f172a !important;
+  }
+  html.light .from-sky-950\/60 *,
+  html.light [class*="from-sky-950"] * {
+    color: #0f172a !important;
+  }
+  html.light .from-sky-950\/60 strong,
+  html.light [class*="from-sky-950"] strong {
+    color: #0369a1 !important;
+  }
+  html.light .from-sky-950\/60 span.text-2xl,
+  html.light [class*="from-sky-950"] span.text-2xl {
+    color: #0284c7 !important;
+  }
+</style>
 
+<style id="meteo-subpage-eye-comfort">
+
+  /* METEO 2026: PERFECT READABILITY & EYE-COMFORT */
+  body, input, button, select, textarea {
+    font-family: var(--font-sans, 'Geist', 'Inter', -apple-system, sans-serif);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .weather-num, table td, table th, [data-num], .font-mono {
+    font-feature-settings: "tnum" 1, "zero" 1;
+    font-variant-numeric: tabular-nums;
+  }
+  html.light body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+  html.light .text-slate-400, html.light .text-gray-400 { color: #334155 !important; }
+  html.light .text-slate-500, html.light .text-gray-500 { color: #1e293b !important; }
+  html.light .text-slate-600 { color: #0f172a !important; }
+  html.dark body {
+    background-color: #070b14 !important;
+    color: #f8fafc !important;
+  }
+  html.dark [class*="text-slate-600"], html.dark .text-slate-600 { color: #94a3b8 !important; }
+  html.dark .text-slate-500 { color: #cbd5e1 !important; }
+  body, header, nav, footer, button, input {
+    transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
   }
 
 </style>
-
 </head>
 
 <body class="min-h-screen selection:bg-sky-500 selection:text-white pb-16">
@@ -2418,7 +2700,7 @@
 
           <span class="hidden sm:inline">Аномалии</span>
 
-          <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500 text-white font-black shadow-sm shrink-0">LIVE</span>
+          <span class="text-[9.5px] font-mono px-1.5 py-0.2 rounded-full bg-rose-700 text-white font-black shadow-sm shrink-0">LIVE</span>
 
         </a>
 
@@ -2432,7 +2714,7 @@
 
           <span class="hidden sm:inline">Снег</span>
 
-          <span class="text-[9px] font-mono px-1 rounded bg-sky-500 text-white font-black hidden md:inline">NEW</span>
+          <span class="text-[9px] font-mono px-1 rounded bg-sky-700 text-white font-black hidden md:inline">NEW</span>
 
         </a>
 
@@ -2478,7 +2760,7 @@
 
         <div class="relative inline-block text-left group">
 
-          <button onclick="toggleShareDropdown()" class="nav-btn">
+          <button onclick="toggleShareDropdown()" class="nav-btn" aria-label="Поделиться" title="Поделиться ссылкой">
 
             <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
 
@@ -2913,66 +3195,39 @@
 
       <!-- ================= ОПЕРАТИВНЫЙ СИНОПТИЧЕСКИЙ МОНИТОРИНГ ================= -->
 
-      <div id="anticyclone-fact-box" class="glass-panel p-4 border border-sky-500/30 dark:border-sky-400/25 bg-gradient-to-r from-sky-500/10 via-slate-900/60 to-indigo-500/10 space-y-2.5">
-
-        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
-
+      <div id="anticyclone-fact-box" class="glass-panel p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/90 shadow-sm space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200/80 dark:border-slate-800 pb-2.5">
           <div class="flex items-center gap-2">
-
             <span class="text-base sm:text-lg">🧭</span>
-
-            <h2 id="fact-title" class="font-black text-xs sm:text-sm tracking-tight text-slate-100 uppercase flex items-center gap-1.5">
-
-              🌀 <strong>СИНОПТИЧЕСКИЙ МОНИТОРИНГ:</strong> Барические системы Северного полушария (ECMWF IFS & DWD ICON)
-
+            <h2 id="fact-title" class="font-black text-xs sm:text-sm tracking-tight text-slate-900 dark:text-white uppercase flex items-center gap-1.5">
+              🌀 <strong class="text-slate-900 dark:text-white">СИНОПТИЧЕСКИЙ МОНИТОРИНГ:</strong> <span class="text-slate-800 dark:text-slate-200">Барические системы Северного полушария (ECMWF IFS & DWD ICON)</span>
             </h2>
-
           </div>
-
-          <span id="fact-badge" class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/40 uppercase">
-
+          <span id="fact-badge" class="px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-950/60 dark:text-sky-300 dark:border-sky-700/50 uppercase shadow-sm">
             СИНОПТИКА: ОПЕРАТИВНЫЙ АНАЛИЗ СУПЕРКОМПЬЮТЕРОВ
-
           </span>
-
         </div>
 
-        <p id="fact-details" class="text-xs sm:text-[13px] text-slate-300 dark:text-slate-200 leading-relaxed font-sans">
-
-          По оперативным гидродинамическим расчетам суперкомпьютеров <strong>ECMWF IFS (0.25°) и DWD ICON</strong>, в атмосфере Северного полушария развивается устойчивая осенняя циркуляция. Серии приполярных циклонических ложбин смещаются вдоль арктического побережья, формируя периодические вторжения умеренно холодного воздуха в Сибирь. В южной половине Европейской России и Центральной Азии преобладает антициклонический режим с положительными температурными аномалиями.
-
+        <p id="fact-details" class="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
+          По оперативным гидродинамическим расчетам суперкомпьютеров <strong class="text-slate-900 dark:text-white">ECMWF IFS (0.25°) и DWD ICON</strong>, в атмосфере Северного полушария развивается устойчивая осенняя циркуляция. Серии приполярных циклонических ложбин смещаются вдоль арктического побережья, формируя периодические вторжения умеренно холодного воздуха в Сибирь. В южной половине Европейской России и Центральной Азии преобладает антициклонический режим с положительными температурными аномалиями.
         </p>
 
-        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-[11px] text-slate-400">
-
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-[11px] text-slate-600 dark:text-slate-400">
           <div class="flex items-center gap-3 flex-wrap">
-
-            <span class="inline-flex items-center gap-1 text-emerald-400">
-
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-
+            <span class="inline-flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               Фактические замеры: ECMWF IFS и ICON 00Z/12Z
-
             </span>
-
-            <span>• Карское море: <strong>1010–1016 гПа (Ложбина)</strong></span>
-
-            <span>• Зап. Сибирь: <strong>H 1022–1026 гПа</strong></span>
-
-            <span>• Центр РФ: <strong>1016–1020 гПа (Гребень)</strong></span>
-
+            <span>• Карское море: <strong class="text-slate-900 dark:text-slate-200">1010–1016 гПа (Ложбина)</strong></span>
+            <span>• Зап. Сибирь: <strong class="text-slate-900 dark:text-slate-200">H 1022–1026 гПа</strong></span>
+            <span>• Центр РФ: <strong class="text-slate-900 dark:text-slate-200">1016–1020 гПа (Гребень)</strong></span>
           </div>
 
-          <button onclick="fetchRealSynopticCenters()" class="px-3.5 py-1.5 min-h-[36px] rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 border border-sky-500/40 font-mono text-xs font-bold transition flex items-center gap-1.5 shadow-sm" title="Запросить текущие фактические давления суперкомпьютеров">
-
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-
+          <button onclick="fetchRealSynopticCenters()" class="px-3.5 py-1.5 min-h-[36px] rounded-lg bg-sky-700 hover:bg-sky-700 text-white border border-sky-700 font-mono text-xs font-bold transition flex items-center gap-1.5 shadow-sm dark:bg-sky-500/20 dark:hover:bg-sky-500/30 dark:text-sky-200 dark:border-sky-500/40" title="Запросить текущие фактические давления суперкомпьютеров">
+            <svg class="w-3.5 h-3.5 text-current shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Обновить барические центры</span>
-
           </button>
-
         </div>
-
       </div>
 
       <!-- ================= LIVE POINT & CITY ANOMALY SEARCH BAR ================= -->
@@ -3861,7 +4116,7 @@
 
         <div class="inline-flex rounded-xl bg-slate-800/80 p-1 border border-slate-700/80 text-xs font-bold" id="wavelet-tabs">
 
-          <button onclick="switchWaveletTab('enso')" id="wtab-enso" class="px-4 py-2 min-h-[38px] rounded-lg bg-sky-600 text-white shadow transition flex items-center gap-2 font-semibold">
+          <button onclick="switchWaveletTab('enso')" id="wtab-enso" class="px-4 py-2 min-h-[38px] rounded-lg bg-sky-700 text-white shadow transition flex items-center gap-2 font-semibold">
 
             <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
 
@@ -4283,9 +4538,13 @@
 
         localStorage.setItem('meteo_theme', 'light');
 
-        document.getElementById('theme-icon').textContent = '🌙';
+        var tIcon = document.getElementById('theme-icon');
 
-        document.getElementById('theme-text').textContent = 'Светлая';
+        if (tIcon) tIcon.textContent = '🌙';
+
+        var tText = document.getElementById('theme-text');
+
+        if (tText) tText.textContent = 'Светлая';
 
       } else {
 
@@ -4295,9 +4554,13 @@
 
         localStorage.setItem('meteo_theme', 'dark');
 
-        document.getElementById('theme-icon').textContent = '☀️';
+        var tIcon2 = document.getElementById('theme-icon');
 
-        document.getElementById('theme-text').textContent = 'Тёмная';
+        if (tIcon2) tIcon2.textContent = '☀️';
+
+        var tText2 = document.getElementById('theme-text');
+
+        if (tText2) tText2.textContent = 'Тёмная';
 
       }
 
@@ -4306,6 +4569,16 @@
       updateChartsTheme();
 
       renderLegend();
+
+      if (typeof renderQuickStationsStrip === 'function') renderQuickStationsStrip();
+
+      if (typeof renderStationMarkers === 'function') renderStationMarkers();
+
+      if (typeof renderIsolines === 'function') renderIsolines();
+
+      if (typeof renderChoropleth === 'function') renderChoropleth();
+
+      if (typeof renderPressureCenters === 'function') renderPressureCenters();
 
     }
 
@@ -5914,41 +6187,45 @@
     // ================= SCIENTIFIC METEOROLOGICAL COLOR RAMP (C3S / NOAA RdBu) =================
 
     function getTempColor(val) {
-
-      if (val <= -5.0) return '#1e3a8a'; // Deep Arctic Navy (Extreme Cold)
-
-      if (val <= -3.0) return '#2563eb'; // Rich Cobalt Blue (Severe Cold)
-
-      if (val <= -1.5) return '#3b82f6'; // Clean Balanced Blue (Moderate Cold)
-
-      if (val <= -0.5) return '#60a5fa'; // Soft Ice Sky Blue (Light Cold)
-
-      if (val < 0.5)   return '#94a3b8'; // Neutral Balanced Slate (Near Norm)
-
-      if (val < 1.5)   return '#f59e0b'; // Warm Amber / Peach (Light Warm)
-
-      if (val < 3.0)   return '#ea580c'; // Warm Terracotta / Deep Orange (Moderate Warm)
-
-      if (val < 5.0)   return '#dc2626'; // Classical Meteorological Crimson (Strong Warm)
-
-      return '#991b1b';                  // Deep Burgundy / Wine Red (Extreme Warm)
-
+      var isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        if (val <= -5.0) return '#60a5fa'; // Bright Ice Blue (contrast 8:1)
+        if (val <= -3.0) return '#38bdf8'; // Sky Blue (contrast 9:1)
+        if (val <= -1.5) return '#06b6d4'; // Cyan
+        if (val <= -0.5) return '#7dd3fc'; // Light Sky
+        if (val < 0.5)   return '#cbd5e1'; // Slate 300
+        if (val < 1.5)   return '#fbbf24'; // Amber 400
+        if (val < 3.0)   return '#fb923c'; // Orange 400
+        if (val < 5.0)   return '#f87171'; // Red 400
+        return '#fda4af';                  // Rose 300
+      } else {
+        if (val <= -5.0) return '#1d4ed8'; // Blue 700 (contrast > 6:1 on white)
+        if (val <= -3.0) return '#2563eb'; // Blue 600
+        if (val <= -1.5) return '#0369a1'; // Sky 600
+        if (val <= -0.5) return '#0369a1'; // Sky 700
+        if (val < 0.5)   return '#475569'; // Slate 600
+        if (val < 1.5)   return '#b45309'; // Amber 700 (contrast > 4.5:1 on white)
+        if (val < 3.0)   return '#c2410c'; // Orange 700
+        if (val < 5.0)   return '#b91c1c'; // Red 700
+        return '#991b1b';                  // Red 800
+      }
     }
 
-
-
     function getPrecipColor(val) {
-
-      if (val < 50)   return '#78350f'; // Severe Drought (Subtle Warm Umber)
-
-      if (val < 80)   return '#d97706'; // Deficit (Amber)
-
-      if (val <= 125) return '#10b981'; // Near Normal (Emerald)
-
-      if (val <= 165) return '#0284c7'; // Excess (Clear Cyan/Teal)
-
-      return '#1e40af';                 // Heavy Surplus (Deep Blue)
-
+      var isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        if (val < 50)   return '#f59e0b'; // Severe Drought (Amber 500)
+        if (val < 80)   return '#fbbf24'; // Deficit (Amber 400)
+        if (val <= 125) return '#34d399'; // Near Normal (Emerald 400)
+        if (val <= 165) return '#38bdf8'; // Excess (Clear Cyan/Teal)
+        return '#60a5fa';                 // Heavy Surplus (Blue 400)
+      } else {
+        if (val < 50)   return '#b45309'; // Severe Drought (Amber 700)
+        if (val < 80)   return '#d97706'; // Deficit (Amber 600)
+        if (val <= 125) return '#059669'; // Near Normal (Emerald 600)
+        if (val <= 165) return '#0284c7'; // Excess (Clear Cyan/Teal)
+        return '#1d4ed8';                 // Heavy Surplus (Blue 700)
+      }
     }
 
 
@@ -6781,13 +7058,15 @@
 
       var tempStr = (tempVal > 0 ? '+' : '') + tempVal.toFixed(1) + ' °C';
 
-            var periodLabels = {
+      var info = getActiveDateInfo();
+
+      var periodLabels = {
         1: "Аномалия 1-й дек ΔT",
         2: "Аномалия 2-й дек ΔT",
         3: "Аномалия 3-й дек ΔT",
-        0: info.monthName + " " + info.year + " ΔT",
-        10: info.nextMonthName + " " + info.year + " ΔT",
-        11: info.afterNextMonthName + " " + info.year + " ΔT",
+        0: (info ? (info.monthName + " " + info.year + " ΔT") : "Аномалия месяца ΔT"),
+        10: (info ? (info.nextMonthName + " " + info.year + " ΔT") : "Сезонный горизонт ΔT"),
+        11: (info ? (info.afterNextMonthName + " " + info.year + " ΔT") : "Климатический прогноз ΔT"),
         12: "Зима 2026/27 ΔT"
       };
 
@@ -7609,15 +7888,29 @@
 
       var isDark = document.documentElement.classList.contains('dark');
 
+      var txtColor = isDark ? '#f8fafc' : '#0f172a';
+
       if (cityModelsChart) {
 
-        cityModelsChart.updateOptions({ theme: { mode: isDark ? 'dark' : 'light' } });
+        cityModelsChart.updateOptions({
+
+          theme: { mode: isDark ? 'dark' : 'light' },
+
+          legend: { labels: { colors: txtColor } }
+
+        });
 
       }
 
       if (seasonalChart) {
 
-        seasonalChart.updateOptions({ theme: { mode: isDark ? 'dark' : 'light' } });
+        seasonalChart.updateOptions({
+
+          theme: { mode: isDark ? 'dark' : 'light' },
+
+          legend: { labels: { colors: txtColor } }
+
+        });
 
       }
 
@@ -8754,14 +9047,14 @@
       }
 
       if (factBadge) {
-        factBadge.className = "px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/40 uppercase";
+        factBadge.className = "px-2.5 py-1 rounded-lg text-[11px] font-mono font-bold bg-sky-50 text-sky-800 border border-sky-200 dark:bg-sky-950/60 dark:text-sky-300 dark:border-sky-700/50 uppercase shadow-sm";
         factBadge.textContent = "СИНОПТИКА: ОПЕРАТИВНЫЙ АНАЛИЗ СУПЕРКОМПЬЮТЕРОВ (ECMWF & ICON)";
       }
       if (factTitle) {
-        factTitle.innerHTML = "🌀 <strong>СИНОПТИЧЕСКИЙ СТАТУС:</strong> Осенний циркуляционный режим Северного полушария";
+        factTitle.innerHTML = "🌀 <strong class='text-slate-900 dark:text-white'>СИНОПТИЧЕСКИЙ СТАТУС:</strong> <span class='text-slate-800 dark:text-slate-200'>Осенний циркуляционный режим Северного полушария</span>";
       }
       if (factDetails) {
-        factDetails.innerHTML = "По оперативным замерам суперкомпьютерных моделей <strong>ECMWF IFS (0.25°) и DWD ICON</strong> на арктическом побережье Сибири фиксируется давление <strong>" + kara.p + " гПа</strong>. Преобладает устойчивый зонально-меридиональный перенос с сезонным развитием континентального Сибирского максимума.";
+        factDetails.innerHTML = "По оперативным замерам суперкомпьютерных моделей <strong class='text-slate-900 dark:text-white'>ECMWF IFS (0.25°) и DWD ICON</strong> на арктическом побережье Сибири фиксируется давление <strong class='text-slate-900 dark:text-white'>" + kara.p + " гПа</strong>. Преобладает устойчивый зонально-меридиональный перенос с сезонным развитием континентального Сибирского максимума.";
       }
     }
 
