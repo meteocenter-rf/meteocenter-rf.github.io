@@ -606,7 +606,7 @@
         <div class="relative w-full lg:w-72">
           <input type="text" id="city-search" placeholder="Поиск любого города мира..." 
             class="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium bg-slate-100 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:text-white transition-all shadow-inner"
-            oninput="handleSearchInput(this.value)">
+            oninput="handleSearchInput(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();submitCitySearch(this.value);}">
           <div id="search-dropdown" class="hidden absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50 text-xs">
           </div>
         </div>
@@ -827,7 +827,7 @@
             </div>
             <div class="flex items-start gap-2">
               <span class="text-amber-500 font-bold shrink-0">✔</span>
-              <span><strong>Снежники-перелетки:</strong> многолетний спрессованный фирн в каньонах Путорана и на Кайерканской гряде безошибочно детектируется даже под слоем надутой пыли.</span>
+              <span id="ndsi-firn-text"><strong>Снежники-перелетки:</strong> многолетний спрессованный фирн в каньонах Путорана и на Кайерканской гряде безошибочно детектируется даже под слоем надутой пыли.</span>
             </div>
           </div>
         </div>
@@ -871,11 +871,11 @@
     </div>
 
     <!-- GLACIOLOGICAL & REGIONAL EXPLANATION -->
-    <div class="glass-card rounded-2xl p-6 shadow-xl space-y-4">
-      <h3 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+    <div id="glaciology-section" class="glass-card rounded-2xl p-6 shadow-xl space-y-4">
+      <h3 id="glaciology-title" class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
         <span>📖</span> Заполярная гляциология: феномен снежников Норильска и Кайеркана
       </h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+      <div id="glaciology-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
         <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
           <h4 class="font-bold text-slate-900 dark:text-white mb-1.5 flex items-center gap-1.5">
             <span>💨</span> Ветровая дефляция тундры
@@ -927,7 +927,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     // PRESET CITIES DATA WITH PHYSICAL AND GLACIOLOGICAL PARAMETERS
-    const PRESETS = {
+        const PRESETS = {
       'norilsk': {
         name: 'Норильск (НПР)',
         lat: 69.354, lon: 88.203,
@@ -935,7 +935,7 @@
         firstSnowDetail: 'ФАКТ: первый снегопад начался в ночь на 4 окт (T: 0°C), покров 1–2 см, днем до 4–5 см',
         normFirstSnow: '15–20 сентября',
         meltDate: '14–18 июня',
-        meltDetail: 'Полное очищение тундры и долин',
+        meltDetail: 'Полное очищение тундры и речных долин',
         trendMelt: 'на 20.3 дня раньше',
         peakDepth: '92 см (пик)',
         avgDepth: 'Средняя за зиму: 64 см',
@@ -947,7 +947,16 @@
         satDesc: 'НПР: Норильск, Кайеркан, Талнах · 10 м/пикс',
         satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
         satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
-        profile: [0, 8, 25, 48, 72, 90, 85, 30, 0] // Sep to May
+        profile: [0, 8, 25, 48, 72, 90, 85, 30, 0],
+        glaciology: {
+          title: 'Заполярная гляциология: феномен снежников Норильска и Кайеркана',
+          cards: [
+            { icon: '💨', title: 'Ветровая дефляция тундры', text: 'В открытой тундре Оганера жестокие норильские пурги со скоростью до 30 м/с начисто сдувают снег с макушек кочек. Поэтому при средней толщине покрова 5–7 см верхушки кочек высотой 20 см остаются голыми.' },
+            { icon: '🏔️', title: '15-метровые сугробы у дорог', text: 'Вдоль трассы Норильск — Алыкель снегозащитные щиты Потанина и уступы Кайерканской гряды аккумулируют сугробы высотой до 15 метров, которые благодаря плотности фирна доживают до середины и конца августа.' },
+            { icon: '☀️', title: 'Арктическое усиление', text: 'За 44 года наблюдений полный сход снега в Норильском промрайоне сдвинулся с первых чисел июля на первую декаду июня — лето за Полярным кругом наступает на 20 дней раньше нормы середины XX века.' }
+          ]
+        },
+        ndsiFirn: '<strong>Снежники-перелетки:</strong> многолетний спрессованный фирн в каньонах Путорана и на Кайерканской гряде безошибочно детектируется даже под слоем надутой пыли.'
       },
       'oganer': {
         name: 'Оганер (Пойма р. Норильской / Тундра)',
@@ -968,7 +977,16 @@
         satDesc: 'Открытая тундра и долина Норилки · 10 м/пикс',
         satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
         satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
-        profile: [0, 7, 22, 44, 68, 85, 78, 25, 0]
+        profile: [0, 7, 22, 44, 68, 85, 78, 25, 0],
+        glaciology: {
+          title: 'Гляциология поймы р. Норильской: сдув снега в открытой тундре Оганера',
+          cards: [
+            { icon: '💨', title: 'Дефляция кочкарной тундры', text: 'Пурги выдувают снежную пыль из открытой поймы Валька и Оганера. Снег концентрируется в ложбинах и старицах реки Норильской, а верхушки кочек подвергаются глубокому зимнему промораживанию.' },
+            { icon: '🌊', title: 'Весеннее вскрытие Норилки', text: 'В период снеготаяния (первая половина июня) мощный сброс талых вод из озер Лама и Мелкое форсирует ледоход на реке Норильской, размывая прибрежные снежные заносы.' },
+            { icon: '❄️', title: 'Мезоклимат речной долины', text: 'В низине Оганера зимой застаивается морозный воздух («морозный колодец»), что приводит к образованию игольчатого ледяного наста плотностью 0.38–0.42 г/см³.' }
+          ]
+        },
+        ndsiFirn: '<strong>Пойменные накопления:</strong> снежные наносы в руслах стариц Норилки и оврагах тундры четко отделяются алгоритмом NDSI от оголенных кочек.'
       },
       'kayerkan': {
         name: 'Кайеркан (Гряда и трасса на Алыкель)',
@@ -989,7 +1007,16 @@
         satDesc: 'Кайерканская гряда и разрез · 19 июня 2026',
         satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
         satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
-        profile: [0, 9, 28, 55, 80, 100, 95, 45, 10]
+        profile: [0, 9, 28, 55, 80, 100, 95, 45, 10],
+        glaciology: {
+          title: 'Гляциология Кайерканской гряды: 15-метровые снежники и щиты Потанина',
+          cards: [
+            { icon: '🛡️', title: 'Снегозащитные щиты Потанина', text: 'Вдоль стратегической трассы Норильск — Алыкель щиты Потанина направляют воздушные потоки так, что снег отлагается за полотном дороги огромными карнизами высотой до 12–15 метров.' },
+            { icon: '🏔️', title: 'Фирн Кайерканского разреза', text: 'В отвалах угольного разреза и естественных складках гряды спрессованный фирн залегает в глубокой тени, сохраняя снежные линзы вплоть до августа.' },
+            { icon: '🌪️', title: 'Ураганный коридор «Черной пурги»', text: 'При южных ветрах («южаке») перепад давления между плато Путорана и низиной Енисея разгоняет метели до 35 м/с, вызывая максимальный снегоперенос в России.' }
+          ]
+        },
+        ndsiFirn: '<strong>Многолетний фирн гряды:</strong> плотные реликтовые снежники в уступах Кайеркана дают устойчивый бирюзовый спектральный отклик до глубокого лета.'
       },
       'talnakh': {
         name: 'Талнах (Гора Отдельная / Хараелах)',
@@ -1010,7 +1037,16 @@
         satDesc: 'Талнах и Гора Отдельная · 10 м/пикс',
         satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
         satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
-        profile: [0, 12, 35, 65, 95, 125, 110, 50, 5]
+        profile: [0, 12, 35, 65, 95, 125, 110, 50, 5],
+        glaciology: {
+          title: 'Орографическая гляциология плато Путорана и Талнаха: гора Отдельная',
+          cards: [
+            { icon: '⛰️', title: 'Орографический подъем осадков', text: 'При натекании циклонов на уступ плато Путорана и хребет Хараелах влажный воздух поднимается вверх, увеличивая толщину снега на склонах горы Отдельной в 1.8 раза по сравнению с равниной.' },
+            { icon: '⛷️', title: 'Горнолыжный сезон до июня', text: 'Защищенные от солнца северные кулуары и глубокие ущелья рек Талнах и Хараелах накапливают свыше 2 метров снега, позволяя кататься до конца мая.' },
+            { icon: '🧊', title: 'Каньоны вечного льда', text: 'В базальтовых каньонах Путорана формируются снежники-перелетки и наледи (тарыны), часть из которых не успевает растаять за короткое заполярное лето.' }
+          ]
+        },
+        ndsiFirn: '<strong>Горные снежники Хараелаха:</strong> каровые и кулуарные скопления снега на склонах Путорана безошибочно распознаются спутником Sentinel-2.'
       },
       'dikson': {
         name: 'Диксон (Карское море)',
@@ -1031,7 +1067,16 @@
         satDesc: 'Побережье Карского моря · 10 м/пикс',
         satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
         satDownload: '',
-        profile: [2, 15, 30, 48, 62, 70, 65, 40, 5]
+        profile: [2, 15, 30, 48, 62, 70, 65, 40, 5],
+        glaciology: {
+          title: 'Высокоширотная морская гляциология Карского моря: Диксон',
+          cards: [
+            { icon: '🌪️', title: 'Арктические заструги', text: 'Штормовые ветры со скоростью свыше 25 м/с укатывают снег в плотные каменные заструги. Плотность снега достигает 0.45 г/см³, позволяя человеку ходить без лыж.' },
+            { icon: '⚓', title: 'Береговой припай и торосы', text: 'Снежный покров скалистых берегов Диксона монолитно смыкается с морским льдом Карского моря, создавая единую криосферную систему на протяжении 9 месяцев.' },
+            { icon: '⏳', title: 'Экстремально короткое лето', text: 'Полное освобождение каменистой тундры от снега завершается лишь в первых числах июля, а в начале сентября уже выпадает первый снег новой зимы.' }
+          ]
+        },
+        ndsiFirn: '<strong>Припайный комплекс:</strong> алгоритм NDSI разделяет каменистый рельеф острова Диксон, береговые заструги и ледовый припай Карского моря.'
       },
       'murmansk': {
         name: 'Мурманск (Кольский п-ов)',
@@ -1052,7 +1097,16 @@
         satDesc: 'Мурманск и сопки Кольского края',
         satImg: '',
         satDownload: '',
-        profile: [0, 4, 18, 35, 52, 65, 55, 12, 0]
+        profile: [0, 4, 18, 35, 52, 65, 55, 12, 0],
+        glaciology: {
+          title: 'Субарктическая морская гляциология Кольского Севера: Мурманск',
+          cards: [
+            { icon: '🌊', title: 'Влияние теплого Нордкапского течения', text: 'Баренцево море и незамерзающий Кольский залив делают зиму в Мурманске мягче континентальной: частые снегопады перемежаются моросью и влажными оттепелями.' },
+            { icon: '⛰️', title: 'Снегоперенос на Кольских сопках', text: 'Рельеф сопок приводит к неравномерности: продуваемые ветром вершины обнажаются, тогда как в лощинах и ущельях Хибин снег накапливается до 2–3 метров.' },
+            { icon: '🌱', title: 'Затяжное таяние на сопках', text: 'Плотный влажный снег тает постепенно, снабжая талыми водами озера и реки Кольского полуострова до конца мая.' }
+          ]
+        },
+        ndsiFirn: '<strong>Снежники на сопках:</strong> спутниковый сенсор фиксирует плотные снежные пласты в ложбинах сопок даже при частичной облачности.'
       },
       'yakutsk': {
         name: 'Якутск (Лена)',
@@ -1073,7 +1127,16 @@
         satDesc: 'Якутск и бассейн реки Лены',
         satImg: '',
         satDownload: '',
-        profile: [0, 6, 18, 28, 36, 42, 30, 2, 0]
+        profile: [0, 6, 18, 28, 36, 42, 30, 2, 0],
+        glaciology: {
+          title: 'Ультраконтинентальная гляциология долины Туймаада: Якутск',
+          cards: [
+            { icon: '🧊', title: 'Сверхсухой кристаллический наст', text: 'При морозах -45...-55°C под Сибирским антициклоном снег не слипается, представляя собой сыпучий кристаллический порошок с непрерывным испарением (сублимацией).' },
+            { icon: '🛡️', title: 'Термоизолятор мерзлоты', text: 'Покров толщиной 38–45 см служит защитным экраном, сглаживающим экстремальное переохлаждение грунтов сплошной реликтовой мерзлоты Якутии.' },
+            { icon: '☀️', title: 'Мгновенный сход весной', text: 'Сухой воздух и высокая инсоляция приводят к дружному сходу снега в конце апреля без затяжного слякотного периода (эффект прямой возгонки).' }
+          ]
+        },
+        ndsiFirn: '<strong>Таежный сухой покров:</strong> низкая влажность воздуха обеспечивает максимальную контрастность между чистым снегом и лиственничной тайгой.'
       },
       'moscow': {
         name: 'Москва',
@@ -1094,7 +1157,16 @@
         satDesc: 'Москва и Подмосковье · 10 м/пикс',
         satImg: '',
         satDownload: '',
-        profile: [0, 1, 8, 22, 38, 45, 25, 0, 0]
+        profile: [0, 1, 8, 22, 38, 45, 25, 0, 0],
+        glaciology: {
+          title: 'Снеговой режим Центральной России: мезоклимат и антропогенное тепло Москвы',
+          cards: [
+            { icon: '🔥', title: 'Городской остров тепла', text: 'В черте МКАД средняя температура на 1.5–3°C выше фоновой. Первый снег в центре тает быстрее, а устойчивый покров ложится на 7–10 дней позже, чем в области.' },
+            { icon: '🌀', title: 'Южные и балканские снегопады', text: 'Основной прирост высоты сугробов дают средиземноморские и южные циклоны («Ванда», «Ольга»), способные за сутки принести до половины месячной нормы осадков.' },
+            { icon: '📈', title: 'Февральский максимум', text: 'Пик высоты снега (в среднем 38–48 см) достигается в третьей декаде февраля. Полный сход снежного покрова в лесопарках наступает в первой декаде апреля.' }
+          ]
+        },
+        ndsiFirn: '<strong>Городской и лесопарковый наст:</strong> спектральный индекс NDSI четко разделяет тающие улицы мегаполиса и устойчивые снежные массивы Лосиного Острова.'
       },
       'spb': {
         name: 'Санкт-Петербург',
@@ -1115,7 +1187,16 @@
         satDesc: 'Санкт-Петербург и Финский залив',
         satImg: '',
         satDownload: '',
-        profile: [0, 1, 6, 18, 30, 38, 18, 0, 0]
+        profile: [0, 1, 6, 18, 30, 38, 18, 0, 0],
+        glaciology: {
+          title: 'Морской снеговой режим Финского залива: температурные качели Санкт-Петербурга',
+          cards: [
+            { icon: '⚓', title: 'Влажный балтийский снег', text: 'Близость Балтики и Финского залива формирует высокую влажность (до 90–95%) и тяжелый мокрый снег с высокой адгезией и склонностью к налипанию на провода.' },
+            { icon: '🔄', title: 'Частые оттепели и гололедица', text: 'За зимний сезон проходит от 20 до 35 волн оттепелей. Многократные циклы перехода через 0°C формируют многослойную корку льда и наста.' },
+            { icon: '💨', title: 'Ветровые метели с залива', text: 'Штормовые циклоны с запада вызывают сгон снега с ледового поля Финского залива и локальные снежные заряды на побережье (Курортный район, Кронштадт).' }
+          ]
+        },
+        ndsiFirn: '<strong>Прибрежный наст и лед:</strong> NDSI точно отслеживает границу припая в Невской губе и снежный покров Карельского перешейка.'
       },
       'novosibirsk': {
         name: 'Новосибирск',
@@ -1136,7 +1217,16 @@
         satDesc: 'Новосибирск и Обское водохранилище',
         satImg: '',
         satDownload: '',
-        profile: [0, 3, 14, 30, 48, 58, 35, 0, 0]
+        profile: [0, 3, 14, 30, 48, 58, 35, 0, 0],
+        glaciology: {
+          title: 'Континентальная сибирская гляциология: лесостепной режим Новосибирска',
+          cards: [
+            { icon: '❄️', title: 'Устойчивая зима без оттепелей', text: 'Сибирский антициклон удерживает стабильный морозный режим с ноября по март. Оттепели редки, снег сохраняет пористую структуру и высокую отражательную способность.' },
+            { icon: '🌲', title: 'Снегозадержание сосновых боров', text: 'Кудряшовский и Заельцовский боры накапливают до 60–75 см снега, надежно защищая почву и корневую систему реликтовых сосен от промерзания.' },
+            { icon: '🌊', title: 'Бурное половодье на реке Обь', text: 'В апреле дружное таяние снега на Верхней Оби и Алтае наполняет Новосибирское водохранилище (Обское море), знаменуя стремительное наступление сибирской весны.' }
+          ]
+        },
+        ndsiFirn: '<strong>Сибирский лесостепной наст:</strong> высокая отражательная способность сухого снега дает чистый сигнал на спутниковых снимках бассейна Оби.'
       },
       'semiluki': {
         name: 'Семилуки / Воронеж (Черноземье)',
@@ -1145,19 +1235,28 @@
         firstSnowDetail: 'Южный циклон (липкий снег 3–6 см)',
         normFirstSnow: '22–28 октября',
         meltDate: '22–30 марта',
-        meltDetail: 'Раннее черноземное половодье',
+        meltDetail: 'Раннее черноземное половодье и сход в долине Дона',
         trendMelt: 'на 12 дней раньше',
         peakDepth: '32 см (газоны/Донгор)',
-        avgDepth: 'На скошенной траве скользит отлично',
-        ridgeDepth: 'Склоны долины реки Дон',
-        currentStatus: 'Покров 0 см',
-        currentTempSub: 'Теплое Черноземье',
+        avgDepth: 'Средняя за зиму: 24 см',
+        ridgeDepth: 'Склоны долины реки Дон (до 1.5–2 м)',
+        currentStatus: 'Покров 0 см (Сухо)',
+        currentTempSub: 'Теплое Черноземье, комфортная осень',
         snowDays: '105–115 дней',
-        satTile: 'Sentinel-2 (Долина реки Дон / Семилуки)',
-        satDesc: 'Семилуки, Донгор и Воронеж · 10 м/пикс',
+        satTile: 'Sentinel-2 (Долина реки Дон / Семилуки / Воронеж)',
+        satDesc: 'Семилуки, Донгор и Воронежское водохранилище · 10 м/пикс',
         satImg: '',
         satDownload: '',
-        profile: [0, 0, 4, 15, 26, 32, 10, 0, 0]
+        profile: [0, 0, 4, 15, 26, 32, 10, 0, 0],
+        glaciology: {
+          title: 'Снеговой режим Черноземья: лесостепная динамика и агроклиматология Воронежа',
+          cards: [
+            { icon: '🌾', title: 'Влагозарядка черноземов', text: 'В Черноземье снежный покров — главный природный резервуар весенней влаги. Снеготаяние в 3-й декаде марта насыщает метровый слой чернозема, определяя будущий урожай озимых культур.' },
+            { icon: '🌡️', title: 'Зимние атлантические оттепели', text: 'Погода Воронежской области подвержена выносам тепла с Черного и Средиземного морей: частые оттепели до +4...+7°C приводят к просадке сугробов и образованию ледяной корки.' },
+            { icon: '💨', title: 'Донской ветровой перенос', text: 'Овражно-балочный рельеф и долина реки Дон аккумулируют ветровой перенос снега: на плато толщина 25–35 см, а в балках и на склонах Донгора сугробы достигают 1.5–2.5 метров.' }
+          ]
+        },
+        ndsiFirn: '<strong>Овражно-балочный снежный запас:</strong> спектральный сенсор Sentinel-2 выявляет аккумуляцию снега в балках и на склонах долины реки Дон вплоть до апреля.'
       }
     };
 
@@ -1180,22 +1279,22 @@
               label: 'Абсолютный максимум (рекорд)',
               data: dataMax,
               borderColor: 'rgba(56, 189, 248, 0.4)',
-              backgroundColor: 'rgba(56, 189, 248, 0.1)',
+              backgroundColor: 'rgba(56, 189, 248, 0.08)',
               borderDash: [5, 5],
-              fill: '+1',
-              tension: 0.35,
-              pointRadius: 0
+              fill: true,
+              tension: 0.4,
+              pointRadius: 2
             },
             {
-              label: 'Климатическая норма покрова (см)',
+              label: 'Климатическая норма (WMO)',
               data: dataNorm,
               borderColor: '#06b6d4',
-              backgroundColor: 'rgba(6, 182, 212, 0.25)',
+              backgroundColor: 'rgba(6, 182, 212, 0.2)',
               borderWidth: 3,
               fill: true,
               tension: 0.35,
               pointRadius: 4,
-              pointBackgroundColor: '#0891b2'
+              pointBackgroundColor: '#06b6d4'
             }
           ]
         },
@@ -1205,53 +1304,147 @@
           plugins: {
             legend: { display: false },
             tooltip: {
+              mode: 'index',
+              intersect: false,
+              backgroundColor: 'rgba(15, 23, 42, 0.9)',
+              titleFont: { family: 'JetBrains Mono', size: 12 },
+              bodyFont: { family: 'JetBrains Mono', size: 12 },
+              padding: 10,
               callbacks: {
-                label: function(ctx) { return `${ctx.dataset.label}: ${ctx.raw} см`; }
+                label: function(context) {
+                  return ` ${context.dataset.label}: ${context.raw} см`;
+                }
               }
             }
           },
           scales: {
             y: {
               beginAtZero: true,
-              grid: { color: 'rgba(148, 163, 184, 0.15)' },
-              ticks: { font: { family: 'Roboto Mono', size: 10 } }
+              grid: { color: 'rgba(148, 163, 184, 0.1)' },
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 10 } }
             },
             x: {
               grid: { display: false },
-              ticks: { font: { family: 'Inter', size: 11 } }
+              ticks: { color: '#94a3b8', font: { family: 'JetBrains Mono', size: 11, weight: '600' } }
             }
           }
         }
       });
     }
 
-    // DYNAMIC GLACIOLOGICAL INTELLIGENCE ENGINE
-    // Adapts all 4 KPI cards dynamically according to the true seasonal phase (Autumn, Winter, Spring, Summer)
-    // and live meteorological telemetry from Open-Meteo & METAR.
-    function updateGlaciologicalCards(d, liveData) {
-      if (!d) return;
+    function generateGlaciologyForCoords(lat, lon, name, region) {
+      const isArctic = lat >= 66.5;
+      const isSubarctic = lat >= 60.0 && lat < 66.5;
+      const isTemperateSiberia = lat < 60.0 && lon >= 60.0;
+      const isTemperateWest = lat < 60.0 && lon < 60.0 && lat >= 50.0;
 
+      if (isArctic) {
+        return {
+          title: `Полярная гляциология: снеговой режим сектора ${name}`,
+          cards: [
+            { icon: '💨', title: 'Штормовая дефляция', text: `В условиях открытых арктических ландшафтов ветры со скоростью свыше 25 м/с сдувают свежий снег с возвышенностей, формируя плотные заструги в ложбинах.` },
+            { icon: '🧊', title: 'Многолетняя мерзлота', text: `Снежный покров залегает более 8–9 месяцев в году на мерзлотном основании, регулируя сезонное протаивание деятельного горизонта.` },
+            { icon: '☀️', title: 'Поздний сход снега', text: `Активное таяние наступает лишь в июне при приходе круглосуточного полярного дня, освобождая равнинные участки к началу июля.` }
+          ]
+        };
+      }
+
+      if (isSubarctic) {
+        return {
+          title: `Субарктическая гляциология: динамика снегонакопления (${name})`,
+          cards: [
+            { icon: '❄️', title: 'Продолжительная зима', text: `Устойчивый снежный покров формируется во второй декаде октября и сохраняется в среднем до первой половины мая (180–210 дней).` },
+            { icon: '🌲', title: 'Таежное снегозадержание', text: `Кроны северных лесов задерживают до 20–30% твердых осадков, создавая неоднородную плотность снега между лесополосами и открытыми полянами.` },
+            { icon: '💧', title: 'Весеннее снеготаяние', text: `Разрушение покрова происходит дружно в мае под воздействием притока солнечной радиации и сопровождается бурным наполнением речной сети.` }
+          ]
+        };
+      }
+
+      if (isTemperateSiberia) {
+        return {
+          title: `Континентальная гляциология: зимний режим сектора ${name}`,
+          cards: [
+            { icon: '❄️', title: 'Сухой сибирский наст', text: `Под господством Азиатского антициклона устойчивые морозы исключают зимние оттепели, формируя сухой, легкий и рыхлый снежный покров.` },
+            { icon: '🛡️', title: 'Теплоизоляция почв', text: `Высота снега 45–65 см предохраняет почву и озимые от экстремального вымерзания при морозах ниже -35...-40°C.` },
+            { icon: '🌊', title: 'Апрельский паводок', text: `Резкое нарастание температур в апреле приводит к быстрому сходу снега за 10–15 дней с формированием мощной волны весеннего половодья.` }
+          ]
+        };
+      }
+
+      if (isTemperateWest) {
+        return {
+          title: `Умеренно-континентальный снеговой режим: сектор ${name}`,
+          cards: [
+            { icon: '🌡️', title: 'Атлантические оттепели', text: `Характерно чередование периодов снегопадов и волн теплого морского воздуха с положительными температурами и образованием ледяной корки.` },
+            { icon: '🌾', title: 'Влагозарядка почв', text: `Весеннее таяние снега в конце марта — начале апреля обеспечивает насыщение влагой корнеобитаемого слоя полей и луговых угодий.` },
+            { icon: '🏙️', title: 'Микроклимат и рельеф', text: `В оврагах, балках и лесопарках снег тает на 10–14 дней позже, чем на открытых равнинах и в урбанизированной зоне с антропогенным теплом.` }
+          ]
+        };
+      }
+
+      return {
+        title: `Климатический снеговой режим: регион ${name}`,
+        cards: [
+          { icon: '🌦️', title: 'Неустойчивый покров', text: `Снег носит эпизодический характер, выпадая преимущественно при вторжениях глубоких северных циклонов и быстро тая при смене ветра.` },
+          { icon: '⛰️', title: 'Орографический фактор', text: `На возвышенностях и предгорьях высота и продолжительность залегания снега резко возрастают с каждым шагом высоты над уровнем моря.` },
+          { icon: '🌱', title: 'Раннее освобождение почв', text: `Основной сход сезонного снега завершается в феврале — начале марта, способствуя ранней вегетации и быстрому прогреву почвы.` }
+        ]
+      };
+    }
+
+    function updateGlaciologySection(d) {
+      if (!d) return;
+      const titleEl = document.getElementById('glaciology-title');
+      const gridEl = document.getElementById('glaciology-cards-grid');
+      const firnEl = document.getElementById('ndsi-firn-text');
+
+      const info = d.glaciology || generateGlaciologyForCoords(d.lat, d.lon, d.name, d.region || '');
+
+      if (titleEl && info.title) {
+        titleEl.innerHTML = `<span>📖</span> ${info.title}`;
+      }
+
+      if (gridEl && Array.isArray(info.cards)) {
+        gridEl.innerHTML = info.cards.map(c => `
+          <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+            <h4 class="font-bold text-slate-900 dark:text-white mb-1.5 flex items-center gap-1.5">
+              <span>${c.icon}</span> ${c.title}
+            </h4>
+            ${c.text}
+          </div>
+        `).join('');
+      }
+
+      if (firnEl) {
+        if (d.ndsiFirn) {
+          firnEl.innerHTML = d.ndsiFirn;
+        } else if (d.lat >= 66) {
+          firnEl.innerHTML = `<strong>Многолетний фирн:</strong> в полярных распадках и на теневых уступах спрессованный снег детектируется даже под пылевыми наносами.`;
+        } else if (d.lat >= 55) {
+          firnEl.innerHTML = `<strong>Снегозадержание и наст:</strong> плотные сугробы в лесополосах, балках и оврагах спектрально отличаются от весенней оттаивающей почвы.`;
+        } else {
+          firnEl.innerHTML = `<strong>Рельефные скопления:</strong> снежники на теневых склонах и в понижениях рельефа четко визуализируются в бирюзовом спектре NDSI.`;
+        }
+      }
+    }
+
+    function updateGlaciologicalCards(d, liveData) {
       const now = new Date();
       const month = now.getMonth() + 1; // 1-12
-      const day = now.getDate();
       const year = now.getFullYear();
-      const nextYear = month >= 9 ? year + 1 : year;
+      const nextYear = year + 1;
 
-      // Live data extraction
       const liveDepth = (liveData && liveData.depthCm != null) ? liveData.depthCm : null;
       const liveTemp = (liveData && liveData.temp != null) ? liveData.temp : null;
-      const isSnowing = liveData && liveData.isSnowing;
-      const wind = (liveData && liveData.wind != null) ? liveData.wind : 0;
       const apparentT = (liveData && liveData.apparentT != null) ? liveData.apparentT : null;
+      const isSnowing = liveData ? liveData.isSnowing : false;
+      const wind = (liveData && liveData.wind != null) ? liveData.wind : 0;
 
-      // Map month to seasonal profile index [Sep=0, Oct=1, Nov=2, Dec=3, Jan=4, Feb=5, Mar=6, Apr=7, May=8]
-      let profileIdx = 0;
-      if (month >= 9) profileIdx = month - 9;
-      else if (month <= 5) profileIdx = month + 3;
-      else profileIdx = 8;
-      const normMonthDepth = (d.profile && d.profile[profileIdx] != null) ? d.profile[profileIdx] : 0;
+      // Extract seasonal monthly norm from profile curve
+      const monthIndex = month >= 9 ? month - 9 : (month <= 5 ? month + 3 : 8);
+      const normMonthDepth = (d.profile && d.profile[monthIndex] !== undefined) ? d.profile[monthIndex] : 0;
 
-      // DOM Elements
+      // DOM Elements Cache
       const card1Title = document.getElementById('card1-title');
       const card1Icon = document.getElementById('card1-icon');
       const firstSnowDateEl = document.getElementById('first-snow-date');
@@ -1292,11 +1485,9 @@
         statusText = d.currentStatus || 'Покров формируется';
       }
 
-      // ----------------------------------------------------
-      // SEASONAL ADAPTATION LOGIC (Autumn / Winter / Spring / Summer)
-      // ----------------------------------------------------
+      // SEASONAL ADAPTATION LOGIC
       if (month === 9) {
-        // --- SEPTEMBER: PRE-WINTER & FIRST FLURRIES ---
+        // --- SEPTEMBER ---
         if (card1Title) card1Title.innerText = 'Прогноз первого снега';
         if (card1Icon) card1Icon.innerText = '🌨️';
         if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || 'Начало октября';
@@ -1307,67 +1498,67 @@
         if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
         if (card2Icon) card2Icon.innerText = '🌱';
         if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = 'Полное очищение тундры и долин';
+        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
         if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
         if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
 
         if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
         if (card3Icon) card3Icon.innerText = '📏';
         if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
         if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
         if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
 
       } else if (month === 10) {
-        // --- OCTOBER: SNOW ONSET & STABILIZATION ---
+        // --- OCTOBER ---
         const hasSnowStarted = (d.lat >= 65 || (liveDepth && liveDepth > 0) || isSnowing || (d.firstSnowDate && d.firstSnowDate.includes('3–4 окт')));
 
         if (card1Title) card1Title.innerText = hasSnowStarted ? 'Первый снег сезона' : 'Прогноз первого снега';
         if (card1Icon) card1Icon.innerText = hasSnowStarted ? '❄️' : '🌨️';
         if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || '3–4 окт 2026';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'ФАКТ: снегопад сформировал первый снежный покров';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'Снегопады формируют первый покров';
         if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
         if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
 
         if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
         if (card2Icon) card2Icon.innerText = '🌱';
         if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = 'Полное очищение тундры и долин';
+        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
         if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
         if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
 
         if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
         if (card3Icon) card3Icon.innerText = '📏';
         if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
         if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
         if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
 
       } else if (month >= 11 || month <= 2) {
-        // --- NOVEMBER TO FEBRUARY: DEEP POLAR / CONTINENTAL WINTER ---
+        // --- NOVEMBER TO FEBRUARY ---
         if (card1Title) card1Title.innerText = 'Устойчивый снежный покров';
         if (card1Icon) card1Icon.innerText = '🏔️';
         if (firstSnowDateEl) firstSnowDateEl.innerText = 'Сформирован';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Покров установился с октября (зимний режим)`;
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Покров установился (зимний режим)`;
         if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег был:';
         if (normFirstSnowEl) normFirstSnowEl.innerText = d.firstSnowDate || d.normFirstSnow;
 
         if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
         if (card2Icon) card2Icon.innerText = '🌱';
         if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = 'Очищение тундры и речных долин';
+        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
         if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
         if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
 
         if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
         if (card3Icon) card3Icon.innerText = '📏';
         if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = `Средняя за зиму: ${d.avgDepth}`;
+        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
         if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
         if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
 
       } else if (month >= 3 && month <= 5) {
-        // --- MARCH TO MAY: SNOW ACCUMULATION PEAK & SPRING METAMORPHISM ---
+        // --- MARCH TO MAY ---
         if (card1Title) card1Title.innerText = (month === 5) ? 'Начало снеготаяния' : 'Пик снегонакопления';
         if (card1Icon) card1Icon.innerText = (month === 5) ? '💧' : '🏔️';
         if (firstSnowDateEl) firstSnowDateEl.innerText = `${d.peakDepth}`;
@@ -1378,37 +1569,37 @@
         if (card2Title) card2Title.innerText = 'Сход снега весной';
         if (card2Icon) card2Icon.innerText = '🌱';
         if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = 'Фаза активного разрушения покрова';
+        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Фаза активного разрушения покрова';
         if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
         if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
 
         if (card3Title) card3Title.innerText = 'Остаток снегозапасов';
         if (card3Icon) card3Icon.innerText = '📏';
         if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : `${normMonthDepth} см (норма)`;
-        if (avgDepthEl) avgDepthEl.innerText = `Зимний пик: ${d.peakDepth}`;
+        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
         if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
         if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
 
       } else {
-        // --- JUNE TO AUGUST: SUMMER POLAR DAY & FREE TUNDRA ---
+        // --- JUNE TO AUGUST ---
         if (card1Title) card1Title.innerText = 'Сезон закрыт / Бесснежно';
         if (card1Icon) card1Icon.innerText = '☀️';
         if (firstSnowDateEl) firstSnowDateEl.innerText = 'Летний период';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва полностью свободна от снега';
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва свободна от снега';
         if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег осенью:';
         if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
 
         if (card2Title) card2Title.innerText = 'Сход снега состоялся';
         if (card2Icon) card2Icon.innerText = '🌱';
         if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = 'Тундра свободна от сезонного покрова';
+        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Территория свободна от сезонного покрова';
         if (card2FooterLabel) card2FooterLabel.innerText = 'Многолетний тренд:';
         if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
 
         if (card3Title) card3Title.innerText = 'Снегонакопление';
         if (card3Icon) card3Icon.innerText = '📏';
         if (peakDepthEl) peakDepthEl.innerText = '0 см (лето)';
-        if (avgDepthEl) avgDepthEl.innerText = `Пик прошедшей зимы: ${d.peakDepth}`;
+        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
         if (card3FooterLabel) card3FooterLabel.innerText = 'Реликтовые снежники:';
         if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
       }
@@ -1499,6 +1690,9 @@
       // Update cards immediately using seasonal engine
       updateGlaciologicalCards(d, null);
 
+      // Update glaciology & NDSI regional section
+      updateGlaciologySection(d);
+
       document.getElementById('sat-location-title').innerText = `Сектор: ${d.name} (${d.lat.toFixed(2)}° N, ${d.lon.toFixed(2)}° E)`;
       document.getElementById('sat-scene-title').innerText = d.satTile;
       document.getElementById('sat-scene-desc').innerText = d.satDesc;
@@ -1526,7 +1720,6 @@
       const badge = document.getElementById('sat-source-badge');
 
       if (spectralMode === 'ndsi') {
-        // High-contrast false-color NDSI representation
         imgEl.style.filter = 'contrast(160%) hue-rotate(170deg) saturate(190%)';
         badge.innerText = 'NDSI Снежный индекс (Снег = Бирюзовый)';
       } else {
@@ -1537,7 +1730,6 @@
       if (d.satImg) {
         imgEl.src = d.satImg;
       } else {
-        // Fallback to NASA GIBS snapshot API for arbitrary cities
         const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
         imgEl.src = gibsUrl;
       }
@@ -1557,7 +1749,79 @@
     }
 
     function handleSatImageError(img) {
-      img.src = 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg';
+      const d = PRESETS[currentCityKey] || { lat: 55.75, lon: 37.62 };
+      img.src = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.3},${d.lon-0.4},${d.lat+0.3},${d.lon+0.4}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+    }
+
+    function submitCitySearch(query) {
+      if (!query || !query.trim()) return;
+      const q = query.trim().toLowerCase();
+
+      if (q.includes('ворон') || q.includes('семилук')) {
+        selectPreset('semiluki');
+        document.getElementById('city-search').value = 'Семилуки / Воронеж (Черноземье)';
+        return;
+      }
+      if (q.includes('москв')) {
+        selectPreset('moscow');
+        document.getElementById('city-search').value = 'Москва';
+        return;
+      }
+      if (q.includes('петербург') || q.includes('питер') || q === 'спб') {
+        selectPreset('spb');
+        document.getElementById('city-search').value = 'Санкт-Петербург';
+        return;
+      }
+      if (q.includes('новосиб')) {
+        selectPreset('novosibirsk');
+        document.getElementById('city-search').value = 'Новосибирск';
+        return;
+      }
+      if (q.includes('норильск')) {
+        selectPreset('norilsk');
+        document.getElementById('city-search').value = 'Норильск (НПР)';
+        return;
+      }
+      if (q.includes('оганер')) {
+        selectPreset('oganer');
+        document.getElementById('city-search').value = 'Оганер / Тундра';
+        return;
+      }
+      if (q.includes('кайеркан')) {
+        selectPreset('kayerkan');
+        document.getElementById('city-search').value = 'Кайеркан (Гряда)';
+        return;
+      }
+      if (q.includes('талнах')) {
+        selectPreset('talnakh');
+        document.getElementById('city-search').value = 'Талнах (Отдельная)';
+        return;
+      }
+      if (q.includes('диксон')) {
+        selectPreset('dikson');
+        document.getElementById('city-search').value = 'Диксон (Арктика)';
+        return;
+      }
+      if (q.includes('мурманск')) {
+        selectPreset('murmansk');
+        document.getElementById('city-search').value = 'Мурманск';
+        return;
+      }
+      if (q.includes('якутск')) {
+        selectPreset('yakutsk');
+        document.getElementById('city-search').value = 'Якутск';
+        return;
+      }
+
+      fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=1&language=ru&format=json`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.results && data.results.length > 0) {
+            const city = data.results[0];
+            selectGeocodedCity(city.latitude, city.longitude, city.name, city.admin1 || city.country || '');
+          }
+        })
+        .catch(err => console.error(err));
     }
 
     // SEARCH GEOCODING
@@ -1598,18 +1862,47 @@
 
     async function selectGeocodedCity(lat, lon, name, region) {
       document.getElementById('search-dropdown').classList.add('hidden');
-      document.getElementById('city-search').value = name;
       document.querySelectorAll('.city-chip').forEach(el => el.classList.remove('active-city-chip'));
+
+      const lowerName = (name + ' ' + (region || '')).toLowerCase();
+      if (lowerName.includes('ворон') || lowerName.includes('семилук')) {
+        selectPreset('semiluki');
+        document.getElementById('city-search').value = `${name} (Черноземье)`;
+        return;
+      }
+      if (lowerName.includes('москв')) {
+        selectPreset('moscow');
+        document.getElementById('city-search').value = 'Москва';
+        return;
+      }
+      if (lowerName.includes('петербург') || lowerName.includes('питер')) {
+        selectPreset('spb');
+        document.getElementById('city-search').value = 'Санкт-Петербург';
+        return;
+      }
+      if (lowerName.includes('новосиб')) {
+        selectPreset('novosibirsk');
+        document.getElementById('city-search').value = 'Новосибирск';
+        return;
+      }
+      if (lowerName.includes('норильск')) {
+        selectPreset('norilsk');
+        document.getElementById('city-search').value = 'Норильск (НПР)';
+        return;
+      }
+
+      document.getElementById('city-search').value = name;
 
       // Dynamic calculation based on latitude & continentality
       const isArctic = lat >= 66.5;
       const isSubarctic = lat >= 60.0 && lat < 66.5;
       const isTemperate = lat < 60.0;
 
-      let estFirstSnow = isArctic ? '20–25 сен' : (isSubarctic ? '5–15 окт' : '20–30 окт');
-      let estMelt = isArctic ? '10–20 июня' : (isSubarctic ? '1–10 мая' : '5–15 апр');
-      let estDays = isArctic ? '240–260 дней' : (isSubarctic ? '170–200 дней' : '120–145 дней');
-      let estPeak = isArctic ? '80 см' : (isSubarctic ? '60 см' : '35 см');
+      let estFirstSnow = isArctic ? '20–25 сен' : (isSubarctic ? '5–15 окт' : '22–30 окт');
+      let estMelt = isArctic ? '10–20 июня' : (isSubarctic ? '1–10 мая' : '25 марта – 10 апр');
+      let estDays = isArctic ? '240–260 дней' : (isSubarctic ? '170–200 дней' : '110–140 дней');
+      let estPeak = isArctic ? '80 см (норма)' : (isSubarctic ? '60 см (норма)' : '32 см (норма)');
+      let landscapeMelt = isArctic ? `Очищение арктической тундры` : (isSubarctic ? `Очищение таежных массивов` : `Очищение полей и равнин региона ${region || name}`);
 
       // Fetch live weather to check current snow depth
       try {
@@ -1626,15 +1919,18 @@
           firstSnowDetail: `Координаты: ${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
           normFirstSnow: estFirstSnow,
           meltDate: estMelt,
-          meltDetail: `Сход покрова в регионе ${region}`,
-          trendMelt: 'на 10–15 дней раньше',
-          peakDepth: `${estPeak} (норма)`,
-          avgDepth: `Высота над уровнем моря: расчетная`,
-          ridgeDepth: `По модели рельефа`,
-          currentStatus: currentDepth > 0 ? `Покров ${currentDepth} см` : 'Покров 0 см',
+          meltDetail: landscapeMelt,
+          trendMelt: 'на 10–14 дней раньше',
+          peakDepth: estPeak,
+          avgDepth: `Региональная норма: ${parseInt(estPeak) * 0.7 | 0} см`,
+          ridgeDepth: `В балках и перелесках`,
+          currentStatus: currentDepth > 0 ? `Покров ${currentDepth} см` : 'Покров 0 см (Сухо)',
           currentTempSub: `Температура: ${currentT}°C`,
           snowDays: estDays,
-          profile: isArctic ? [0, 8, 25, 48, 70, parseInt(estPeak), parseInt(estPeak)*0.9, 25, 0] : [0, 2, 10, 20, 30, parseInt(estPeak), parseInt(estPeak)*0.6, 0, 0]
+          profile: isArctic ? [0, 8, 25, 48, 70, parseInt(estPeak), parseInt(estPeak)*0.9, 25, 0] : [0, 1, 8, 18, 28, parseInt(estPeak), parseInt(estPeak)*0.5, 0, 0],
+          satTile: `Космический сектор ${name}`,
+          satDesc: `NASA VIIRS / Sentinel-2 · Координаты ${lat.toFixed(3)}°, ${lon.toFixed(3)}°`,
+          glaciology: generateGlaciologyForCoords(lat, lon, name, region)
         };
 
         updateGlaciologicalCards(customData, {
@@ -1644,9 +1940,11 @@
           isSnowing: false
         });
 
+        updateGlaciologySection(customData);
+
         document.getElementById('sat-location-title').innerText = `Сектор: ${name}, ${region} (${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E)`;
-        document.getElementById('sat-scene-title').innerText = `Космический сектор ${name}`;
-        document.getElementById('sat-scene-desc').innerText = `NASA VIIRS / Sentinel-2 · Координаты ${lat.toFixed(3)}°, ${lon.toFixed(3)}°`;
+        document.getElementById('sat-scene-title').innerText = customData.satTile;
+        document.getElementById('sat-scene-desc').innerText = customData.satDesc;
 
         document.getElementById('link-copernicus').href = `https://browser.dataspace.copernicus.eu/?zoom=12&lat=${lat}&lng=${lon}&themeId=DEFAULT-THEME`;
         document.getElementById('link-nasa').href = `https://worldview.earthdata.nasa.gov/?v=${lon-1.5},${lat-0.5},${lon+1.5},${lat+0.5}`;
@@ -1658,7 +1956,7 @@
         // Custom curve for chart
         if (chartInstance) {
           const basePeak = parseInt(estPeak);
-          const profile = isArctic ? [0, 8, 25, 48, 70, basePeak, basePeak*0.9, 25, 0] : [0, 2, 10, 20, 30, basePeak, basePeak*0.6, 0, 0];
+          const profile = isArctic ? [0, 8, 25, 48, 70, basePeak, basePeak*0.9, 25, 0] : [0, 1, 8, 18, 28, basePeak, basePeak*0.5, 0, 0];
           chartInstance.data.datasets[1].data = profile;
           chartInstance.data.datasets[0].data = profile.map(v => Math.round(v * 1.45 + 5));
           chartInstance.update();
@@ -1667,7 +1965,7 @@
         console.error(e);
       }
     }
-    // THEME MANAGEMENT
+// THEME MANAGEMENT
     function toggleTheme() {
       const isDark = !document.documentElement.classList.contains('dark');
       if (isDark) {
