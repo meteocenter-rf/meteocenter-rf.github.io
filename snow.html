@@ -1622,7 +1622,7 @@
           const tSign = liveTemp > 0 ? '+' : '';
           const feelText = apparentT != null ? ` · Ощущ. ${apparentT > 0 ? '+' : ''}${apparentT.toFixed(1)}°C` : '';
           const wxDesc = isSnowing ? 'Заток арктического воздуха' : (liveTemp > 5 ? 'Теплая осень' : (liveTemp <= 0 ? 'Заморозки / Снег' : 'Холодный воздух'));
-          currentTempSubEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><strong>LIVE ФАКТ:</strong> ${tSign}${liveTemp.toFixed(1)}°C · Ветер ${wind} км/ч${feelText} · ${wxDesc}</span>`;
+          currentTempSubEl.innerHTML = `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><strong>LIVE ФАКТ:</strong> ${tSign}${liveTemp.toFixed(1)}°C · Ветер ${wind} м/с${feelText} · ${wxDesc}</span>`;
         } else if (d.currentTempSub) {
           currentTempSubEl.innerText = d.currentTempSub;
         }
@@ -1637,7 +1637,7 @@
       if (!d) return;
 
       try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,apparent_temperature,precipitation,snowfall,weather_code,wind_speed_10m&hourly=snow_depth,snowfall&forecast_days=2&timezone=auto`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,apparent_temperature,precipitation,snowfall,weather_code,wind_speed_10m&hourly=snow_depth,snowfall&wind_speed_unit=ms&forecast_days=2&timezone=auto`;
         const res = await fetch(url);
         if (!res.ok) {
           updateGlaciologicalCards(d, null);
@@ -1716,6 +1716,15 @@
     }
 
     function updateSatImage(d) {
+    const dlBtn = document.getElementById('sat-direct-download');
+    if (dlBtn) {
+        if (d && d.satDownload) {
+            dlBtn.href = d.satDownload;
+            dlBtn.classList.remove('hidden');
+        } else {
+            dlBtn.classList.add('hidden');
+        }
+    }
       const imgEl = document.getElementById('sat-preview-img');
       const badge = document.getElementById('sat-source-badge');
 
@@ -2000,17 +2009,22 @@
 
     // INIT
     window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'light') {
+      // INIT (Синхронизация темы без конфликта классов)
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
         updateThemeIcons(false);
-      } else {
+    } else {
+        document.documentElement.classList.remove('light');
         document.documentElement.classList.add('dark');
         updateThemeIcons(true);
-      }
-      initChart();
-      selectPreset('norilsk');
-    });
+    }
+    initChart();
+    selectPreset('norilsk');
+});
+});
   </script>
 
   <!-- Floating Scroll To Top Button -->
@@ -2036,17 +2050,60 @@
 
 
 <script>
-  // Stubs for global header functions from index.html
-  function toggleShareDropdown() {
+  // Unified Header Share, Modals & Theme UI Sync (Argon Engine)
+function toggleShareDropdown() {
     var d = document.getElementById('share-dropdown');
     if (d) d.classList.toggle('hidden');
-  }
-  function shareWeather() {
-    alert("Share functionality is available on the main page.");
-  }
-  function openDonationModal() {
-    alert("Donation functionality is available on the main page.");
-  }
+}
+
+function shareWeather(platform) {
+    var pageUrl = window.location.href;
+    var pageTitle = document.title || 'МетеоПортал — Независимый агрегатор погоды и климата';
+    var d = document.getElementById('share-dropdown');
+    if (d) d.classList.add('hidden');
+
+    if (platform === 'vk') {
+        window.open('https://vk.com/share.php?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'tg') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(pageUrl) + '&text=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'ok') {
+        window.open('https://connect.ok.ru/offer?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function() {
+                if (typeof window.showToast === 'function') window.showToast('Ссылка скопирована в буфер обмена!', 'success');
+            });
+        }
+    }
+}
+
+function openDonationModal() {
+    if (typeof window.showToast === 'function') window.showToast('Переход к форме поддержки на главной странице...', 'success');
+    setTimeout(function() { window.location.href = 'index.html#support'; }, 600);
+}
+
+function openLegalModal() {
+    window.location.href = 'index.html#legal';
+}
+
+function openPrivacyModal() {
+    window.location.href = 'index.html#privacy';
+}
+
+function syncSubpageThemeButton() {
+    var isDark = document.documentElement.classList.contains('dark');
+    var iconEl = document.getElementById('theme-toggle-icon');
+    var textEl = document.getElementById('theme-toggle-text');
+    if (iconEl && iconEl.tagName && iconEl.tagName.toLowerCase() !== 'svg') {
+        iconEl.textContent = isDark ? '🌙' : '☀️';
+    }
+    if (textEl) {
+        textEl.textContent = isDark ? 'Тёмная' : 'Светлая';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
+
 </script>
 
   <!-- Toast Container -->
