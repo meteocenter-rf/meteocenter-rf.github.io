@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru" class="light">
+<html lang="ru" class="dark">
 <head>
   <script>
     (function() {
-      var t = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'light';
+      var t = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'dark';
       if (t === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.classList.remove('light');
@@ -457,7 +457,7 @@
 
   /* METEO 2026: PERFECT READABILITY & EYE-COMFORT */
   body, input, button, select, textarea {
-    font-family: var(--font-sans, 'Geist', 'Inter', -apple-system, sans-serif);
+    font-family: var(--font-sans, 'Onest', 'Inter', -apple-system, sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -901,26 +901,26 @@
 
   <!-- MOBILE BOTTOM NAVIGATION BAR -->
     <!-- MOBILE BOTTOM NAVIGATION (5 ITEMS EQUAL GRID) -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800/80 px-1 py-1.5 bottom-nav-grid items-center text-[9px] font-medium transition-colors" style="padding-bottom: max(0.375rem, env(safe-area-inset-bottom));">
-    <a href="index.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-      <span class="text-base leading-none">🏙️</span>
-      <span class="mt-1 truncate max-w-full">Город</span>
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200/90 dark:border-slate-800/90 px-2 py-1.5 bottom-nav-grid items-center text-[10px] font-semibold transition-colors shadow-2xl" style="padding-bottom: max(0.4rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <span class="mt-1 tracking-tight">Город</span>
     </a>
-    <a href="anomalies.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-      <span class="text-base leading-none">🌀</span>
-      <span class="mt-1 truncate max-w-full">Аномалии</span>
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <span class="mt-1 tracking-tight">Аномалии</span>
     </a>
-    <a href="models.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-      <span class="text-base leading-none">🖥️</span>
-      <span class="mt-1 truncate max-w-full">Модели</span>
+    <a href="models.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span class="mt-1 tracking-tight">Модели</span>
     </a>
-    <a href="articles.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-      <span class="text-base leading-none">📖</span>
-      <span class="mt-1 truncate max-w-full">Журнал</span>
+    <a href="articles.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      <span class="mt-1 tracking-tight">Журнал</span>
     </a>
-    <a href="snow.html" class="flex flex-col items-center py-1 px-1 text-sky-600 dark:text-sky-400 font-bold transition">
-      <span class="text-base leading-none">❄️</span>
-      <span class="mt-1 truncate max-w-full">Снег</span>
+    <a href="snow.html" class="flex flex-col items-center py-1 px-1 text-sky-600 dark:text-sky-400 font-bold transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
+      <span class="mt-1 tracking-tight">Снег</span>
     </a>
   </nav>
 
@@ -1739,7 +1739,7 @@
       if (d.satImg) {
         imgEl.src = d.satImg;
       } else {
-        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
         imgEl.src = gibsUrl;
       }
     }
@@ -1759,7 +1759,7 @@
 
     function handleSatImageError(img) {
       const d = PRESETS[currentCityKey] || { lat: 55.75, lon: 37.62 };
-      img.src = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${d.lat-0.3},${d.lon-0.4},${d.lat+0.3},${d.lon+0.4}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+      img.src = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${d.lat-0.3},${d.lon-0.4},${d.lat+0.3},${d.lon+0.4}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
     }
 
     function submitCitySearch(query) {
@@ -1959,7 +1959,7 @@
         document.getElementById('link-nasa').href = `https://worldview.earthdata.nasa.gov/?v=${lon-1.5},${lat-0.5},${lon+1.5},${lat+0.5}`;
 
         // Live GIBS snapshot
-        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2026-06-19T00:00:00Z&BBOX=${lat-0.2},${lon-0.3},${lat+0.2},${lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${lat-0.2},${lon-0.3},${lat+0.2},${lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
         document.getElementById('sat-preview-img').src = gibsUrl;
 
         // Custom curve for chart
@@ -2007,10 +2007,8 @@
       }
     });
 
-    // INIT
+    // INIT (Одиночный слушатель DOMContentLoaded)
     window.addEventListener('DOMContentLoaded', () => {
-      // INIT (Синхронизация темы без конфликта классов)
-window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('meteo_theme') || localStorage.getItem('theme') || 'dark';
     if (savedTheme === 'light') {
         document.documentElement.classList.remove('dark');
@@ -2023,7 +2021,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     initChart();
     selectPreset('norilsk');
-});
 });
   </script>
 
