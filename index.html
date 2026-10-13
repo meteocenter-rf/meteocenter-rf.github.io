@@ -2,9 +2,20 @@
 <html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
-  <link rel="preconnect" href="https://api.open-meteo.com">
+  <!-- Сетевые ускорители для ВСЕХ субдоменов API и радарных тайлов (Zero Latency) -->
+  <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
   <link rel="dns-prefetch" href="https://api.open-meteo.com">
-  <link rel="preconnect" href="https://tilecache.rainviewer.com">
+  <link rel="preconnect" href="https://archive-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://archive-api.open-meteo.com">
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://air-quality-api.open-meteo.com">
+  <link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://geocoding-api.open-meteo.com">
+  <link rel="preconnect" href="https://ensemble-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://ensemble-api.open-meteo.com">
+  <link rel="preconnect" href="https://seasonal-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://seasonal-api.open-meteo.com">
+  <link rel="preconnect" href="https://tilecache.rainviewer.com" crossorigin>
   <link rel="dns-prefetch" href="https://tilecache.rainviewer.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,15 +39,14 @@
 
   
     <!-- High-Performance Typography: Geist & Geist Mono (Modern Zero-Defect Design) & Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
 
-  <!-- High-Resolution Cyber/Weather Vector Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZmF2LWJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA5MGQxNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzBjMjM0MCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMjg0YzciLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImZhdi1jbG91ZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOTRhM2I4Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJmYXYtYm9sdCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzOGJkZjgiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0NSUiIHN0b3AtY29sb3I9IiNmZWYwOGEiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjU5ZTBiIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGZpbHRlciBpZD0iZmF2LWdsb3ciIHg9Ii0zMCUiIHk9Ii0zMCUiIHdpZHRoPSIxNjAlIiBoZWlnaHQ9IjE2MCUiPgogICAgICA8ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSIxLjUiIHJlc3VsdD0iZ2xvdyIvPgogICAgICA8ZmVDb21wb3NpdGUgaW49IlNvdXJjZUdyYXBoaWMiIGluMj0iZ2xvdyIgb3BlcmF0b3I9Im92ZXIiLz4KICAgIDwvZmlsdGVyPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxNiIgZmlsbD0idXJsKCNmYXYtYmcpIi8+CiAgPHJlY3Qgd2lkdGg9IjYyIiBoZWlnaHQ9IjYyIiB4PSIxIiB5PSIxIiByeD0iMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzM4YmRmOCIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjYiLz4KICA8Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMzhiZGY4IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1vcGFjaXR5PSIwLjI1IiBzdHJva2UtZGFzaGFycmF5PSIyIDMiLz4KICA8cGF0aCBkPSJNMjIgMzYgYTkgOSAwIDAgMSAxLTE3LjUgQTEyLjUgMTIuNSAwIDAgMSA0NC41IDIyLjUgYTguNSA4LjUgMCAwIDEgLTIuNSAxMy41IFoiIGZpbGw9InVybCgjZmF2LWNsb3VkKSIvPgogIDxwb2x5Z29uIHBvaW50cz0iMzQsMTkgMjMsMzQgMzIsMzQgMjksNDcgNDMsMzAgMzQsMzAiIGZpbGw9InVybCgjZmF2LWJvbHQpIiBmaWx0ZXI9InVybCgjZmF2LWdsb3cpIi8+Cjwvc3ZnPg==">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" href="/favicon.svg">
+  <!-- High-Resolution Cyber/Weather Vector Favicon (Valid SVG & physical fallbacks) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ccircle cx='26' cy='26' r='10' fill='%23fbbf24'/%3E%3Cpath d='M24 44h22a9 9 0 0 0 1-17.9A13 13 0 0 0 22 23a10 10 0 0 0 2 21z' fill='%2338bdf8'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="alternate icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="favicon.svg">
 
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website">
@@ -53,6 +63,20 @@
       {
         "@type": "WebSite",
         "@id": "https://meteocenter-rf.github.io/#website",
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://meteocenter-rf.github.io/#app",
+        "name": "МетеоПортал",
+        "url": "https://meteocenter-rf.github.io/",
+        "applicationCategory": "WeatherApplication",
+        "operatingSystem": "All",
+        "description": "Независимый агрегатор открытых метеорологических данных: модели ECMWF, ICON, GFS, радар RainViewer и климатический архив 1890–2026 гг.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "RUB"
+        }
         "name": "МетеоПортал · Климатический Архив и Радар",
         "url": "https://meteocenter-rf.github.io/",
         "description": "Независимый информационный агрегатор: открытый архив погоды (1890–2026), онлайн радар осадков RainViewer и расчетный консенсус глобальных моделей.",
@@ -87,7 +111,7 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Где посмотреть непрерывный архив погоды за последние 120 лет?",
+            "name": "Где посмотреть непрерывный архив погоды за последние 136 лет?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "На МетеоПортале доступен непрерывный помесячный и суточный климатический архив с 1890 по 2026 год, рассчитанный на базе опорных метеостанций ВМО (WMO) и глобального реанализа ERA5 Copernicus."
@@ -2728,6 +2752,70 @@
     color: #94a3b8 !important;
   }
 
+
+  /* ==========================================================================
+     ARGON AUDIT ENHANCEMENTS: RESILIENT SHIMMER, PRE-WRAP, MOBILE SCROLL-SNAP
+     ========================================================================== */
+  /* 1. Отказоустойчивый скелетон для верхнего лайв-бара (Smart Ribbon) */
+  #sticky-ribbon.is-loading span,
+  #sticky-ribbon.is-loading strong {
+    color: transparent !important;
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.15) 25%, rgba(148, 163, 184, 0.35) 50%, rgba(148, 163, 184, 0.15) 75%) !important;
+    background-size: 200% 100% !important;
+    animation: meteo-shimmer 1.5s infinite linear !important;
+    border-radius: 4px !important;
+    user-select: none !important;
+    pointer-events: none !important;
+  }
+
+  @keyframes meteo-shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* 2. Защита блока <pre> в Метеорологическом протоколе от разрыва мобильной сетки */
+  details pre, #report-text {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    font-family: var(--font-mono, 'Geist Mono', 'JetBrains Mono', monospace);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  /* 3. Горизонтальный свайп для кнопок опорных станций ВМО и табов на смартфонах */
+  @media (max-width: 768px) {
+    #stations-bar,
+    #tabs-bar,
+    .wmo-stations-bar,
+    .dashboard-tabs-bar {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 6px !important;
+      padding-bottom: 6px !important;
+      scrollbar-width: none !important;
+    }
+
+    #stations-bar::-webkit-scrollbar,
+    #tabs-bar::-webkit-scrollbar,
+    .wmo-stations-bar::-webkit-scrollbar,
+    .dashboard-tabs-bar::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    #stations-bar > *,
+    #tabs-bar > *,
+    .wmo-stations-bar > *,
+    .dashboard-tabs-bar > * {
+      flex: 0 0 auto !important;
+      scroll-snap-align: start !important;
+    }
+  }
 </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
@@ -2820,7 +2908,7 @@
 
   <!-- ================= STICKY WEATHER RIBBON (NO-SCROLL PINNED BAR) ================= -->
   <!-- Always visible at top: city, current T, feels, min/max, wind, press, hum, consensus, AQI -->
-  <div id="sticky-ribbon" class="sticky top-0 z-30 glass border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_10px_rgba(0,0,0,0.03)] dark:shadow-xl transition-all duration-200">
+  <div id="sticky-ribbon" class="sticky top-0 z-30 glass border-b border-slate-200/80 dark:border-slate-800/80 shadow-[0_2px_10px_rgba(0,0,0,0.03)] dark:shadow-xl transition-all duration-200 is-loading" aria-busy="true">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
       
       <!-- Current City & Primary Weather -->
@@ -3073,11 +3161,11 @@
         </p>
       </div>
       <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2.5">
-        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2">
+        <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2" rel="noopener noreferrer">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
           <span>Запросить выборку</span>
         </a>
-        <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5">
+        <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5" rel="noopener noreferrer">
           <span>ВКонтакте</span>
         </a>
       </div>
@@ -3088,7 +3176,7 @@
       <summary class="flex items-center justify-between cursor-pointer select-none px-4 py-3 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition">
         <div class="flex items-center space-x-2 font-medium">
           <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-          <span>Каталог городов РФ и СНГ: архив 120 лет, радар и прогноз для всех регионов</span>
+          <span>Каталог городов РФ и СНГ: архив 136 лет (1890–2026), радар и прогноз для всех регионов</span>
         </div>
         <span class="text-slate-500 group-open:rotate-180 transition-transform text-xs">▼</span>
       </summary>
@@ -3169,7 +3257,7 @@
             <span>Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</span>
           </div>
           <p class="text-slate-600 dark:text-slate-300">
-            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
           </p>
           <p class="text-slate-500 dark:text-slate-400 font-medium">
             Сервис <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ) и не выполняет расчет оригинальных прогнозов погоды.
@@ -3200,7 +3288,7 @@
             Информация о погоде предоставляется <strong>«как есть» (as is) исключительно в ознакомительных целях</strong>. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).
           </p>
           <p class="text-slate-500 dark:text-slate-400">
-            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline">Росгидромета</a>.
+            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">Росгидромета</a>.
           </p>
         </div>
 
@@ -3217,15 +3305,15 @@
             Политика конфиденциальности и Cookies (152-ФЗ)
           </button>
           <span>·</span>
-          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             Open-Meteo API (CC BY 4.0)
           </a>
           <span>·</span>
-          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             RainViewer Radar API
           </a>
           <span>·</span>
-          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             Официальный портал МЧС РФ
           </a>
         </div>
@@ -3701,7 +3789,7 @@
       html += `
         <div class="px-3.5 py-2 text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase bg-slate-100/80 dark:bg-slate-800/70 flex items-center justify-between border-b border-slate-200/60 dark:border-slate-800/60">
           <span class="flex items-center gap-1.5">🌟 Опорные метеостанции ВМО</span>
-          <span class="text-[10px] font-mono text-sky-500">120+ лет архива</span>
+          <span class="text-[10px] font-mono text-sky-500">136+ лет архива</span>
         </div>
         <div class="py-1">
       `;
@@ -3830,7 +3918,7 @@
         html += `
           <div class="px-3.5 py-1.5 text-[11px] font-semibold tracking-wider text-slate-700 dark:text-slate-300 uppercase bg-slate-100 dark:bg-slate-800/80 flex items-center justify-between border-b border-slate-200 dark:border-slate-700">
             <span class="flex items-center gap-1.5 font-mono">Опорные метеостанции ВМО (${matchedStations.length})</span>
-            <span class="text-[10px] font-mono text-slate-500">120+ лет архива</span>
+            <span class="text-[10px] font-mono text-slate-500">136+ лет архива</span>
           </div>
           <div class="py-1">
         `;
@@ -4073,7 +4161,7 @@
 
 
     // =========================================================================
-    // 120+ YEAR CLIMATE ARCHIVE & ANOMALY ENGINE (1890–2026)
+    // 136-YEAR CLIMATE ARCHIVE & ANOMALY ENGINE (1890–2026)
     // Combines WMO instrumental station records + ERA5 Reanalysis
     // =========================================================================
     // =========================================================================
@@ -5317,10 +5405,98 @@
     // OPEN-METEO & AIR QUALITY CLIENT-SIDE FETCHER
     // 100% Client-Side, 0 Server load, Direct high-speed API
     // =========================================================================
+    // =========================================================================
+    // ARGON RESILIENCE CORE: 10-MIN SESSION CACHE & ERROR CLASSIFICATION
+    // =========================================================================
+    const METEO_SESSION_CACHE_TTL = 10 * 60 * 1000; // 10 минут
+
+    function getSessionWeather(key) {
+      try {
+        const raw = sessionStorage.getItem(key);
+        if (!raw) return null;
+        const item = JSON.parse(raw);
+        if (Date.now() - item.timestamp > METEO_SESSION_CACHE_TTL) {
+          sessionStorage.removeItem(key);
+          return null;
+        }
+        return item.data;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setSessionWeather(key, data) {
+      try {
+        sessionStorage.setItem(key, JSON.stringify({
+          timestamp: Date.now(),
+          data: data
+        }));
+      } catch (e) {
+        try { sessionStorage.clear(); } catch (_) {}
+      }
+    }
+
+    function setTopBarLoadingState(cityName = 'Загрузка...') {
+      const topBar = document.getElementById('sticky-ribbon');
+      if (topBar) {
+        topBar.classList.add('is-loading');
+        topBar.setAttribute('aria-busy', 'true');
+        const cityEl = document.getElementById('ribbon-city');
+        if (cityEl && cityName) {
+          cityEl.innerText = cityName.toUpperCase();
+        }
+      }
+    }
+
+    function clearTopBarLoadingState() {
+      const topBar = document.getElementById('sticky-ribbon');
+      if (topBar) {
+        topBar.classList.remove('is-loading');
+        topBar.setAttribute('aria-busy', 'false');
+      }
+    }
+
+    function updateSeoMetaForCity(cityName) {
+      document.title = `Погода в г. ${cityName} — Консенсус 4 моделей (ECMWF, GFS, ICON), радар и климатический архив 1890–2026 | МетеоПортал`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute(
+          'content',
+          `Точный метеопрогноз для г. ${cityName}: сравнение моделей ECMWF, ICON, GFS, онлайн-радар осадков, давление, УФ-индекс и климатический архив ВМО за 136 лет.`
+        );
+      }
+    }
+
+    function handleWeatherError(error, cityName) {
+      const errorBox = document.getElementById('error-box');
+      const errorText = document.getElementById('error-msg');
+
+      let message = 'Метеосервер временно перегружен или недоступен. Пожалуйста, повторите запрос через 30 секунд.';
+      const errMsg = (error && error.message) ? error.message : String(error);
+
+      if (errMsg.includes('не найден') || errMsg === 'CITY_NOT_FOUND') {
+        message = `Населенный пункт «${cityName}» не найден в реестре ВМО и GeoNames. Проверьте правильность написания.`;
+      } else if (errMsg.includes('429') || errMsg === 'RATE_LIMIT') {
+        message = 'Превышен лимит одновременных запросов к суперкомпьютерам Open-Meteo (429). Пожалуйста, подождите 1 минуту.';
+      } else if ((error && error.name === 'AbortError') || errMsg.includes('таймаут') || errMsg.includes('время ожидания')) {
+        message = 'Превышено время ожидания ответа от метеосервера (таймаут). Проверьте интернет-соединение.';
+      } else if (errMsg) {
+        message = errMsg;
+      }
+
+      if (errorText) errorText.textContent = message;
+      if (errorBox) errorBox.classList.remove('hidden');
+    }
+
     async function fetchClientOpenMeteo(city) {
       const eb = document.getElementById('error-box'); if (eb) eb.classList.add('hidden');
-      // 1. Geocoding
       const lowerCity = (city || '').toLowerCase().trim();
+      const sessionCacheKey = `meteo_bundle_${lowerCity}`;
+      const sessionCached = getSessionWeather(sessionCacheKey);
+      if (sessionCached && sessionCached.current) {
+        return sessionCached;
+      }
+      // 1. Geocoding
       let lat, lon, tz, cityName, region;
       
       if (/^\d{5}$/.test(lowerCity)) {
@@ -6446,7 +6622,7 @@
         });
       }
 
-      return {
+      const _finalResult = {
         status: 'ok',
         city: cityName,
         region: region,
@@ -6642,6 +6818,8 @@
 Консенсус 4 суперкомпьютеров: ECMWF IFS, ICON, GFS, GEM (разброс: ±${spreadDelta}°C)
 Климатический ряд: ${climate.opened_year > 1890 ? `приборы с ${climate.opened_year} г. (${climate.start_year}–${climate.end_year} с реанализом ERA5)` : `${climate.start_year}–${climate.end_year} гг.`}, скорость потепления по приборам: +${climate.decadal_rate}°C/10 лет.`
       };
+      setSessionWeather(sessionCacheKey, _finalResult);
+      return _finalResult;
     }
 
 
@@ -6653,8 +6831,9 @@
       const errorBox = document.getElementById('error-box');
       const reportText = document.getElementById('report-text');
 
-      loading.classList.remove('hidden');
-      errorBox.classList.add('hidden');
+      setTopBarLoadingState(currentCity);
+      if (loading) loading.classList.remove('hidden');
+      if (errorBox) errorBox.classList.add('hidden');
 
       try {
         const data = await fetchClientOpenMeteo(currentCity);
@@ -6662,7 +6841,7 @@
 
         // Dynamic Title and SEO
         const cName = data.city || currentCity;
-        document.title = `Погода в ${cName} — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF`;
+        updateSeoMetaForCity(cName);
         document.querySelectorAll('.seo-city-target').forEach(el => {
           if (el) el.innerText = cName.toUpperCase();
         });
@@ -6678,11 +6857,10 @@
 
       } catch (err) {
         console.error('Data error:', err);
-        const errEl = document.getElementById('error-msg');
-        if (errEl) errEl.innerText = err.message || 'Ошибка загрузки метеоданных.';
-        if (errorBox) errorBox.classList.remove('hidden');
+        handleWeatherError(err, currentCity);
       } finally {
         if (loading) loading.classList.add('hidden');
+        clearTopBarLoadingState();
       }
     }
 
@@ -6715,6 +6893,7 @@
 
       document.getElementById('ribbon-consensus-text').innerText = `4 модели: ±${ens.delta || 0.4}°C`;
       document.getElementById('ribbon-aqi-text').innerText = `AQI ${aq.aqi || 32} (${aq.aqi_desc || 'Хороший'})`;
+      clearTopBarLoadingState();
     }
 
 
@@ -7989,11 +8168,11 @@ function renderTabCurrent(container, d) {
 
             <div class="flex items-center space-x-2 text-[11px] text-slate-400 font-mono">
               <span>Источники:</span>
-              <a href="https://www.eumetsat.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">EUMETSAT Open Data</a>
+              <a href="https://www.eumetsat.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline" rel="noopener noreferrer">EUMETSAT Open Data</a>
               <span>•</span>
-              <a href="https://earthdata.nasa.gov/" target="_blank" class="text-slate-300 hover:text-white hover:underline">NASA GIBS</a>
+              <a href="https://earthdata.nasa.gov/" target="_blank" class="text-slate-300 hover:text-white hover:underline" rel="noopener noreferrer">NASA GIBS</a>
               <span>•</span>
-              <a href="https://wmo.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline">Опорная сеть ВМО</a>
+              <a href="https://wmo.int/" target="_blank" class="text-slate-300 hover:text-white hover:underline" rel="noopener noreferrer">Опорная сеть ВМО</a>
             </div>
           </div>
         </div>
@@ -8965,7 +9144,7 @@ function renderTabCurrent(container, d) {
 
 
     // -------------------------------------------------------------------------
-    // TAB 3: КЛИМАТИЧЕСКИЙ АРХИВ 120+ ЛЕТ (1890–2026)
+    // TAB 3: КЛИМАТИЧЕСКИЙ АРХИВ 136 ЛЕТ (1890–2026)
     // -------------------------------------------------------------------------
     function renderTabArchive(container, d) {
       const clim = d.climate;
@@ -16053,7 +16232,7 @@ function renderTabCurrent(container, d) {
                 <div>Осадки: <strong>${c.precipitation || 0} мм</strong></div>
               </div>
               <button onclick="loadCoordsWeather(${lat}, ${lon})" class="popup-action-btn" style="width:100%; padding:8px 12px; font-weight:700; font-size:11px; border-radius:8px; cursor:pointer; transition:all 0.2s;">
-                Загрузить полный архив 120 лет
+                Загрузить полный архив 136 лет
               </button>
             `;
           }
@@ -16449,7 +16628,7 @@ function renderTabCurrent(container, d) {
     });
 
     function shareWeather(platform) {
-      const title = `Погода в ${currentCity} — архив 120 лет, онлайн-радар и консенсус суперкомпьютеров`;
+      const title = `Погода в ${currentCity} — архив 136 лет (1890–2026), онлайн-радар и консенсус суперкомпьютеров`;
       const url = window.location.href;
 
       if (platform === 'vk') {
@@ -16687,6 +16866,52 @@ function renderTabCurrent(container, d) {
     window.closeDonationModal = closeDonationModal;
 
     // Initial Robust Startup Engine (Handles file:///, http://, and GitHub Pages)
+
+    // =========================================================================
+    // SPA NAVIGATION ENGINE FOR CATALOG CITIES (?city=...)
+    // =========================================================================
+    document.addEventListener('click', function(event) {
+      const cityLink = event.target.closest('a[href^="?city="]');
+      if (!cityLink) return;
+
+      event.preventDefault();
+      const href = cityLink.getAttribute('href');
+      const urlParams = new URLSearchParams(href);
+      const cityName = urlParams.get('city');
+
+      if (!cityName) return;
+
+      const newUrl = `${window.location.pathname}?city=${encodeURIComponent(cityName)}`;
+      try {
+        window.history.pushState({ city: cityName }, '', newUrl);
+      } catch (e) {}
+
+      updateSeoMetaForCity(cityName);
+
+      if (typeof setCity === 'function') {
+        setCity(cityName);
+      } else {
+        currentCity = cityName;
+        fetchData();
+      }
+
+      const detailsCatalog = cityLink.closest('details');
+      if (detailsCatalog) detailsCatalog.removeAttribute('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('popstate', function(event) {
+      const params = new URLSearchParams(window.location.search);
+      const city = (event.state && event.state.city) || params.get('city') || 'Москва';
+      updateSeoMetaForCity(city);
+      if (typeof setCity === 'function') {
+        setCity(city);
+      } else {
+        currentCity = city;
+        fetchData();
+      }
+    });
+
     function startApp() {
       try {
         initTheme();
@@ -16795,7 +17020,7 @@ function renderTabCurrent(container, d) {
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
             Сайт <strong>не публикует официальные штормовые предупреждения</strong>, прогнозы стихийных бедствий, гидрологических паводков или режимов неблагоприятных метеорологических условий («черного неба» / НМУ). Все отображаемые погодные индикаторы являются расчетными параметрами математических моделей (ст. 13.15 КоАП РФ).
             При возникновении угрозы неблагоприятных (НЯ) и опасных природных явлений (ОЯ), а также при принятии критически важных решений граждане и организации ОБЯЗАНЫ руководствоваться исключительно официальными штормовыми предупреждениями:
-            <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold">ФГБУ «Гидрометцентр России» (meteoinfo.ru)</a>.
+            <a href="https://mchs.gov.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold" rel="noopener noreferrer">МЧС России (mchs.gov.ru)</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline font-bold" rel="noopener noreferrer">ФГБУ «Гидрометцентр России» (meteoinfo.ru)</a>.
           </p>
         </div>
 
@@ -17110,7 +17335,7 @@ function renderTabCurrent(container, d) {
 
           <!-- 1-Click Telegram Confirmation & Instant Receipt Action -->
           <div class="space-y-2 pt-1">
-            <a id="step3-tg-btn" href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-center flex items-center justify-center gap-2 transition text-xs shadow-md">
+            <a id="step3-tg-btn" href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 font-bold text-center flex items-center justify-center gap-2 transition text-xs shadow-md" rel="noopener noreferrer">
               <svg class="w-4 h-4 fill-currentColor shrink-0" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.75-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
               <span>Отправить подтверждение и запросить чек в Telegram</span>
             </a>
