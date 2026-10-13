@@ -39,7 +39,7 @@
 
   
     <!-- High-Performance Typography: Geist & Geist Mono (Modern Zero-Defect Design) & Inter -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800;900&display=swap">
 
   <!-- High-Resolution Cyber/Weather Vector Favicon (Valid SVG & physical fallbacks) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ccircle cx='26' cy='26' r='10' fill='%23fbbf24'/%3E%3Cpath d='M24 44h22a9 9 0 0 0 1-17.9A13 13 0 0 0 22 23a10 10 0 0 0 2 21z' fill='%2338bdf8'/%3E%3C/svg%3E">
@@ -157,7 +157,7 @@
           animation: { shimmer: 'shimmer 1.5s infinite linear' },
           keyframes: { shimmer: { '100%': { transform: 'translateX(100%)' } } },
           fontFamily: {
-            sans: ['Geist', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            sans: ['Onest', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
           },
           colors: {
@@ -204,8 +204,8 @@
     }
 
     :root {
-      --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'Geist Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --font-sans: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
       font-feature-settings: 'tnum' on, 'zero' on;
       font-variant-numeric: tabular-nums;
     }
@@ -1424,48 +1424,7 @@
       color: #0f172a !important;
     }
 
-    /* Disciplined High-Contrast Monochrome Text Hierarchy (Zero Rainbow Styling) */
-    html.light .text-rose-300,
-    html.light .text-rose-400,
-    html.light .text-rose-500,
-    html.light .text-sky-300,
-    html.light .text-sky-400,
-    html.light .text-sky-500,
-    html.light .text-emerald-300,
-    html.light .text-emerald-400,
-    html.light .text-emerald-500,
-    html.light .text-amber-300,
-    html.light .text-amber-400,
-    html.light .text-amber-500,
-    html.light .text-teal-300,
-    html.light .text-teal-400,
-    html.light .text-cyan-300,
-    html.light .text-cyan-400,
-    html.light .text-indigo-300,
-    html.light .text-indigo-400 {
-      color: #0f172a !important;
-    }
-
-    html.dark .text-rose-300,
-    html.dark .text-rose-400,
-    html.dark .text-rose-500,
-    html.dark .text-sky-300,
-    html.dark .text-sky-400,
-    html.dark .text-sky-500,
-    html.dark .text-emerald-300,
-    html.dark .text-emerald-400,
-    html.dark .text-emerald-500,
-    html.dark .text-amber-300,
-    html.dark .text-amber-400,
-    html.dark .text-amber-500,
-    html.dark .text-teal-300,
-    html.dark .text-teal-400,
-    html.dark .text-cyan-300,
-    html.dark .text-cyan-400,
-    html.dark .text-indigo-300,
-    html.dark .text-indigo-400 {
-      color: #f8fafc !important;
-    }
+    /*/* Preserved semantic temperature color coding for 48h matrix and snow cards */
 
     /* Ensure Dark Theme & Primary Buttons preserve white text in Light Mode */
     html.light .btn-primary,
@@ -1714,10 +1673,6 @@
     html.light button.w-full.text-left:hover { color: #020617 !important; }
 
     /* МЕТЕОПОРТАЛ logo link — always readable */
-    nav a[href="index.html"]:first-of-type,
-    nav a[href="/"]:first-of-type,
-    
-
     /* === CONTRAST FIXES (WCAG AA compliance) === */
 
     /* Active nav pill buttons */
@@ -3423,6 +3378,10 @@
       96: ['⛈', 'Гроза с градом'],
       99: ['⛈', 'Шквал с градом']
     };
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
 
     function getWmo(code) {
       return WMO_MAP[code] || ['⛅', 'Переменная облачность'];
@@ -5561,7 +5520,7 @@
       lastCoords = { lat, lon };
 
       // 2. Multi-Model 4-Ensemble Forecast API: ECMWF + ICON + GFS + GEM
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
@@ -5727,14 +5686,47 @@
       const currentSnowDepthM = (ecSnowDepth && ecSnowDepth.length > 0 && ecSnowDepth[0] != null) ? ecSnowDepth[0] : 0;
       const currentSnowDepthCm = Math.round(currentSnowDepthM * 100 * 10) / 10; // meters -> cm
 
-      // Check verified baseline models archive fallback for current station
-      const stModelsArchive = (typeof findModelsPrecipArchive === 'function') ? findModelsPrecipArchive(cityName || lowerCity) : null;
+      // Helper to extract fields from Open-Meteo Ensemble & Seasonal APIs regardless of model suffix
+      const getEnsField = (obj, baseKey) => {
+        if (!obj) return null;
+        if (Array.isArray(obj[baseKey]) && obj[baseKey].some(v => v != null)) return obj[baseKey];
+        const k = Object.keys(obj).find(key => key.startsWith(baseKey + '_') && !key.includes('_member') && Array.isArray(obj[key]) && obj[key].some(v => v != null));
+        if (k) return obj[k];
+        const mKey = Object.keys(obj).find(key => key.startsWith(baseKey + '_member01') && Array.isArray(obj[key]) && obj[key].some(v => v != null));
+        return mKey ? obj[mKey] : null;
+      };
+      const getEnsMembersForDay = (obj, baseKey, dayIdx) => {
+        if (!obj) return [];
+        const vals = [];
+        for (const [k, arr] of Object.entries(obj)) {
+          if ((k === baseKey || k.startsWith(baseKey + '_')) && Array.isArray(arr) && arr[dayIdx] != null && !isNaN(arr[dayIdx])) {
+            vals.push(Number(arr[dayIdx]));
+          }
+        }
+        return vals;
+      };
 
-      // WeatherNext 3.0 Ensemble extraction (64 members, 14 days, Temperature + Full Precipitation Ensemble)
+      // Do NOT use hardcoded September 9 archive for live temperatures or dates
+      const stModelsArchive = null;
+
+      // Live 4-model consensus fallback if Ensemble API is unavailable
+      const liveConsensusMax = dTimes.slice(0, 14).map((_, i) => {
+        const v = [ecMax[i], icMax[i], gfsMax[i], gemMax[i]].filter(x => x != null && !isNaN(x));
+        return v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : 10;
+      });
+      const liveConsensusMin = dTimes.slice(0, 14).map((_, i) => {
+        const v = [ecMin[i], icMin[i], gfsMin[i], gemMin[i]].filter(x => x != null && !isNaN(x));
+        return v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : 4;
+      });
+      const liveConsensusPrecip = dTimes.slice(0, 14).map((_, i) => {
+        const v = [ecPrecip[i], icPrecip[i], gfsPrecip[i], gemPrecip[i]].filter(x => x != null && !isNaN(x));
+        return v.length ? Math.round((v.reduce((a, b) => a + b, 0) / v.length) * 10) / 10 : 0;
+      });
+
       const wnDaily = (wnRes && wnRes.daily) || {};
-      const wnMaxCtrlRaw = wnDaily.temperature_2m_max || (stModelsArchive ? stModelsArchive.wn_tmax : ecMax.slice(0, 14));
-      const wnMinCtrlRaw = wnDaily.temperature_2m_min || (stModelsArchive ? stModelsArchive.wn_tmin : ecMin.slice(0, 14));
-      const wnPrecipRaw = wnDaily.precipitation_sum || (stModelsArchive ? stModelsArchive.wn_precip : []);
+      const wnMaxCtrlRaw = getEnsField(wnDaily, 'temperature_2m_max') || liveConsensusMax;
+      const wnMinCtrlRaw = getEnsField(wnDaily, 'temperature_2m_min') || liveConsensusMin;
+      const wnPrecipRaw = getEnsField(wnDaily, 'precipitation_sum') || liveConsensusPrecip;
 
       const wnMaxCtrlList = [];
       const wnMinCtrlList = [];
@@ -5855,13 +5847,18 @@
       const wnWetDays14 = wnPrecipList.filter(p => p >= 0.5).length;
       const wnHeavyRainDays14 = wnPrecipList.filter(p => p >= 5.0 || p >= 10.0).length;
 
-      // ECMWF SEAS5 Seasonal Extraction (Days 15–30 with 50-member precipitation ensemble)
+      // ECMWF SEAS5 Seasonal Extraction (Days 15–30 with dynamic current dates & suffix-safe parser)
       const sDaily = (seasRes && seasRes.daily) || {};
-      const sTimes = sDaily.time || (stModelsArchive ? stModelsArchive.dates : []);
-      const sMaxRaw = sDaily.temperature_2m_max || (stModelsArchive ? stModelsArchive.seas5_tmax : []);
-      const sMinRaw = sDaily.temperature_2m_min || (stModelsArchive ? stModelsArchive.seas5_tmin : []);
-      const sMeanRaw = sDaily.temperature_2m_mean || [];
-      const sPrecipRaw = sDaily.precipitation_sum || (stModelsArchive ? stModelsArchive.seas5_precip : []);
+      const baseStartDate = (dTimes && dTimes[0]) ? new Date(dTimes[0] + 'T12:00:00') : new Date();
+      const generated30Dates = Array.from({ length: 30 }, (_, idx) => {
+        const dt = new Date(baseStartDate.getTime() + idx * 86400000);
+        return dt.toISOString().slice(0, 10);
+      });
+      const sTimes = (Array.isArray(sDaily.time) && sDaily.time.length >= 30) ? sDaily.time : generated30Dates;
+      const sMaxRaw = getEnsField(sDaily, 'temperature_2m_max') || [];
+      const sMinRaw = getEnsField(sDaily, 'temperature_2m_min') || [];
+      const sMeanRaw = getEnsField(sDaily, 'temperature_2m_mean') || [];
+      const sPrecipRaw = getEnsField(sDaily, 'precipitation_sum') || [];
 
       const seasDates = [];
       const seasMaxList = [];
@@ -7627,9 +7624,9 @@ function renderTabCurrent(container, d) {
         midnightSvg = `
           <line x1="${midPt.x.toFixed(1)}" y1="2" x2="${midPt.x.toFixed(1)}" y2="${H - 4}" stroke="#f59e0b" stroke-width="1.8" stroke-dasharray="3 3" opacity="0.85"/>
           <rect x="${(midPt.x / 2 - 48).toFixed(1)}" y="4" width="96" height="20" rx="6" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" opacity="0.95"/>
-          <text x="${(midPt.x / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#38bdf8" font-family="'Geist Sans', sans-serif" letter-spacing="0.08em">СЕГОДНЯ</text>
+          <text x="${(midPt.x / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#38bdf8" font-family="var(--font-sans)" letter-spacing="0.08em">СЕГОДНЯ</text>
           <rect x="${((midPt.x + W - padX) / 2 - 48).toFixed(1)}" y="4" width="96" height="20" rx="6" fill="#78350f" stroke="#fbbf24" stroke-width="1" opacity="0.95"/>
-          <text x="${((midPt.x + W - padX) / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fbbf24" font-family="'Geist Sans', sans-serif" letter-spacing="0.08em">ЗАВТРА</text>
+          <text x="${((midPt.x + W - padX) / 2).toFixed(1)}" y="17.5" text-anchor="middle" font-size="9.5" font-weight="800" fill="#fbbf24" font-family="var(--font-sans)" letter-spacing="0.08em">ЗАВТРА</text>
         `;
       }
 
@@ -7669,8 +7666,8 @@ function renderTabCurrent(container, d) {
         markers += `
           <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${pointFill}" stroke="${pointStroke}" stroke-width="2" />
           <rect x="${(p.x - 14).toFixed(1)}" y="${(p.y - 19).toFixed(1)}" width="28" height="15" rx="4" fill="${bubbleFill}" fill-opacity="${isDarkMode ? '0.88' : '0.96'}" stroke="${bubbleStroke}" stroke-width="1" stroke-opacity="0.5"/>
-          <text x="${p.x.toFixed(1)}" y="${(p.y - 8).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="800" fill="${textFill}" font-family="'Geist Sans', sans-serif">${tSign}</text>
-          <text x="${p.x.toFixed(1)}" y="${H - 7}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${timeFill}" font-family="'Geist Sans', sans-serif">${p.lbl}</text>
+          <text x="${p.x.toFixed(1)}" y="${(p.y - 8).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="800" fill="${textFill}" font-family="var(--font-sans)">${tSign}</text>
+          <text x="${p.x.toFixed(1)}" y="${H - 7}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${timeFill}" font-family="var(--font-sans)">${p.lbl}</text>
         `;
       });
 
@@ -15893,10 +15890,15 @@ function renderTabCurrent(container, d) {
       const pressures = [];
 
       if (hourlyInput && hourlyInput.time) {
-        const count = Math.min(hourlyInput.time.length, 72);
-        for (let i = 0; i < count; i++) {
-          const t = hourlyInput.time[i];
-          times.push(t.length >= 16 ? t.substring(11, 16) : `${i}:00`);
+        const nowIsoPrefix = new Date().toISOString().slice(0, 13);
+        let startIdx = hourlyInput.time.findIndex(t => t && t.startsWith(nowIsoPrefix));
+        if (startIdx < 0) startIdx = 0;
+        const endIdx = Math.min(hourlyInput.time.length, startIdx + 72);
+        for (let i = startIdx; i < endIdx; i++) {
+          const t = hourlyInput.time[i] || '';
+          const hhmm = t.length >= 16 ? t.substring(11, 16) : `${i % 24}:00`;
+          const ddmm = t.length >= 10 ? `${t.substring(8, 10)}.${t.substring(5, 7)}` : '';
+          times.push((hhmm === '00:00' || i === startIdx) && ddmm ? `${ddmm} ${hhmm}` : hhmm);
           temps.push(hourlyInput.temperature_2m ? hourlyInput.temperature_2m[i] : null);
           precips.push(hourlyInput.precipitation ? hourlyInput.precipitation[i] : 0);
           winds.push(hourlyInput.wind_speed_10m ? hourlyInput.wind_speed_10m[i] : 0);
@@ -15916,6 +15918,7 @@ function renderTabCurrent(container, d) {
           height: 440,
           type: 'line',
           background: 'transparent',
+          zoom: { enabled: window.innerWidth > 768 },
           toolbar: { show: true }
         },
         theme: { mode: 'dark' },
@@ -16647,12 +16650,14 @@ function renderTabCurrent(container, d) {
     // Dynamic SEO updater per city
     function updatePageDynamicSEO(city, tempVal, condDesc) {
       try {
-        const titleStr = `Погода в ${city} — фактическая температура, архив за 100+ лет, нормы климата и прогноз ECMWF`;
-        document.title = titleStr;
+        const tRounded = tempVal != null && !isNaN(tempVal) ? Math.round(tempVal) : 0;
+        const tSign = tRounded > 0 ? `+${tRounded}°C` : `${tRounded}°C`;
+        const cleanName = String(city || currentCity || 'Москва').trim();
+        document.title = `${cleanName}: погода сейчас (${tSign}, ${condDesc || 'онлайн'}) — архив 1890–2026, нормы ВМО и прогноз 4 моделей | МетеоПортал`;
 
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) {
-          metaDesc.setAttribute('content', `Фактическая погода в ${city} (${tempVal}°C, ${condDesc}). Онлайн радар осадков и облачности, климатический архив 1890–2026 и консенсус мировых суперкомпьютеров.`);
+          metaDesc.setAttribute('content', `${cleanName}: фактическая погода (${tSign}, ${condDesc || 'онлайн'}). Онлайн-радар осадков, климатический архив ВМО 1890–2026 и консенсус моделей ECMWF, ICON, GFS.`);
         }
       } catch(e) {}
     }
@@ -16695,16 +16700,22 @@ function renderTabCurrent(container, d) {
       const btn = document.getElementById('theme-toggle-btn');
       const icon = document.getElementById('theme-toggle-icon');
       const txt = document.getElementById('theme-toggle-text');
-      if (btn && icon && txt) {
-        if (isDark) {
-          icon.textContent = '🌙';
-          txt.textContent = 'Тёмная';
-          btn.title = 'Текущая: Тёмная. Нажмите для переключения на Светлую';
+      if (btn) {
+        btn.title = isDark
+          ? 'Текущая тема: Тёмная. Нажмите для переключения на Светлую'
+          : 'Текущая тема: Светлая. Нажмите для переключения на Тёмную';
+      }
+      if (icon) {
+        if (icon.tagName && icon.tagName.toLowerCase() === 'svg') {
+          icon.innerHTML = isDark
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>'
+            : '<circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>';
         } else {
-          icon.textContent = '☀️';
-          txt.textContent = 'Светлая';
-          btn.title = 'Текущая: Светлая. Нажмите для переключения на Тёмную';
+          icon.textContent = isDark ? '🌙' : '☀️';
         }
+      }
+      if (txt) {
+        txt.textContent = isDark ? 'Тёмная' : 'Светлая';
       }
       if (latestData) {
         renderCurrentTab(latestData);
