@@ -44,7 +44,7 @@
 
   </script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
   <title>Карта климатических аномалий России и мира — ECMWF SEAS5, UKMO, JMA, CFSv2 | МетеоПортал</title>
 
@@ -3442,42 +3442,42 @@
 
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
 
-        <button onclick="inspectStation(\'norilsk\')" class="station-chip !border-sky-500/50 !text-sky-300"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Норильск (-2.7°C)</button>
+        <button onclick="inspectStation('norilsk')" class="station-chip !border-sky-500/50 !text-sky-300"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Норильск (-2.7°C)</button>
 
-        <button onclick="inspectStation(\'armavir\')" class="station-chip !border-amber-500/50 !text-amber-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Армавир (+1.8°C)</button>
+        <button onclick="inspectStation('armavir')" class="station-chip !border-amber-500/50 !text-amber-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Армавир (+1.8°C)</button>
 
-        <button onclick="inspectStation(\'krasnodar\')" class="station-chip">Краснодар (+1.9°C)</button>
+        <button onclick="inspectStation('krasnodar')" class="station-chip">Краснодар (+1.9°C)</button>
 
-        <button onclick="inspectStation(\'sochi\')" class="station-chip">Сочи (Субтропики)</button>
+        <button onclick="inspectStation('sochi')" class="station-chip">Сочи (Субтропики)</button>
 
-        <button onclick="inspectStation(\'moscow\')" class="station-chip">Москва (+1.2°C)</button>
-        <button onclick="inspectStation(\'voronezh\')" class="station-chip">Воронеж (Черноземье)</button>
+        <button onclick="inspectStation('moscow')" class="station-chip">Москва (+1.2°C)</button>
+        <button onclick="inspectStation('voronezh')" class="station-chip">Воронеж (Черноземье)</button>
 
-        <button onclick="inspectStation(\'spb\')" class="station-chip">Санкт-Петербург (+0.2°C)</button>
+        <button onclick="inspectStation('spb')" class="station-chip">Санкт-Петербург (+0.2°C)</button>
 
-        <button onclick="inspectStation(\'dikson\')" class="station-chip">Диксон (Арктика)</button>
+        <button onclick="inspectStation('dikson')" class="station-chip">Диксон (Арктика)</button>
 
-        <button onclick="inspectStation(\'murmansk\')" class="station-chip">Мурманск</button>
+        <button onclick="inspectStation('murmansk')" class="station-chip">Мурманск</button>
 
-        <button onclick="inspectStation(\'ekb\')" class="station-chip">Екатеринбург</button>
+        <button onclick="inspectStation('ekb')" class="station-chip">Екатеринбург</button>
 
-        <button onclick="inspectStation(\'novosib\')" class="station-chip">Новосибирск (-0.7°C)</button>
+        <button onclick="inspectStation('novosib')" class="station-chip">Новосибирск (-0.7°C)</button>
 
-        <button onclick="inspectStation(\'krasnoyarsk\')" class="station-chip">Красноярск</button>
+        <button onclick="inspectStation('krasnoyarsk')" class="station-chip">Красноярск</button>
 
-        <button onclick="inspectStation(\'yakutsk\')" class="station-chip">Якутск (-1.7°C)</button>
+        <button onclick="inspectStation('yakutsk')" class="station-chip">Якутск (-1.7°C)</button>
 
-        <button onclick="inspectStation(\'oymyakon\')" class="station-chip">Оймякон (-2.6°C)</button>
+        <button onclick="inspectStation('oymyakon')" class="station-chip">Оймякон (-2.6°C)</button>
 
-        <button onclick="inspectStation(\'vladivostok\')" class="station-chip">Владивосток (+1.3°C)</button>
+        <button onclick="inspectStation('vladivostok')" class="station-chip">Владивосток (+1.3°C)</button>
 
-        <button onclick="inspectStation(\'salekhard\')" class="station-chip">Салехард</button>
+        <button onclick="inspectStation('salekhard')" class="station-chip">Салехард</button>
 
-        <button onclick="inspectStation(\'anadyr\')" class="station-chip">Анадырь (Чукотка)</button>
+        <button onclick="inspectStation('anadyr')" class="station-chip">Анадырь (Чукотка)</button>
 
-        <button onclick="inspectStation(\'petropavlovsk\')" class="station-chip">Камчатка</button>
+        <button onclick="inspectStation('petropavlovsk')" class="station-chip">Камчатка</button>
 
-        <button onclick="inspectStation(\'kazan\')" class="station-chip">Казань</button>
+        <button onclick="inspectStation('kazan')" class="station-chip">Казань</button>
 
       </div>
 
@@ -4539,11 +4539,11 @@
 
         localStorage.setItem('meteo_theme', 'light');
 
-        var tIcon = document.getElementById('theme-icon');
+        var tIcon = document.getElementById('theme-toggle-icon');
 
         if (tIcon) tIcon.textContent = '🌙';
 
-        var tText = document.getElementById('theme-text');
+        var tText = document.getElementById('theme-toggle-text');
 
         if (tText) tText.textContent = 'Светлая';
 
@@ -4555,11 +4555,11 @@
 
         localStorage.setItem('meteo_theme', 'dark');
 
-        var tIcon2 = document.getElementById('theme-icon');
+        var tIcon2 = document.getElementById('theme-toggle-icon');
 
         if (tIcon2) tIcon2.textContent = '☀️';
 
-        var tText2 = document.getElementById('theme-text');
+        var tText2 = document.getElementById('theme-toggle-text');
 
         if (tText2) tText2.textContent = 'Тёмная';
 
@@ -4591,9 +4591,9 @@
 
       var isDark = document.documentElement.classList.contains('dark');
 
-      var icon = document.getElementById('theme-icon');
+      var icon = document.getElementById('theme-toggle-icon');
 
-      var text = document.getElementById('theme-text');
+      var text = document.getElementById('theme-toggle-text');
 
       if (icon) icon.textContent = isDark ? '☀️' : '🌙';
 
@@ -9214,27 +9214,60 @@
 
 <script>
 
-  // Stubs for global header functions from index.html
-
-  function toggleShareDropdown() {
-
+  // Unified Header Share, Modals & Theme UI Sync (Argon Engine)
+function toggleShareDropdown() {
     var d = document.getElementById('share-dropdown');
-
     if (d) d.classList.toggle('hidden');
+}
 
-  }
+function shareWeather(platform) {
+    var pageUrl = window.location.href;
+    var pageTitle = document.title || 'МетеоПортал — Независимый агрегатор погоды и климата';
+    var d = document.getElementById('share-dropdown');
+    if (d) d.classList.add('hidden');
 
-  function shareWeather() {
+    if (platform === 'vk') {
+        window.open('https://vk.com/share.php?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'tg') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(pageUrl) + '&text=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'ok') {
+        window.open('https://connect.ok.ru/offer?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function() {
+                if (typeof window.showToast === 'function') window.showToast('Ссылка скопирована в буфер обмена!', 'success');
+            });
+        }
+    }
+}
 
-    alert("Share functionality is available on the main page.");
+function openDonationModal() {
+    if (typeof window.showToast === 'function') window.showToast('Переход к форме поддержки на главной странице...', 'success');
+    setTimeout(function() { window.location.href = 'index.html#support'; }, 600);
+}
 
-  }
+function openLegalModal() {
+    window.location.href = 'index.html#legal';
+}
 
-  function openDonationModal() {
+function openPrivacyModal() {
+    window.location.href = 'index.html#privacy';
+}
 
-    alert("Donation functionality is available on the main page.");
+function syncSubpageThemeButton() {
+    var isDark = document.documentElement.classList.contains('dark');
+    var iconEl = document.getElementById('theme-toggle-icon');
+    var textEl = document.getElementById('theme-toggle-text');
+    if (iconEl && iconEl.tagName && iconEl.tagName.toLowerCase() !== 'svg') {
+        iconEl.textContent = isDark ? '🌙' : '☀️';
+    }
+    if (textEl) {
+        textEl.textContent = isDark ? 'Тёмная' : 'Светлая';
+    }
+}
 
-  }
+document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
+
 
 </script>
 
