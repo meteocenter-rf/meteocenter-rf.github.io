@@ -649,7 +649,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ML</div>
             <span class="text-slate-500 dark:text-slate-400">МетеоЛаборатория</span>
           </div>
-          <span class="text-sky-600 dark:text-sky-400 font-semibold cursor-pointer" onclick="openArticleModal(1)">Подробнее →</span>
+          <span class="text-sky-600 dark:text-sky-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(1)">Подробнее →</span>
         </div>
       </article>
 
@@ -688,7 +688,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">СА</div>
             <span class="text-slate-500 dark:text-slate-400">Синоптический Анализ</span>
           </div>
-          <span class="text-rose-600 dark:text-rose-400 font-semibold cursor-pointer" onclick="openArticleModal(2)">Подробнее →</span>
+          <span class="text-rose-600 dark:text-rose-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(2)">Подробнее →</span>
         </div>
       </article>
 
@@ -724,7 +724,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">AI</div>
             <span class="text-slate-500 dark:text-slate-400">Модельный Отдел</span>
           </div>
-          <span class="text-indigo-600 dark:text-indigo-400 font-semibold cursor-pointer" onclick="openArticleModal(3)">Подробнее →</span>
+          <span class="text-indigo-600 dark:text-indigo-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(3)">Подробнее →</span>
         </div>
       </article>
 
@@ -762,7 +762,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ТР</div>
             <span class="text-slate-500 dark:text-slate-400">Термодинамика</span>
           </div>
-          <span class="text-emerald-600 dark:text-emerald-400 font-semibold cursor-pointer" onclick="openArticleModal(4)">Подробнее →</span>
+          <span class="text-emerald-600 dark:text-emerald-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(4)">Подробнее →</span>
         </div>
       </article>
 
@@ -805,7 +805,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">ВМО</div>
             <span class="text-slate-500 dark:text-slate-400">Климатический Базис</span>
           </div>
-          <span class="text-amber-600 dark:text-amber-400 font-semibold cursor-pointer" onclick="openArticleModal(5)">Подробнее →</span>
+          <span class="text-amber-600 dark:text-amber-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(5)">Подробнее →</span>
         </div>
       </article>
 
@@ -840,7 +840,7 @@
             <div class="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center font-bold text-[10px]">УГ</div>
             <span class="text-slate-500 dark:text-slate-400">Урбоэкология</span>
           </div>
-          <span class="text-teal-600 dark:text-teal-400 font-semibold cursor-pointer" onclick="openArticleModal(6)">Подробнее →</span>
+          <span class="text-teal-600 dark:text-teal-400 font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticleModal(6)">Подробнее →</span>
         </div>
       </article>
 
@@ -1134,21 +1134,27 @@
     };
 
     function openArticleModal(id) {
-      const data = ARTICLES_DATA[id];
-      if (!data) return;
-      document.getElementById('modal-badge').innerText = data.badge;
-      document.getElementById('modal-title').innerText = data.title;
-      document.getElementById('modal-content').innerHTML = data.content;
-      const modal = document.getElementById('article-modal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
+    const data = ARTICLES_DATA[id];
+    if (!data) return;
+    document.getElementById('modal-badge').innerText = data.badge;
+    document.getElementById('modal-title').innerText = data.title;
+    document.getElementById('modal-content').innerHTML = data.content;
+    const modal = document.getElementById('article-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('overflow-hidden');
+}
 
-    function closeArticleModal() {
-      const modal = document.getElementById('article-modal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
+function closeArticleModal() {
+    const modal = document.getElementById('article-modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('overflow-hidden');
+}
+
+window.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeArticleModal();
+});
 
     window.onclick = function(event) {
       const modal = document.getElementById('article-modal');
@@ -1181,17 +1187,60 @@
 
 
 <script>
-  // Stubs for global header functions from index.html
-  function toggleShareDropdown() {
+  // Unified Header Share, Modals & Theme UI Sync (Argon Engine)
+function toggleShareDropdown() {
     var d = document.getElementById('share-dropdown');
     if (d) d.classList.toggle('hidden');
-  }
-  function shareWeather() {
-    alert("Share functionality is available on the main page.");
-  }
-  function openDonationModal() {
-    alert("Donation functionality is available on the main page.");
-  }
+}
+
+function shareWeather(platform) {
+    var pageUrl = window.location.href;
+    var pageTitle = document.title || 'МетеоПортал — Независимый агрегатор погоды и климата';
+    var d = document.getElementById('share-dropdown');
+    if (d) d.classList.add('hidden');
+
+    if (platform === 'vk') {
+        window.open('https://vk.com/share.php?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'tg') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(pageUrl) + '&text=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'ok') {
+        window.open('https://connect.ok.ru/offer?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function() {
+                if (typeof window.showToast === 'function') window.showToast('Ссылка скопирована в буфер обмена!', 'success');
+            });
+        }
+    }
+}
+
+function openDonationModal() {
+    if (typeof window.showToast === 'function') window.showToast('Переход к форме поддержки на главной странице...', 'success');
+    setTimeout(function() { window.location.href = 'index.html#support'; }, 600);
+}
+
+function openLegalModal() {
+    window.location.href = 'index.html#legal';
+}
+
+function openPrivacyModal() {
+    window.location.href = 'index.html#privacy';
+}
+
+function syncSubpageThemeButton() {
+    var isDark = document.documentElement.classList.contains('dark');
+    var iconEl = document.getElementById('theme-toggle-icon');
+    var textEl = document.getElementById('theme-toggle-text');
+    if (iconEl && iconEl.tagName && iconEl.tagName.toLowerCase() !== 'svg') {
+        iconEl.textContent = isDark ? '🌙' : '☀️';
+    }
+    if (textEl) {
+        textEl.textContent = isDark ? 'Тёмная' : 'Светлая';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
+
 </script>
 
   <!-- Toast Container -->
