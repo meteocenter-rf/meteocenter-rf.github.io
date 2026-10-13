@@ -1,6 +1,19 @@
 User-agent: *
 Allow: /
-Allow: /?city=*
-Allow: /?mode=*
+Disallow: /*.bak$
+Disallow: /*.py$
+Disallow: /tmp_*
+
+User-agent: Yandex
+Allow: /
+Disallow: /*.bak$
+Disallow: /*.py$
+Clean-param: utm_source&utm_medium&utm_campaign&yclid&gclid
+
+User-agent: Googlebot
+Allow: /
+Disallow: /*.bak$
+Disallow: /*.py$
+
+Host: https://meteocenter-rf.github.io
 Sitemap: https://meteocenter-rf.github.io/sitemap.xml
-Host: meteocenter-rf.github.io
