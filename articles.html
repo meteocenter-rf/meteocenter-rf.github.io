@@ -2,7 +2,14 @@
 <html lang="ru" class="light">
 <head>
   <meta charset="UTF-8">
-  <link rel="preconnect" href="https://api.open-meteo.com">
+  <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://api.open-meteo.com">
+  <link rel="preconnect" href="https://archive-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://archive-api.open-meteo.com">
+  <link rel="preconnect" href="https://air-quality-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://air-quality-api.open-meteo.com">
+  <link rel="preconnect" href="https://geocoding-api.open-meteo.com" crossorigin>
+  <link rel="dns-prefetch" href="https://geocoding-api.open-meteo.com">
   <link rel="dns-prefetch" href="https://api.open-meteo.com">
   <link rel="preconnect" href="https://tilecache.rainviewer.com">
   <link rel="dns-prefetch" href="https://tilecache.rainviewer.com">
@@ -895,7 +902,7 @@
             <span>Статус информационного агрегатора (99-ФЗ и 113-ФЗ)</span>
           </div>
           <p class="text-slate-600 dark:text-slate-300">
-            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
+            Сервис является <strong>информационным агрегатором</strong>. Источник погодных данных: открытые публичные API <a href="https://open-meteo.com" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">Open-Meteo</a> (модели ECMWF IFS, DWD ICON, NOAA GFS, глобальный реанализ ERA5 / ERA5-Land), радарная сеть <a href="https://rainviewer.com" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">RainViewer</a>, открытые климатические нормы Всемирной метеорологической организации (ВМО/WMO).
           </p>
           <p class="text-slate-500 dark:text-slate-400 font-medium">
             Сервис <strong>не осуществляет лицензируемую гидрометеорологическую деятельность</strong> (п. 44 ст. 12 № 99-ФЗ, № 113-ФЗ) и не выполняет расчет оригинальных прогнозов погоды.
@@ -926,7 +933,7 @@
             Информация о погоде предоставляется <strong>«как есть» (as is) исключительно в ознакомительных целях</strong>. Администрация сайта не несет ответственности за точность прогнозов и любые решения или убытки, возникшие вследствие использования данных материалов (ст. 15, 1064 ГК РФ).
           </p>
           <p class="text-slate-500 dark:text-slate-400">
-            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline">Росгидромета</a>.
+            Сайт не публикует официальные штормовые предупреждения и режим ЧС. При угрозе опасных явлений руководствуйтесь официальными сообщениями <a href="https://mchs.gov.ru" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">МЧС России</a> и <a href="https://meteoinfo.ru" target="_blank" class="text-sky-500 hover:underline" rel="noopener noreferrer">Росгидромета</a>.
           </p>
         </div>
 
@@ -943,15 +950,15 @@
             Политика конфиденциальности и Cookies (152-ФЗ)
           </button>
           <span>·</span>
-          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://open-meteo.com" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             Open-Meteo API (CC BY 4.0)
           </a>
           <span>·</span>
-          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://rainviewer.com/api" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             RainViewer Radar API
           </a>
           <span>·</span>
-          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline">
+          <a href="https://mchs.gov.ru" target="_blank" class="text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition underline" rel="noopener noreferrer">
             Официальный портал МЧС РФ
           </a>
         </div>
