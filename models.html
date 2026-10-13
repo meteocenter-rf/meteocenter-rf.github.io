@@ -1132,17 +1132,60 @@
 
 
 <script>
-  // Stubs for global header functions from index.html
-  function toggleShareDropdown() {
+  // Unified Header Share, Modals & Theme UI Sync (Argon Engine)
+function toggleShareDropdown() {
     var d = document.getElementById('share-dropdown');
     if (d) d.classList.toggle('hidden');
-  }
-  function shareWeather() {
-    alert("Share functionality is available on the main page.");
-  }
-  function openDonationModal() {
-    alert("Donation functionality is available on the main page.");
-  }
+}
+
+function shareWeather(platform) {
+    var pageUrl = window.location.href;
+    var pageTitle = document.title || 'МетеоПортал — Независимый агрегатор погоды и климата';
+    var d = document.getElementById('share-dropdown');
+    if (d) d.classList.add('hidden');
+
+    if (platform === 'vk') {
+        window.open('https://vk.com/share.php?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'tg') {
+        window.open('https://t.me/share/url?url=' + encodeURIComponent(pageUrl) + '&text=' + encodeURIComponent(pageTitle));
+    } else if (platform === 'ok') {
+        window.open('https://connect.ok.ru/offer?url=' + encodeURIComponent(pageUrl) + '&title=' + encodeURIComponent(pageTitle));
+    } else {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(pageUrl).then(function() {
+                if (typeof window.showToast === 'function') window.showToast('Ссылка скопирована в буфер обмена!', 'success');
+            });
+        }
+    }
+}
+
+function openDonationModal() {
+    if (typeof window.showToast === 'function') window.showToast('Переход к форме поддержки на главной странице...', 'success');
+    setTimeout(function() { window.location.href = 'index.html#support'; }, 600);
+}
+
+function openLegalModal() {
+    window.location.href = 'index.html#legal';
+}
+
+function openPrivacyModal() {
+    window.location.href = 'index.html#privacy';
+}
+
+function syncSubpageThemeButton() {
+    var isDark = document.documentElement.classList.contains('dark');
+    var iconEl = document.getElementById('theme-toggle-icon');
+    var textEl = document.getElementById('theme-toggle-text');
+    if (iconEl && iconEl.tagName && iconEl.tagName.toLowerCase() !== 'svg') {
+        iconEl.textContent = isDark ? '🌙' : '☀️';
+    }
+    if (textEl) {
+        textEl.textContent = isDark ? 'Тёмная' : 'Светлая';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
+
 </script>
 
   <!-- Toast Container -->
