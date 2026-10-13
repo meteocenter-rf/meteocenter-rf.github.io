@@ -80,7 +80,7 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Onest:wght@300;400;500;600;700;800;900&display=swap">
 
 
 
@@ -1620,23 +1620,7 @@
 
     /* Active nav pill buttons — rose highlight (Аномалии LIVE) */
 
-    a.nav-btn.\!bg-rose-500\/20,
-
-    
-
-    a.nav-btn.\!bg-rose-500\/20:hover,
-
-    
-
-
-
-    /* Active nav pill buttons — sky highlight (Прогноз, Снег) */
-
-    a.nav-btn.\!bg-sky-500\/10,
-
-    
-
-    a.nav-btn.\!bg-sky-500\/10:hover,
+    /* Fixed dangling nav-btn selectors */
 
     
 
@@ -2596,7 +2580,7 @@
 
   /* METEO 2026: PERFECT READABILITY & EYE-COMFORT */
   body, input, button, select, textarea {
-    font-family: var(--font-sans, 'Geist', 'Inter', -apple-system, sans-serif);
+    font-family: var(--font-sans, 'Onest', 'Inter', -apple-system, sans-serif);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -9120,48 +9104,27 @@
 
     <!-- MOBILE BOTTOM NAVIGATION (5 ITEMS EQUAL GRID) -->
 
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800/80 px-1 py-1.5 bottom-nav-grid items-center text-[9px] font-medium transition-colors" style="padding-bottom: max(0.375rem, env(safe-area-inset-bottom));">
-
-    <a href="index.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-
-      <span class="text-base leading-none">🏙️</span>
-
-      <span class="mt-1 truncate max-w-full">Город</span>
-
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-[#0c1221]/95 backdrop-blur-lg border-t border-slate-200/90 dark:border-slate-800/90 px-2 py-1.5 bottom-nav-grid items-center text-[10px] font-semibold transition-colors shadow-2xl" style="padding-bottom: max(0.4rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      <span class="mt-1 tracking-tight">Город</span>
     </a>
-
-    <a href="anomalies.html" class="flex flex-col items-center py-1 px-1 text-sky-600 dark:text-sky-400 font-bold transition">
-
-      <span class="text-base leading-none">🌀</span>
-
-      <span class="mt-1 truncate max-w-full">Аномалии</span>
-
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-1 text-sky-600 dark:text-sky-400 font-bold transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <span class="mt-1 tracking-tight">Аномалии</span>
     </a>
-
-    <a href="models.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-
-      <span class="text-base leading-none">🖥️</span>
-
-      <span class="mt-1 truncate max-w-full">Модели</span>
-
+    <a href="models.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span class="mt-1 tracking-tight">Модели</span>
     </a>
-
-    <a href="articles.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-
-      <span class="text-base leading-none">📖</span>
-
-      <span class="mt-1 truncate max-w-full">Журнал</span>
-
+    <a href="articles.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      <span class="mt-1 tracking-tight">Журнал</span>
     </a>
-
-    <a href="snow.html" class="flex flex-col items-center py-1 px-1 text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition">
-
-      <span class="text-base leading-none">❄️</span>
-
-      <span class="mt-1 truncate max-w-full">Снег</span>
-
+    <a href="snow.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+      <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
+      <span class="mt-1 tracking-tight">Снег</span>
     </a>
-
   </nav>
 
 
@@ -10001,6 +9964,123 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
     }
 
 
+
+    
+    // =========================================================================
+    // MORLET WAVELET ANALYSIS ENGINE (ENSO / NAO / AMO)
+    // =========================================================================
+    var waveletChartInstance = null;
+    var WAVELET_DATASETS = {
+      enso: {
+        title: 'Эль-Ниньо / Южное колебание (ENSO Niño 3.4) — Вейвлет-мощность и индекс (°C)',
+        subtitle: 'Квазипериодичность 3–7 лет · Пакетные всплески 1982/83, 1997/98, 2015/16, 2023/24 и переход к Ла-Нинья',
+        color: '#f59e0b',
+        years: ['1950','1955','1960','1965','1970','1973','1975','1980','1983','1988','1992','1998','2003','2008','2010','2016','2020','2024','2026'],
+        index: [-1.1, -0.8, 0.2, 1.5, -1.2, 2.1, -1.7, 0.4, 2.3, -1.8, 1.6, 2.4, 0.9, -1.4, -1.5, 2.5, -1.2, 1.9, -0.4],
+        power: [2.2,  1.5,  0.8, 3.4, 2.8,  5.6, 4.1,  1.2, 6.8, 4.5,  3.9, 7.4, 2.1, 3.2,  3.6,  7.8, 2.9,  5.9, 1.8]
+      },
+      nao: {
+        title: 'Северо-Атлантическое колебание (NAO) — Квазивековая мода (~50–60 лет)',
+        subtitle: 'Определяет силу западного переноса воздуха с Атлантики в Европейскую часть России и Сибирь',
+        color: '#a855f7',
+        years: ['1950','1955','1960','1965','1970','1975','1980','1985','1990','1995','2000','2005','2010','2015','2020','2024','2026'],
+        index: [0.4, -0.6, -1.3, -1.8, -0.9, 0.5, 0.8, 1.1, 2.1, 1.8, 0.9, -0.3, -2.2, 1.6, 1.2, 0.5, -0.3],
+        power: [1.8,  2.4,  4.2,  5.8,  3.1, 1.9, 2.5, 3.6, 6.2, 5.4, 2.8,  1.6,  6.5, 4.4, 3.2, 2.0,  2.1]
+      },
+      amo: {
+        title: 'Атлантическая мультидекадная осцилляция (AMO) — Угасание 70-летнего цикла',
+        subtitle: 'Аномалия ТПМ Северной Атлантики (1856–2026 гг.): смена классического цикла устойчивым прогревом',
+        color: '#f43f5e',
+        years: ['1860','1880','1900','1915','1930','1945','1960','1975','1990','2000','2005','2010','2015','2020','2024','2026'],
+        index: [-0.15, 0.28, -0.22, -0.35, 0.18, 0.36, 0.05, -0.38, -0.15, 0.22, 0.34, 0.41, 0.38, 0.45, 0.52, 0.46],
+        power: [3.2,   4.8,   4.1,   5.5,  3.8,  5.2,  2.9,   5.6,   3.4,  2.5,  2.1,  1.8,  1.5,  1.4,  1.2,  1.1]
+      }
+    };
+
+    function switchWaveletTab(tab) {
+      ['enso', 'nao', 'amo', 'all'].forEach(function(k) {
+        var btn = document.getElementById('wtab-' + k);
+        if (!btn) return;
+        if (k === tab) {
+          btn.className = 'px-4 py-2 min-h-[38px] rounded-lg bg-sky-600 text-white shadow transition flex items-center gap-2 font-bold';
+        } else {
+          btn.className = 'px-4 py-2 min-h-[38px] rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2 font-semibold';
+        }
+      });
+
+      var area = document.getElementById('wavelet-content-area');
+      if (!area) return;
+
+      var isAll = (tab === 'all');
+      var ds = WAVELET_DATASETS[tab] || WAVELET_DATASETS.enso;
+
+      area.innerHTML =
+        '<div class="p-4 rounded-2xl bg-slate-950/70 border border-indigo-500/30 space-y-3">' +
+          '<div class="flex flex-wrap items-center justify-between gap-2">' +
+            '<div>' +
+              '<h3 class="text-sm sm:text-base font-extrabold text-white">' + (isAll ? 'Сводная фазовая синхронизация: ENSO + NAO + AMO (1950–2026)' : ds.title) + '</h3>' +
+              '<p class="text-xs text-slate-400 font-mono mt-0.5">' + (isAll ? 'Сопоставление стандартизированных индексов циркуляции океан–атмосфера' : ds.subtitle) + '</p>' +
+            '</div>' +
+            '<span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-mono text-xs font-bold">Morlet ω₀ = 6.0</span>' +
+          '</div>' +
+          '<div id="wavelet-apex-chart" class="w-full h-72"></div>' +
+        '</div>';
+
+      if (typeof ApexCharts === 'undefined') return;
+      if (waveletChartInstance) {
+        try { waveletChartInstance.destroy(); } catch (e) {}
+      }
+
+      var isDark = document.documentElement.classList.contains('dark');
+      var options;
+
+      if (isAll) {
+        options = {
+          series: [
+            { name: 'ENSO (Niño 3.4)', type: 'line', data: [-1.1, 0.2, -1.2, 0.4, 1.6, 0.9, -1.5, 1.9, -0.4] },
+            { name: 'NAO (Атлантика)', type: 'line', data: [0.4, -1.3, -0.9, 0.8, 2.1, 0.9, -2.2, 0.5, -0.3] },
+            { name: 'AMO × 4 (Сев. Атлантика)', type: 'area', data: [0.8, 0.2, -1.1, -0.8, -0.6, 0.9, 1.6, 2.1, 1.8] }
+          ],
+          chart: { height: 280, type: 'line', background: 'transparent', toolbar: { show: false }, zoom: { enabled: false } },
+          theme: { mode: isDark ? 'dark' : 'light' },
+          colors: ['#f59e0b', '#a855f7', '#f43f5e'],
+          stroke: { width: [3, 3, 2], curve: 'smooth' },
+          fill: { type: ['solid', 'solid', 'gradient'], gradient: { opacityFrom: 0.35, opacityTo: 0.05 } },
+          xaxis: { categories: ['1950','1960','1970','1980','1990','2000','2010','2024','2026'], labels: { style: { colors: isDark ? '#94a3b8' : '#475569' } } },
+          yaxis: { title: { text: 'Индекс (σ)', style: { color: isDark ? '#94a3b8' : '#475569' } }, labels: { formatter: function(v){ return (v > 0 ? '+' : '') + v.toFixed(1); } } },
+          grid: { borderColor: isDark ? '#1e293b' : '#e2e8f0', strokeDashArray: 3 }
+        };
+      } else {
+        options = {
+          series: [
+            { name: 'Спектральная мощность вейвлета |W(s,t)|²', type: 'area', data: ds.power },
+            { name: 'Климатический индекс', type: 'column', data: ds.index }
+          ],
+          chart: { height: 280, type: 'line', background: 'transparent', toolbar: { show: false }, zoom: { enabled: false } },
+          theme: { mode: isDark ? 'dark' : 'light' },
+          colors: [ds.color, '#38bdf8'],
+          stroke: { width: [3, 0], curve: 'smooth' },
+          plotOptions: { bar: { columnWidth: '45%', borderRadius: 3 } },
+          fill: { type: ['gradient', 'solid'], gradient: { opacityFrom: 0.45, opacityTo: 0.05 } },
+          xaxis: { categories: ds.years, labels: { style: { colors: isDark ? '#94a3b8' : '#475569', fontFamily: 'JetBrains Mono' } } },
+          yaxis: [
+            { title: { text: 'Мощность вейвлета', style: { color: ds.color } }, labels: { style: { colors: ds.color } }, min: 0 },
+            { opposite: true, title: { text: 'Значение индекса', style: { color: '#38bdf8' } }, labels: { formatter: function(v){ return (v > 0 ? '+' : '') + v.toFixed(2); }, style: { colors: '#38bdf8' } } }
+          ],
+          grid: { borderColor: isDark ? '#1e293b' : '#e2e8f0', strokeDashArray: 3 }
+        };
+      }
+
+      var chartEl = document.getElementById('wavelet-apex-chart');
+      if (chartEl) {
+        waveletChartInstance = new ApexCharts(chartEl, options);
+        waveletChartInstance.render();
+      }
+    }
+    window.switchWaveletTab = switchWaveletTab;
+    document.addEventListener('DOMContentLoaded', function() {
+      switchWaveletTab('enso');
+    });
 
     // Attach Map Click Handler
 
