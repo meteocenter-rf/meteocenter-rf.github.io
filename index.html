@@ -57,94 +57,94 @@
 
     <!-- Extended Schema.org Microdata (WebSite, WeatherForecast, FAQPage, BreadcrumbList) -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://meteocenter-rf.github.io/#website",
-      },
-      {
-        "@type": "WebApplication",
-        "@id": "https://meteocenter-rf.github.io/#app",
-        "name": "МетеоПортал",
-        "url": "https://meteocenter-rf.github.io/",
-        "applicationCategory": "WeatherApplication",
-        "operatingSystem": "All",
-        "description": "Независимый агрегатор открытых метеорологических данных: модели ECMWF, ICON, GFS, радар RainViewer и климатический архив 1890–2026 гг.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "RUB"
-        }
-        "name": "МетеоПортал · Климатический Архив и Радар",
-        "url": "https://meteocenter-rf.github.io/",
-        "description": "Независимый информационный агрегатор: открытый архив погоды (1890–2026), онлайн радар осадков RainViewer и расчетный консенсус глобальных моделей.",
-        "inLanguage": "ru",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://meteocenter-rf.github.io/?city={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": "https://meteocenter-rf.github.io/#breadcrumb",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Главная",
-            "item": "https://meteocenter-rf.github.io/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Прогноз погоды и климатический архив",
-            "item": "https://meteocenter-rf.github.io/?city=Москва"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://meteocenter-rf.github.io/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Где посмотреть непрерывный архив погоды за последние 136 лет?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "На МетеоПортале доступен непрерывный помесячный и суточный климатический архив с 1890 по 2026 год, рассчитанный на базе опорных метеостанций ВМО (WMO) и глобального реанализа ERA5 Copernicus."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Как работает живой онлайн-радар осадков и спутник?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Радар использует сверхвысокое разрешение RainViewer HD 512px с шагом 10 минут, показом грозовых очагов и прогнозом смещения, а также открытые спутниковые композиты NASA VIIRS, MODIS и геостационарные снимки EUMETSAT."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Что такое мультимодельный консенсус 4 суперкомпьютеров?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Это одновременный расчет 4 ведущих мировых прогностических центров: ECMWF IFS (Европа), DWD ICON (Германия), NOAA GFS (США) и CMC GEM (Канада), выявляющий индекс надёжности прогноза и разброс температур."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Каков правовой статус сайта и прогнозов?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "МетеоПортал является научно-исследовательским информационным ресурсом (Data Science Open Data). Сервис не является органом государственной власти и не аффилирован с Росгидрометом (ст. 9 № 113-ФЗ). Все данные предоставляются в ознакомительных целях (AS IS)."
-            }
-          }
-        ]
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://meteocenter-rf.github.io/#website",
+      "name": "МетеоПортал · Климатический Архив и Радар",
+      "url": "https://meteocenter-rf.github.io/",
+      "description": "Независимый информационный агрегатор: открытый архив погоды (1890–2026), онлайн радар осадков RainViewer и расчетный консенсус глобальных моделей.",
+      "inLanguage": "ru",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://meteocenter-rf.github.io/?city={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
-    ]
-  }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://meteocenter-rf.github.io/#app",
+      "name": "МетеоПортал",
+      "url": "https://meteocenter-rf.github.io/",
+      "applicationCategory": "WeatherApplication",
+      "operatingSystem": "All",
+      "description": "Независимый агрегатор открытых метеорологических данных: модели ECMWF, ICON, GFS, радар RainViewer и климатический архив 1890–2026 гг.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "RUB"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://meteocenter-rf.github.io/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная",
+          "item": "https://meteocenter-rf.github.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Прогноз погоды и климатический архив",
+          "item": "https://meteocenter-rf.github.io/?city=Москва"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://meteocenter-rf.github.io/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Где посмотреть непрерывный архив погоды за последние 136 лет?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "На МетеоПортале доступен непрерывный помесячный и суточный климатический архив с 1890 по 2026 год, рассчитанный на базе опорных метеостанций ВМО (WMO) и глобального реанализа ERA5 Copernicus."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как работает живой онлайн-радар осадков и спутник?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Радар использует сверхвысокое разрешение RainViewer HD 512px с шагом 10 минут, показом грозовых очагов и прогнозом смещения, а также открытые спутниковые композиты NASA VIIRS, MODIS и геостационарные снимки EUMETSAT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что такое мультимодельный консенсус 4 суперкомпьютеров?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Это одновременный расчет 4 ведущих мировых прогностических центров: ECMWF IFS (Европа), DWD ICON (Германия), NOAA GFS (США) и CMC GEM (Канада), выявляющий индекс надёжности прогноза и разброс температур."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Каков правовой статус сайта и прогнозов?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "МетеоПортал является научно-исследовательским информационным ресурсом (Data Science Open Data). Сервис не является органом государственной власти и не аффилирован с Росгидрометом (ст. 9 № 113-ФЗ). Все данные предоставляются в ознакомительных целях (AS IS)."
+          }
+        }
+      ]
+    }
+  ]
+}
   </script>
 
   <!-- Tailwind CSS & Custom Config -->
@@ -3073,9 +3073,7 @@
 
       <!-- Right Fade & Arrow -->
       <div id="tabs-fade-right" class="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 transition-opacity duration-200"></div>
-      <button id="tabs-scroll-btn-right" aria-label="Прокрутить вкладки вправо" class="hidden sm:flex onclick="scrollTabsBar(220)" 
-        class="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/95 dark:bg-slate-900/95 shadow-md border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 opacity-0 pointer-events-none transition-all duration-200 hover:scale-110 active:scale-95 group-hover:opacity-100 group-hover:pointer-events-auto" 
-        title="Прокрутить вправо">
+      <button id="tabs-scroll-btn-right" aria-label="Прокрутить вкладки вправо" onclick="scrollTabsBar(220)" class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/95 dark:bg-slate-900/95 shadow-md border border-slate-200 dark:border-slate-700 items-center justify-center text-slate-600 dark:text-slate-300 opacity-0 pointer-events-none transition-all duration-200 hover:scale-110 active:scale-95 group-hover:opacity-100 group-hover:pointer-events-auto" title="Прокрутить вправо">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
