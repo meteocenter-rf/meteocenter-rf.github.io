@@ -7762,8 +7762,36 @@ function renderTabCurrent(container, d) {
           </div>
         </div>
 
-        <!-- ================= COMPACT LAYER SWITCHER ================= -->
-        <div class="glass-card rounded-2xl p-2.5 sm:p-3 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-md">
+        <!-- ================= MAP ENGINE & UNIVERSAL LAYER CONTROL DECK ================= -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-3 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-md space-y-2.5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+            <!-- Engine Selector -->
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-bold font-mono uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                Движок карты:
+              </span>
+              <div class="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-inner">
+                <button onclick="switchMapEngine('windy')" id="btn-engine-windy" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
+                  <span>🌀 Windy Pro 4K</span>
+                </button>
+                <button onclick="switchMapEngine('ventusky')" id="btn-engine-ventusky" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
+                  <span>⚡ Ventusky Live</span>
+                </button>
+                <button onclick="switchMapEngine('leaflet')" id="btn-engine-leaflet" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md">
+                  <span>🛰️ Leaflet HD (ВМО / RainViewer / NASA)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Free PRO Guarantee Badge -->
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[11px]">
+                <span>✓ 4K СЛОИ РАЗБЛОКИРОВАНЫ</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Universal Layer Quick Toggles -->
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             <button onclick="switchUniversalLayer('snow')" id="btn-unilayer-snow" class="shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-sky-600 text-white shadow-sm">
               <span>❄️ Снежный покров</span>
@@ -7789,15 +7817,16 @@ function renderTabCurrent(container, d) {
         <!-- Radar Map Wrapper Container with Multi-Engine Embeds -->
         <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-200/90 dark:border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
           <!-- 1. Windy 4K Interactive Embed -->
-          
+          <iframe id="windy-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:none;" allow="geolocation"></iframe>
           
           <!-- 2. Ventusky Live Embed -->
-          
+          <iframe id="ventusky-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:none;" allow="geolocation"></iframe>
 
           <!-- 3. Leaflet Native GIS Map -->
-          <div id="radar-map" class="w-full h-full z-0" style="display:none;"></div>
+          <div id="radar-map" class="w-full h-full z-0" style="display:block;"></div>
           
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
+          <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]" style="display:none;"></canvas>
           
 
           <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
@@ -8815,7 +8844,7 @@ function renderTabCurrent(container, d) {
         if (ventuskyIframe) ventuskyIframe.style.display = 'none';
         if (windyIframe) {
           windyIframe.style.display = 'block';
-          
+          updateWindyIframeSrc(curLat, curLon);
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -8825,7 +8854,7 @@ function renderTabCurrent(container, d) {
         if (windyIframe) windyIframe.style.display = 'none';
         if (ventuskyIframe) {
           ventuskyIframe.style.display = 'block';
-          
+          updateVentuskyIframeSrc(curLat, curLon);
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -8898,9 +8927,9 @@ function renderTabCurrent(container, d) {
       const curLon = (lastCoords && lastCoords.lon) || (latestData && latestData.lon) || 37.62;
 
       if (activeMapEngine === 'windy') {
-        
+        updateWindyIframeSrc(curLat, curLon);
       } else if (activeMapEngine === 'ventusky') {
-        
+        updateVentuskyIframeSrc(curLat, curLon);
       } else {
         applyLeafletUniversalLayer();
       }
