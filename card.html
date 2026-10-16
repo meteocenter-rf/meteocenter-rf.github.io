@@ -395,26 +395,21 @@
           <div class="flex items-center gap-2">
             <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Доплеровский Метеорадар</span>
             <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30 animate-pulse">
-              LIVE РАДАР
+              LIVE РАДАР 4K
             </span>
           </div>
-          <span class="text-[11px] text-[var(--muted-foreground)]">Радиус: 300 км • Отражаемость dBZ</span>
+          <span class="text-[11px] text-[var(--muted-foreground)]">Радиус: 300 км • RainViewer / Windy / ECMWF</span>
         </div>
 
-        <div class="relative w-full h-56 bg-slate-950 rounded-xl border border-[var(--border)] overflow-hidden flex items-center justify-center">
-          <canvas id="radar-canvas" width="480" height="220" class="w-full h-full block"></canvas>
-          
-          <div class="absolute bottom-2 left-3 bg-slate-900/85 backdrop-blur border border-slate-800 rounded-lg px-2.5 py-1 text-[10px] font-mono text-slate-300 flex items-center gap-2">
-            <span>dBZ:</span>
-            <span class="w-3 h-2 bg-emerald-500 rounded-xs"></span> 15
-            <span class="w-3 h-2 bg-amber-500 rounded-xs"></span> 35
-            <span class="w-3 h-2 bg-rose-600 rounded-xs"></span> 55+
-          </div>
-          
-          <div class="absolute top-2 right-3 bg-slate-900/85 backdrop-blur border border-slate-800 rounded-lg px-2.5 py-1 text-[10px] font-mono text-cyan-400 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-            360° сканирование
-          </div>
+        <div class="relative w-full h-80 sm:h-96 bg-slate-950 rounded-xl border border-[var(--border)] overflow-hidden shadow-inner">
+          <iframe id="card-radar-iframe" class="w-full h-full border-0" allow="geolocation" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=m%2Fs&zoom=6&overlay=radar&product=ecmwf&level=surface&lat=69.35&lon=88.20"></iframe>
+        </div>
+
+        <div class="pt-1">
+          <a id="btn-open-full-radar" href="./?mode=radar" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-bold text-xs shadow-md transition">
+            <span>🌐 Открыть полноэкранную 4K Обсерваторию (Радар, Спутник, ВМО)</span>
+            <span>→</span>
+          </a>
         </div>
       </div>
 
@@ -720,6 +715,20 @@
 
       if (tabId === 'radar') {
         renderRadarAnimation();
+        const city = CITIES_DATA[currentCityKey] || CITIES_DATA['norilsk'];
+        let lat = 69.35, lon = 88.20;
+        if (city && city.coords) {
+          const m = city.coords.match(/([\d\.]+).*?([\d\.]+)/);
+          if (m) { lat = parseFloat(m[1]); lon = parseFloat(m[2]); }
+        }
+        const iframe = document.getElementById('card-radar-iframe');
+        if (iframe) {
+          iframe.src = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=m%2Fs&zoom=6&overlay=radar&product=ecmwf&level=surface&lat=${lat}&lon=${lon}`;
+        }
+        const btn = document.getElementById('btn-open-full-radar');
+        if (btn) {
+          btn.href = `./?city=${encodeURIComponent(city.name)}&mode=radar`;
+        }
       }
     }
 
