@@ -35,6 +35,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
   <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
+  <!-- Primary Search Engine Crawling & Canonical Directives -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link id="canonical-url" rel="canonical" href="https://meteocenter-rf.github.io/">
+  <meta property="og:image" content="https://meteocenter-rf.github.io/favicon.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="МетеоПортал — независимый погодный агрегатор">
+  <meta name="twitter:description" content="Фактическая температура, климатический архив 1890–2026 гг., радар RainViewer и прогноз 4 моделей (ECMWF, GFS, ICON).">
+  <meta name="twitter:image" content="https://meteocenter-rf.github.io/favicon.svg">
+
   <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
 
   
@@ -5414,13 +5423,18 @@
     }
 
     function updateSeoMetaForCity(cityName) {
-      document.title = `Погода в г. ${cityName} — Консенсус 4 моделей (ECMWF, GFS, ICON), радар и климатический архив 1890–2026 | МетеоПортал`;
+      const cleanCity = (cityName || '').trim();
+      document.title = `Погода в г. ${cleanCity} — Консенсус 4 моделей (ECMWF, GFS, ICON), радар и климатический архив 1890–2026 | МетеоПортал`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         metaDesc.setAttribute(
           'content',
-          `Точный метеопрогноз для г. ${cityName}: сравнение моделей ECMWF, ICON, GFS, онлайн-радар осадков, давление, УФ-индекс и климатический архив ВМО за 136 лет.`
+          `Точный метеопрогноз для г. ${cleanCity}: сравнение моделей ECMWF, ICON, GFS, онлайн-радар осадков, давление, УФ-индекс и климатический архив ВМО за 136 лет.`
         );
+      }
+      const canonicalLink = document.getElementById('canonical-url');
+      if (canonicalLink) {
+        canonicalLink.setAttribute('href', `https://meteocenter-rf.github.io/?city=${encodeURIComponent(cleanCity)}`);
       }
     }
 
