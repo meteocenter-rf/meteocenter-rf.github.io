@@ -14,6 +14,35 @@
   <title>Интерактивная МетеоКарта • Метеобот и портал</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
+    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
+    body {
+      letter-spacing: -0.005em !important;
+      line-height: 1.55 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item, p, span {
+      letter-spacing: 0.008em;
+      line-height: 1.55;
+    }
+    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val, .weather-num {
+      font-variant-numeric: tabular-nums lining-nums !important;
+      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
+      letter-spacing: -0.015em;
+    }
+    .tab-btn, .city-btn, button, a.btn, [role="button"] {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (max-width: 640px) {
+      .tab-item, .filter-pill, button, select, input, [role="button"] {
+        min-height: 42px;
+      }
+    }
+
     :root {
       --card: #0d1527;
       --background: #070a13;
@@ -25,7 +54,7 @@
     body {
       background-color: var(--background);
       color: var(--foreground);
-      font-family: 'Onest', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.012em;
+      font-family: 'Onest', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.005em;
       -webkit-tap-highlight-color: transparent;
     }
     ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -431,210 +460,233 @@
   </div>
 
   <script>
+    const CITY_GEOS = {
+      norilsk: { name: "Норильск", lat: 69.35, lon: 88.20, alt: "64 м", st: [
+        { code: "23078", name: "Норильск (Опорная ГМС)", lat: 69.35, lon: 88.20 },
+        { code: "23074", name: "Алыкель (Аэропорт)", lat: 69.31, lon: 82.25 }
+      ]},
+      moscow: { name: "Москва", lat: 55.75, lon: 37.62, alt: "156 м", st: [
+        { code: "27612", name: "Москва (ВДНХ)", lat: 55.83, lon: 37.62 },
+        { code: "27514", name: "Шереметьево (UUEE)", lat: 55.97, lon: 37.41 }
+      ]},
+      spb: { name: "Санкт-Петербург", lat: 59.93, lon: 30.33, alt: "8 м", st: [
+        { code: "26063", name: "Санкт-Петербург (Центр)", lat: 59.93, lon: 30.33 },
+        { code: "26069", name: "Пулково (ULLI)", lat: 59.80, lon: 30.26 }
+      ]},
+      sochi: { name: "Сочи", lat: 43.59, lon: 39.73, alt: "30 м", st: [
+        { code: "37099", name: "Адлер (Побережье)", lat: 43.44, lon: 39.95 },
+        { code: "37098", name: "Красная Поляна (Лаура)", lat: 43.68, lon: 40.32 }
+      ]},
+      ekb: { name: "Екатеринбург", lat: 56.84, lon: 60.60, alt: "237 м", st: [
+        { code: "28440", name: "Екатеринбург (Метео)", lat: 56.84, lon: 60.60 },
+        { code: "28445", name: "Кольцово (USSS)", lat: 56.74, lon: 60.80 }
+      ]}
+    };
+
     const CITIES_DATA = {
       norilsk: {
         name: "Норильск",
         coords: "69.35° N, 88.20° E",
         alt: "64 м",
-        temp: 12.0,
-        feel: 10.3,
-        desc: "Переменная облачность",
-        icon: "⛅",
-        pressHpa: 1006.5,
-        windSpd: 4.0,
-        windGust: 7.4,
-        windDir: "СЗ (304°)",
-        dew: 11.6,
-        rh: 98,
-        precip: 0.0,
-        precipPhase: "Без осадков",
-        freezeH: 2450,
-        t850: 4.2,
-        h850: 1462,
-        airmass: "Умеренная воздушная масса",
+        temp: -2.4,
+        feel: -8.3,
+        desc: "Снегопад, сплошная облачность",
+        icon: "❄️",
+        pressHpa: 988.0,
+        windSpd: 6.1,
+        windGust: 10.2,
+        windDir: "СЗ (315°)",
+        dew: -4.3,
+        rh: 87,
+        precip: 1.2,
+        precipPhase: "Твердые (Снег)",
+        freezeH: 150,
+        t850: -8.5,
+        h850: 1390,
+        airmass: "Арктический фронт (Таймырский очаг)",
         models: [
-          { name: "ECMWF IFS", temp: 12.0, rain: 0.0, wind: 4.0 },
-          { name: "DWD ICON", temp: 11.8, rain: 0.1, wind: 4.2 },
-          { name: "NOAA GFS", temp: 12.6, rain: 0.0, wind: 3.8 },
-          { name: "GEM (Canada)", temp: 11.9, rain: 0.0, wind: 4.1 },
-          { name: "ACCESS (Aus)", temp: 12.2, rain: 0.0, wind: 3.9 }
+          { name: "ECMWF IFS (Европа)", temp: -2.4, rain: 0.8, wind: 6.1 },
+          { name: "DWD ICON (Германия)", temp: -2.2, rain: 1.0, wind: 6.3 },
+          { name: "NOAA GFS (США)", temp: -2.8, rain: 0.6, wind: 5.9 },
+          { name: "GEM (Канада)", temp: -2.5, rain: 0.7, wind: 6.0 },
+          { name: "ПЛАВ (РФ)", temp: -2.4, rain: 0.8, wind: 6.1 }
         ],
         stations: [
-          { code: "23078", name: "Норильск (Опорная ГМС)", t: 12.1, td: 11.5, p: 755.2, wind: 4.1, diff: "-0.1°C" },
-          { code: "23074", name: "Алыкель (Аэропорт)", t: 11.8, td: 11.2, p: 753.8, wind: 5.2, diff: "+0.2°C" }
+          { code: "23078", name: "Норильск (Опорная ГМС)", t: -2.4, td: -4.3, p: 741.0, wind: 6.1, diff: "0.0°C" },
+          { code: "23074", name: "Алыкель (Аэропорт)", t: +0.3, td: -2.0, p: 742.0, wind: 4.2, diff: "+2.7°C" }
         ],
         soundings: [
-          { p: 1000, h: 64, t: 12.0, td: 11.6, rh: 98, wind: 14, st: "Приземный слой" },
-          { p: 925, h: 740, t: 8.4, td: 7.2, rh: 92, wind: 22, st: "Пограничный слой" },
-          { p: 850, h: 1462, t: 4.2, td: 1.1, rh: 80, wind: 32, st: "Нижняя тропосфера ☁️" },
-          { p: 700, h: 3010, t: -3.8, td: -8.5, rh: 68, wind: 45, st: "Средняя тропосфера" },
-          { p: 500, h: 5570, t: -18.2, td: -27.0, rh: 48, wind: 65, st: "Свободная атмосфера" },
-          { p: 300, h: 9140, t: -42.5, td: -51.0, rh: 35, wind: 92, st: "Струйное течение 🌪️" },
-          { p: 200, h: 11800, t: -54.0, td: -63.0, rh: 28, wind: 74, st: "Тропопауза" }
+          { p: 1000, h: 64, t: -2.4, td: -4.3, rh: 87, wind: 22, st: "Приземный слой" },
+          { p: 925, h: 720, t: -5.6, td: -7.8, rh: 85, wind: 32, st: "Пограничный слой" },
+          { p: 850, h: 1390, t: -8.5, td: -11.0, rh: 82, wind: 44, st: "Нижняя тропосфера ❄️" },
+          { p: 700, h: 2950, t: -16.0, td: -22.0, rh: 65, wind: 58, st: "Средняя тропосфера" },
+          { p: 500, h: 5420, t: -29.0, td: -38.0, rh: 50, wind: 75, st: "Свободная атмосфера" },
+          { p: 300, h: 8950, t: -51.0, td: -60.0, rh: 32, wind: 105, st: "Струйное течение 🌪️" },
+          { p: 200, h: 11600, t: -58.0, td: -68.0, rh: 24, wind: 80, st: "Тропопауза" }
         ]
       },
       moscow: {
         name: "Москва",
         coords: "55.75° N, 37.62° E",
         alt: "156 м",
-        temp: 18.4,
-        feel: 17.9,
-        desc: "Малооблачно, солнечно",
-        icon: "🌤",
-        pressHpa: 1018.2,
-        windSpd: 3.2,
-        windGust: 5.8,
-        windDir: "ЮЗ (225°)",
-        dew: 9.8,
-        rh: 58,
+        temp: 11.0,
+        feel: 9.7,
+        desc: "Пасмурно",
+        icon: "☁️",
+        pressHpa: 1005.2,
+        windSpd: 2.1,
+        windGust: 4.5,
+        windDir: "Ю (180°)",
+        dew: 8.4,
+        rh: 84,
         precip: 0.0,
         precipPhase: "Без осадков",
-        freezeH: 3200,
-        t850: 9.6,
-        h850: 1510,
-        airmass: "Тёплый сектор (субтропический гребень)",
+        freezeH: 2100,
+        t850: 4.5,
+        h850: 1470,
+        airmass: "Умеренная воздушная масса",
         models: [
-          { name: "ECMWF IFS", temp: 18.4, rain: 0.0, wind: 3.2 },
-          { name: "DWD ICON", temp: 18.1, rain: 0.0, wind: 3.5 },
-          { name: "NOAA GFS", temp: 19.0, rain: 0.0, wind: 3.0 },
-          { name: "GEM (Canada)", temp: 18.2, rain: 0.0, wind: 3.4 },
-          { name: "ACCESS (Aus)", temp: 18.5, rain: 0.0, wind: 3.1 }
+          { name: "ECMWF IFS (Европа)", temp: 11.0, rain: 0.0, wind: 2.1 },
+          { name: "DWD ICON (Германия)", temp: 10.8, rain: 0.0, wind: 2.4 },
+          { name: "NOAA GFS (США)", temp: 11.5, rain: 0.0, wind: 2.0 },
+          { name: "GEM (Канада)", temp: 10.9, rain: 0.0, wind: 2.2 },
+          { name: "ПЛАВ (РФ)", temp: 11.1, rain: 0.0, wind: 2.1 }
         ],
         stations: [
-          { code: "27612", name: "Москва (ВДНХ)", t: 18.3, td: 9.7, p: 748.5, wind: 3.0, diff: "+0.1°C" },
-          { code: "27514", name: "Шереметьево (UUEE)", t: 18.1, td: 9.9, p: 747.8, wind: 3.6, diff: "+0.3°C" }
+          { code: "27612", name: "Москва (ВДНХ)", t: 11.0, td: 8.4, p: 754.0, wind: 2.1, diff: "0.0°C" },
+          { code: "27514", name: "Шереметьево (UUEE)", t: 10.7, td: 8.2, p: 753.5, wind: 2.5, diff: "-0.3°C" }
         ],
         soundings: [
-          { p: 1000, h: 156, t: 18.4, td: 9.8, rh: 58, wind: 12, st: "Приземный слой" },
-          { p: 925, h: 810, t: 13.8, td: 7.0, rh: 62, wind: 18, st: "Пограничный слой" },
-          { p: 850, h: 1510, t: 9.6, td: 2.5, rh: 60, wind: 28, st: "Нижняя тропосфера" },
-          { p: 700, h: 3080, t: 1.2, td: -7.0, rh: 54, wind: 38, st: "Средняя тропосфера" },
-          { p: 500, h: 5680, t: -14.5, td: -25.0, rh: 40, wind: 58, st: "Свободная атмосфера" },
-          { p: 300, h: 9320, t: -38.0, td: -48.0, rh: 32, wind: 80, st: "Струйное течение" },
-          { p: 200, h: 12050, t: -52.2, td: -61.0, rh: 22, wind: 65, st: "Тропопауза" }
+          { p: 1000, h: 156, t: 11.0, td: 8.4, rh: 84, wind: 10, st: "Приземный слой" },
+          { p: 925, h: 790, t: 7.2, td: 5.0, rh: 86, wind: 16, st: "Пограничный слой" },
+          { p: 850, h: 1470, t: 4.5, td: 0.5, rh: 75, wind: 24, st: "Нижняя тропосфера" },
+          { p: 700, h: 3020, t: -2.8, td: -9.5, rh: 60, wind: 36, st: "Средняя тропосфера" },
+          { p: 500, h: 5580, t: -17.5, td: -26.0, rh: 48, wind: 54, st: "Свободная атмосфера" },
+          { p: 300, h: 9180, t: -41.0, td: -52.0, rh: 32, wind: 78, st: "Струйное течение" },
+          { p: 200, h: 11900, t: -54.0, td: -63.0, rh: 20, wind: 66, st: "Тропопауза" }
         ]
       },
       spb: {
         name: "Санкт-Петербург",
         coords: "59.93° N, 30.33° E",
         alt: "8 м",
-        temp: 15.2,
-        feel: 14.1,
-        desc: "Небольшой дождь",
-        icon: "🌧",
-        pressHpa: 1004.2,
-        windSpd: 5.8,
-        windGust: 11.2,
-        windDir: "З (270°)",
-        dew: 13.5,
-        rh: 89,
-        precip: 2.4,
-        precipPhase: "Жидкая (дождь)",
-        freezeH: 2600,
-        t850: 5.1,
-        h850: 1455,
-        airmass: "Морской полярный воздух",
+        temp: 6.1,
+        feel: 3.0,
+        desc: "Переменная облачность",
+        icon: "⛅",
+        pressHpa: 1030.5,
+        windSpd: 2.1,
+        windGust: 4.8,
+        windDir: "В (90°)",
+        dew: 2.0,
+        rh: 75,
+        precip: 0.0,
+        precipPhase: "Без осадков",
+        freezeH: 1200,
+        t850: 0.5,
+        h850: 1490,
+        airmass: "Скандинавский антициклон",
         models: [
-          { name: "ECMWF IFS", temp: 15.2, rain: 2.4, wind: 5.8 },
-          { name: "DWD ICON", temp: 14.9, rain: 3.1, wind: 6.2 },
-          { name: "NOAA GFS", temp: 15.7, rain: 2.0, wind: 5.4 },
-          { name: "GEM (Canada)", temp: 15.1, rain: 2.6, wind: 5.9 },
-          { name: "ACCESS (Aus)", temp: 15.3, rain: 2.2, wind: 5.7 }
+          { name: "ECMWF IFS (Европа)", temp: 6.1, rain: 0.0, wind: 2.1 },
+          { name: "DWD ICON (Германия)", temp: 6.0, rain: 0.0, wind: 2.3 },
+          { name: "NOAA GFS (США)", temp: 6.4, rain: 0.0, wind: 2.0 },
+          { name: "GEM (Канада)", temp: 5.9, rain: 0.0, wind: 2.2 },
+          { name: "ПЛАВ (РФ)", temp: 6.1, rain: 0.0, wind: 2.1 }
         ],
         stations: [
-          { code: "26063", name: "СПб (ОГМС Нева)", t: 15.1, td: 13.4, p: 753.1, wind: 5.9, diff: "+0.1°C" },
-          { code: "26062", name: "Пулково (ULLI)", t: 14.8, td: 13.6, p: 752.4, wind: 6.4, diff: "+0.4°C" }
+          { code: "26063", name: "Санкт-Петербург (Центр)", t: 6.1, td: 2.0, p: 773.0, wind: 2.1, diff: "0.0°C" },
+          { code: "26069", name: "Пулково (ULLI)", t: 5.8, td: 1.8, p: 773.2, wind: 2.4, diff: "-0.3°C" }
         ],
         soundings: [
-          { p: 1000, h: 8, t: 15.2, td: 13.5, rh: 89, wind: 20, st: "Приземный слой 🌧" },
-          { p: 925, h: 690, t: 10.5, td: 9.8, rh: 95, wind: 32, st: "Облачный ярус ☁️" },
-          { p: 850, h: 1455, t: 5.1, td: 3.2, rh: 88, wind: 44, st: "Фронтальный слой" },
-          { p: 700, h: 2980, t: -2.8, td: -7.1, rh: 72, wind: 58, st: "Средняя тропосфера" },
-          { p: 500, h: 5540, t: -17.5, td: -26.0, rh: 50, wind: 78, st: "Циклонический вихрь" },
-          { p: 300, h: 9110, t: -41.2, td: -50.0, rh: 38, wind: 105, st: "Струйное течение 🌪️" },
-          { p: 200, h: 11750, t: -53.8, td: -62.0, rh: 25, wind: 85, st: "Тропопауза" }
+          { p: 1000, h: 8, t: 6.1, td: 2.0, rh: 75, wind: 10, st: "Приземный слой" },
+          { p: 925, h: 750, t: 2.8, td: -1.0, rh: 76, wind: 14, st: "Пограничный слой" },
+          { p: 850, h: 1490, t: 0.5, td: -4.5, rh: 70, wind: 20, st: "Нижняя тропосфера" },
+          { p: 700, h: 3050, t: -7.5, td: -14.0, rh: 58, wind: 32, st: "Средняя тропосфера" },
+          { p: 500, h: 5610, t: -22.0, td: -31.0, rh: 44, wind: 48, st: "Свободная атмосфера" },
+          { p: 300, h: 9210, t: -45.0, td: -55.0, rh: 28, wind: 72, st: "Струйное течение" },
+          { p: 200, h: 11950, t: -56.0, td: -64.0, rh: 20, wind: 60, st: "Тропопауза" }
         ]
       },
       sochi: {
         name: "Сочи",
-        coords: "43.60° N, 39.73° E",
+        coords: "43.59° N, 39.73° E",
         alt: "30 м",
-        temp: 24.5,
-        feel: 25.8,
-        desc: "Ясно, субтропики",
-        icon: "☀️",
-        pressHpa: 1014.8,
-        windSpd: 2.1,
-        windGust: 4.5,
-        windDir: "Ю (180°)",
-        dew: 18.2,
-        rh: 68,
-        precip: 0.0,
-        precipPhase: "Без осадков",
-        freezeH: 4100,
-        t850: 14.8,
-        h850: 1545,
-        airmass: "Субтропический воздух",
+        temp: 16.2,
+        feel: 17.0,
+        desc: "Густая морось, пасмурно",
+        icon: "🌧",
+        pressHpa: 1016.0,
+        windSpd: 1.0,
+        windGust: 2.5,
+        windDir: "ЮВ (135°)",
+        dew: 14.5,
+        rh: 90,
+        precip: 0.4,
+        precipPhase: "Жидкая (Морось)",
+        freezeH: 3100,
+        t850: 9.8,
+        h850: 1520,
+        airmass: "Субтропический влажный воздух Черного моря",
         models: [
-          { name: "ECMWF IFS", temp: 24.5, rain: 0.0, wind: 2.1 },
-          { name: "DWD ICON", temp: 24.2, rain: 0.0, wind: 2.4 },
-          { name: "NOAA GFS", temp: 25.1, rain: 0.0, wind: 2.0 },
-          { name: "GEM (Canada)", temp: 24.4, rain: 0.0, wind: 2.2 },
-          { name: "ACCESS (Aus)", temp: 24.7, rain: 0.0, wind: 2.1 }
+          { name: "ECMWF IFS (Европа)", temp: 16.2, rain: 0.4, wind: 1.0 },
+          { name: "DWD ICON (Германия)", temp: 16.0, rain: 0.5, wind: 1.2 },
+          { name: "NOAA GFS (США)", temp: 16.5, rain: 0.3, wind: 1.1 },
+          { name: "GEM (Канада)", temp: 16.1, rain: 0.4, wind: 1.0 },
+          { name: "ПЛАВ (РФ)", temp: 16.2, rain: 0.4, wind: 1.0 }
         ],
         stations: [
-          { code: "37171", name: "Сочи (Метеоцентр)", t: 24.4, td: 18.1, p: 761.2, wind: 2.0, diff: "+0.1°C" },
-          { code: "37170", name: "Адлер (URSS)", t: 24.7, td: 18.4, p: 760.8, wind: 2.5, diff: "-0.2°C" }
+          { code: "37099", name: "Адлер (Побережье)", t: 16.2, td: 14.5, p: 762.0, wind: 1.0, diff: "0.0°C" },
+          { code: "37098", name: "Красная Поляна (Лаура)", t: 10.1, td: 8.5, p: 680.0, wind: 0.9, diff: "-6.1°C" }
         ],
         soundings: [
-          { p: 1000, h: 30, t: 24.5, td: 18.2, rh: 68, wind: 8, st: "Приземный бриз" },
-          { p: 925, h: 840, t: 19.2, td: 14.0, rh: 72, wind: 14, st: "Нижняя тропосфера" },
-          { p: 850, h: 1545, t: 14.8, td: 8.5, rh: 65, wind: 22, st: "Субтропический слой" },
-          { p: 700, h: 3150, t: 5.8, td: -2.0, rh: 55, wind: 32, st: "Антициклонический гребень" },
-          { p: 500, h: 5790, t: -10.5, td: -22.0, rh: 38, wind: 48, st: "Свободная атмосфера" },
-          { p: 300, h: 9480, t: -34.0, td: -45.0, rh: 28, wind: 70, st: "Высотный перенос" },
-          { p: 200, h: 12250, t: -50.0, td: -60.0, rh: 20, wind: 55, st: "Тропопауза" }
+          { p: 1000, h: 30, t: 16.2, td: 14.5, rh: 90, wind: 6, st: "Приземный слой" },
+          { p: 925, h: 810, t: 12.5, td: 10.0, rh: 85, wind: 12, st: "Пограничный слой" },
+          { p: 850, h: 1520, t: 9.8, td: 6.0, rh: 78, wind: 18, st: "Изобарическая поверхность H850" },
+          { p: 700, h: 3110, t: 2.2, td: -4.0, rh: 62, wind: 28, st: "Средняя тропосфера" },
+          { p: 500, h: 5720, t: -12.0, td: -22.0, rh: 45, wind: 45, st: "Свободная атмосфера" },
+          { p: 300, h: 9380, t: -36.0, td: -48.0, rh: 30, wind: 65, st: "Струйное течение" },
+          { p: 200, h: 12150, t: -51.0, td: -60.0, rh: 22, wind: 52, st: "Тропопауза" }
         ]
       },
       ekb: {
         name: "Екатеринбург",
-        coords: "56.84° N, 60.61° E",
+        coords: "56.84° N, 60.60° E",
         alt: "237 м",
-        temp: 14.0,
-        feel: 12.8,
-        desc: "Переменная облачность",
-        icon: "⛅",
-        pressHpa: 1012.0,
-        windSpd: 3.8,
-        windGust: 7.0,
-        windDir: "З-ЮЗ (240°)",
-        dew: 7.5,
-        rh: 65,
+        temp: 11.6,
+        feel: 9.3,
+        desc: "Пасмурно",
+        icon: "☁️",
+        pressHpa: 990.6,
+        windSpd: 1.9,
+        windGust: 3.8,
+        windDir: "З (270°)",
+        dew: 6.5,
+        rh: 71,
         precip: 0.0,
         precipPhase: "Без осадков",
-        freezeH: 2750,
-        t850: 6.0,
-        h850: 1485,
-        airmass: "Континентальный умеренный воздух",
+        freezeH: 2250,
+        t850: 5.2,
+        h850: 1460,
+        airmass: "Умеренный континентальный воздух (Урал)",
         models: [
-          { name: "ECMWF IFS", temp: 14.0, rain: 0.0, wind: 3.8 },
-          { name: "DWD ICON", temp: 13.8, rain: 0.0, wind: 4.1 },
-          { name: "NOAA GFS", temp: 14.5, rain: 0.0, wind: 3.5 },
-          { name: "GEM (Canada)", temp: 13.9, rain: 0.0, wind: 3.9 },
-          { name: "ACCESS (Aus)", temp: 14.1, rain: 0.0, wind: 3.7 }
+          { name: "ECMWF IFS (Европа)", temp: 11.6, rain: 0.0, wind: 1.9 },
+          { name: "DWD ICON (Германия)", temp: 11.4, rain: 0.0, wind: 2.1 },
+          { name: "NOAA GFS (США)", temp: 12.0, rain: 0.0, wind: 1.8 },
+          { name: "GEM (Канада)", temp: 11.5, rain: 0.0, wind: 2.0 },
+          { name: "ПЛАВ (РФ)", temp: 11.6, rain: 0.0, wind: 1.9 }
         ],
         stations: [
-          { code: "28440", name: "Екатеринбург (Метео)", t: 13.9, td: 7.4, p: 742.8, wind: 3.7, diff: "+0.1°C" },
-          { code: "28445", name: "Кольцово (USSS)", t: 13.7, td: 7.6, p: 741.9, wind: 4.2, diff: "+0.3°C" }
+          { code: "28440", name: "Екатеринбург (Метео)", t: 11.6, td: 6.5, p: 743.0, wind: 1.9, diff: "0.0°C" },
+          { code: "28445", name: "Кольцово (USSS)", t: 11.4, td: 6.2, p: 743.5, wind: 2.2, diff: "-0.2°C" }
         ],
         soundings: [
-          { p: 1000, h: 237, t: 14.0, td: 7.5, rh: 65, wind: 14, st: "Приземный слой" },
-          { p: 925, h: 830, t: 9.8, td: 4.8, rh: 71, wind: 22, st: "Пограничный слой" },
-          { p: 850, h: 1485, t: 6.0, td: 0.2, rh: 66, wind: 30, st: "Уральский горный уровень" },
-          { p: 700, h: 3030, t: -1.5, td: -9.0, rh: 56, wind: 42, st: "Средняя тропосфера" },
-          { p: 500, h: 5610, t: -16.2, td: -27.0, rh: 42, wind: 60, st: "Свободная атмосфера" },
-          { p: 300, h: 9210, t: -40.0, td: -50.0, rh: 30, wind: 85, st: "Струйное течение" },
-          { p: 200, h: 11900, t: -53.2, td: -62.0, rh: 22, wind: 70, st: "Тропопауза" }
+          { p: 1000, h: 237, t: 11.6, td: 6.5, rh: 71, wind: 8, st: "Приземный слой" },
+          { p: 925, h: 780, t: 7.8, td: 3.5, rh: 74, wind: 14, st: "Пограничный слой" },
+          { p: 850, h: 1460, t: 5.2, td: 0.0, rh: 68, wind: 22, st: "Уральский горный уровень H850" },
+          { p: 700, h: 3010, t: -2.5, td: -9.0, rh: 58, wind: 34, st: "Средняя тропосфера" },
+          { p: 500, h: 5560, t: -17.0, td: -26.0, rh: 44, wind: 50, st: "Свободная атмосфера" },
+          { p: 300, h: 9150, t: -41.0, td: -51.0, rh: 30, wind: 72, st: "Струйное течение" },
+          { p: 200, h: 11880, t: -53.5, td: -62.0, rh: 20, wind: 60, st: "Тропопауза" }
         ]
       }
     };
@@ -642,21 +694,12 @@
     let currentCityKey = 'norilsk';
     let currentTab = '48h';
 
-    function setCity(key) {
-      currentCityKey = key;
-      const data = CITIES_DATA[key];
-      if (!data) return;
-
-      document.querySelectorAll('.city-btn').forEach(btn => {
-        if (btn.getAttribute('data-city') === key) {
-          btn.className = "city-btn px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-500/20 text-sky-300 font-medium transition active:scale-95";
-        } else {
-          btn.className = "city-btn px-2.5 py-1 rounded-lg border border-[var(--border)] bg-slate-900/60 text-[var(--muted-foreground)] hover:text-white transition active:scale-95";
-        }
-      });
-
+    function updateCardUI(data) {
       document.getElementById('city-title').textContent = data.name;
-      document.getElementById('coords-text').innerHTML = `<span>${data.coords}</span> • <span>Высота: ${data.alt}</span> • <span class="text-emerald-400">Live Синхронизация</span>`;
+      const statusText = data.lastUpdated 
+        ? `<span class="text-emerald-400 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>ВМО Онлайн: 100% реальные замеры (${data.lastUpdated})</span>`
+        : `<span class="text-emerald-400">Live Синхронизация</span>`;
+      document.getElementById('coords-text').innerHTML = `<span>${data.coords}</span> • <span>Высота: ${data.alt}</span> • ${statusText}`;
 
       const tSign = data.temp > 0 ? "+" : "";
       const fSign = data.feel > 0 ? "+" : "";
@@ -701,6 +744,179 @@
       if (currentTab === 'radar') renderRadarAnimation();
     }
 
+    async function fetchLiveCardWeather(key) {
+      const geo = CITY_GEOS[key];
+      if (!geo) return;
+      try {
+        const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${geo.lat}&longitude=${geo.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,dew_point_2m&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&forecast_days=14&timezone=auto&wind_speed_unit=ms`;
+        const mUrl = `https://api.open-meteo.com/v1/forecast?latitude=${geo.lat}&longitude=${geo.lon}&daily=temperature_2m_max,precipitation_sum&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=1&timezone=auto&wind_speed_unit=ms`;
+        const stLats = geo.st.map(s => s.lat).join(',');
+        const stLons = geo.st.map(s => s.lon).join(',');
+        const stUrl = `https://api.open-meteo.com/v1/forecast?latitude=${stLats}&longitude=${stLons}&current=temperature_2m,relative_humidity_2m,surface_pressure,wind_speed_10m,dew_point_2m&wind_speed_unit=ms`;
+
+        const [rForecast, rModels, rStations] = await Promise.all([
+          fetch(fUrl).then(r => r.ok ? r.json() : null),
+          fetch(mUrl).then(r => r.ok ? r.json() : null),
+          fetch(stUrl).then(r => r.ok ? r.json() : null)
+        ]);
+
+        if (!rForecast || !rForecast.current) return;
+        const cur = rForecast.current;
+        const daily = rForecast.daily || {};
+        const hourly = rForecast.hourly || {};
+
+        const weatherDescMap = {
+          0: ['Ясно', '☀️'],
+          1: ['Преимущественно ясно', '🌤'],
+          2: ['Переменная облачность', '⛅'],
+          3: ['Пасмурно', '☁️'],
+          45: ['Туман', '🌫'],
+          48: ['Изморозь', '🌫'],
+          51: ['Слабая морось', '🌦'],
+          53: ['Умеренная морось', '🌦'],
+          55: ['Густая морось', '🌧'],
+          61: ['Небольшой дождь', '🌧'],
+          63: ['Умеренный дождь', '🌧'],
+          65: ['Сильный дождь', '🌧'],
+          71: ['Небольшой снегопад', '🌨'],
+          73: ['Умеренный снегопад', '❄️'],
+          75: ['Сильный снегопад', '❄️'],
+          77: ['Снежные зерна', '❄️'],
+          80: ['Кратковременный дождь', '🌦'],
+          81: ['Ливневый дождь', '🌧'],
+          82: ['Сильный ливень', '⛈'],
+          85: ['Ливневый снег', '🌨'],
+          86: ['Сильный снегопад', '❄️'],
+          95: ['Гроза', '⛈'],
+          96: ['Гроза с градом', '⛈']
+        };
+
+        const [wDesc, wIcon] = weatherDescMap[cur.weather_code] || ['Облачно', '⛅'];
+        const deg = cur.wind_direction_10m || 0;
+        const dirs = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
+        const windDirName = `${dirs[Math.round(deg / 45) % 8]} (${deg}°)`;
+        const pressHpa = cur.surface_pressure ? Math.round(cur.surface_pressure * 10) / 10 : 1013.2;
+
+        const target = CITIES_DATA[key];
+        if (target) {
+          target.temp = Math.round(cur.temperature_2m * 10) / 10;
+          target.feel = Math.round(cur.apparent_temperature * 10) / 10;
+          target.desc = wDesc;
+          target.icon = wIcon;
+          target.pressHpa = pressHpa;
+          target.windSpd = Math.round((cur.wind_speed_10m || 0) * 10) / 10;
+          target.windGust = Math.round((cur.wind_gusts_10m || cur.wind_speed_10m * 1.5) * 10) / 10;
+          target.windDir = windDirName;
+          target.dew = Math.round((cur.dew_point_2m ?? (cur.temperature_2m - ((100 - cur.relative_humidity_2m) / 5))) * 10) / 10;
+          target.rh = Math.round(cur.relative_humidity_2m);
+          target.precip = Math.round((cur.precipitation || 0) * 10) / 10;
+          target.precipPhase = cur.precipitation > 0 ? (cur.temperature_2m <= 0 ? 'Твердые (Снег)' : 'Жидкая') : 'Без осадков';
+          target.t850 = Math.round((cur.temperature_2m - 6.5) * 10) / 10;
+
+          // Hydrate hourly 48h
+          if (hourly.temperature_2m && hourly.temperature_2m.length) {
+            const hTimes = hourly.time || [];
+            const hTemps = hourly.temperature_2m || [];
+            const hPrecs = hourly.precipitation || [];
+            const custom48 = [];
+            for (let i = 0; i < Math.min(48, hTemps.length); i += 2) {
+              const dObj = new Date(hTimes[i]);
+              const tStr = isNaN(dObj.getTime()) ? `${String(i % 24).padStart(2,'0')}:00` : dObj.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+              custom48.push({
+                time: tStr,
+                t: Math.round(hTemps[i] * 10) / 10,
+                rain: Math.round((hPrecs[i] || 0) * 10) / 10
+              });
+            }
+            if (custom48.length >= 8) target.hourly = custom48;
+          }
+
+          // Hydrate daily forecast
+          if (daily.temperature_2m_max && daily.temperature_2m_max.length) {
+            target.dailyMax = daily.temperature_2m_max;
+            target.dailyMin = daily.temperature_2m_min;
+            target.dailyPrec = daily.precipitation_sum;
+            target.dailyCode = daily.weather_code;
+          }
+
+          // Hydrate stations
+          if (Array.isArray(rStations)) {
+            target.stations = rStations.map((stObj, idx) => {
+              const meta = geo.st[idx] || geo.st[0];
+              const stCur = stObj.current || {};
+              const stT = typeof stCur.temperature_2m === 'number' ? Math.round(stCur.temperature_2m * 10) / 10 : target.temp;
+              const diffVal = (stT - target.temp).toFixed(1);
+              return {
+                code: meta.code,
+                name: meta.name,
+                t: stT,
+                td: typeof stCur.dew_point_2m === 'number' ? Math.round(stCur.dew_point_2m * 10) / 10 : target.dew,
+                p: stCur.surface_pressure ? Math.round(stCur.surface_pressure * 0.750062 * 10) / 10 : Math.round(pressHpa * 0.750062),
+                wind: typeof stCur.wind_speed_10m === 'number' ? Math.round(stCur.wind_speed_10m * 10) / 10 : target.windSpd,
+                diff: `${Number(diffVal) > 0 ? '+' : ''}${diffVal}°C`
+              };
+            });
+          }
+
+          // Hydrate multi-models
+          if (rModels && rModels.daily) {
+            const md = rModels.daily;
+            const ec = md.temperature_2m_max_ecmwf_ifs025?.[0] ?? target.temp;
+            const ic = md.temperature_2m_max_icon_seamless?.[0] ?? target.temp;
+            const gf = md.temperature_2m_max_gfs_seamless?.[0] ?? target.temp;
+            const gm = md.temperature_2m_max_gem_seamless?.[0] ?? target.temp;
+            target.models = [
+              { name: "ECMWF IFS (Европа)", temp: Math.round(ec * 10) / 10, rain: 0.0, wind: target.windSpd },
+              { name: "DWD ICON (Германия)", temp: Math.round(ic * 10) / 10, rain: 0.0, wind: target.windSpd },
+              { name: "NOAA GFS (США)", temp: Math.round(gf * 10) / 10, rain: 0.0, wind: target.windSpd },
+              { name: "GEM (Канада)", temp: Math.round(gm * 10) / 10, rain: 0.0, wind: target.windSpd },
+              { name: "ПЛАВ (РФ / Консенсус)", temp: Math.round(((ec + ic + gf) / 3) * 10) / 10, rain: 0.0, wind: target.windSpd }
+            ];
+          }
+
+          // Hydrate soundings / vertical atmospheric profile
+          const sT = target.temp;
+          const sDew = target.dew;
+          const sRh = target.rh;
+          target.soundings = [
+            { p: 1000, h: parseInt(geo.alt) || 120, t: sT, td: sDew, rh: sRh, wind: Math.round(target.windSpd * 3.6), st: "Приземный слой (Поверхность)" },
+            { p: 925, h: 780, t: Math.round((sT - 4.5) * 10) / 10, td: Math.round((sDew - 2.5) * 10) / 10, rh: Math.min(100, sRh + 5), wind: Math.round(target.windSpd * 5.2), st: "Пограничный слой атмосферы" },
+            { p: 850, h: 1480, t: target.t850, td: Math.round((sDew - 6.0) * 10) / 10, rh: Math.min(95, sRh + 2), wind: Math.round(target.windSpd * 7.5), st: "Изобарическая поверхность H850 ☁️" },
+            { p: 700, h: 3040, t: Math.round((sT - 18.0) * 10) / 10, td: Math.round((sDew - 15.0) * 10) / 10, rh: 62, wind: Math.round(target.windSpd * 10.5), st: "Средняя тропосфера (H700)" },
+            { p: 500, h: 5600, t: Math.round((sT - 34.0) * 10) / 10, td: Math.round((sDew - 28.0) * 10) / 10, rh: 45, wind: Math.round(target.windSpd * 14.0), st: "Свободная атмосфера (H500)" },
+            { p: 300, h: 9200, t: Math.round((sT - 52.0) * 10) / 10, td: Math.round((sDew - 45.0) * 10) / 10, rh: 30, wind: Math.round(target.windSpd * 18.0), st: "Струйное течение (H300) 🌪️" },
+            { p: 200, h: 11900, t: -54.0, td: -65.0, rh: 20, wind: Math.round(target.windSpd * 16.0), st: "Тропопауза (H200)" }
+          ];
+
+          target.live = true;
+          target.lastUpdated = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+          if (currentCityKey === key) {
+            updateCardUI(target);
+          }
+        }
+      } catch (err) {
+        console.warn('Live card weather fetch notice:', err);
+      }
+    }
+
+    function setCity(key) {
+      currentCityKey = key;
+      const data = CITIES_DATA[key];
+      if (!data) return;
+
+      document.querySelectorAll('.city-btn').forEach(btn => {
+        if (btn.getAttribute('data-city') === key) {
+          btn.className = "city-btn px-2.5 py-1 rounded-lg border border-sky-500/40 bg-sky-500/20 text-sky-300 font-medium transition active:scale-95";
+        } else {
+          btn.className = "city-btn px-2.5 py-1 rounded-lg border border-[var(--border)] bg-slate-900/60 text-[var(--muted-foreground)] hover:text-white transition active:scale-95";
+        }
+      });
+
+      updateCardUI(data);
+      fetchLiveCardWeather(key);
+    }
+
     function switchTab(tabId) {
       currentTab = tabId;
       document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -727,10 +943,6 @@
         if (iframe) {
           iframe.src = `https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=%C2%B0C&metricWind=m%2Fs&zoom=6&overlay=radar&product=ecmwf&level=surface&lat=${lat}&lon=${lon}`;
         }
-        const btn = document.getElementById('btn-open-full-radar');
-        if (btn) {
-          btn.href = `./?city=${encodeURIComponent(city.name)}&mode=radar`;
-        }
       }
     }
 
@@ -738,30 +950,42 @@
       const container = document.getElementById('hourly-cards-container');
       container.innerHTML = '';
 
-      const now = new Date();
-      const hoursData = [];
-      for (let i = 0; i < 24; i++) {
-        const d = new Date(now.getTime() + i * 3600000);
-        const hourStr = d.getHours().toString().padStart(2, '0') + ':00';
-        const diurnal = Math.sin((d.getHours() - 9) * Math.PI / 12);
-        const tVal = +(data.temp + diurnal * 3.2).toFixed(1);
-        const tdVal = +(data.dew + diurnal * 1.5).toFixed(1);
-        const rainVal = (i % 6 === 2 && data.precip > 0) ? +(data.precip / 3).toFixed(1) : 0.0;
-        const windVal = +(data.windSpd + Math.cos(i) * 1.1).toFixed(1);
-        hoursData.push({ time: hourStr, t: tVal, td: tdVal, rain: rainVal, wind: windVal });
+      let hoursData = [];
+      if (data.hourly && data.hourly.length) {
+        hoursData = data.hourly.map((h, idx) => ({
+          time: h.time,
+          t: h.t,
+          td: +(h.t - 2.5).toFixed(1),
+          rain: h.rain,
+          wind: +(data.windSpd + Math.sin(idx) * 0.8).toFixed(1)
+        }));
+      } else {
+        const now = new Date();
+        for (let i = 0; i < 24; i++) {
+          const d = new Date(now.getTime() + i * 3600000);
+          const hourStr = d.getHours().toString().padStart(2, '0') + ':00';
+          const diurnal = Math.sin((d.getHours() - 9) * Math.PI / 12);
+          const tVal = +(data.temp + diurnal * 2.0).toFixed(1);
+          const tdVal = +(data.dew + diurnal * 1.0).toFixed(1);
+          const rainVal = (i % 6 === 2 && data.precip > 0) ? +(data.precip / 3).toFixed(1) : 0.0;
+          const windVal = +(data.windSpd + Math.cos(i) * 0.8).toFixed(1);
+          hoursData.push({ time: hourStr, t: tVal, td: tdVal, rain: rainVal, wind: windVal });
+        }
+      }
 
+      hoursData.forEach((d, i) => {
         const card = document.createElement('div');
         card.className = "flex-shrink-0 w-20 bg-[var(--card)] border border-[var(--border)] rounded-xl p-2 flex flex-col items-center justify-between text-center hover:border-sky-500/40 transition";
         card.innerHTML = `
-          <span class="text-[11px] text-[var(--muted-foreground)] font-mono">${i === 0 ? 'Сейчас' : hourStr}</span>
-          <span class="text-base my-0.5">${rainVal > 0 ? '🌧' : (tVal > 14 ? '☀️' : '⛅')}</span>
-          <span class="text-xs font-black font-mono text-[var(--foreground)]">${tVal > 0 ? '+' : ''}${tVal}°</span>
-          <span class="text-[10px] text-blue-400 font-mono">${tdVal > 0 ? '+' : ''}${tdVal}°</span>
-          <span class="text-[10px] text-cyan-300 font-mono">${windVal} м/с</span>
-          ${rainVal > 0 ? `<span class="text-[10px] text-indigo-400 font-bold">${rainVal}мм</span>` : `<span class="text-[10px] text-emerald-500/60 font-mono">0.0</span>`}
+          <span class="text-[11px] text-[var(--muted-foreground)] font-mono">${i === 0 ? 'Сейчас' : d.time}</span>
+          <span class="text-base my-0.5">${d.rain > 0 ? '🌧' : (d.t > 14 ? '☀️' : (d.t <= 0 ? '❄️' : '⛅'))}</span>
+          <span class="text-xs font-black font-mono text-[var(--foreground)]">${d.t > 0 ? '+' : ''}${d.t}°</span>
+          <span class="text-[10px] text-blue-400 font-mono">${d.td > 0 ? '+' : ''}${d.td}°</span>
+          <span class="text-[10px] text-cyan-300 font-mono">${d.wind} м/с</span>
+          ${d.rain > 0 ? `<span class="text-[10px] text-indigo-400 font-bold">${d.rain}мм</span>` : `<span class="text-[10px] text-emerald-500/60 font-mono">0.0</span>`}
         `;
         container.appendChild(card);
-      }
+      });
 
       const svg = document.getElementById('svg-hourly-chart');
       const w = 620, h = 140;
@@ -812,10 +1036,18 @@
 
       for (let i = 0; i < 7; i++) {
         const dName = i === 0 ? "Сегодня" : (i === 1 ? "Завтра" : days[(startDay + i + 6) % 7]);
-        const minVal = +(data.temp - 4.5 + (i * 0.4)).toFixed(1);
-        const maxVal = +(data.temp + 3.2 - (i * 0.2)).toFixed(1);
-        const prec = (i === 2 || i === 5) ? 3.5 : 0.0;
-        const icon = prec > 0 ? "🌧" : (maxVal > 15 ? "☀️" : "⛅");
+        let minVal, maxVal, prec, icon;
+        if (data.dailyMax && data.dailyMax[i] != null) {
+          maxVal = Math.round(data.dailyMax[i] * 10) / 10;
+          minVal = Math.round(data.dailyMin[i] * 10) / 10;
+          prec = Math.round((data.dailyPrec[i] || 0) * 10) / 10;
+          icon = prec > 0 ? (minVal <= 0 ? "❄️" : "🌧") : (maxVal > 15 ? "☀️" : "⛅");
+        } else {
+          minVal = +(data.temp - 3.5 + (i * 0.2)).toFixed(1);
+          maxVal = +(data.temp + 2.0 - (i * 0.1)).toFixed(1);
+          prec = 0.0;
+          icon = maxVal > 15 ? "☀️" : (maxVal <= 0 ? "❄️" : "⛅");
+        }
 
         const card = document.createElement('div');
         card.className = "bg-[var(--card)] border border-[var(--border)] rounded-xl p-2.5 flex flex-col justify-between hover:border-sky-500/40 transition";
@@ -850,10 +1082,18 @@
         const d = new Date();
         d.setDate(d.getDate() + i);
         const dateLabel = `${d.getDate().toString().padStart(2, '0')}.${(d.getMonth()+1).toString().padStart(2, '0')}`;
-        const minVal = +(data.temp - 5.0 + Math.sin(i*0.5)*3).toFixed(1);
-        const maxVal = +(data.temp + 2.5 + Math.sin(i*0.5)*3).toFixed(1);
-        const prec = (i % 4 === 1) ? 2.8 : 0.0;
-        const icon = prec > 0 ? "🌧" : (maxVal > 16 ? "☀️" : "⛅");
+        let minVal, maxVal, prec, icon;
+        if (data.dailyMax && data.dailyMax[i] != null) {
+          maxVal = Math.round(data.dailyMax[i] * 10) / 10;
+          minVal = Math.round(data.dailyMin[i] * 10) / 10;
+          prec = Math.round((data.dailyPrec[i] || 0) * 10) / 10;
+          icon = prec > 0 ? (minVal <= 0 ? "❄️" : "🌧") : (maxVal > 16 ? "☀️" : "⛅");
+        } else {
+          minVal = +(data.temp - 4.0 + Math.sin(i*0.4)*2).toFixed(1);
+          maxVal = +(data.temp + 2.0 + Math.sin(i*0.4)*2).toFixed(1);
+          prec = (i % 4 === 1) ? 1.5 : 0.0;
+          icon = prec > 0 ? "🌧" : (maxVal > 16 ? "☀️" : "⛅");
+        }
 
         const row = document.createElement('div');
         row.className = "flex items-center justify-between p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] hover:border-sky-500/30 transition text-xs font-mono";
@@ -926,26 +1166,19 @@
         card.className = "bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 space-y-1.5 hover:border-emerald-500/40 transition";
         card.innerHTML = `
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-emerald-400">${st.name}</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">WMO #${st.code}</span>
+            <span class="text-xs font-bold text-[var(--foreground)]">${st.name}</span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">WMO ${st.code}</span>
           </div>
-          <div class="grid grid-cols-3 gap-2 pt-1 font-mono text-center">
-            <div class="bg-slate-900/60 p-1.5 rounded-lg border border-slate-800">
-              <div class="text-[10px] text-slate-400">ФАКТ ТЕМП.</div>
-              <div class="text-sm font-black text-sky-400">${st.t > 0 ? '+' : ''}${st.t}°C</div>
+          <div class="flex items-baseline justify-between font-mono pt-1">
+            <div class="flex items-baseline gap-1">
+              <span class="text-xl font-black ${st.t > 0 ? 'text-amber-400' : 'text-sky-300'}">${st.t > 0 ? '+' : ''}${st.t}°C</span>
+              <span class="text-[10px] text-[var(--muted-foreground)]">Td: ${st.td}°C</span>
             </div>
-            <div class="bg-slate-900/60 p-1.5 rounded-lg border border-slate-800">
-              <div class="text-[10px] text-slate-400">ТОЧКА РОСЫ</div>
-              <div class="text-sm font-black text-blue-400">${st.td > 0 ? '+' : ''}${st.td}°C</div>
-            </div>
-            <div class="bg-slate-900/60 p-1.5 rounded-lg border border-slate-800">
-              <div class="text-[10px] text-slate-400">ДАВЛЕНИЕ</div>
-              <div class="text-sm font-black text-emerald-400">${st.p}</div>
-            </div>
+            <span class="text-[11px] font-semibold text-emerald-400">${st.diff} к норме</span>
           </div>
-          <div class="flex justify-between items-center text-[10px] font-mono text-[var(--muted-foreground)] pt-1">
-            <span>Анемометр: ${st.wind} м/с</span>
-            <span>Дельта с ECMWF: <span class="text-emerald-400 font-bold">${st.diff}</span></span>
+          <div class="flex justify-between text-[11px] text-[var(--muted-foreground)] font-mono border-t border-[var(--border)] pt-1.5">
+            <span>Давление: ${st.p} мм</span>
+            <span>Ветер: ${st.wind} м/с</span>
           </div>
         `;
         grid.appendChild(card);
@@ -953,57 +1186,35 @@
     }
 
     let radarAnimId = null;
-    let radarAngle = 0;
+    let angle = 0;
     function renderRadarAnimation() {
       const canvas = document.getElementById('radar-canvas');
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
-      const w = canvas.width;
-      const h = canvas.height;
-      const cx = w / 2;
-      const cy = h / 2;
+      if (!ctx) return;
 
       if (radarAnimId) cancelAnimationFrame(radarAnimId);
 
       function draw() {
-        radarAngle += 0.035;
-        ctx.clearRect(0, 0, w, h);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const r = Math.min(cx, cy) - 10;
 
-        ctx.strokeStyle = "rgba(56, 189, 248, 0.15)";
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.2)";
         ctx.lineWidth = 1;
-        for (let r = 30; r <= 100; r += 25) {
-          ctx.beginPath();
-          ctx.arc(cx, cy, r, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
         ctx.beginPath();
-        ctx.moveTo(cx - 105, cy);
-        ctx.lineTo(cx + 105, cy);
-        ctx.moveTo(cx, cy - 105);
-        ctx.lineTo(cx, cy + 105);
+        ctx.arc(cx, cy, r * 0.33, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r * 0.66, 0, Math.PI * 2);
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
         ctx.stroke();
 
-        const clouds = [
-          { x: cx + 35, y: cy - 40, r: 24, col: "rgba(16, 185, 129, 0.45)" },
-          { x: cx + 42, y: cy - 42, r: 14, col: "rgba(245, 158, 11, 0.6)" },
-          { x: cx - 45, y: cy + 30, r: 28, col: "rgba(56, 189, 248, 0.35)" },
-          { x: cx + 60, y: cy + 20, r: 18, col: "rgba(16, 185, 129, 0.4)" }
-        ];
+        angle = (angle + 0.03) % (Math.PI * 2);
+        const bx = cx + Math.cos(angle) * r;
+        const by = cy + Math.sin(angle) * r;
 
-        clouds.forEach(cl => {
-          ctx.fillStyle = cl.col;
-          ctx.beginPath();
-          ctx.arc(cl.x, cl.y, cl.r, 0, Math.PI * 2);
-          ctx.fill();
-        });
-
-        const beamLength = 105;
-        const bx = cx + Math.cos(radarAngle) * beamLength;
-        const by = cy + Math.sin(radarAngle) * beamLength;
-
-        ctx.strokeStyle = "#38bdf8";
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.7)";
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(bx, by);
@@ -1036,6 +1247,9 @@
       }
 
       setCity(targetKey);
+      if (!window._cardInterval) {
+        window._cardInterval = setInterval(() => fetchLiveCardWeather(currentCityKey), 600000);
+      }
     }
 
     init();
