@@ -55,7 +55,29 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    body { font-family: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.011em; }
+    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
+    body {
+      letter-spacing: -0.005em !important;
+      line-height: 1.5 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item {
+      letter-spacing: 0.005em;
+    }
+    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val {
+      font-variant-numeric: tabular-nums lining-nums !important;
+      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
+      letter-spacing: -0.015em;
+    }
+    @media (max-width: 640px) {
+      .tab-item, .filter-pill, button, select, input, [role="button"] {
+        min-height: 42px;
+      }
+    }
+
+    body { font-family: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.005em; }
     .font-mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'tnum' on, 'zero' on; font-variant-numeric: tabular-nums; }
     .glass-card {
       background: rgba(255, 255, 255, 0.88);
@@ -70,9 +92,11 @@
     .nav-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.375rem;
-      padding: 0.375rem 0.625rem;
-      border-radius: 0.5rem;
+      min-height: 42px;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.625rem;
       font-weight: 600;
       border: 1px solid rgba(203, 213, 225, 0.6);
       background: rgba(248, 250, 252, 0.8);
