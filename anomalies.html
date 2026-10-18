@@ -138,6 +138,28 @@
 
 
   <style>
+    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
+    body {
+      letter-spacing: -0.005em !important;
+      line-height: 1.5 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item {
+      letter-spacing: 0.005em;
+    }
+    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val {
+      font-variant-numeric: tabular-nums lining-nums !important;
+      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
+      letter-spacing: -0.015em;
+    }
+    @media (max-width: 640px) {
+      .tab-item, .filter-pill, button, select, input, [role="button"] {
+        min-height: 42px;
+      }
+    }
+
 
     :root {
 
@@ -165,7 +187,7 @@
 
       overflow-x: hidden;
 
-      letter-spacing: -0.012em;
+      letter-spacing: -0.005em;
 
       transition: background-color 0.25s ease, color 0.25s ease;
 
@@ -417,7 +439,7 @@
 
       gap: 0.45rem;
 
-      min-height: 36px;
+      min-height: 42px;
 
       padding: 0.4rem 0.85rem;
 
@@ -1079,7 +1101,7 @@
 
       gap: 0.45rem;
 
-      min-height: 36px;
+      min-height: 42px;
 
       padding: 0.4rem 0.85rem;
 
@@ -1535,7 +1557,7 @@
 
       gap: 0.35rem;
 
-      min-height: 36px;
+      min-height: 42px;
 
       padding: 0.4rem 0.85rem;
 
