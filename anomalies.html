@@ -3,11 +3,6 @@
 <html lang="ru" class="dark">
 
 <head>
-  <title>Климатические аномалии и рекорды погоды 1890–2026 | МетеоПортал</title>
-  <meta name="description" content="Карта и архив климатических аномалий, температурных экстремумов и отклонений от норм ВМО за последние 136 лет.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://meteocenter-rf.github.io/anomalies.html">
-
 
   <meta charset="UTF-8">
 
@@ -138,28 +133,6 @@
 
 
   <style>
-    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
-    body {
-      letter-spacing: -0.005em !important;
-      line-height: 1.5 !important;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-    }
-    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item {
-      letter-spacing: 0.005em;
-    }
-    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val {
-      font-variant-numeric: tabular-nums lining-nums !important;
-      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
-      letter-spacing: -0.015em;
-    }
-    @media (max-width: 640px) {
-      .tab-item, .filter-pill, button, select, input, [role="button"] {
-        min-height: 42px;
-      }
-    }
-
 
     :root {
 
@@ -187,7 +160,7 @@
 
       overflow-x: hidden;
 
-      letter-spacing: -0.005em;
+      letter-spacing: -0.012em;
 
       transition: background-color 0.25s ease, color 0.25s ease;
 
@@ -439,7 +412,7 @@
 
       gap: 0.45rem;
 
-      min-height: 42px;
+      min-height: 36px;
 
       padding: 0.4rem 0.85rem;
 
@@ -1101,7 +1074,7 @@
 
       gap: 0.45rem;
 
-      min-height: 42px;
+      min-height: 36px;
 
       padding: 0.4rem 0.85rem;
 
@@ -1557,7 +1530,7 @@
 
       gap: 0.35rem;
 
-      min-height: 42px;
+      min-height: 36px;
 
       padding: 0.4rem 0.85rem;
 
@@ -3022,7 +2995,14 @@
           </span>
 
           <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 shrink-0 gap-1">
-            <button onclick="setDecade(1)" id="btn-dec-1" class="pill-opt pill-opt-active flex items-center gap-1.5">
+            <button onclick="setDecade('daily')" id="btn-dec-daily" class="pill-opt pill-opt-inactive flex items-center gap-1.5 font-bold text-amber-500 dark:text-amber-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>⚡ Сутки (Сегодня)</span>
+            </button>
+            <button onclick="setDecade('tomorrow')" id="btn-dec-tomorrow" class="pill-opt pill-opt-inactive">
+              <span>Сутки (Завтра)</span>
+            </button>
+            <button onclick="setDecade(1)" id="btn-dec-1"  class="pill-opt pill-opt-active flex items-center gap-1.5">
               <span>1-я дек</span>
               <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
             </button>
@@ -7947,7 +7927,7 @@
 
       currentDecade = dec;
 
-      [1, 2, 3, 0, 10, 11, 12].forEach(function(i) {
+      [1, 2, 3, 0, 10, 11, 12, 'daily', 'tomorrow'].forEach(function(i) {
 
         var btn = document.getElementById('btn-dec-' + i);
 
