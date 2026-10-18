@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🛠️ Конструктор МетеоПортала — Визуальная студия настройки</title>
+  <title>Конструктор МетеоПортала — Визуальная студия настройки | МетеоПортал</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
@@ -22,8 +22,30 @@
     }
   </script>
   <style>
+    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
+    body {
+      letter-spacing: -0.005em !important;
+      line-height: 1.5 !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item {
+      letter-spacing: 0.005em;
+    }
+    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val {
+      font-variant-numeric: tabular-nums lining-nums !important;
+      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
+      letter-spacing: -0.015em;
+    }
+    @media (max-width: 640px) {
+      .tab-item, .filter-pill, button, select, input, [role="button"] {
+        min-height: 42px;
+      }
+    }
+
     body { font-family: 'Onest', sans-serif;
-      letter-spacing: -0.012em;
+      letter-spacing: -0.005em;
     }
     .font-mono, [class*="font-mono"] {
       font-feature-settings: 'tnum' on, 'zero' on;
@@ -36,6 +58,16 @@
       transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
+      .nav-btn, .tab-btn, button, a.btn-primary, [role="button"] {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    p, span, label, div {
+      letter-spacing: 0.008em;
+      line-height: 1.55;
+    }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased select-none">
@@ -47,11 +79,12 @@
         🛠️
       </div>
       <div>
-        <h1 class="text-sm font-extrabold tracking-tight flex items-center gap-2">
-          <span>КОНСТРУКТОР МЕТЕОПОРТАЛА</span>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">Meteo Studio v1.0</span>
+        <h1 class="text-xs sm:text-sm font-extrabold tracking-tight flex items-center gap-1.5">
+          <span>КОНСТРУКТОР</span>
+          <span class="hidden sm:inline">МЕТЕОПОРТАЛА</span>
+          <span class="hidden md:inline text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-500/30">Studio v1.0</span>
         </h1>
-        <p class="text-[11px] text-slate-400">Визуальная сборка и кастомизация компонентов без кодинга</p>
+        <p class="hidden md:block text-[11px] text-slate-400">Визуальная сборка и кастомизация компонентов</p>
       </div>
     </a>
 
@@ -69,17 +102,17 @@
     </div>
 
     <!-- ACTION BUTTONS -->
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
       <button onclick="reloadPreview()" title="Перезагрузить окно предпросмотра" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-sm">
         🔄
       </button>
 
-      <button onclick="saveSiteToDisk()" id="btn-save" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-emerald-900/30 active:scale-95">
+      <button onclick="saveSiteToDisk()" id="btn-save" class="px-3 sm:px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow-lg shadow-emerald-900/30 active:scale-95">
         <span>💾</span>
-        <span>Сохранить сайт</span>
+        <span class="hidden sm:inline">Сохранить</span>
       </button>
 
-      <button onclick="deployToGithub()" class="px-3.5 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+      <button onclick="deployToGithub()" class="px-3 sm:px-3.5 py-2 rounded-xl bg-sky-600/20 hover:bg-sky-600/30 border border-sky-500/40 text-sky-300 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
         <span>🚀</span>
         <span class="hidden sm:inline">Опубликовать</span>
       </button>
@@ -87,10 +120,10 @@
   </header>
 
   <!-- MAIN WORKSPACE -->
-  <div class="flex-1 flex overflow-hidden">
+  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden overflow-x-hidden">
 
     <!-- LEFT SIDEBAR: CONTROLS & TOGGLES -->
-    <aside class="w-80 sm:w-96 border-r border-slate-800 bg-slate-900/60 backdrop-blur flex flex-col shrink-0 custom-scroll overflow-y-auto">
+    <aside class="w-full lg:w-96 border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-900/60 backdrop-blur flex flex-col shrink-0 custom-scroll overflow-y-auto max-h-[42vh] lg:max-h-none overflow-x-hidden">
       
       <!-- TABS -->
       <div class="p-3 border-b border-slate-800 flex gap-1 text-xs font-bold">
@@ -261,12 +294,12 @@
             <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
             <div class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></div>
           </div>
-          <div class="font-mono text-[10px] bg-slate-950 px-3 py-0.5 rounded-md border border-slate-800 text-slate-400 flex items-center gap-1">
-            <span>🔒</span> <span id="frame-url">https://meteocenter-rf.github.io/</span>
+          <div class="font-mono text-[10px] bg-slate-950 px-2 py-0.5 rounded-md border border-slate-800 text-slate-400 flex items-center gap-1 max-w-[170px] sm:max-w-xs truncate">
+            <span>🔒</span> <span id="frame-url" class="truncate">https://meteocenter-rf.github.io/</span>
           </div>
-          <div class="text-[10.5px] font-mono text-emerald-400 flex items-center gap-1">
+          <div class="text-[10.5px] font-mono text-emerald-400 flex items-center gap-1 shrink-0">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Живой предпросмотр</span>
+            <span class="hidden sm:inline">Живой предпросмотр</span>
           </div>
         </div>
 
