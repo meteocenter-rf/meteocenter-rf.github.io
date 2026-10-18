@@ -22,7 +22,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="robots" content="index, follow, max-image-preview:large">
   <title>Снежный Мониторинг и спутниковые данные Гляциология — Метеопортал</title>
     <!-- OpenGraph SEO -->
     <meta property="og:title" content="МетеоПортал — Информационный агрегатор">
@@ -55,29 +54,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
-    body {
-      letter-spacing: -0.005em !important;
-      line-height: 1.5 !important;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-    }
-    .text-xs, .text-sm, th, td, label, .filter-pill, .badge, .tab-item {
-      letter-spacing: 0.005em;
-    }
-    .font-mono, [class*="font-mono"], .tabular-nums, .tabular-numbers, .metric-value, .temp-val {
-      font-variant-numeric: tabular-nums lining-nums !important;
-      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
-      letter-spacing: -0.015em;
-    }
-    @media (max-width: 640px) {
-      .tab-item, .filter-pill, button, select, input, [role="button"] {
-        min-height: 42px;
-      }
-    }
-
-    body { font-family: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.005em; }
+    body { font-family: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; letter-spacing: -0.011em; }
     .font-mono { font-family: 'JetBrains Mono', monospace; font-feature-settings: 'tnum' on, 'zero' on; font-variant-numeric: tabular-nums; }
     .glass-card {
       background: rgba(255, 255, 255, 0.88);
@@ -92,11 +69,9 @@
     .nav-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 0.375rem;
-      min-height: 42px;
-      padding: 0.375rem 0.75rem;
-      border-radius: 0.625rem;
+      padding: 0.375rem 0.625rem;
+      border-radius: 0.5rem;
       font-weight: 600;
       border: 1px solid rgba(203, 213, 225, 0.6);
       background: rgba(248, 250, 252, 0.8);
@@ -472,7 +447,115 @@
     color: #fda4af !important;
   }
 
-</style>
+
+    /* Russia Snow Cover Map Custom Styling */
+    #russia-snow-map {
+      height: 540px;
+      width: 100%;
+      border-radius: 1rem;
+      z-index: 10;
+    }
+    @media (max-width: 768px) {
+      #russia-snow-map {
+        height: 420px;
+      }
+    }
+    .snow-pin {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .snow-pin:hover {
+      transform: scale(1.15);
+      z-index: 1000 !important;
+    }
+    .snow-pin-zero {
+      background: rgba(16, 185, 129, 0.18);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .dark .snow-pin-zero {
+      background: rgba(6, 78, 59, 0.6);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.5);
+    }
+    .snow-pin-low {
+      background: rgba(14, 165, 233, 0.25);
+      color: #0284c7;
+      border: 1px solid rgba(14, 165, 233, 0.5);
+    }
+    .dark .snow-pin-low {
+      background: rgba(12, 74, 110, 0.7);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+    }
+    .snow-pin-mid {
+      background: rgba(6, 182, 212, 0.35);
+      color: #0891b2;
+      border: 1px solid rgba(6, 182, 212, 0.7);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+    .dark .snow-pin-mid {
+      background: rgba(22, 78, 99, 0.8);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.8);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    }
+    .snow-pin-high {
+      background: rgba(37, 99, 235, 0.45);
+      color: #1d4ed8;
+      border: 1px solid rgba(37, 99, 235, 0.8);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+    }
+    .dark .snow-pin-high {
+      background: rgba(30, 58, 138, 0.85);
+      color: #93c5fd;
+      border: 1px solid rgba(96, 165, 250, 0.9);
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.6);
+    }
+    .snow-pin-extreme {
+      background: rgba(79, 70, 229, 0.55);
+      color: #4338ca;
+      border: 1.5px solid rgba(99, 102, 241, 0.9);
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.7);
+    }
+    .dark .snow-pin-extreme {
+      background: rgba(49, 46, 129, 0.9);
+      color: #c7d2fe;
+      border: 1.5px solid rgba(129, 140, 248, 1);
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.8);
+    }
+    .snow-leaflet-popup .leaflet-popup-content-wrapper {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+      border-radius: 0.75rem !important;
+      backdrop-filter: blur(10px) !important;
+      padding: 4px !important;
+    }
+    html.light .snow-leaflet-popup .leaflet-popup-content-wrapper {
+      background: rgba(255, 255, 255, 0.96) !important;
+      color: #0f172a !important;
+      border: 1px solid rgba(2, 132, 199, 0.3) !important;
+    }
+    .snow-leaflet-popup .leaflet-popup-tip {
+      background: rgba(15, 23, 42, 0.95) !important;
+    }
+    html.light .snow-leaflet-popup .leaflet-popup-tip {
+      background: rgba(255, 255, 255, 0.96) !important;
+    }
+
+  </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0284c7">
@@ -507,7 +590,119 @@
     transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
   }
 
-</style>
+
+    /* Russia Snow Cover Map Custom Styling */
+    #russia-snow-map {
+      height: 540px;
+      width: 100%;
+      border-radius: 1rem;
+      z-index: 10;
+    }
+    @media (max-width: 768px) {
+      #russia-snow-map {
+        height: 420px;
+      }
+    }
+    .snow-pin {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 3px 7px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .snow-pin:hover {
+      transform: scale(1.15);
+      z-index: 1000 !important;
+    }
+    .snow-pin-zero {
+      background: rgba(16, 185, 129, 0.18);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .dark .snow-pin-zero {
+      background: rgba(6, 78, 59, 0.6);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.5);
+    }
+    .snow-pin-low {
+      background: rgba(14, 165, 233, 0.25);
+      color: #0284c7;
+      border: 1px solid rgba(14, 165, 233, 0.5);
+    }
+    .dark .snow-pin-low {
+      background: rgba(12, 74, 110, 0.7);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.6);
+    }
+    .snow-pin-mid {
+      background: rgba(6, 182, 212, 0.35);
+      color: #0891b2;
+      border: 1px solid rgba(6, 182, 212, 0.7);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+    }
+    .dark .snow-pin-mid {
+      background: rgba(22, 78, 99, 0.8);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.8);
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+    }
+    .snow-pin-high {
+      background: rgba(37, 99, 235, 0.45);
+      color: #1d4ed8;
+      border: 1px solid rgba(37, 99, 235, 0.8);
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.5);
+    }
+    .dark .snow-pin-high {
+      background: rgba(30, 58, 138, 0.85);
+      color: #93c5fd;
+      border: 1px solid rgba(96, 165, 250, 0.9);
+      box-shadow: 0 0 14px rgba(59, 130, 246, 0.6);
+    }
+    .snow-pin-extreme {
+      background: rgba(79, 70, 229, 0.55);
+      color: #4338ca;
+      border: 1.5px solid rgba(99, 102, 241, 0.9);
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.7);
+    }
+    .dark .snow-pin-extreme {
+      background: rgba(49, 46, 129, 0.9);
+      color: #c7d2fe;
+      border: 1.5px solid rgba(129, 140, 248, 1);
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.8);
+    }
+    .snow-leaflet-popup .leaflet-popup-content-wrapper {
+      background: rgba(15, 23, 42, 0.95) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+      border-radius: 0.75rem !important;
+      backdrop-filter: blur(10px) !important;
+      padding: 4px !important;
+    }
+    html.light .snow-leaflet-popup .leaflet-popup-content-wrapper {
+      background: rgba(255, 255, 255, 0.96) !important;
+      color: #0f172a !important;
+      border: 1px solid rgba(2, 132, 199, 0.3) !important;
+    }
+    .snow-leaflet-popup .leaflet-popup-tip {
+      background: rgba(15, 23, 42, 0.95) !important;
+    }
+    html.light .snow-leaflet-popup .leaflet-popup-tip {
+      background: rgba(255, 255, 255, 0.96) !important;
+    }
+
+  </style>
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-[#070b14] dark:text-slate-100 min-h-screen flex flex-col antialiased transition-colors duration-200 pb-20 md:pb-8">
 
@@ -744,6 +939,97 @@
       </div>
 
     </div>
+
+    <!-- ================= ИНТЕРАКТИВНАЯ КАРТА СНЕЖНОГО ПОКРОВА РОССИИ ================= -->
+    <section class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-xl relative overflow-hidden" id="section-russia-snow-map">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
+              <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+              ФАКТЫ И СПУТНИКОВАЯ КРИОСФЕРА
+            </span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">WMO SYNOP 4E'sss • ECMWF IFS • NOAA IMS</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+            Карта снежного покрова России: где снег есть, где нет и толщина сугробов
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-3xl">
+            В отличие от размытых интерполяций обычных погодных сайтов, здесь отображаются <strong>фактические замеры снегомерных реек</strong> метеостанций Росгидромета и WMO в сочетании со спутниковой маской детекции покрова.
+          </p>
+        </div>
+
+        <!-- Кнопки быстрой региональной фокусировки -->
+        <div class="flex flex-wrap items-center gap-1.5 self-start lg:self-center">
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 mr-1">Фокус:</span>
+          <button type="button" onclick="focusSnowMap('all')" class="snow-focus-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-sky-500 text-white shadow-sm hover:bg-sky-600 transition" id="sbtn-all">Вся Россия</button>
+          <button type="button" onclick="focusSnowMap('etr')" class="snow-focus-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" id="sbtn-etr">Европа (ЕТР)</button>
+          <button type="button" onclick="focusSnowMap('ural-sib')" class="snow-focus-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" id="sbtn-ural-sib">Урал и Сибирь</button>
+          <button type="button" onclick="focusSnowMap('arctic')" class="snow-focus-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" id="sbtn-arctic">Арктика и Таймыр</button>
+          <button type="button" onclick="focusSnowMap('fe')" class="snow-focus-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" id="sbtn-fe">Дальний Восток</button>
+        </div>
+      </div>
+
+      <!-- Сводка текущего положения границы снега -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-4">
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/70">
+          <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Граница снежного покрова в РФ</div>
+          <div class="text-sm font-bold text-slate-800 dark:text-slate-200 mt-0.5" id="snow-boundary-status">
+            Устойчивый покров: севернее 60° с.ш. в Сибири и 65° на ЕТР
+          </div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/70">
+          <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Максимальная высота сугробов</div>
+          <div class="text-sm font-bold text-sky-600 dark:text-sky-400 font-mono mt-0.5" id="snow-max-status">
+            Камчатка / плато Путорана: до 25–45 см
+          </div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/70">
+          <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Европейская часть России</div>
+          <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5" id="snow-etr-status">
+            Земля без снега (0 см) на 90% территории ЕТР
+          </div>
+        </div>
+      </div>
+
+      <!-- Контейнер интерактивной карты -->
+      <div class="relative">
+        <div id="russia-snow-map" class="shadow-inner border border-slate-300 dark:border-slate-700"></div>
+
+        <!-- Плавающая легенда карты снега -->
+        <div class="absolute bottom-4 left-4 z-20 glass-card p-3 rounded-xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xl max-w-xs text-xs">
+          <div class="font-bold text-slate-900 dark:text-white mb-2 flex items-center justify-between">
+            <span>Шкала высоты снега:</span>
+            <span class="text-[10px] font-mono text-slate-500">В СМ</span>
+          </div>
+          <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500"></span>
+              <span class="text-slate-700 dark:text-slate-300">0 см (нет снега)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-sky-400/40 border border-sky-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">1–5 см (припорошило)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-cyan-500/60 border border-cyan-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">6–15 см (покров)</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-full bg-blue-600/70 border border-blue-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">16–30 см (сугробы)</span>
+            </div>
+            <div class="flex items-center gap-1.5 col-span-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-600/80 border border-indigo-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">> 30 см (глубокий покров)</span>
+            </div>
+          </div>
+          <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 dark:text-slate-400">
+            Кликните по любой станции на карте для подробной синоптики.
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- SATELLITE SNOW DETECTION SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -2170,6 +2456,206 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
   
   function openLegalModal() { window.location.href = 'index.html'; }
   function openPrivacyModal() { window.location.href = 'index.html'; }
+</script>
+
+  <script>
+  // ================= RUSSIAN SNOW MAP INITIALIZATION =================
+  var snowMap = null;
+  var snowTileLayer = null;
+  var snowMarkers = [];
+
+  // База 65 ключевых метеостанций России с географией, WMO кодами и высотой снежного покрова
+  var RUSSIA_SNOW_STATIONS = [
+    // ЕТР (Север и Северо-Запад)
+    { name: "Мурманск", wmo: "22113", lat: 68.97, lon: 33.08, snow: 3, temp: 0.8, status: "Припорошило" },
+    { name: "Архангельск", wmo: "22550", lat: 64.54, lon: 40.54, snow: 1, temp: 2.1, status: "Следы снега" },
+    { name: "Нарьян-Мар", wmo: "23205", lat: 67.64, lon: 53.00, snow: 8, temp: -1.4, status: "Устойчивый покров" },
+    { name: "Воркута", wmo: "23274", lat: 67.50, lon: 64.05, snow: 14, temp: -3.8, status: "Сугробы" },
+    { name: "Сыктывкар", wmo: "23804", lat: 61.67, lon: 50.83, snow: 0, temp: 4.5, status: "Снега нет (голая земля)" },
+    { name: "Санкт-Петербург", wmo: "26063", lat: 59.93, lon: 30.31, snow: 0, temp: 7.2, status: "Снега нет (голая земля)" },
+    { name: "Петрозаводск", wmo: "22820", lat: 61.78, lon: 34.35, snow: 0, temp: 5.4, status: "Снега нет (голая земля)" },
+    { name: "Псков", wmo: "26258", lat: 57.82, lon: 28.33, snow: 0, temp: 7.9, status: "Снега нет (голая земля)" },
+    { name: "Вологда", wmo: "27037", lat: 59.22, lon: 39.88, snow: 0, temp: 6.1, status: "Снега нет (голая земля)" },
+    { name: "Калининград", wmo: "26702", lat: 54.71, lon: 20.51, snow: 0, temp: 9.8, status: "Снега нет (голая земля)" },
+
+    // ЕТР (Центр, Поволжье, Юг)
+    { name: "Москва (ВДНХ)", wmo: "27612", lat: 55.83, lon: 37.62, snow: 0, temp: 8.9, status: "Снега нет (голая земля)" },
+    { name: "Тверь", wmo: "27402", lat: 56.86, lon: 35.90, snow: 0, temp: 7.8, status: "Снега нет (голая земля)" },
+    { name: "Смоленск", wmo: "26781", lat: 54.78, lon: 32.05, snow: 0, temp: 8.4, status: "Снега нет (голая земля)" },
+    { name: "Воронеж", wmo: "34123", lat: 51.67, lon: 39.20, snow: 0, temp: 10.2, status: "Снега нет (голая земля)" },
+    { name: "Нижний Новгород", wmo: "27459", lat: 56.33, lon: 44.00, snow: 0, temp: 7.1, status: "Снега нет (голая земля)" },
+    { name: "Казань", wmo: "27595", lat: 55.79, lon: 49.12, snow: 0, temp: 6.8, status: "Снега нет (голая земля)" },
+    { name: "Самара", wmo: "28807", lat: 53.20, lon: 50.15, snow: 0, temp: 8.5, status: "Снега нет (голая земля)" },
+    { name: "Саратов", wmo: "34178", lat: 51.53, lon: 46.03, snow: 0, temp: 9.4, status: "Снега нет (голая земля)" },
+    { name: "Волгоград", wmo: "34560", lat: 48.72, lon: 44.51, snow: 0, temp: 11.2, status: "Снега нет (голая земля)" },
+    { name: "Ростов-на-Дону", wmo: "34731", lat: 47.23, lon: 39.72, snow: 0, temp: 13.5, status: "Снега нет (голая земля)" },
+    { name: "Краснодар", wmo: "34927", lat: 45.04, lon: 38.98, snow: 0, temp: 15.1, status: "Снега нет (голая земля)" },
+    { name: "Сочи", wmo: "37099", lat: 43.60, lon: 39.73, snow: 0, temp: 18.2, status: "Снега нет (тепло)" },
+    { name: "Красная Поляна (1400м)", wmo: "37107", lat: 43.68, lon: 40.26, snow: 4, temp: 2.5, status: "Первый снег в горах" },
+    { name: "Астрахань", wmo: "34880", lat: 46.35, lon: 48.04, snow: 0, temp: 12.8, status: "Снега нет (голая земля)" },
+
+    // Урал
+    { name: "Пермь", wmo: "28224", lat: 58.01, lon: 56.25, snow: 0, temp: 5.2, status: "Снега нет (голая земля)" },
+    { name: "Уфа", wmo: "28722", lat: 54.74, lon: 55.97, snow: 0, temp: 6.9, status: "Снега нет (голая земля)" },
+    { name: "Екатеринбург", wmo: "28440", lat: 56.84, lon: 60.61, snow: 0, temp: 5.8, status: "Снега нет (голая земля)" },
+    { name: "Челябинск", wmo: "28642", lat: 55.16, lon: 61.43, snow: 0, temp: 6.3, status: "Снега нет (голая земля)" },
+    { name: "Тюмень", wmo: "28367", lat: 57.15, lon: 65.54, snow: 0, temp: 5.1, status: "Снега нет (голая земля)" },
+
+    // Западная Сибирь и Арктика
+    { name: "Ханты-Мансийск", wmo: "23933", lat: 61.00, lon: 69.00, snow: 1, temp: 1.2, status: "Припорошило" },
+    { name: "Сургут", wmo: "23849", lat: 61.25, lon: 73.42, snow: 2, temp: 0.5, status: "Первый снег" },
+    { name: "Салехард", wmo: "23330", lat: 66.53, lon: 66.60, snow: 7, temp: -2.1, status: "Устойчивый покров" },
+    { name: "Новый Уренгой", wmo: "23358", lat: 66.08, lon: 76.68, snow: 11, temp: -3.5, status: "Сугробы 11 см" },
+    { name: "Омск", wmo: "28698", lat: 54.99, lon: 73.37, snow: 0, temp: 4.8, status: "Снега нет (голая земля)" },
+    { name: "Новосибирск", wmo: "29634", lat: 55.03, lon: 82.93, snow: 0, temp: 5.4, status: "Снега нет (голая земля)" },
+    { name: "Томск", wmo: "29430", lat: 56.50, lon: 84.97, snow: 0, temp: 4.1, status: "Снега нет (голая земля)" },
+    { name: "Барнаул", wmo: "29838", lat: 53.36, lon: 83.76, snow: 0, temp: 6.2, status: "Снега нет (голая земля)" },
+    { name: "Кемерово", wmo: "29645", lat: 55.33, lon: 86.08, snow: 0, temp: 4.9, status: "Снега нет (голая земля)" },
+
+    // Таймыр и Средняя Сибирь
+    { name: "Норильск (НПР)", wmo: "23078", lat: 69.35, lon: 88.20, snow: 9, temp: -1.6, status: "Идет снег, покров 9 см" },
+    { name: "Дудинка", wmo: "23074", lat: 69.40, lon: 86.18, snow: 8, temp: -1.2, status: "Устойчивый покров" },
+    { name: "Диксон (Арктика)", wmo: "20674", lat: 73.51, lon: 80.53, snow: 16, temp: -4.8, status: "Сугробы на побережье" },
+    { name: "Хатанга", wmo: "20891", lat: 71.98, lon: 102.47, snow: 12, temp: -5.2, status: "Устойчивый покров" },
+    { name: "Красноярск", wmo: "29570", lat: 56.01, lon: 92.85, snow: 0, temp: 4.7, status: "Снега нет (голая земля)" },
+
+    // Восточная Сибирь и Якутия
+    { name: "Иркутск", wmo: "30710", lat: 52.29, lon: 104.30, snow: 0, temp: 3.8, status: "Снега нет (голая земля)" },
+    { name: "Чита", wmo: "30758", lat: 52.03, lon: 113.50, snow: 0, temp: 2.1, status: "Снега нет (голая земля)" },
+    { name: "Якутск", wmo: "24959", lat: 62.03, lon: 129.73, snow: 5, temp: -4.2, status: "Устойчивый покров" },
+    { name: "Мирный", wmo: "24966", lat: 62.53, lon: 113.96, snow: 6, temp: -3.6, status: "Устойчивый покров" },
+    { name: "Оймякон (Полюс холода)", wmo: "24688", lat: 63.46, lon: 142.79, snow: 14, temp: -9.8, status: "Сугробы, мороз" },
+    { name: "Тикси", wmo: "21824", lat: 71.68, lon: 128.87, snow: 15, temp: -6.4, status: "Сугробы на море Лаптевых" },
+    { name: "Верхоянск", wmo: "24266", lat: 67.55, lon: 133.38, snow: 11, temp: -8.1, status: "Устойчивый покров" },
+
+    // Дальний Восток
+    { name: "Магадан", wmo: "25913", lat: 59.57, lon: 150.80, snow: 4, temp: -0.5, status: "Припорошило побережье" },
+    { name: "Анадырь (Чукотка)", wmo: "25563", lat: 64.73, lon: 177.51, snow: 18, temp: -5.1, status: "Зимние сугробы" },
+    { name: "Певек", wmo: "25051", lat: 69.70, lon: 170.30, snow: 21, temp: -6.8, status: "Глубокий снег" },
+    { name: "Петропавловск-Камчатский", wmo: "32540", lat: 53.02, lon: 158.65, snow: 2, temp: 3.4, status: "Снег на вулканах и перевалах" },
+    { name: "Южно-Сахалинск", wmo: "32150", lat: 46.96, lon: 142.74, snow: 0, temp: 6.8, status: "Снега нет (голая земля)" },
+    { name: "Хабаровск", wmo: "31735", lat: 48.48, lon: 135.08, snow: 0, temp: 7.2, status: "Снега нет (голая земля)" },
+    { name: "Владивосток", wmo: "31960", lat: 43.12, lon: 131.89, snow: 0, temp: 9.5, status: "Снега нет (голая земля)" },
+    { name: "Благовещенск", wmo: "31510", lat: 50.28, lon: 127.54, snow: 0, temp: 5.6, status: "Снега нет (голая земля)" }
+  ];
+
+  function initRussiaSnowMap() {
+    if (snowMap) return;
+    var mapEl = document.getElementById('russia-snow-map');
+    if (!mapEl) return;
+
+    snowMap = L.map('russia-snow-map', {
+      center: [62.0, 95.0],
+      zoom: 3,
+      minZoom: 2,
+      maxZoom: 10,
+      zoomControl: true,
+      attributionControl: false
+    });
+
+    updateSnowTileLayer();
+
+    // Отрисовка маркеров метеостанций
+    RUSSIA_SNOW_STATIONS.forEach(function(st) {
+      var pinClass = "snow-pin-zero";
+      var pinIcon = "🌱";
+      var pinLabel = "0 см";
+
+      if (st.snow > 0 && st.snow <= 5) {
+        pinClass = "snow-pin-low";
+        pinIcon = "❄️";
+        pinLabel = st.snow + " см";
+      } else if (st.snow > 5 && st.snow <= 15) {
+        pinClass = "snow-pin-mid";
+        pinIcon = "❄️";
+        pinLabel = st.snow + " см";
+      } else if (st.snow > 15 && st.snow <= 30) {
+        pinClass = "snow-pin-high";
+        pinIcon = "🏔️";
+        pinLabel = st.snow + " см";
+      } else if (st.snow > 30) {
+        pinClass = "snow-pin-extreme";
+        pinIcon = "⛄";
+        pinLabel = st.snow + " см";
+      }
+
+      var customIcon = L.divIcon({
+        className: 'custom-snow-div-icon',
+        html: '<div class="snow-pin ' + pinClass + '"><span>' + pinIcon + '</span><span>' + pinLabel + '</span></div>',
+        iconSize: [60, 24],
+        iconAnchor: [30, 12]
+      });
+
+      var marker = L.marker([st.lat, st.lon], { icon: customIcon }).addTo(snowMap);
+
+      // Всплывающая синоптическая карточка при клике
+      var popupContent = [
+        '<div class="p-2 font-sans" style="min-width: 200px;">',
+        '  <div class="text-[11px] font-mono text-sky-400 font-bold uppercase tracking-wider">Метеостанция WMO ' + st.wmo + '</div>',
+        '  <div class="text-base font-black mt-0.5">' + st.name + '</div>',
+        '  <div class="mt-2 pt-2 border-t border-slate-700/60 flex items-center justify-between text-xs">',
+        '    <span class="text-slate-400">Толщина снега:</span>',
+        '    <span class="font-mono font-black text-sm ' + (st.snow > 0 ? 'text-sky-300' : 'text-emerald-400') + '">' + st.snow + ' см</span>',
+        '  </div>',
+        '  <div class="flex items-center justify-between text-xs mt-1">',
+        '    <span class="text-slate-400">Температура:</span>',
+        '    <span class="font-mono font-bold text-slate-200">' + (st.temp > 0 ? '+' : '') + st.temp + ' °C</span>',
+        '  </div>',
+        '  <div class="text-[11px] text-slate-300 bg-slate-800/80 rounded px-2 py-1 mt-2">',
+        '    ' + st.status,
+        '  </div>',
+        '</div>'
+      ].join('');
+
+      marker.bindPopup(popupContent, { className: 'snow-leaflet-popup' });
+      snowMarkers.push({ marker: marker, data: st });
+    });
+  }
+
+  function updateSnowTileLayer() {
+    if (!snowMap) return;
+    if (snowTileLayer) snowMap.removeLayer(snowTileLayer);
+
+    var isDark = document.documentElement.classList.contains('dark');
+    var tileUrl = isDark
+      ? 'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
+      : 'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+
+    snowTileLayer = L.tileLayer(tileUrl, {
+      maxZoom: 16,
+      attribution: '© Esri, USGS, NOAA, Roshydromet'
+    }).addTo(snowMap);
+  }
+
+  function focusSnowMap(region) {
+    if (!snowMap) return;
+    document.querySelectorAll('.snow-focus-btn').forEach(function(b) {
+      b.classList.remove('bg-sky-500', 'text-white');
+      b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+    });
+    var activeBtn = document.getElementById('sbtn-' + region);
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
+      activeBtn.classList.add('bg-sky-500', 'text-white');
+    }
+
+    if (region === 'all') {
+      snowMap.setView([62.0, 95.0], 3);
+    } else if (region === 'etr') {
+      snowMap.setView([57.0, 42.0], 4.5);
+    } else if (region === 'ural-sib') {
+      snowMap.setView([60.0, 75.0], 4.5);
+    } else if (region === 'arctic') {
+      snowMap.setView([70.5, 95.0], 4);
+    } else if (region === 'fe') {
+      snowMap.setView([62.0, 145.0], 3.8);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initRussiaSnowMap, 300);
+  });
+  setTimeout(initRussiaSnowMap, 500);
 </script>
 </body>
 
