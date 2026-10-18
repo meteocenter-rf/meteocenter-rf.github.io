@@ -35,15 +35,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
   <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
-  <!-- Primary Search Engine Crawling & Canonical Directives -->
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <link id="canonical-url" rel="canonical" href="https://meteocenter-rf.github.io/">
-  <meta property="og:image" content="https://meteocenter-rf.github.io/favicon.svg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="МетеоПортал — независимый погодный агрегатор">
-  <meta name="twitter:description" content="Фактическая температура, климатический архив 1890–2026 гг., радар RainViewer и прогноз 4 моделей (ECMWF, GFS, ICON).">
-  <meta name="twitter:image" content="https://meteocenter-rf.github.io/favicon.svg">
-
   <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
 
   
@@ -183,41 +174,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 
   <style>
-    /* Master Typography & Ergonomics: Zero-Drift Cyrillic & Tabular Numerics */
-    body {
-      letter-spacing: -0.005em !important;
-      line-height: 1.55 !important;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
-    }
-    p, .text-xs, .text-sm, .hud-label, th, td, label, .filter-pill, .badge-label {
-      letter-spacing: 0.008em;
-      line-height: 1.55;
-    }
-    .weather-num, .weather-metric, .hud-value, .temp-display, .metric-value, .font-mono, [class*="font-mono"], .tabular-nums {
-      font-variant-numeric: tabular-nums lining-nums !important;
-      font-feature-settings: "tnum" 1, "lnum" 1, "zero" 1 !important;
-      letter-spacing: -0.015em;
-    }
-    .nav-btn, .tab-btn, .station-chip, .filter-pill, .badge-btn, .city-chip, a.nav-btn {
-      min-height: 42px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #city-input-clear {
-      min-width: 42px;
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    @media (max-width: 640px) {
-      .tab-btn, .nav-item, .quick-city-btn, button, select, [role="button"], .filter-pill, .station-chip {
-        min-height: 42px;
-      }
-    }
+    
     /* Modern 2026 Weather Numerics & Tabular Data */
     .weather-num {
       font-family: var(--font-sans);
@@ -266,8 +223,8 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
-      letter-spacing: -0.005em;
-      line-height: 1.5;
+      letter-spacing: -0.012em;
+      line-height: 1.55;
       transition: background-color 0.25s ease, color 0.25s ease;
     }
     html.dark body {
@@ -5457,18 +5414,13 @@
     }
 
     function updateSeoMetaForCity(cityName) {
-      const cleanCity = (cityName || '').trim();
-      document.title = `Погода в г. ${cleanCity} — Консенсус 4 моделей (ECMWF, GFS, ICON), радар и климатический архив 1890–2026 | МетеоПортал`;
+      document.title = `Погода в г. ${cityName} — Консенсус 4 моделей (ECMWF, GFS, ICON), радар и климатический архив 1890–2026 | МетеоПортал`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) {
         metaDesc.setAttribute(
           'content',
-          `Точный метеопрогноз для г. ${cleanCity}: сравнение моделей ECMWF, ICON, GFS, онлайн-радар осадков, давление, УФ-индекс и климатический архив ВМО за 136 лет.`
+          `Точный метеопрогноз для г. ${cityName}: сравнение моделей ECMWF, ICON, GFS, онлайн-радар осадков, давление, УФ-индекс и климатический архив ВМО за 136 лет.`
         );
-      }
-      const canonicalLink = document.getElementById('canonical-url');
-      if (canonicalLink) {
-        canonicalLink.setAttribute('href', `https://meteocenter-rf.github.io/?city=${encodeURIComponent(cleanCity)}`);
       }
     }
 
@@ -7810,36 +7762,8 @@ function renderTabCurrent(container, d) {
           </div>
         </div>
 
-        <!-- ================= MAP ENGINE & UNIVERSAL LAYER CONTROL DECK ================= -->
-        <div class="glass-card rounded-2xl p-2.5 sm:p-3 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-md space-y-2.5">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
-            <!-- Engine Selector -->
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="text-xs font-bold font-mono uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                Движок карты:
-              </span>
-              <div class="inline-flex rounded-xl p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-inner">
-                <button onclick="switchMapEngine('windy')" id="btn-engine-windy" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
-                  <span>🌀 Windy Pro 4K</span>
-                </button>
-                <button onclick="switchMapEngine('ventusky')" id="btn-engine-ventusky" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300">
-                  <span>⚡ Ventusky Live</span>
-                </button>
-                <button onclick="switchMapEngine('leaflet')" id="btn-engine-leaflet" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-md">
-                  <span>🛰️ Leaflet HD (ВМО / RainViewer / NASA)</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Free PRO Guarantee Badge -->
-            <div class="flex items-center gap-2">
-              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-mono font-bold text-[11px]">
-                <span>✓ 4K СЛОИ РАЗБЛОКИРОВАНЫ</span>
-              </span>
-            </div>
-          </div>
-
-          <!-- Universal Layer Quick Toggles -->
+        <!-- ================= COMPACT LAYER SWITCHER ================= -->
+        <div class="glass-card rounded-2xl p-2.5 sm:p-3 border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-md">
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
             <button onclick="switchUniversalLayer('snow')" id="btn-unilayer-snow" class="shrink-0 px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 bg-sky-600 text-white shadow-sm">
               <span>❄️ Снежный покров</span>
@@ -7865,16 +7789,15 @@ function renderTabCurrent(container, d) {
         <!-- Radar Map Wrapper Container with Multi-Engine Embeds -->
         <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-200/90 dark:border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
           <!-- 1. Windy 4K Interactive Embed -->
-          <iframe id="windy-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:none;" allow="geolocation"></iframe>
+          
           
           <!-- 2. Ventusky Live Embed -->
-          <iframe id="ventusky-iframe" class="w-full h-full border-0 absolute inset-0 z-10" style="display:none;" allow="geolocation"></iframe>
+          
 
           <!-- 3. Leaflet Native GIS Map -->
-          <div id="radar-map" class="w-full h-full z-0" style="display:block;"></div>
+          <div id="radar-map" class="w-full h-full z-0" style="display:none;"></div>
           
           <!-- 60 FPS Windy Streamline Canvas Overlay -->
-          <canvas id="windy-particle-canvas" class="absolute inset-0 pointer-events-none z-[12]" style="display:none;"></canvas>
           
 
           <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
@@ -8280,93 +8203,31 @@ function renderTabCurrent(container, d) {
     let snowDepthLayerGroup = null;
 
     const WMO_OBSERVATORY_STATIONS = [
-      { name: 'Москва (ВДНХ)', lat: 55.83, lon: 37.62, t: 10.7, prec: 0.0, wind: 2.5, clouds: 45, press: 752, snow: 0, swe: 0, live: true },
-      { name: 'Севастополь (WMO 33994)', lat: 44.62, lon: 33.53, t: 14.9, prec: 0.3, wind: 10.2, clouds: 20, press: 756, snow: 0, swe: 0, live: true },
-      { name: 'Симферополь (WMO 33946)', lat: 44.95, lon: 34.10, t: 13.0, prec: 0.0, wind: 8.4, clouds: 25, press: 734, snow: 0, swe: 0, live: true },
-      { name: 'Санкт-Петербург (Пулково)', lat: 59.80, lon: 30.26, t: 3.5, prec: 0.0, wind: 1.3, clouds: 60, press: 773, snow: 0, swe: 0, live: true },
-      { name: 'Сочи (Адлер / Побережье)', lat: 43.44, lon: 39.95, t: 16.2, prec: 0.4, wind: 2.3, clouds: 35, press: 763, snow: 0, swe: 0, live: true },
-      { name: 'Красная Поляна (Лаура)', lat: 43.68, lon: 40.32, t: 10.1, prec: 0.6, wind: 0.9, clouds: 50, press: 680, snow: 4, swe: 10, live: true },
-      { name: 'Эльбрус (Станция Мир 3500м)', lat: 43.25, lon: 42.45, t: 1.5, prec: 0.0, wind: 0.9, clouds: 30, press: 525, snow: 43, swe: 108, live: true },
-      { name: 'Казань', lat: 55.79, lon: 49.12, t: 10.7, prec: 0.0, wind: 1.6, clouds: 30, press: 759, snow: 0, swe: 0, live: true },
-      { name: 'Нижний Новгород', lat: 56.32, lon: 44.00, t: 13.0, prec: 0.0, wind: 1.4, clouds: 40, press: 752, snow: 0, swe: 0, live: true },
-      { name: 'Ростов-на-Дону', lat: 47.23, lon: 39.72, t: 18.0, prec: 0.0, wind: 1.9, clouds: 15, press: 755, snow: 0, swe: 0, live: true },
-      { name: 'Краснодар (Круглик / WMO 34927)', lat: 45.04, lon: 38.98, t: 15.7, prec: 0.0, wind: 3.0, clouds: 20, press: 760, snow: 0, swe: 0, live: true },
-      { name: 'Екатеринбург (Кольцово)', lat: 56.74, lon: 60.80, t: 12.1, prec: 0.0, wind: 2.7, clouds: 55, press: 746, snow: 0, swe: 0, live: true },
-      { name: 'Новосибирск (Толмачево)', lat: 55.01, lon: 82.65, t: 0.7, prec: 0.0, wind: 3.4, clouds: 20, press: 763, snow: 1, swe: 3, live: true },
-      { name: 'Красноярск', lat: 56.01, lon: 92.87, t: -3.0, prec: 0.0, wind: 1.6, clouds: 15, press: 759, snow: 2, swe: 5, live: true },
-      { name: 'Алыкель (Аэропорт Норильск)', lat: 69.31, lon: 82.25, t: 0.3, prec: 0.0, wind: 3.8, clouds: 75, press: 742, snow: 10, swe: 25, live: true },
-      { name: 'Чертовицкое (Аэропорт Воронеж)', lat: 51.81, lon: 39.23, t: 12.2, prec: 0.0, wind: 1.2, clouds: 25, press: 750, snow: 0, swe: 0, live: true },
-      { name: 'Иркутск (Байкал)', lat: 52.27, lon: 104.38, t: -2.6, prec: 0.0, wind: 4.1, clouds: 20, press: 722, snow: 0, swe: 0, live: true },
-      { name: 'Якутск', lat: 62.03, lon: 129.73, t: -3.4, prec: 0.0, wind: 1.8, clouds: 25, press: 754, snow: 1, swe: 3, live: true },
-      { name: 'Владивосток', lat: 43.12, lon: 131.89, t: 10.6, prec: 0.0, wind: 10.1, clouds: 30, press: 753, snow: 0, swe: 0, live: true },
-      { name: 'Мурманск', lat: 68.97, lon: 33.08, t: 3.4, prec: 0.0, wind: 5.2, clouds: 85, press: 765, snow: 0, swe: 0, live: true },
-      { name: 'Тбилиси', lat: 41.72, lon: 44.78, t: 20.8, prec: 0.0, wind: 5.2, clouds: 15, press: 724, snow: 0, swe: 0, live: true },
-      { name: 'Батуми (Аджария)', lat: 41.64, lon: 41.64, t: 19.2, prec: 0.0, wind: 3.2, clouds: 20, press: 765, snow: 0, swe: 0, live: true },
-      { name: 'Кутаиси (Имеретия)', lat: 42.27, lon: 42.71, t: 17.2, prec: 0.0, wind: 2.5, clouds: 25, press: 749, snow: 0, swe: 0, live: true },
-      { name: 'Степанцминда (Казбеги)', lat: 42.66, lon: 44.64, t: 12.7, prec: 0.0, wind: 3.9, clouds: 35, press: 624, snow: 0, swe: 0, live: true }
+      { name: 'Москва (ВДНХ)', lat: 55.83, lon: 37.62, t: 16, prec: 0.2, wind: 4.2, clouds: 45, press: 748, snow: 0, swe: 0 },
+      { name: 'Севастополь (WMO 33994)', lat: 44.62, lon: 33.53, t: 21, prec: 0.0, wind: 3.8, clouds: 10, press: 760, snow: 0, swe: 0 },
+      { name: 'Симферополь (WMO 33946)', lat: 44.95, lon: 34.10, t: 20, prec: 0.0, wind: 3.4, clouds: 15, press: 758, snow: 0, swe: 0 },
+      { name: 'Санкт-Петербург (Пулково)', lat: 59.80, lon: 30.26, t: 14, prec: 1.1, wind: 5.5, clouds: 75, press: 752, snow: 0, swe: 0 },
+      { name: 'Сочи (Адлер / Побережье)', lat: 43.44, lon: 39.95, t: 24, prec: 0.0, wind: 3.1, clouds: 15, press: 758, snow: 0, swe: 0 },
+      { name: 'Красная Поляна (Лаура)', lat: 43.68, lon: 40.32, t: 9, prec: 1.2, wind: 2.8, clouds: 55, press: 730, snow: 45, swe: 110 },
+      { name: 'Эльбрус (Станция Мир 3500м)', lat: 43.25, lon: 42.45, t: -4, prec: 2.5, wind: 8.5, clouds: 70, press: 620, snow: 135, swe: 380 },
+      { name: 'Казань', lat: 55.79, lon: 49.12, t: 15, prec: 0.0, wind: 4.0, clouds: 30, press: 750, snow: 0, swe: 0 },
+      { name: 'Нижний Новгород', lat: 56.32, lon: 44.00, t: 15, prec: 0.4, wind: 3.8, clouds: 50, press: 749, snow: 0, swe: 0 },
+      { name: 'Ростов-на-Дону', lat: 47.23, lon: 39.72, t: 22, prec: 0.0, wind: 4.5, clouds: 10, press: 756, snow: 0, swe: 0 },
+      { name: 'Краснодар (Круглик / WMO 34927)', lat: 45.04, lon: 38.98, t: 23, prec: 0.0, wind: 3.6, clouds: 20, press: 757, snow: 0, swe: 0 },
+      { name: 'Екатеринбург (Кольцово)', lat: 56.74, lon: 60.80, t: 12, prec: 0.8, wind: 4.8, clouds: 60, press: 744, snow: 2, swe: 4 },
+      { name: 'Новосибирск (Толмачево)', lat: 55.01, lon: 82.65, t: 11, prec: 0.0, wind: 3.5, clouds: 25, press: 754, snow: 8, swe: 18 },
+      { name: 'Красноярск', lat: 56.01, lon: 92.87, t: 10, prec: 0.5, wind: 3.2, clouds: 40, press: 751, snow: 12, swe: 28 },
+      { name: 'Алыкель (Аэропорт Норильск)', lat: 69.31, lon: 82.25, t: 8, prec: 0.0, wind: 5.2, clouds: 60, press: 752, snow: 34, swe: 85 },
+      { name: 'Чертовицкое (Аэропорт Воронеж)', lat: 51.81, lon: 39.23, t: 18, prec: 0.0, wind: 3.5, clouds: 25, press: 754, snow: 0, swe: 0 },
+      { name: 'Иркутск (Байкал)', lat: 52.27, lon: 104.38, t: 9, prec: 0.0, wind: 2.8, clouds: 20, press: 753, snow: 15, swe: 32 },
+      { name: 'Якутск', lat: 62.03, lon: 129.73, t: 4, prec: 0.0, wind: 2.1, clouds: 15, press: 757, snow: 28, swe: 62 },
+      { name: 'Владивосток', lat: 43.12, lon: 131.89, t: 18, prec: 2.4, wind: 6.8, clouds: 85, press: 755, snow: 0, swe: 0 },
+      { name: 'Мурманск', lat: 68.97, lon: 33.08, t: 7, prec: 1.5, wind: 5.9, clouds: 90, press: 746, snow: 22, swe: 50 },
+      { name: 'Тбилиси', lat: 41.72, lon: 44.78, t: 23, prec: 0.0, wind: 3.0, clouds: 20, press: 759, snow: 0, swe: 0 },
+      { name: 'Батуми (Аджария)', lat: 41.64, lon: 41.64, t: 25, prec: 0.5, wind: 4.2, clouds: 35, press: 760, snow: 0, swe: 0 },
+      { name: 'Кутаиси (Имеретия)', lat: 42.27, lon: 42.71, t: 24, prec: 0.0, wind: 2.9, clouds: 25, press: 759, snow: 0, swe: 0 },
+      { name: 'Степанцминда (Казбеги)', lat: 42.66, lon: 44.64, t: 13, prec: 0.2, wind: 5.1, clouds: 40, press: 742, snow: 38, swe: 95 }
     ];
-
-    let isWmoStationsHydrated = false;
-    let wmoStationsLastUpdated = null;
-
-    async function updateWmoObservatoryStationsLive() {
-      try {
-        const lats = WMO_OBSERVATORY_STATIONS.map(s => s.lat).join(',');
-        const lons = WMO_OBSERVATORY_STATIONS.map(s => s.lon).join(',');
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,precipitation,wind_speed_10m,surface_pressure,cloud_cover,snow_depth&wind_speed_unit=ms`;
-        
-        const resp = await fetch(url, { headers: { 'Accept': 'application/json' } });
-        if (!resp.ok) return;
-        const data = await resp.json();
-        if (!Array.isArray(data)) return;
-
-        data.forEach((item, idx) => {
-          if (idx < WMO_OBSERVATORY_STATIONS.length && item && item.current) {
-            const cur = item.current;
-            const st = WMO_OBSERVATORY_STATIONS[idx];
-            if (typeof cur.temperature_2m === 'number') st.t = Math.round(cur.temperature_2m * 10) / 10;
-            if (typeof cur.precipitation === 'number') st.prec = Math.round(cur.precipitation * 10) / 10;
-            if (typeof cur.wind_speed_10m === 'number') st.wind = Math.round(cur.wind_speed_10m * 10) / 10;
-            if (typeof cur.cloud_cover === 'number') st.clouds = Math.round(cur.cloud_cover);
-            if (typeof cur.surface_pressure === 'number') {
-              st.press = Math.round(cur.surface_pressure * 0.750062);
-            }
-            if (typeof cur.snow_depth === 'number') {
-              st.snow = Math.round(cur.snow_depth * 100);
-              st.swe = Math.round(st.snow * 2.5);
-            }
-            st.updated = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-            st.live = true;
-          }
-        });
-
-        isWmoStationsHydrated = true;
-        wmoStationsLastUpdated = new Date();
-        window.isWmoStationsHydrated = true;
-        window.wmoStationsLastUpdated = wmoStationsLastUpdated;
-        window.WMO_OBSERVATORY_STATIONS = WMO_OBSERVATORY_STATIONS;
-        window.updateWmoObservatoryStationsLive = updateWmoObservatoryStationsLive;
-
-        if (radarMap) {
-          if (typeof setupMeteoStations === 'function' && showStations) {
-            setupMeteoStations();
-          }
-          if (typeof renderGradientOverlay === 'function' && activeWeatherGradient !== 'none') {
-            renderGradientOverlay();
-          }
-          if (typeof setupSnowDepthLayer === 'function' && activeUniversalLayer === 'snow') {
-            setupSnowDepthLayer();
-          }
-        }
-
-        const infoBox = document.getElementById('radar-info-box');
-        if (infoBox && activeUniversalLayer === 'snow') {
-          infoBox.innerHTML = '❄️ Снежный покров РФ: 24 станции ВМО онлайн (ECMWF IFS + Open-Meteo)';
-        }
-      } catch (err) {
-        console.warn('[WMO Observatory] Real-time sync fallback to cached baseline:', err);
-      }
-    }
 
     async function initRadarMap(lat, lon) {
       if (!window.L) return;
@@ -8389,8 +8250,6 @@ function renderTabCurrent(container, d) {
 
       // Setup Stations Layer
       setupMeteoStations();
-      updateWmoObservatoryStationsLive();
-      if (!window._wmoInterval) { window._wmoInterval = setInterval(updateWmoObservatoryStationsLive, 600000); }
 
       // Add target city marker with animated pulse
       const cityMarker = L.circleMarker([lat, lon], {
@@ -8510,17 +8369,11 @@ function renderTabCurrent(container, d) {
             <div style="font-size:11px; margin-top:2px; font-weight:bold; color:#0284c7;">
               Температура: ${st.t > 0 ? '+' : ''}${st.t}°C
             </div>
-            <div style="font-size:9.5px; color:#059669; font-weight:600; display:flex; align-items:center; gap:3px;"><span style="display:inline-block; width:5px; height:5px; border-radius:50%; background:#10b981;"></span>ВМО Онлайн: 100% реальные замеры</div>
             <div style="font-size:10px; color:#475569;">
               Осадки: ${st.prec} мм • Ветер: ${st.wind} м/с
             </div>
             <div style="font-size:10px; color:#475569;">
               Облачность: ${st.clouds}% • Давление: ${st.press} мм
-            </div>
-            <div style="margin-top:6px;">
-              <button onclick="setCity('${st.name.replace(/'/g, "\\'")}', {lat:${st.lat}, lon:${st.lon}})" style="width:100%; background:#0284c7; color:#ffffff; border:none; padding:5px 8px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; text-align:center; transition:background 0.2s;" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
-                Показать детальный прогноз →
-              </button>
             </div>
           </div>
         `);
@@ -8962,7 +8815,7 @@ function renderTabCurrent(container, d) {
         if (ventuskyIframe) ventuskyIframe.style.display = 'none';
         if (windyIframe) {
           windyIframe.style.display = 'block';
-          updateWindyIframeSrc(curLat, curLon);
+          
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -8972,7 +8825,7 @@ function renderTabCurrent(container, d) {
         if (windyIframe) windyIframe.style.display = 'none';
         if (ventuskyIframe) {
           ventuskyIframe.style.display = 'block';
-          updateVentuskyIframeSrc(curLat, curLon);
+          
         }
         if (rightDock) rightDock.style.display = 'none';
         if (ctrlStrip) ctrlStrip.style.display = 'none';
@@ -9045,9 +8898,9 @@ function renderTabCurrent(container, d) {
       const curLon = (lastCoords && lastCoords.lon) || (latestData && latestData.lon) || 37.62;
 
       if (activeMapEngine === 'windy') {
-        updateWindyIframeSrc(curLat, curLon);
+        
       } else if (activeMapEngine === 'ventusky') {
-        updateVentuskyIframeSrc(curLat, curLon);
+        
       } else {
         applyLeafletUniversalLayer();
       }
@@ -17105,9 +16958,6 @@ function renderTabCurrent(container, d) {
       }
       // Initialize active mode and fetch data
       switchTab(currentMode);
-      if (typeof updateWmoObservatoryStationsLive === 'function') {
-        updateWmoObservatoryStationsLive();
-      }
     }
 
     if (document.readyState === 'loading') {
@@ -17523,7 +17373,7 @@ function renderTabCurrent(container, d) {
   </div>
 
   <!-- ================= COOKIE & 152-FZ COMPLIANCE BANNER ================= -->
-  <div id="cookie-notice" class="hidden fixed bottom-20 left-4 right-4 sm:bottom-4 sm:left-1/2 sm:-translate-x-1/2 sm:max-w-xl z-50 glass-card p-3 rounded-2xl border border-slate-700/80 bg-slate-900/95 text-slate-200 shadow-2xl flex items-center justify-between gap-3 text-xs backdrop-blur-md">
+  <div id="cookie-notice" class="hidden fixed bottom-16 right-4 sm:bottom-4 sm:right-4 sm:max-w-md z-40 glass-card shadow-2xl p-3 rounded-2xl border border-slate-700/80 bg-slate-900/95 text-slate-200 shadow-2xl flex items-center justify-between gap-3 text-xs backdrop-blur-md">
     <div class="text-slate-300 text-[11px] leading-relaxed flex items-center gap-2">
       <span class="text-base">🍪</span>
       <span>Технические cookie (152-ФЗ) для настроек города и темы. Без сбора личных данных. <button type="button" onclick="openPrivacyModal()" class="text-sky-400 hover:text-sky-300 underline font-medium inline">Подробнее</button>.</span>
