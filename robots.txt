@@ -3,23 +3,17 @@ Allow: /
 Disallow: /*.bak$
 Disallow: /*.py$
 Disallow: /tmp_*
-Disallow: /builder.html
-Disallow: /card.html
 
 User-agent: Yandex
 Allow: /
 Disallow: /*.bak$
 Disallow: /*.py$
-Disallow: /builder.html
-Disallow: /card.html
 Clean-param: utm_source&utm_medium&utm_campaign&yclid&gclid
 
 User-agent: Googlebot
 Allow: /
 Disallow: /*.bak$
 Disallow: /*.py$
-Disallow: /builder.html
-Disallow: /card.html
 
 Host: https://meteocenter-rf.github.io
 Sitemap: https://meteocenter-rf.github.io/sitemap.xml
