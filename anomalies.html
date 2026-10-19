@@ -844,156 +844,180 @@
 
     }
 
+    /* Leaflet Sleek Popup: 100% Theme Adaptive (Dark Navy in Dark, Crisp White Card in Light) */
     .leaflet-popup.sleek-popup-wrapper .leaflet-popup-content-wrapper {
-
-      background: rgba(15, 23, 42, 0.95) !important;
-
+      background: rgba(15, 23, 42, 0.96) !important;
       backdrop-filter: blur(16px) !important;
-
-      border: 1px solid rgba(255, 255, 255, 0.14) !important;
-
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
       border-radius: 12px !important;
-
       box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.6) !important;
-
-      color: #f1f5f9 !important;
-
-      padding: 4px 6px !important;
-
+      color: #f8fafc !important;
+      padding: 6px 8px !important;
     }
-
     .leaflet-popup.sleek-popup-wrapper .leaflet-popup-tip {
-
-      background: rgba(15, 23, 42, 0.95) !important;
-
+      background: rgba(15, 23, 42, 0.96) !important;
     }
-
     .leaflet-popup.sleek-popup-wrapper a.leaflet-popup-close-button {
-
       color: #94a3b8 !important;
-
       padding: 4px 6px !important;
-
     }
-
-
+    html.light .leaflet-popup.sleek-popup-wrapper .leaflet-popup-content-wrapper {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.16) !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper .leaflet-popup-tip {
+      background: #ffffff !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper a.leaflet-popup-close-button {
+      color: #475569 !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper .text-slate-100 {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper .text-slate-400 {
+      color: #475569 !important;
+      font-weight: 600 !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper .border-slate-700\/60 {
+      border-color: #e2e8f0 !important;
+    }
+    html.light .leaflet-popup.sleek-popup-wrapper a {
+      color: #0284c7 !important;
+      font-weight: 700 !important;
+    }
 
     /* Scrollbars */
-
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-
     ::-webkit-scrollbar-track { background: #0b1329; }
-
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-
     ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
-
     html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
-
     html.light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 
-  
-
-        #map-legend {
-
+    /* Floating Legend: 100% Theme Adaptive */
+    #map-legend {
       background: rgba(15, 23, 42, 0.94) !important;
-
       backdrop-filter: blur(14px);
-
       border: 1px solid rgba(255, 255, 255, 0.14) !important;
-
       border-radius: 10px;
-
       color: #f1f5f9;
-
       box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
-
     }
-
     #map-legend #legend-title {
-
       color: #94a3b8 !important;
-
     }
-
     #map-legend #legend-labels {
-
       color: #cbd5e1 !important;
-
     }
-
-
+    html.light #map-legend {
+      background: rgba(255, 255, 255, 0.96) !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.12) !important;
+    }
+    html.light #map-legend #legend-title {
+      color: #334155 !important;
+      font-weight: 700 !important;
+    }
+    html.light #map-legend #legend-labels {
+      color: #475569 !important;
+      font-weight: 600 !important;
+    }
 
     /* Sleek Collapsible / Closable HUD Widget (Mobile & Desktop) */
-
     #map-hud-box {
-
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-
-      max-width: 24rem;
-
-      background: rgba(15, 23, 42, 0.92) !important;
-
+      max-width: 26rem;
+      background: rgba(15, 23, 42, 0.95) !important;
       backdrop-filter: blur(16px);
-
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
-
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
       border-radius: 12px;
-
-      color: #f1f5f9;
-
-      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.55);
-
+      color: #f8fafc;
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.6);
+    }
+    html.dark #map-hud-box #hud-period {
+      color: #38bdf8 !important;
+    }
+    html.dark #map-hud-box #hud-desc {
+      color: #cbd5e1 !important;
+    }
+    html.dark #map-hud-box .text-slate-600 {
+      color: #94a3b8 !important;
+    }
+    html.dark #map-hud-box #hud-model-name {
+      color: #ffffff !important;
     }
 
     html.light #map-hud-box {
-
-      background: rgba(15, 23, 42, 0.92) !important;
-
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
-
-      color: #f1f5f9;
-
+      background: rgba(255, 255, 255, 0.96) !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
+      box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.14) !important;
+    }
+    html.light #map-hud-box #hud-period {
+      color: #0284c7 !important;
+      font-weight: 800 !important;
+    }
+    html.light #map-hud-box #hud-desc {
+      color: #334155 !important;
+      font-weight: 500 !important;
+    }
+    html.light #map-hud-box .text-slate-600,
+    html.light #map-hud-box .text-slate-700 {
+      color: #475569 !important;
+      font-weight: 600 !important;
+    }
+    html.light #map-hud-box #hud-model-name {
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    html.light #map-hud-box button {
+      background: #f1f5f9 !important;
+      color: #0f172a !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+    html.light #map-hud-box button:hover {
+      background: #0284c7 !important;
+      color: #ffffff !important;
     }
 
     #map-hud-box.hud-hidden {
-
       display: none !important;
-
     }
-
     #map-hud-box.hud-minimized #hud-content-body {
-
       display: none !important;
-
     }
-
     #map-hud-box.hud-minimized {
-
       padding: 0.35rem 0.65rem !important;
-
       background: rgba(15, 23, 42, 0.94) !important;
-
       backdrop-filter: blur(14px);
-
       box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-
       border-radius: 10px;
-
+    }
+    html.light #map-hud-box.hud-minimized {
+      background: rgba(255, 255, 255, 0.96) !important;
+      border: 1px solid #cbd5e1 !important;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     }
 
     #map-hud-reopen-btn {
-
       transition: all 0.2s ease;
-
       touch-action: manipulation;
-
     }
-
     #map-hud-reopen-btn:hover {
-
       transform: translateY(-2px);
-
+    }
+    html.light #map-hud-reopen-btn {
+      background: #ffffff !important;
+      border: 1px solid #0284c7 !important;
+      color: #0369a1 !important;
+      box-shadow: 0 12px 28px -4px rgba(0,0,0,0.14) !important;
+    }
+    html.light #map-hud-reopen-btn * {
+      color: #0369a1 !important;
     }
 
 
@@ -2222,10 +2246,10 @@
   }
 
   /* Dark HUD box elements must have clear light text on dark background */
-  #map-hud-box, #map-hud-box span, #map-hud-box div {
+  html.dark #map-hud-box, html.dark #map-hud-box span, html.dark #map-hud-box div {
     color: #f8fafc;
   }
-  #map-hud-box #hud-period, #map-hud-box #hud-status-icon {
+  html.dark #map-hud-box #hud-period, html.dark #map-hud-box #hud-status-icon {
     color: #38bdf8 !important;
   }
 
@@ -4754,69 +4778,71 @@
     var REGIONS = {
 
       taimyr: {
-
-        name: "Таймыр и Заполярье",
-
+        name: "Западный Таймыр и Норильск",
         wmoCode: "WMO 23078",
-
         stationId: "norilsk",
-
         station: "Норильск / Диксон",
-
         coords: [
-
-          [77.8, 68.0], [77.9, 105.0], [73.5, 114.0], [67.0, 96.0], [66.5, 84.0], [70.0, 78.0], [73.5, 68.0]
-
+          [77.8, 68.0], [77.5, 88.0], [74.0, 92.0], [69.5, 92.0], [67.0, 88.0], [66.5, 84.0], [70.0, 78.0], [73.5, 68.0]
         ],
-
-        center: [71.5, 88.0],
-
+        center: [71.0, 86.0],
         normTemp: -6.5,
-
         normPrecip: 42,
-
         tmin: "-11.0°C",
-
         tmax: "+16.8°C",
-
-        synopticTitle: "Приполярная циркуляция и арктические ложбины",
-
-        synopticDesc: "Смещение циклонических систем вдоль побережья Сибири с периодическим затеком арктических воздушных масс в тылу циклонов. Чередование волн умеренного морского воздуха и морозных вторжений.",
-
-        wind: "СВ 6–11 м/с, порывы до 15 м/с",
-
+        synopticTitle: "Приполярный атлантический перенос и низовья Енисея",
+        synopticDesc: "Серия циклонов с Баренцева и Карского морей смещается на восток, вовлекая влажный атлантический воздух в Енисейский залив. Умеренно-теплая аномалия в начале месяца, постепенное выхолаживание к третьей декаде.",
+        wind: "ЮЗ/СВ 6–12 м/с, порывы до 16 м/с",
         decadesTrajectory: [
-
           { name: "1-я дек (1–10 окт)", val: "+3.4°C", tag: "Существенно теплее нормы" },
-
           { name: "2-я дек (11–20 окт)", val: "+1.4°C", tag: "Умеренно тепло" },
-
           { name: "3-я дек (21–31 окт)", val: "+0.5°C", tag: "Умеренно тепло" },
-
-          { name: "Октябрь 2026", val: "+1.7°C", tag: "Теплый месяц" }
-
+          { name: "Октябрь 2026", val: "+1.7°C", tag: "Теплый сектор" }
         ],
-
-        desc: "Арктический циркуляционный сектор. Смещение приполярных барических систем с волнами сезонного похолодания.",
-
+        desc: "Западно-Таймырский сектор. Смещение циклонических систем Карского моря с волнами атлантического тепла.",
         models: {
-
           ecmwf:     { dec1: +3.4, dec2: +1.4, dec3: +0.5, m0: +1.7, oct: -4.8, nov: -7.2, win: -3.5, precip: 212 },
-
           consensus: { dec1: +3.0, dec2: -1.6, dec3: -6.2, m0: -2.2, oct: -4.2, nov: -6.5, win: -3.0, precip: 135 },
-
           ukmo:      { dec1: +3.2, dec2: -1.8, dec3: -6.8, m0: -2.5, oct: -4.5, nov: -6.8, win: -3.2, precip: 140 },
-
           jma:       { dec1: +2.8, dec2: -1.9, dec3: -6.5, m0: -2.3, oct: -4.4, nov: -6.9, win: -3.3, precip: 130 },
-
           cfsv2:     { dec1: +4.0, dec2: -0.5, dec3: -3.8, m0: -0.4, oct: -2.1, nov: -3.5, win: -1.2, precip: 110 },
-
           meteoinfo: { dec1: +2.5, dec2: +0.8, dec3: +0.2, m0: +1.1, oct: +0.6, nov: -0.4, win: +0.2, precip: 95 }
-
         }
-
       },
 
+      khatanga: {
+        name: "Восточный Таймыр и Хатанга",
+        wmoCode: "WMO 20891",
+        stationId: "khatanga",
+        station: "Хатанга",
+        coords: [
+          [77.9, 92.0], [77.9, 106.0], [75.0, 114.0], [72.5, 114.0], [69.5, 108.0], [68.0, 94.0], [74.0, 92.0]
+        ],
+        center: [72.0, 102.5],
+        normTemp: -11.8,
+        normPrecip: 28,
+        tmin: "-22.5°C",
+        tmax: "+4.2°C",
+        synopticTitle: "Восточно-Таймырская арктическая депрессия и радиационный холод",
+        synopticDesc: "Бассейн реки Хатанги и шельф моря Лаптевых подвержены влиянию устойчивого отрога Сибирского антициклона. Малооблачный режим и глубокое радиационное выхолаживание приземного слоя формируют отрицательную аномалию температуры до -2.5°C и ранний устойчивый снежный покров.",
+        wind: "ЮВ/В 3–8 м/с, штилевые морозные инверсии",
+        decadesTrajectory: [
+          { name: "1-я дек (1–10 окт)", val: "+1.2°C", tag: "Слабо выше нормы" },
+          { name: "2-я дек (11–20 окт)", val: "-1.8°C", tag: "Умеренно прохладно" },
+          { name: "3-я дек (21–31 окт)", val: "-4.5°C", tag: "Арктическое выхолаживание" },
+          { name: "Октябрь 2026", val: "-1.7°C", tag: "Отрицательная аномалия" }
+        ],
+        desc: "Восточно-Таймырский континентальный сектор. Преобладание арктических холодных антициклонов и выхолаживания.",
+        models: {
+          ecmwf:     { dec1: +1.2, dec2: -1.8, dec3: -4.5, m0: -1.7, oct: -13.5, nov: -26.2, win: -32.5, precip: 85 },
+          consensus: { dec1: +0.8, dec2: -2.5, dec3: -5.8, m0: -2.5, oct: -14.3, nov: -27.0, win: -33.0, precip: 90 },
+          ukmo:      { dec1: +0.6, dec2: -2.8, dec3: -6.2, m0: -2.8, oct: -14.6, nov: -27.2, win: -33.2, precip: 85 },
+          jma:       { dec1: +0.5, dec2: -2.6, dec3: -6.0, m0: -2.7, oct: -14.5, nov: -27.1, win: -33.1, precip: 88 },
+          cfsv2:     { dec1: +1.8, dec2: -1.0, dec3: -3.5, m0: -0.9, oct: -12.7, nov: -25.0, win: -31.0, precip: 80 },
+          meteoinfo: { dec1: +1.0, dec2: -1.5, dec3: -3.8, m0: -1.4, oct: -13.2, nov: -25.8, win: -32.0, precip: 85 }
+        }
+      },
+      
       central: {
 
         name: "Центральная Россия",
@@ -6051,8 +6077,9 @@
       { id: 'ekb', name: 'Екатеринбург', coords: [56.8389, 60.6057], regKey: 'urals' },
       { id: 'novosib', name: 'Новосибирск', coords: [55.0084, 82.9357], regKey: 'westsiberia' },
       { id: 'krasnoyarsk', name: 'Красноярск', coords: [56.0153, 92.8932], regKey: 'evenkia' },
-      { id: 'norilsk', name: 'Норильск', coords: [69.3535, 88.2028], regKey: 'taimyr' },
-      { id: 'dikson', name: 'Диксон', coords: [73.5074, 80.5283], regKey: 'taimyr' },
+      { id: 'norilsk', name: 'Норильск (Западный Таймыр)', coords: [69.3535, 88.2028], regKey: 'taimyr' },
+      { id: 'dikson', name: 'Диксон (Карское море)', coords: [73.5074, 80.5283], regKey: 'taimyr' },
+      { id: 'khatanga', name: 'Хатанга (Восточный Таймыр)', coords: [71.9800, 102.4700], regKey: 'khatanga' },
       { id: 'irkutsk', name: 'Иркутск (Прибайкалье)', coords: [52.2870, 104.3050], regKey: 'eastsiberia' },
       { id: 'yakutsk', name: 'Якутск', coords: [62.0397, 129.7422], regKey: 'yakutia' },
       { id: 'oymyakon', name: 'Оймякон', coords: [63.4641, 142.7737], regKey: 'kolyma_magadan' },
@@ -6273,55 +6300,82 @@
 
     // ================= RENDER HYDROMETCENTRE ISOLINES (Clean Scientific Contours) =================
 
+    function generateSmoothClosedCurve(points, resolution) {
+      if (!points || points.length < 3) return points;
+      resolution = resolution || 4;
+      var n = points.length;
+      var smoothed = [];
+      for (var i = 0; i < n; i++) {
+        var p0 = points[(i - 1 + n) % n];
+        var p1 = points[i];
+        var p2 = points[(i + 1) % n];
+        var p3 = points[(i + 2) % n];
+        smoothed.push(p1);
+        for (var t = 1; t <= resolution; t++) {
+          var u = t / (resolution + 1);
+          var u2 = u * u;
+          var u3 = u2 * u;
+          var lat = 0.5 * (
+            (2 * p1[0]) +
+            (-p0[0] + p2[0]) * u +
+            (2 * p0[0] - 5 * p1[0] + 4 * p2[0] - p3[0]) * u2 +
+            (-p0[0] + 3 * p1[0] - 3 * p2[0] + p3[0]) * u3
+          );
+          var lon = 0.5 * (
+            (2 * p1[1]) +
+            (-p0[1] + p2[1]) * u +
+            (2 * p0[1] - 5 * p1[1] + 4 * p2[1] - p3[1]) * u2 +
+            (-p0[1] + 3 * p1[1] - 3 * p2[1] + p3[1]) * u3
+          );
+          smoothed.push([lat, lon]);
+        }
+      }
+      smoothed.push(smoothed[0]);
+      return smoothed;
+    }
+
     function renderIsolines() {
-
       isolineLayers.forEach(function(l) { map.removeLayer(l); });
-
       isolineLayers = [];
-
-
 
       if (!isContourEnabled) return;
 
-
+      var isDark = document.documentElement.classList.contains('dark');
 
       ISOLINES_DATA.forEach(function(iso) {
-
         var val = getIsolineVal(iso, currentDecade, currentModel, currentMetric);
-
         var strokeColor = (currentMetric === 'temp') ? getTempColor(val) : getPrecipColor(val);
+        var valStr = (currentMetric === 'temp') ? ((val > 0 ? '+' : '') + val.toFixed(1) + '°C') : (val + '%');
 
+        // Continuous smooth meteorological spline curve (0 dashed boxes, 100% fluent flow)
+        var smoothCoords = generateSmoothClosedCurve(iso.coords, 5);
 
-
-        // Render as delicate meteorological isanomals (NEVER filled solid polygons)
-
-        var poly = L.polyline(iso.coords.concat([iso.coords[0]]), {
-
+        var poly = L.polyline(smoothCoords, {
           color: strokeColor,
-
-          weight: 1.1,
-
-          opacity: 0.50,
-
-          dashArray: (val < 0 ? '4, 4' : null),
-
-          smoothFactor: 2.0,
-
-          interactive: false // Never blocks clicks, never triggers conflicting tooltips
-
+          weight: 1.5,
+          opacity: isDark ? 0.65 : 0.75,
+          dashArray: null,
+          smoothFactor: 1.0,
+          interactive: false
         }).addTo(map);
-
-
 
         isolineLayers.push(poly);
 
+        // Professional meteorological contour label tag along curve
+        var labelLat = iso.coords[0][0];
+        var labelLon = iso.coords[0][1];
+        var badgeBg = isDark ? 'rgba(15, 23, 42, 0.90)' : 'rgba(255, 255, 255, 0.95)';
+        var badgeHtml = '<div class="isanomal-contour-label font-mono text-[9px] font-black px-1.5 py-0.5 rounded shadow pointer-events-none" style="background:' + badgeBg + '; color:' + strokeColor + '; border:1px solid ' + strokeColor + '; white-space:nowrap;">' + valStr + '</div>';
+        var badgeIcon = L.divIcon({
+          className: '',
+          html: badgeHtml,
+          iconSize: [48, 18],
+          iconAnchor: [24, 9]
+        });
+        var marker = L.marker([labelLat, labelLon], { icon: badgeIcon, interactive: false }).addTo(map);
+        isolineLayers.push(marker);
       });
-
     }
-
-
-
-    // ================= RENDER CHOROPLETH REGIONS (Refined Non-Overlapping Scientific Map) =================
 
     function renderChoropleth() {
 
@@ -6846,7 +6900,26 @@
 
       // 2. CENTRAL RUSSIA & MOSCOW
 
-      if (rKey === 'central') {
+            if (rKey === 'khatanga') {
+        if (d === 1) {
+          return {
+            title: "Периферийный вынос сибирского тепла",
+            desc: "Кратковременный вынос воздушных масс из Западной Сибири по периферии циклона в бассейн Хатанги. Аномалия " + tStr + ", слабое дневное потепление до +4°C."
+          };
+        } else if (d === 2) {
+          return {
+            title: "Формирование Таймырского очага холода",
+            desc: "Перестройка циркуляции на антициклоническую. Рост атмосферного давления над шельфом моря Лаптевых, заток арктического воздуха. Аномалия " + tStr + ", установление постоянного снежного покрова."
+          };
+        } else {
+          return {
+            title: "Глубокое радиационное выхолаживание",
+            desc: "Устойчивый полярный антициклон над Восточным Таймыром. Штилевые условия, малооблачное небо, радиационная инверсия в приземном слое. Ночные морозы ниже -22°C, аномалия " + tStr + "."
+          };
+        }
+      }
+
+if (rKey === 'central') {
 
         if (d === 1) {
 
@@ -7193,7 +7266,8 @@
 
       if (hudPeriodEl) {
 
-        hudPeriodEl.textContent = (st ? st.name.toUpperCase() : r.name.toUpperCase()) + ' · ' + synInfo.title.toUpperCase();
+        var stShort = st ? st.name.split(' (')[0].toUpperCase() : r.name.split(' (')[0].toUpperCase();
+        hudPeriodEl.textContent = stShort + ' · ' + (currentMetric === 'temp' ? tempStr : precipStr);
 
       }
 
@@ -7217,7 +7291,7 @@
 
       if (hudDescEl) {
 
-        hudDescEl.textContent = synInfo.desc + ' Диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
+        hudDescEl.innerHTML = '<strong>' + synInfo.title + ':</strong> ' + synInfo.desc + ' Диапазон T: ' + (r.tmin || '') + '...' + (r.tmax || '') + ', ветер: ' + (r.wind || 'умеренный') + '.';
 
       }
 
@@ -7320,38 +7394,22 @@
 
 
     function closeHudBox() {
-
       var box = document.getElementById('map-hud-box');
-
       var reopenBtn = document.getElementById('map-hud-reopen-btn');
-
       if (!box) return;
 
-
-
       box.classList.add('hud-hidden');
-
       if (reopenBtn) {
-
         reopenBtn.classList.remove('hidden');
-
-        var periodEl = document.getElementById('hud-period');
-
-        var titleText = periodEl ? periodEl.textContent.trim().split(':')[0] : 'Сводка аномалий';
-
-        var badgeEl = document.getElementById('hud-anomaly-badge');
-
-        var badgeText = badgeEl ? badgeEl.textContent.trim() : '';
-
-        document.getElementById('reopen-hud-title').textContent = titleText + (badgeText ? ' (' + badgeText + ')' : '') ;
-
+        var activeR = (activeRegionKey && REGIONS[activeRegionKey]) ? REGIONS[activeRegionKey] : REGIONS.central;
+        var activeSt = (activeStationId && STATIONS.find(function(s){return s.id === activeStationId;})) || null;
+        var stShort = activeSt ? activeSt.name.split(' (')[0] : (activeR ? activeR.name.split(' (')[0] : 'Сводка');
+        var curVal = activeR ? getRegionVal(activeR, currentDecade, currentModel, currentMetric) : 0;
+        var valStr = currentMetric === 'temp' ? ((curVal > 0 ? '+' : '') + curVal.toFixed(1) + '°C') : (Math.round(curVal) + '%');
+        document.getElementById('reopen-hud-title').textContent = stShort + ' (' + valStr + ')';
       }
-
       hudState = 'closed';
-
     }
-
-
 
     function openHudBox() {
 
@@ -8548,7 +8606,8 @@
     
     // Климатические нормы ВМО (WMO Climatological Normals 1991–2020) по месяцам для всех 20 макрорегионов
     var WMO_NORMALS = {
-      taimyr:          { name: 'Таймыр и Нижний Енисей',         t: { 8: 8.8, 9: 4.3, 10: -6.5, 11: -17.8, 12: -24.5, win: -26.0 }, p: { 9: 48, 10: 42, 11: 38, win: 32 } },
+      taimyr:          { name: 'Западный Таймыр и Норильск',     t: { 8: 8.8, 9: 4.3, 10: -6.5, 11: -17.8, 12: -24.5, win: -26.0 }, p: { 9: 48, 10: 42, 11: 38, win: 32 } },
+      khatanga:        { name: 'Восточный Таймыр и Хатанга',     t: { 8: 6.2, 9: 1.8, 10: -11.8, 11: -24.5, 12: -31.2, win: -33.5 }, p: { 9: 36, 10: 28, 11: 22, win: 18 } },
       central:         { name: 'Центральная Россия и Москва',    t: { 8: 17.6, 9: 11.8, 10: 5.8, 11: -0.8, 12: -5.2, win: -6.5 },   p: { 9: 65, 10: 71, 11: 54, win: 48 } },
       northwest:       { name: 'Северо-Запад и Карелия',         t: { 8: 16.5, 9: 11.5, 10: 5.1, 11: -1.5, 12: -6.0, win: -7.5 },   p: { 9: 68, 10: 67, 11: 58, win: 45 } },
       volga:           { name: 'Поволжье и Волго-Вятка',         t: { 8: 18.2, 9: 11.2, 10: 4.8, 11: -2.8, 12: -8.5, win: -10.5 },  p: { 9: 52, 10: 53, 11: 45, win: 38 } },
@@ -8632,7 +8691,8 @@
       var afterNextM = info.afterNextMonth;
 
       var allRegions = [
-        { key: 'taimyr', lat: 71.5, lon: 88.0, name: 'Таймыр и Нижний Енисей' },
+        { key: 'taimyr', lat: 71.0, lon: 86.0, name: 'Западный Таймыр и Норильск' },
+        { key: 'khatanga', lat: 72.0, lon: 102.5, name: 'Восточный Таймыр и Хатанга' },
         { key: 'central', lat: 55.75, lon: 37.6, name: 'Центральная Россия и Москва' },
         { key: 'northwest', lat: 63.0, lon: 33.0, name: 'Северо-Запад и Карелия' },
         { key: 'volga', lat: 55.8, lon: 49.1, name: 'Поволжье' },
@@ -9820,46 +9880,40 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
         // Bind Leaflet Popup to Marker
 
         var popupHtml = '<div class="font-sans text-xs space-y-1.5 p-1 select-none leading-tight" style="min-width:180px;">' +
-
-          '<div class="flex items-center justify-between border-b border-slate-700/60 pb-1 font-bold text-slate-100 text-xs">' +
-
+          '<div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/60 pb-1 font-bold text-slate-900 dark:text-slate-100 text-xs">' +
             '<span class="truncate max-w-[150px]">' + dispName + '</span>' +
-
           '</div>' +
-
           '<div class="flex items-center justify-between font-mono text-[11px]">' +
-
-            '<span class="text-slate-400">Факт T:</span>' +
-
-            '<span class="font-bold text-slate-100">' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</span>' +
-
+            '<span class="text-slate-600 dark:text-slate-400 font-medium">Факт T:</span>' +
+            '<span class="font-bold text-slate-900 dark:text-slate-100">' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</span>' +
           '</div>' +
-
           '<div class="flex items-center justify-between font-mono text-[11px]">' +
-
-            '<span class="text-slate-400">Аномалия:</span>' +
-
+            '<span class="text-slate-600 dark:text-slate-400 font-medium">Аномалия:</span>' +
             '<span class="font-black" style="color:' + getTempColor(deltaT) + ';">' + (deltaT > 0 ? '+' : '') + deltaT + '°C</span>' +
-
           '</div>' +
-
-          '<div class="flex items-center justify-between font-mono text-[10.5px] text-slate-400 pt-0.5">' +
-
+          '<div class="flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-slate-400 pt-0.5">' +
             '<span>Осадки: ' + precipPct + '%</span>' +
-
             '<span>' + pMm + ' мм рт. ст.</span>' +
-
           '</div>' +
-
-          '<div class="pt-1 border-t border-slate-700/60 text-right">' +
-
-            '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" class="text-[11px] text-sky-400 hover:text-sky-300 font-bold underline transition">Открыть прогноз →</a>' +
-
+          '<div class="pt-1 border-t border-slate-200 dark:border-slate-700/60 text-right">' +
+            '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" class="text-[11px] text-sky-600 dark:text-sky-400 hover:text-sky-500 font-bold underline transition">Открыть прогноз →</a>' +
           '</div>' +
-
         '</div>';
 
-
+        // Also sync HUD with custom point
+        var hudPeriodEl = document.getElementById('hud-period');
+        var hudBadgeEl = document.getElementById('hud-anomaly-badge');
+        var hudDescEl = document.getElementById('hud-desc');
+        if (hudPeriodEl) {
+          hudPeriodEl.textContent = dispName.toUpperCase() + ' · ' + (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + '°C';
+        }
+        if (hudBadgeEl) {
+          hudBadgeEl.textContent = 'ΔT: ' + (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + '°C';
+          hudBadgeEl.style.color = getTempColor(deltaT);
+        }
+        if (hudDescEl) {
+          hudDescEl.innerHTML = '<strong>' + synTitle + ':</strong> ' + synDesc + ' Факт: ' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C, норма: ' + (clim.tNormDay > 0 ? '+' : '') + clim.tNormDay + '°C.';
+        }
 
         customPointMarker.bindPopup(popupHtml, {
 
