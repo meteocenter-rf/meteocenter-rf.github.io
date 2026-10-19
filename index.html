@@ -3289,8 +3289,9 @@
 
     // Archive sub-view state & honest 3-stream data architecture
     let archiveSubView = 'table'; // 'table', 'diary', 'months', 'stripes', 'single_month', 'today_history', 'rolling', 'summary'
-    let selectedArchiveYear = 2024;
-    let selectedArchiveMonth = 6; // 0..11 (0 = Январь, 6 = Июль)
+    const _nowArchive = new Date();
+    let selectedArchiveYear = Math.min(2026, _nowArchive.getFullYear());
+    let selectedArchiveMonth = _nowArchive.getMonth(); // 0..11 (0 = Январь, 9 = Октябрь)
     let archiveDataMode = 'hybrid'; // 'hybrid' (МС + Реанализ ERA5 - автоматическая загрузка на лету), 'obs' (Только факт с МС), 'reanalysis' (Только Реанализ ERA5)
     let archiveTableFilterYear = '';
     let archiveTableFilterTag = 'all';
@@ -3303,8 +3304,12 @@
     let summaryChartInstance = null;
     let summaryChartMode = 'all'; // 'all' (Tmax/Tmin/Precip), 'anomaly' (Аномалии), 'cum_precip' (Кумулятивные), 'rolling' (Скользящие 7d/30d)
     let currentSummaryRawSeries = null;
-    let summaryFromDate = '2026-08-09';
-    let summaryToDate = '2026-09-07';
+    const _nowSummary = new Date();
+    const _now30DaysAgo = new Date();
+    _now30DaysAgo.setDate(_nowSummary.getDate() - 30);
+    const _formatISODate = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+    let summaryFromDate = _formatISODate(_now30DaysAgo);
+    let summaryToDate = _formatISODate(_nowSummary);
 
     // Radar & Satellite State (Senior Meteo Engine)
     let radarMap = null;
@@ -12648,16 +12653,16 @@ function renderTabCurrent(container, d) {
           <div class="flex flex-wrap items-center gap-1.5 text-xs pt-1">
             <span class="text-slate-500 dark:text-slate-400 text-[11px] font-mono mr-1">Пресеты:</span>
             <button onclick="setSummaryPreset('30days')" class="summary-preset-chip active" id="chip-30days">
-              30 дней (09.08 – 07.09)
+              30 дней (последний месяц)
+            </button>
+            <button onclick="setSummaryPreset('cur_month')" class="summary-preset-chip" id="chip-cur_month">
+              Текущий месяц
+            </button>
+            <button onclick="setSummaryPreset('prev_month')" class="summary-preset-chip" id="chip-prev_month">
+              Предыдущий месяц
             </button>
             <button onclick="setSummaryPreset('summer2026')" class="summary-preset-chip" id="chip-summer2026">
               Лето 2026 (01.06 – 31.08)
-            </button>
-            <button onclick="setSummaryPreset('cur_month')" class="summary-preset-chip" id="chip-cur_month">
-              Сентябрь 2026 (01.09 – 07.09)
-            </button>
-            <button onclick="setSummaryPreset('prev_month')" class="summary-preset-chip" id="chip-prev_month">
-              Август 2026
             </button>
             <button onclick="setSummaryPreset('year2025')" class="summary-preset-chip" id="chip-year2025">
               Весь 2025 год (365 дней)
@@ -12686,17 +12691,25 @@ function renderTabCurrent(container, d) {
       const chip = document.getElementById(`chip-${presetKey}`);
       if (chip) chip.classList.add('active');
 
+      const _presetNow = new Date();
+      const _formatPresetDate = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+
       if (presetKey === '30days') {
-        summaryFromDate = '2026-08-09';
-        summaryToDate = '2026-09-07';
+        const _d30 = new Date();
+        _d30.setDate(_presetNow.getDate() - 30);
+        summaryFromDate = _formatPresetDate(_d30);
+        summaryToDate = _formatPresetDate(_presetNow);
+      } else if (presetKey === 'cur_month') {
+        const _firstOfCurM = new Date(_presetNow.getFullYear(), _presetNow.getMonth(), 1);
+        summaryFromDate = _formatPresetDate(_firstOfCurM);
+        summaryToDate = _formatPresetDate(_presetNow);
+      } else if (presetKey === 'prev_month') {
+        const _firstOfPrevM = new Date(_presetNow.getFullYear(), _presetNow.getMonth() - 1, 1);
+        const _lastOfPrevM = new Date(_presetNow.getFullYear(), _presetNow.getMonth(), 0);
+        summaryFromDate = _formatPresetDate(_firstOfPrevM);
+        summaryToDate = _formatPresetDate(_lastOfPrevM);
       } else if (presetKey === 'summer2026') {
         summaryFromDate = '2026-06-01';
-        summaryToDate = '2026-08-31';
-      } else if (presetKey === 'cur_month') {
-        summaryFromDate = '2026-09-01';
-        summaryToDate = '2026-09-07';
-      } else if (presetKey === 'prev_month') {
-        summaryFromDate = '2026-08-01';
         summaryToDate = '2026-08-31';
       } else if (presetKey === 'year2025') {
         summaryFromDate = '2025-01-01';
