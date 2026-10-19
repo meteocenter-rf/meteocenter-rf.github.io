@@ -741,7 +741,73 @@
       renderModelsView(data);
       renderCrossSectionView(data);
       renderStationsView(data);
+      renderMonthOverview(data);
       if (currentTab === 'radar') renderRadarAnimation();
+    }
+
+    function renderMonthOverview(data) {
+      const anomEl = document.getElementById('m-anom');
+      const precEl = document.getElementById('m-prec');
+      const zeroEl = document.getElementById('m-zero');
+
+      // Climatological norms for October:
+      const cityNorms = {
+        norilsk: { t: -6.6, p: 48 },
+        moscow: { t: 5.8, p: 71 },
+        spb: { t: 6.2, p: 68 },
+        sochi: { t: 16.0, p: 168 },
+        ekb: { t: 3.1, p: 42 }
+      };
+      const cNorm = cityNorms[currentCityKey] || { t: 5.0, p: 50 };
+
+      // 1. Temperature anomaly
+      let periodMean = data.temp;
+      if (data.dailyMax && data.dailyMin && data.dailyMax.length) {
+        let sum = 0;
+        for (let i = 0; i < data.dailyMax.length; i++) {
+          sum += (data.dailyMax[i] + data.dailyMin[i]) / 2;
+        }
+        periodMean = sum / data.dailyMax.length;
+      }
+      const anom = Math.round((periodMean - cNorm.t) * 10) / 10;
+      if (anomEl) {
+        anomEl.textContent = `${anom > 0 ? '+' : ''}${anom} °C ${anom >= 0 ? 'выше нормы' : 'ниже нормы'}`;
+      }
+
+      // 2. Precipitation
+      let precSum = (cNorm.p * 0.95);
+      if (data.dailyPrec && data.dailyPrec.length) {
+        const obsP = data.dailyPrec.reduce((a, b) => a + (b || 0), 0);
+        precSum = Math.round((obsP * (30 / data.dailyPrec.length)) * 10) / 10;
+      }
+      const precPct = Math.round((precSum / cNorm.p) * 100);
+      if (precEl) {
+        precEl.textContent = `${Math.round(precSum)} мм (${precPct}% нормы)`;
+      }
+
+      // 3. Date crossing 0°C
+      if (zeroEl) {
+        if (data.temp <= 0 && (!data.dailyMax || data.dailyMax[0] <= 0)) {
+          zeroEl.textContent = 'Уже ниже 0°C (устойчивый мороз)';
+        } else if (data.dailyMin && data.dailyMin.length) {
+          let crossIdx = -1;
+          for (let i = 0; i < data.dailyMin.length; i++) {
+            if (data.dailyMin[i] <= 0) {
+              crossIdx = i;
+              break;
+            }
+          }
+          if (crossIdx !== -1) {
+            const dt = new Date();
+            dt.setDate(dt.getDate() + crossIdx);
+            zeroEl.textContent = dt.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
+          } else {
+            zeroEl.textContent = 'В ближайшие 14 дней без 0°C';
+          }
+        } else {
+          zeroEl.textContent = 'Около нормы сезона';
+        }
+      }
     }
 
     async function fetchLiveCardWeather(key) {
