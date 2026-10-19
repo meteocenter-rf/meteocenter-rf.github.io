@@ -2897,7 +2897,7 @@
 
 
         <!-- KPI Strip: Macro-Regions of Russia Overview -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-2.5 pt-1" id="kpi-macro-regions-strip">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 pt-1" id="kpi-macro-regions-strip">
           <!-- 1. Central (Moscow) -->
           <div onclick="selectKpiRegion('central')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Центральная Россия (Москва) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
@@ -2909,10 +2909,10 @@
             <span id="kpi-central-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Выше нормы</span>
           </div>
 
-          <!-- 2. Northwest (SPb) -->
-          <div onclick="selectKpiRegion('northwest')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Северо-Запад (Санкт-Петербург) · Нажмите для перехода на карте">
+          <!-- 2. Northwest & Russian North (SPb / Arkhangelsk / Murmansk) -->
+          <div onclick="selectKpiRegion('northwest')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Русский Север и Северо-Запад (Архангельск / СПб / Мурманск) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition font-bold truncate">С-Запад · СПб</span>
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition font-bold truncate">Русский Север · СПб</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
             <div id="kpi-northwest-val" class="text-base sm:text-lg font-black font-mono transition-colors text-sky-600 dark:text-sky-400 mt-0.5">ΔT -2.4 °C</div>
@@ -2920,8 +2920,8 @@
             <span id="kpi-northwest-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Ниже нормы</span>
           </div>
 
-          <!-- 3. Volga (Kazan) -->
-          <div onclick="selectKpiRegion('volga')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Поволжье (Казань) · Нажмите для перехода на карте">
+          <!-- 3. Volga (Kazan / Samara) -->
+          <div onclick="selectKpiRegion('volga')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Поволжье (Казань / Самара) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Поволжье · Казань</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -2931,10 +2931,10 @@
             <span id="kpi-volga-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Крупная аномалия</span>
           </div>
 
-          <!-- 4. South (Sochi) -->
-          <div onclick="selectKpiRegion('south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-rose-500/50 hover:bg-rose-500/5 transition group" title="Юг России (Сочи / Кавказ) · Нажмите для перехода на карте">
+          <!-- 4. South & Caucasus (Sochi / Rostov) -->
+          <div onclick="selectKpiRegion('south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-rose-500/50 hover:bg-rose-500/5 transition group" title="Юг России и Кавказ (Сочи / Ростов-на-Дону) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-rose-500 transition font-bold truncate">Юг · Сочи</span>
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-rose-500 transition font-bold truncate">Юг и Кавказ · Сочи</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
             <div id="kpi-south-val" class="text-base sm:text-lg font-black font-mono transition-colors text-rose-600 dark:text-rose-400 mt-0.5">ΔT +3.0 °C</div>
@@ -2942,8 +2942,8 @@
             <span id="kpi-south-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Выше нормы</span>
           </div>
 
-          <!-- 5. Urals (Ekaterinburg) -->
-          <div onclick="selectKpiRegion('urals')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Уральский регион (Екатеринбург) · Нажмите для перехода на карте">
+          <!-- 5. Urals (Ekaterinburg / Chelyabinsk) -->
+          <div onclick="selectKpiRegion('urals')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Уральский регион (Екатеринбург / Челябинск) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
               <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Урал · Екат-бург</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -2953,10 +2953,21 @@
             <span id="kpi-urals-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Существенно теплее</span>
           </div>
 
-          <!-- 6. Western Siberia (Novosibirsk) -->
-          <div onclick="selectKpiRegion('westsiberia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-emerald-500/50 hover:bg-emerald-500/5 transition group" title="Западная Сибирь (Новосибирск) · Нажмите для перехода на карте">
+          <!-- 6. Yamal & Polar Circle (Salekhard / Novy Urengoy) -->
+          <div onclick="selectKpiRegion('yamal')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Ямал и Полярный круг (Салехард / Новый Уренгой) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-emerald-500 transition font-bold truncate">Сибирь · Н-сибирск</span>
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Ямал · Салехард</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-yamal-val" class="text-base sm:text-lg font-black font-mono transition-colors text-amber-600 dark:text-amber-400 mt-0.5">ΔT +6.9 °C</div>
+            <div id="kpi-yamal-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +2.1°</span><span class="opacity-70">Норма -4.8°</span></div>
+            <span id="kpi-yamal-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Крупная аномалия</span>
+          </div>
+
+          <!-- 7. Western Siberia (Novosibirsk / Omsk) -->
+          <div onclick="selectKpiRegion('westsiberia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-emerald-500/50 hover:bg-emerald-500/5 transition group" title="Западная Сибирь (Новосибирск / Омск) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-emerald-500 transition font-bold truncate">Зап. Сибирь · Нск</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
             <div id="kpi-westsiberia-val" class="text-base sm:text-lg font-black font-mono transition-colors text-emerald-600 dark:text-emerald-400 mt-0.5">ΔT +1.2 °C</div>
@@ -2964,26 +2975,59 @@
             <span id="kpi-westsiberia-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Около нормы</span>
           </div>
 
-          <!-- 7. Far East (Vladivostok) -->
-          <div onclick="selectKpiRegion('fareast_south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-blue-500/50 hover:bg-blue-500/5 transition group" title="Дальний Восток (Владивосток) · Нажмите для перехода на карте">
+          <!-- 8. Yenisei Siberia (Krasnoyarsk / Yeniseysk) -->
+          <div onclick="selectKpiRegion('evenkia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Енисейская Сибирь (Красноярск / Енисейск) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-blue-500 transition font-bold truncate">ДВ · Владивосток</span>
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Енисей · Красноярск</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-            <div id="kpi-fareast_south-val" class="text-base sm:text-lg font-black font-mono transition-colors text-blue-600 dark:text-blue-400 mt-0.5">ΔT -1.4 °C</div>
-            <div id="kpi-fareast_south-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +7.0°</span><span class="opacity-70">Норма +8.4°</span></div>
-            <span id="kpi-fareast_south-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Умеренно ниже</span>
+            <div id="kpi-evenkia-val" class="text-base sm:text-lg font-black font-mono transition-colors text-amber-600 dark:text-amber-400 mt-0.5">ΔT +5.5 °C</div>
+            <div id="kpi-evenkia-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт -1.3°</span><span class="opacity-70">Норма -6.8°</span></div>
+            <span id="kpi-evenkia-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Существенно теплее</span>
           </div>
 
-          <!-- 8. North & Taymyr (Norilsk) -->
-          <div onclick="selectKpiRegion('taimyr')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-cyan-500/50 hover:bg-cyan-500/5 transition group" title="Север и Таймыр (Норильск) · Нажмите для перехода на карте">
+          <!-- 9. Taymyr & Arctic (Norilsk / Dikson) -->
+          <div onclick="selectKpiRegion('taimyr')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-cyan-500/50 hover:bg-cyan-500/5 transition group" title="Таймыр и Заполярье (Норильск / Диксон) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-cyan-500 transition font-bold truncate">Север · Норильск</span>
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-cyan-500 transition font-bold truncate">Таймыр · Норильск</span>
               <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
             <div id="kpi-taimyr-val" class="text-base sm:text-lg font-black font-mono transition-colors text-cyan-600 dark:text-cyan-400 mt-0.5">ΔT +5.8 °C</div>
             <div id="kpi-taimyr-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт -0.7°</span><span class="opacity-70">Норма -6.5°</span></div>
             <span id="kpi-taimyr-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Существенно теплее</span>
+          </div>
+
+          <!-- 10. East Siberia & Baikal (Irkutsk / Chita) -->
+          <div onclick="selectKpiRegion('eastsiberia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Восточная Сибирь и Байкал (Иркутск / Чита) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition font-bold truncate">Прибайкалье · Иркутск</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-eastsiberia-val" class="text-base sm:text-lg font-black font-mono transition-colors text-sky-600 dark:text-sky-400 mt-0.5">ΔT -3.8 °C</div>
+            <div id="kpi-eastsiberia-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт -2.6°</span><span class="opacity-70">Норма +1.2°</span></div>
+            <span id="kpi-eastsiberia-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Ниже нормы</span>
+          </div>
+
+          <!-- 11. Yakutia / Sakha (Yakutsk) -->
+          <div onclick="selectKpiRegion('yakutia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Якутия (Саха) и Полюс Холода · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition font-bold truncate">Якутия · Саха</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-yakutia-val" class="text-base sm:text-lg font-black font-mono transition-colors text-sky-600 dark:text-sky-400 mt-0.5">ΔT -3.3 °C</div>
+            <div id="kpi-yakutia-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт -10.8°</span><span class="opacity-70">Норма -7.5°</span></div>
+            <span id="kpi-yakutia-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Ниже нормы</span>
+          </div>
+
+          <!-- 12. Far East & Primorye (Vladivostok) -->
+          <div onclick="selectKpiRegion('fareast_south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-blue-500/50 hover:bg-blue-500/5 transition group" title="Дальний Восток (Владивосток / Хабаровск) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-blue-500 transition font-bold truncate">Дальний Восток · ДВ</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-fareast_south-val" class="text-base sm:text-lg font-black font-mono transition-colors text-blue-600 dark:text-blue-400 mt-0.5">ΔT -1.4 °C</div>
+            <div id="kpi-fareast_south-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +7.0°</span><span class="opacity-70">Норма +8.4°</span></div>
+            <span id="kpi-fareast_south-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Умеренно ниже</span>
           </div>
         </div>
 
@@ -3450,54 +3494,29 @@
 
       <!-- Quick Station Selector Strip (Clickable Chips) -->
 
-      <div id="quick-stations-strip" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
-
+            <div id="quick-stations-strip" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono">
         <span class="text-slate-400 dark:text-slate-500 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
-
-        <button onclick="inspectStation('norilsk')" class="station-chip !border-sky-500/50 !text-sky-300"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span> Норильск (-2.7°C)</button>
-
-        <button onclick="inspectStation('armavir')" class="station-chip !border-amber-500/50 !text-amber-300"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Армавир (+1.8°C)</button>
-
-        <button onclick="inspectStation('krasnodar')" class="station-chip">Краснодар (+1.9°C)</button>
-
-        <button onclick="inspectStation('sochi')" class="station-chip">Сочи (Субтропики)</button>
-
-        <button onclick="inspectStation('moscow')" class="station-chip">Москва (+1.2°C)</button>
-        <button onclick="inspectStation('voronezh')" class="station-chip">Воронеж (Черноземье)</button>
-
-        <button onclick="inspectStation('spb')" class="station-chip">Санкт-Петербург (+0.2°C)</button>
-
-        <button onclick="inspectStation('dikson')" class="station-chip">Диксон (Арктика)</button>
-
+        <button onclick="inspectStation('moscow')" class="station-chip !border-amber-500/50 !text-amber-300 font-bold"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Москва (+3.7°C)</button>
+        <button onclick="inspectStation('spb')" class="station-chip">Санкт-Петербург (-2.4°C)</button>
         <button onclick="inspectStation('murmansk')" class="station-chip">Мурманск</button>
-
-        <button onclick="inspectStation('ekb')" class="station-chip">Екатеринбург</button>
-
-        <button onclick="inspectStation('novosib')" class="station-chip">Новосибирск (-0.7°C)</button>
-
+        <button onclick="inspectStation('salekhard')" class="station-chip">Салехард (+6.9°C)</button>
+        <button onclick="inspectStation('kazan')" class="station-chip">Казань (+7.4°C)</button>
+        <button onclick="inspectStation('sochi')" class="station-chip">Сочи (Субтропики)</button>
+        <button onclick="inspectStation('armavir')" class="station-chip">Армавир (Кубань)</button>
+        <button onclick="inspectStation('krasnodar')" class="station-chip">Краснодар</button>
+        <button onclick="inspectStation('ekb')" class="station-chip">Екатеринбург (+4.9°C)</button>
+        <button onclick="inspectStation('novosib')" class="station-chip">Новосибирск (+1.2°C)</button>
         <button onclick="inspectStation('krasnoyarsk')" class="station-chip">Красноярск</button>
-
-        <button onclick="inspectStation('yakutsk')" class="station-chip">Якутск (-1.7°C)</button>
-
-        <button onclick="inspectStation('oymyakon')" class="station-chip">Оймякон (-2.6°C)</button>
-
-        <button onclick="inspectStation('vladivostok')" class="station-chip">Владивосток (+1.3°C)</button>
-
-        <button onclick="inspectStation('salekhard')" class="station-chip">Салехард</button>
-
+        <button onclick="inspectStation('norilsk')" class="station-chip">Норильск (+5.8°C)</button>
+        <button onclick="inspectStation('dikson')" class="station-chip">Диксон (Арктика)</button>
+        <button onclick="inspectStation('irkutsk')" class="station-chip">Иркутск (-3.8°C)</button>
+        <button onclick="inspectStation('yakutsk')" class="station-chip">Якутск (-3.3°C)</button>
+        <button onclick="inspectStation('oymyakon')" class="station-chip">Оймякон</button>
+        <button onclick="inspectStation('vladivostok')" class="station-chip">Владивосток (-1.4°C)</button>
         <button onclick="inspectStation('anadyr')" class="station-chip">Анадырь (Чукотка)</button>
-
         <button onclick="inspectStation('petropavlovsk')" class="station-chip">Камчатка</button>
-
-        <button onclick="inspectStation('kazan')" class="station-chip">Казань</button>
-
       </div>
-
-
-
     </div>
-
-
 
     <!-- ================= REGION & CITY DETAILED INSPECTOR PANEL ================= -->
 
@@ -3509,26 +3528,16 @@
 
           <div class="flex items-center gap-2">
 
-            <span class="text-xl sm:text-2xl" id="insp-icon">❄️</span>
-
+            <span class="text-xl sm:text-2xl" id="insp-icon">🏛️</span>
             <h3 class="text-lg sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight" id="insp-city-name">
-
-              г. Норильск (Таймырский Долгано-Ненецкий район)
-
+              г. Москва (Центральная Россия)
             </h3>
-
-            <span class="px-2 py-0.5 rounded font-mono font-bold text-xs bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30" id="insp-wmo-badge">
-
-              WMO 23078
-
+            <span class="px-2 py-0.5 rounded font-mono font-bold text-xs bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30" id="insp-wmo-badge">
+              WMO 27612
             </span>
-
           </div>
-
           <p class="text-xs text-slate-500 dark:text-slate-400 font-mono mt-0.5" id="insp-region-sub">
-
-            Координаты: 69.35°N, 88.20°E · Высота: 90 м · Бассейн Нижнего Енисея
-
+            Координаты: 55.75°N, 37.62°E · Высота: 156 м · Метеостанция ВДНХ (Опорная сеть ВМО)
           </p>
 
         </div>
@@ -3543,7 +3552,7 @@
 
             <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase" id="insp-gauge-title">Аномалия ΔT (Текущий период)</div>
 
-            <div class="text-2xl sm:text-3xl font-black font-mono text-sky-600 dark:text-sky-400" id="insp-anomaly-val">-2.7 °C</div>
+            <div class="text-2xl sm:text-3xl font-black font-mono text-amber-600 dark:text-amber-400" id="insp-anomaly-val">+3.7 °C</div>
 
           </div>
 
@@ -3553,7 +3562,7 @@
 
             <div class="text-[10.5px] font-mono text-slate-500 dark:text-slate-400 uppercase">Осадки % нормы</div>
 
-            <div class="text-xl sm:text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400" id="insp-precip-val">145%</div>
+            <div class="text-xl sm:text-2xl font-black font-mono text-cyan-600 dark:text-cyan-400" id="insp-precip-val">85%</div>
 
           </div>
 
@@ -3576,23 +3585,14 @@
           <div class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase">Климатическая норма ВМО</div>
 
           <div class="text-base font-extrabold text-slate-900 dark:text-white font-mono" id="insp-norm-val">
-
-            Норма месяца (1991–2020): +4.3 °C
-
+            Норма месяца (1991–2020): +5.8 °C
           </div>
-
           <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" id="insp-norm-desc">
-
-            Среднемесячная температура в Норильске по открытому климатическому архиву ВМО составляет +4.3°C. Модель ECMWF SEAS5 рассчитывает среднюю температуру месяца всего <strong>+1.6°C</strong>.
-
+            Среднемесячная температура в Москве по климатическому архиву ВМО составляет +5.8°C. Оперативный расчет моделей ECMWF IFS и DWD ICON фиксирует фактическую среднюю температуру на уровне <strong>+9.5°C</strong> (аномалия <strong>+3.7°C</strong>).
           </p>
-
           <div class="pt-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 space-y-0.5">
-
-            <div>Ожидаемый ночной минимум: <strong class="text-rose-600 dark:text-rose-400" id="insp-tmin">-11.0°C</strong></div>
-
-            <div>Ожидаемый дневной максимум: <strong class="text-amber-600 dark:text-amber-400" id="insp-tmax">+16.8°C</strong></div>
-
+            <div>Ожидаемый ночной минимум: <strong class="text-rose-600 dark:text-rose-400" id="insp-tmin">+1.2°C</strong></div>
+            <div>Ожидаемый дневной максимум: <strong class="text-amber-600 dark:text-amber-400" id="insp-tmax">+14.5°C</strong></div>
           </div>
 
         </div>
@@ -3605,16 +3605,14 @@
 
           <div class="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 uppercase">Синоптический фактор</div>
 
-          <div class="text-base font-extrabold text-sky-600 dark:text-sky-400" id="insp-synoptic-title">
-            Приполярная циркуляция и арктические ложбины
+          <div class="text-base font-extrabold text-amber-600 dark:text-amber-400" id="insp-synoptic-title">
+            Азорский гребень и зональный перенос
           </div>
-
           <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed" id="insp-synoptic-desc">
-            Смещение циклонических систем вдоль побережья Сибири с периодическим затеком арктических воздушных масс в тылу циклонов. Чередование волн умеренного морского воздуха и морозных вторжений.
+            Устойчивое поле повышенного атмосферного давления над Европейской частью России. Преобладание теплой антициклонической погоды с положительной температурной аномалией относительно климатической нормы.
           </p>
-
           <div class="pt-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
-            Господствующий ветер: <strong class="text-cyan-600 dark:text-cyan-300" id="insp-wind">СВ 6–11 м/с, порывы до 15 м/с</strong>
+            Господствующий ветер: <strong class="text-amber-600 dark:text-amber-300" id="insp-wind">ЮЗ 3–7 м/с</strong>
           </div>
 
         </div>
@@ -3641,7 +3639,7 @@
 
               <span class="text-slate-500 dark:text-slate-400">2-я дек (11–20 окт):</span>
 
-              <span class="font-bold text-sky-600 dark:text-sky-400">-2.0°C (Ниже нормы)</span>
+              <span class="font-bold text-amber-600 dark:text-amber-400">+3.7°C (Теплее нормы)</span>
 
             </div>
 
@@ -3649,7 +3647,7 @@
 
               <span class="text-slate-500 dark:text-slate-400">3-я дек (21–31 окт):</span>
 
-              <span class="font-bold text-indigo-600 dark:text-indigo-400">-7.0°C (Морозы)</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400">+2.0°C (Умеренно тепло)</span>
 
             </div>
 
@@ -4657,9 +4655,9 @@
 
     var isPressureEnabled = true; // Pressure centers (H / L)
 
-    var activeRegionKey = 'taimyr';
+    var activeRegionKey = 'central';
 
-    var activeStationId = 'norilsk';
+    var activeStationId = 'moscow';
 
 
 
@@ -4823,7 +4821,7 @@
 
       taimyr: {
 
-        name: "Таймыр и Нижний Енисей (Эпицентр аномалии)",
+        name: "Таймыр и Заполярье (Норильск, Диксон)",
 
         wmoCode: "WMO 23078",
 
@@ -4951,7 +4949,7 @@
 
       northwest: {
 
-        name: "Северо-Запад, Карелия и Кольский полуостров",
+        name: "Русский Север и Северо-Запад (СПб, Архангельск, Мурманск)",
 
         wmoCode: "WMO 26063",
 
@@ -5335,7 +5333,7 @@
 
       yamal: {
 
-        name: "Ямал и Полярный круг",
+        name: "Ямал и Полярный круг (Салехард, Новый Уренгой)",
 
         wmoCode: "WMO 23330",
 
@@ -5467,7 +5465,7 @@
 
         wmoCode: "WMO 30710",
 
-        stationId: "krasnoyarsk",
+        stationId: "irkutsk",
 
         station: "Иркутск / Чита",
 
@@ -6107,45 +6105,27 @@
 
     // ================= PROMINENT 16 REFERENCE STATIONS (WMO NETWORK) =================
 
-    var STATIONS = [
-
-      { id: 'norilsk', name: 'Норильск', coords: [69.3535, 88.2028], regKey: 'taimyr', isPrimary: true },
-
-      { id: 'dikson', name: 'Диксон', coords: [73.5074, 80.5283], regKey: 'taimyr' },
-
-      { id: 'moscow', name: 'Москва', coords: [55.7558, 37.6173], regKey: 'central' },
-      { id: 'voronezh', name: 'Воронеж (Черноземье)', coords: [51.6720, 39.1843], regKey: 'central' },
-
+        var STATIONS = [
+      { id: 'moscow', name: 'Москва', coords: [55.7558, 37.6173], regKey: 'central', isPrimary: true },
       { id: 'spb', name: 'Санкт-Петербург', coords: [59.9343, 30.3351], regKey: 'northwest' },
-
       { id: 'murmansk', name: 'Мурманск', coords: [68.9585, 33.0827], regKey: 'northwest' },
-
-      { id: 'ekb', name: 'Екатеринбург', coords: [56.8389, 60.6057], regKey: 'urals' },
-
-      { id: 'novosib', name: 'Новосибирск', coords: [55.0084, 82.9357], regKey: 'westsiberia' },
-
-      { id: 'krasnoyarsk', name: 'Красноярск', coords: [56.0153, 92.8932], regKey: 'evenkia' },
-
-      { id: 'yakutsk', name: 'Якутск', coords: [62.0397, 129.7422], regKey: 'yakutia' },
-
-      { id: 'oymyakon', name: 'Оймякон', coords: [63.4641, 142.7737], regKey: 'kolyma_magadan' },
-
-      { id: 'vladivostok', name: 'Владивосток', coords: [43.1198, 131.8869], regKey: 'fareast_south' },
-
-      { id: 'armavir', name: 'Армавир (Кубань)', coords: [44.9897, 41.1278], regKey: 'kuban', isPrimary: true },
-
-      { id: 'krasnodar', name: 'Краснодар', coords: [45.0355, 38.9753], regKey: 'kuban' },
-
-      { id: 'sochi', name: 'Сочи (Субтропики)', coords: [43.6028, 39.7342], regKey: 'south' },
-
       { id: 'salekhard', name: 'Салехард', coords: [66.5299, 66.6145], regKey: 'yamal' },
-
+      { id: 'kazan', name: 'Казань', coords: [55.7961, 49.1064], regKey: 'volga' },
+      { id: 'sochi', name: 'Сочи (Субтропики)', coords: [43.6028, 39.7342], regKey: 'south' },
+      { id: 'armavir', name: 'Армавир (Кубань)', coords: [44.9897, 41.1278], regKey: 'kuban' },
+      { id: 'krasnodar', name: 'Краснодар', coords: [45.0355, 38.9753], regKey: 'kuban' },
+      { id: 'ekb', name: 'Екатеринбург', coords: [56.8389, 60.6057], regKey: 'urals' },
+      { id: 'novosib', name: 'Новосибирск', coords: [55.0084, 82.9357], regKey: 'westsiberia' },
+      { id: 'krasnoyarsk', name: 'Красноярск', coords: [56.0153, 92.8932], regKey: 'evenkia' },
+      { id: 'norilsk', name: 'Норильск', coords: [69.3535, 88.2028], regKey: 'taimyr' },
+      { id: 'dikson', name: 'Диксон', coords: [73.5074, 80.5283], regKey: 'taimyr' },
+      { id: 'irkutsk', name: 'Иркутск (Прибайкалье)', coords: [52.2870, 104.3050], regKey: 'eastsiberia' },
+      { id: 'yakutsk', name: 'Якутск', coords: [62.0397, 129.7422], regKey: 'yakutia' },
+      { id: 'oymyakon', name: 'Оймякон', coords: [63.4641, 142.7737], regKey: 'kolyma_magadan' },
+      { id: 'vladivostok', name: 'Владивосток', coords: [43.1198, 131.8869], regKey: 'fareast_south' },
       { id: 'anadyr', name: 'Анадырь', coords: [64.7332, 177.5089], regKey: 'chukotka' },
-
       { id: 'petropavlovsk', name: 'Камчатка', coords: [53.0370, 158.6559], regKey: 'kamchatka' },
-
-      { id: 'kazan', name: 'Казань', coords: [55.7961, 49.1064], regKey: 'volga' }
-
+      { id: 'voronezh', name: 'Воронеж (Черноземье)', coords: [51.6720, 39.1843], regKey: 'central' }
     ];
 
 
@@ -6780,17 +6760,20 @@
       };
       document.getElementById('hud-model-name').textContent = modelNames[currentModel] || 'ECMWF SEAS5';
       document.getElementById('hud-metric-name').textContent = (currentMetric === 'temp') ? 'Аномалия ΔT (°C)' : 'Осадки (% нормы)';
-
-      // TOP 8 KPI OVERVIEW CARDS (Covering all Macro-Regions of Russia in geographical order)
+      // TOP 12 KPI OVERVIEW CARDS (Covering all Macro-Regions of Russia in geographical order)
       var kpiCards = [
         { id: 'central', regKey: 'central' },
         { id: 'northwest', regKey: 'northwest' },
         { id: 'volga', regKey: 'volga' },
         { id: 'south', regKey: 'south' },
         { id: 'urals', regKey: 'urals' },
+        { id: 'yamal', regKey: 'yamal' },
         { id: 'westsiberia', regKey: 'westsiberia' },
-        { id: 'fareast_south', regKey: 'fareast_south' },
-        { id: 'taimyr', regKey: 'taimyr' }
+        { id: 'evenkia', regKey: 'evenkia' },
+        { id: 'taimyr', regKey: 'taimyr' },
+        { id: 'eastsiberia', regKey: 'eastsiberia' },
+        { id: 'yakutia', regKey: 'yakutia' },
+        { id: 'fareast_south', regKey: 'fareast_south' }
       ];
 
       kpiCards.forEach(function(card) {
@@ -7046,6 +7029,41 @@
       }
 
 
+
+            // 5. RUSSIAN NORTH & NORTHWEST
+      if (rKey === 'northwest') {
+        if (d === 1) {
+          return {
+            title: "Атлантический перенос и Скандинавский гребень",
+            desc: "Зональный перенос с Атлантики удерживает умеренный температурный фон (" + tStr + "). Локальные осадки на побережье Белого и Баренцева морей."
+          };
+        } else if (d === 2) {
+          return {
+            title: "Заток холодного воздуха из Баренцева моря",
+            desc: "Усиление меридионального компонента с севера. Арктический воздух понижает температуру ниже нормы (" + tStr + "), ночные заморозки в Карелии и Мурманской области."
+          };
+        } else {
+          return {
+            title: "Арктическая ложбина и предзимняя трансформация",
+            desc: "Смещение барической депрессии с Карского моря, смешанные осадки (дождь с мокрым снегом), отрицательная аномалия " + tStr + "."
+          };
+        }
+      }
+
+      // 6. YAMAL & POLAR CIRCLE
+      if (rKey === 'yamal') {
+        if (d === 1 || d === 2) {
+          return {
+            title: "Теплый сектор атлантической циклонической серии",
+            desc: "Глубокие циклоны закачивают морской атлантический воздух в Карский бассейн. Температура значительно превышает норму (" + tStr + "), дневная оттепель до +2°...+4°C."
+          };
+        } else {
+          return {
+            title: "Тыловая арктическая адвекция",
+            desc: "Переход ветра на северные румбы, заток ледяного полярного воздуха с Карского шельфа, аномалия " + tStr + "."
+          };
+        }
+      }
 
       // Default Dynamic Formulation based on Anomaly Value
 
@@ -7535,7 +7553,7 @@
 
     function renderCityModelsChart(region) {
 
-      var r = region || REGIONS.taimyr;
+      var r = region || REGIONS.central;
 
       var modelsList = ['ecmwf', 'consensus', 'ukmo', 'jma', 'cfsv2', 'meteoinfo'];
 
@@ -9142,7 +9160,7 @@
 
     updateHUD();
 
-    inspectRegion('taimyr', 'norilsk');
+    inspectRegion('central', 'moscow');
 
     renderSeasonalChart();
 
