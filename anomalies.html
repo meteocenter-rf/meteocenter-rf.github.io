@@ -2896,74 +2896,95 @@
 
 
 
-        <!-- KPI Strip: Russia Overview -->
-
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 pt-1">
-
-          <div onclick="selectKpiRegion('taimyr')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Нажмите для перехода к Таймыру и Норильску на карте">
-
+        <!-- KPI Strip: Macro-Regions of Russia Overview -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8 gap-2.5 pt-1" id="kpi-macro-regions-strip">
+          <!-- 1. Central (Moscow) -->
+          <div onclick="selectKpiRegion('central')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Центральная Россия (Москва) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition">Таймыр и Енисей</span>
-
-              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Центр · Москва</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-
-            <div id="kpi-taimyr-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-sky-600 dark:text-sky-400">+1.4 °C</div>
-
-            <span id="kpi-taimyr-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Умеренно выше нормы</span>
-
+            <div id="kpi-central-val" class="text-base sm:text-lg font-black font-mono transition-colors text-amber-600 dark:text-amber-400 mt-0.5">ΔT +3.7 °C</div>
+            <div id="kpi-central-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +9.5°</span><span class="opacity-70">Норма +5.8°</span></div>
+            <span id="kpi-central-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Выше нормы</span>
           </div>
 
-          <div onclick="selectKpiRegion('central')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Нажмите для перехода к Москве и Центральной России">
-
+          <!-- 2. Northwest (SPb) -->
+          <div onclick="selectKpiRegion('northwest')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-sky-500/50 hover:bg-sky-500/5 transition group" title="Северо-Запад (Санкт-Петербург) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition">Центр и Москва</span>
-
-              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-sky-500 transition font-bold truncate">С-Запад · СПб</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-
-            <div id="kpi-central-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-amber-600 dark:text-amber-400">+1.9 °C</div>
-
-            <span id="kpi-central-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Теплее обычного</span>
-
+            <div id="kpi-northwest-val" class="text-base sm:text-lg font-black font-mono transition-colors text-sky-600 dark:text-sky-400 mt-0.5">ΔT -2.4 °C</div>
+            <div id="kpi-northwest-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +2.7°</span><span class="opacity-70">Норма +5.1°</span></div>
+            <span id="kpi-northwest-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Ниже нормы</span>
           </div>
 
-          <div onclick="selectKpiRegion('south')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-rose-500/50 hover:bg-rose-500/5 transition group" title="Нажмите для перехода к Сочи и Черноморскому побережью">
-
+          <!-- 3. Volga (Kazan) -->
+          <div onclick="selectKpiRegion('volga')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Поволжье (Казань) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-rose-500 transition">Юг России и Сочи</span>
-
-              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Поволжье · Казань</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-
-            <div id="kpi-south-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-rose-600 dark:text-rose-400">+1.5 °C</div>
-
-            <span id="kpi-south-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Бархатный сезон</span>
-
+            <div id="kpi-volga-val" class="text-base sm:text-lg font-black font-mono transition-colors text-amber-600 dark:text-amber-400 mt-0.5">ΔT +7.4 °C</div>
+            <div id="kpi-volga-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +12.2°</span><span class="opacity-70">Норма +4.8°</span></div>
+            <span id="kpi-volga-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Крупная аномалия</span>
           </div>
 
-          <div onclick="selectKpiRegion('yakutia')" class="glass-card p-3 sm:p-3.5 cursor-pointer hover:border-indigo-500/50 hover:bg-indigo-500/5 transition group" title="Нажмите для перехода к Якутску и Полюсу Холода">
-
+          <!-- 4. South (Sochi) -->
+          <div onclick="selectKpiRegion('south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-rose-500/50 hover:bg-rose-500/5 transition group" title="Юг России (Сочи / Кавказ) · Нажмите для перехода на карте">
             <div class="flex items-center justify-between">
-
-              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-indigo-500 transition">Якутия (Саха)</span>
-
-              <svg class="w-3.5 h-3.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-rose-500 transition font-bold truncate">Юг · Сочи</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </div>
-
-            <div id="kpi-yakutia-val" class="text-xl sm:text-2xl font-black font-mono transition-colors text-indigo-600 dark:text-indigo-400">-9.7 °C</div>
-
-            <span id="kpi-yakutia-desc" class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 block truncate">Очаг арктического холода</span>
-
+            <div id="kpi-south-val" class="text-base sm:text-lg font-black font-mono transition-colors text-rose-600 dark:text-rose-400 mt-0.5">ΔT +3.0 °C</div>
+            <div id="kpi-south-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +19.2°</span><span class="opacity-70">Норма +16.2°</span></div>
+            <span id="kpi-south-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Выше нормы</span>
           </div>
 
+          <!-- 5. Urals (Ekaterinburg) -->
+          <div onclick="selectKpiRegion('urals')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-amber-500/50 hover:bg-amber-500/5 transition group" title="Уральский регион (Екатеринбург) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-amber-500 transition font-bold truncate">Урал · Екат-бург</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-urals-val" class="text-base sm:text-lg font-black font-mono transition-colors text-amber-600 dark:text-amber-400 mt-0.5">ΔT +4.9 °C</div>
+            <div id="kpi-urals-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +8.1°</span><span class="opacity-70">Норма +3.2°</span></div>
+            <span id="kpi-urals-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Существенно теплее</span>
+          </div>
+
+          <!-- 6. Western Siberia (Novosibirsk) -->
+          <div onclick="selectKpiRegion('westsiberia')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-emerald-500/50 hover:bg-emerald-500/5 transition group" title="Западная Сибирь (Новосибирск) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-emerald-500 transition font-bold truncate">Сибирь · Н-сибирск</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-westsiberia-val" class="text-base sm:text-lg font-black font-mono transition-colors text-emerald-600 dark:text-emerald-400 mt-0.5">ΔT +1.2 °C</div>
+            <div id="kpi-westsiberia-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +3.5°</span><span class="opacity-70">Норма +2.3°</span></div>
+            <span id="kpi-westsiberia-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Около нормы</span>
+          </div>
+
+          <!-- 7. Far East (Vladivostok) -->
+          <div onclick="selectKpiRegion('fareast_south')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-blue-500/50 hover:bg-blue-500/5 transition group" title="Дальний Восток (Владивосток) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-blue-500 transition font-bold truncate">ДВ · Владивосток</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-fareast_south-val" class="text-base sm:text-lg font-black font-mono transition-colors text-blue-600 dark:text-blue-400 mt-0.5">ΔT -1.4 °C</div>
+            <div id="kpi-fareast_south-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт +7.0°</span><span class="opacity-70">Норма +8.4°</span></div>
+            <span id="kpi-fareast_south-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Умеренно ниже</span>
+          </div>
+
+          <!-- 8. North & Taymyr (Norilsk) -->
+          <div onclick="selectKpiRegion('taimyr')" class="glass-card p-2.5 sm:p-3 cursor-pointer hover:border-cyan-500/50 hover:bg-cyan-500/5 transition group" title="Север и Таймыр (Норильск) · Нажмите для перехода на карте">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400 group-hover:text-cyan-500 transition font-bold truncate">Север · Норильск</span>
+              <svg class="w-2.5 h-2.5 text-slate-400 opacity-0 group-hover:opacity-100 transition shrink-0 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div id="kpi-taimyr-val" class="text-base sm:text-lg font-black font-mono transition-colors text-cyan-600 dark:text-cyan-400 mt-0.5">ΔT +5.8 °C</div>
+            <div id="kpi-taimyr-sub" class="text-[9px] sm:text-[9.5px] text-slate-500 dark:text-slate-400 font-mono flex items-center justify-between whitespace-nowrap mt-0.5"><span>Факт -0.7°</span><span class="opacity-70">Норма -6.5°</span></div>
+            <span id="kpi-taimyr-desc" class="text-[10px] text-slate-500 dark:text-slate-400 block truncate mt-0.5">Существенно теплее</span>
+          </div>
         </div>
 
       </div>
@@ -3104,9 +3125,9 @@
 
             <select id="select-region-zoom" onchange="zoomToRegion(this.value)" class="meteo-select">
 
-              <option value="russia">Вся Россия (Обзор)</option>
+              <option value="russia" selected>Вся Россия (Обзор)</option>
 
-              <option value="arctic" selected>Арктика и Таймыр (Эпицентр)</option>
+              <option value="arctic">Арктика и Таймыр</option>
 
               <option value="europe">Европейская территория РФ</option>
 
@@ -3341,7 +3362,7 @@
 
               <span id="hud-anomaly-badge" class="px-2 py-0.5 rounded-md font-mono font-black bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-500/40 text-[10.5px] sm:text-xs">
 
-                ΔT: -7.0°C (Таймыр)
+                ΔT +3.7°C (Центр)
 
               </span>
 
@@ -4834,7 +4855,7 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+3.4°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+3.4°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+1.4°C", tag: "Умеренно тепло" },
 
@@ -4898,7 +4919,7 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+3.3°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+3.3°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+1.9°C", tag: "Выше нормы (Тепло)" },
 
@@ -5026,11 +5047,11 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+5.5°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+5.5°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+2.8°C", tag: "Выше нормы (Тепло)" },
 
-          { name: "3-я дек (21–31 окт)", val: "+5.0°C", tag: "Экстремальное тепло" },
+          { name: "3-я дек (21–31 окт)", val: "+5.0°C", tag: "Существенно теплее нормы" },
 
           { name: "Октябрь 2026", val: "+4.4°C", tag: "Теплый месяц" }
 
@@ -5090,7 +5111,7 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+3.7°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+3.7°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+2.8°C", tag: "Выше нормы (Тепло)" },
 
@@ -5218,11 +5239,11 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+5.1°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+5.1°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+2.9°C", tag: "Выше нормы (Тепло)" },
 
-          { name: "3-я дек (21–31 окт)", val: "+3.3°C", tag: "Экстремальное тепло" },
+          { name: "3-я дек (21–31 окт)", val: "+3.3°C", tag: "Существенно теплее нормы" },
 
           { name: "Октябрь 2026", val: "+3.8°C", tag: "Теплый месяц" }
 
@@ -5282,9 +5303,9 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+5.3°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+5.3°C", tag: "Существенно теплее нормы" },
 
-          { name: "2-я дек (11–20 окт)", val: "+4.5°C", tag: "Экстремальное тепло" },
+          { name: "2-я дек (11–20 окт)", val: "+4.5°C", tag: "Существенно теплее нормы" },
 
           { name: "3-я дек (21–31 окт)", val: "+2.1°C", tag: "Выше нормы (Тепло)" },
 
@@ -5346,11 +5367,11 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+7.5°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+7.5°C", tag: "Существенно теплее нормы" },
 
-          { name: "2-я дек (11–20 окт)", val: "+6.6°C", tag: "Экстремальное тепло" },
+          { name: "2-я дек (11–20 окт)", val: "+6.6°C", tag: "Существенно теплее нормы" },
 
-          { name: "3-я дек (21–31 окт)", val: "+5.5°C", tag: "Экстремальное тепло" },
+          { name: "3-я дек (21–31 окт)", val: "+5.5°C", tag: "Существенно теплее нормы" },
 
           { name: "Октябрь 2026", val: "+6.5°C", tag: "Теплый месяц" }
 
@@ -5858,9 +5879,9 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+3.8°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+3.8°C", tag: "Существенно теплее нормы" },
 
-          { name: "2-я дек (11–20 окт)", val: "+3.6°C", tag: "Экстремальное тепло" },
+          { name: "2-я дек (11–20 окт)", val: "+3.6°C", tag: "Существенно теплее нормы" },
 
           { name: "3-я дек (21–31 окт)", val: "+0.3°C", tag: "Около нормы" },
 
@@ -6050,7 +6071,7 @@
 
         decadesTrajectory: [
 
-          { name: "1-я дек (1–10 окт)", val: "+3.7°C", tag: "Экстремальное тепло" },
+          { name: "1-я дек (1–10 окт)", val: "+3.7°C", tag: "Существенно теплее нормы" },
 
           { name: "2-я дек (11–20 окт)", val: "+1.5°C", tag: "Выше нормы (Тепло)" },
 
@@ -6634,7 +6655,7 @@
 
         barsEl.innerHTML = `
 
-          <div style="height:8px; width:22px; background:#1e3a8a; border-radius:2px 0 0 2px;" title="< -5.0°C (Арктический мороз)"></div>
+          <div style="height:8px; width:22px; background:#1e3a8a; border-radius:2px 0 0 2px;" title="< -5.0°C (Крупная отрицательная аномалия)"></div>
 
           <div style="height:8px; width:22px; background:#2563eb;" title="-3.0 ... -5.0°C"></div>
 
@@ -6650,7 +6671,7 @@
 
           <div style="height:8px; width:22px; background:#dc2626;" title="+3.0 ... +5.0°C"></div>
 
-          <div style="height:8px; width:22px; background:#991b1b; border-radius:0 2px 2px 0;" title="> +5.0°C (Экстремальное тепло)"></div>
+          <div style="height:8px; width:22px; background:#991b1b; border-radius:0 2px 2px 0;" title="> +5.0°C (Крупная положительная аномалия)"></div>
 
         `;
 
@@ -6741,11 +6762,12 @@
       document.getElementById('hud-period').textContent = pTitle;
       document.getElementById('hud-desc').textContent = pDesc;
 
-      var rTaimyr = REGIONS.taimyr;
-      var valTaimyr = getRegionVal(rTaimyr, currentDecade, currentModel, currentMetric);
+      var activeR = (activeRegionKey && REGIONS[activeRegionKey]) ? REGIONS[activeRegionKey] : REGIONS.central;
+      var activeVal = getRegionVal(activeR, currentDecade, currentModel, currentMetric);
+      var regShortName = activeR.name.split(' ')[0];
       var badgeText = (currentMetric === 'temp')
-        ? ('ΔT: ' + (valTaimyr > 0 ? '+' : '') + valTaimyr.toFixed(1) + '°C (Таймыр)')
-        : ('Осадки: ' + valTaimyr + '% (Таймыр)');
+        ? ('ΔT ' + (activeVal > 0 ? '+' : '') + activeVal.toFixed(1) + '°C (' + regShortName + ')')
+        : ('Осадки: ' + Math.round(activeVal) + '% (' + regShortName + ')');
       document.getElementById('hud-anomaly-badge').textContent = badgeText;
 
       var modelNames = {
@@ -6759,39 +6781,58 @@
       document.getElementById('hud-model-name').textContent = modelNames[currentModel] || 'ECMWF SEAS5';
       document.getElementById('hud-metric-name').textContent = (currentMetric === 'temp') ? 'Аномалия ΔT (°C)' : 'Осадки (% нормы)';
 
-      // TOP 4 KPI OVERVIEW CARDS
+      // TOP 8 KPI OVERVIEW CARDS (Covering all Macro-Regions of Russia in geographical order)
       var kpiCards = [
-        { id: 'taimyr', regKey: 'taimyr' },
         { id: 'central', regKey: 'central' },
+        { id: 'northwest', regKey: 'northwest' },
+        { id: 'volga', regKey: 'volga' },
         { id: 'south', regKey: 'south' },
-        { id: 'yakutia', regKey: 'yakutia' }
+        { id: 'urals', regKey: 'urals' },
+        { id: 'westsiberia', regKey: 'westsiberia' },
+        { id: 'fareast_south', regKey: 'fareast_south' },
+        { id: 'taimyr', regKey: 'taimyr' }
       ];
 
       kpiCards.forEach(function(card) {
         var r = REGIONS[card.regKey];
         if (!r) return;
         var elVal = document.getElementById('kpi-' + card.id + '-val');
+        var elSub = document.getElementById('kpi-' + card.id + '-sub');
         var elDesc = document.getElementById('kpi-' + card.id + '-desc');
 
         var val = getRegionVal(r, currentDecade, currentModel, currentMetric);
 
         if (currentMetric === 'temp') {
           var sign = val > 0 ? '+' : '';
-          var valStr = sign + val.toFixed(1) + ' °C';
+          var valStr = 'ΔT ' + sign + val.toFixed(1) + ' °C';
           var color = getTempColor(val);
           if (elVal) {
             elVal.textContent = valStr;
             elVal.style.color = color;
           }
+          if (elSub) {
+            var f = (r.facts && r.facts[currentDecade] != null) ? r.facts[currentDecade] : null;
+            var n = (r.decNorms && r.decNorms[currentDecade] != null) ? r.decNorms[currentDecade] : r.normTemp;
+            if (f == null && n != null) {
+              f = +(n + val).toFixed(1);
+            }
+            if (f != null && n != null) {
+              var fSign = f > 0 ? '+' : '';
+              var nSign = n > 0 ? '+' : '';
+              elSub.innerHTML = '<span>Факт ' + fSign + f.toFixed(1) + '°</span><span class="opacity-70">Норма ' + nSign + n.toFixed(1) + '°</span>';
+            }
+          }
           if (elDesc) {
             var tag = 'Около нормы';
-            if (val >= 3.0) tag = 'Экстремальное тепло';
-            else if (val >= 1.5) tag = 'Значительно выше нормы';
-            else if (val > 0.4) tag = 'Умеренно выше нормы';
-            else if (val >= -0.4) tag = 'Около нормы (±0.4°C)';
-            else if (val >= -1.5) tag = 'Умеренно ниже нормы';
-            else if (val >= -4.0) tag = 'Значительно ниже нормы';
-            else tag = 'Очаг арктического холода';
+            if (val >= 6.0) tag = 'Крупная аномалия';
+            else if (val >= 3.5) tag = 'Существенно теплее';
+            else if (val >= 1.5) tag = 'Выше нормы';
+            else if (val >= 0.5) tag = 'Умеренно выше';
+            else if (val >= -0.5) tag = 'Около нормы';
+            else if (val >= -1.5) tag = 'Умеренно ниже';
+            else if (val >= -3.5) tag = 'Ниже нормы';
+            else if (val >= -6.0) tag = 'Существенно холоднее';
+            else tag = 'Арктический холод';
             elDesc.textContent = tag;
           }
         } else {
@@ -6801,13 +6842,18 @@
             elVal.textContent = valStr;
             elVal.style.color = color;
           }
+          if (elSub) {
+            var curNormP = r.normPrecip || 50;
+            var curFactP = Math.round(curNormP * (val / 100));
+            elSub.innerHTML = '<span>Факт ~' + curFactP + ' мм</span><span class="opacity-70">Норма ' + curNormP + ' мм</span>';
+          }
           if (elDesc) {
-            var tag = 'Норма осадков';
-            if (val < 50) tag = 'Острый дефицит осадков';
-            else if (val < 80) tag = 'Дефицит влаги';
+            var tag = 'В пределах нормы';
+            if (val < 50) tag = 'Острый дефицит';
+            else if (val < 80) tag = 'Ниже нормы';
             else if (val <= 125) tag = 'В пределах нормы';
-            else if (val <= 175) tag = 'Избыток осадков';
-            else tag = 'Аномальные осадки';
+            else if (val <= 175) tag = 'Выше нормы';
+            else tag = 'Избыток осадков';
             elDesc.textContent = tag;
           }
         }
@@ -8650,7 +8696,7 @@
         { key: 'central_asia', lat: 48.0, lon: 66.0, name: 'Центральная Азия' }
       ];
 
-      var cacheKey = 'meteo_anomalies_live_cache_v3_' + curYm;
+      var cacheKey = 'meteo_anomalies_live_cache_v4_' + curYm;
       try {
         var cached = sessionStorage.getItem(cacheKey);
         if (cached) {
@@ -8666,7 +8712,7 @@
       var lons = allRegions.map(function(r) { return r.lon; }).join(',');
 
       var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lats + '&longitude=' + lons +
-                '&daily=temperature_2m_mean,precipitation_sum&past_days=10&forecast_days=14&timezone=auto';
+                '&daily=temperature_2m_mean,precipitation_sum&past_days=31&forecast_days=14&timezone=auto';
 
       var resp = await fetch(url);
       if (!resp.ok) throw new Error('API multi-batch failed');
@@ -8738,23 +8784,27 @@
         var normT = (wmo.t && wmo.t[curM] != null) ? wmo.t[curM] : 5.0;
         var normP = (wmo.p && wmo.p[curM] != null) ? wmo.p[curM] : 50.0;
 
-        // Decade Climatology Gradient (in autumn, T falls by 3-5°C across the month; in spring it rises)
+        // Decade Climatology Gradient (in autumn, T falls across month; in spring it rises)
         var grad = (curM >= 9 && curM <= 11) ? 1.8 : ((curM >= 3 && curM <= 5) ? -1.8 : 0);
         var normD1 = +(normT + grad).toFixed(1);
         var normD2 = normT;
         var normD3 = +(normT - grad * 1.1).toFixed(1);
 
-        // Decade 1 anomaly
-        var anom1 = +(avg(d1_t, normD1) - normD1).toFixed(1);
+        // Decade 1 anomaly & factual mean
+        var factD1 = d1_t.length ? +(avg(d1_t, normD1)).toFixed(1) : normD1;
+        var anom1 = +(factD1 - normD1).toFixed(1);
 
-        // Decade 2 anomaly (if less than 3 days in forecast, blend with dec1)
-        var anom2 = d2_t.length >= 3 ? +(avg(d2_t, normD2) - normD2).toFixed(1) : +(anom1 * 0.7).toFixed(1);
+        // Decade 2 anomaly & factual mean
+        var factD2 = d2_t.length ? +(avg(d2_t, normD2)).toFixed(1) : normD2;
+        var anom2 = +(factD2 - normD2).toFixed(1);
 
-        // Decade 3 anomaly (blend forecast with seasonal trend)
-        var anom3 = d3_t.length >= 3 ? +(avg(d3_t, normD3) - normD3).toFixed(1) : +(anom2 * 0.6).toFixed(1);
+        // Decade 3 anomaly & factual mean
+        var factD3 = d3_t.length ? +(avg(d3_t, normD3)).toFixed(1) : +(normD3 + anom2 * 0.6).toFixed(1);
+        var anom3 = +(factD3 - normD3).toFixed(1);
 
-        // Weighted Month-to-date Anomaly
+        // Weighted Month-to-date Anomaly & Factual mean
         var anomM0 = +( (anom1 * 10 + anom2 * 10 + anom3 * (info.lastDay - 20)) / info.lastDay ).toFixed(1);
+        var factM0 = +(normT + anomM0).toFixed(1);
 
         // Dynamic Precipitation Percentage (compare pace with expected pace)
         var totalP = +(sum(all_month_p)).toFixed(1);
@@ -8799,6 +8849,8 @@
           dec2: anom2,
           dec3: anom3,
           m0: anomM0,
+          facts: { 1: factD1, 2: factD2, 3: factD3, 0: factM0 },
+          norms: { 1: normD1, 2: normD2, 3: normD3, 0: normT },
           precip: pctP,
           totalP: totalP,
           normT: normT,
@@ -8825,12 +8877,15 @@
       var info = getActiveDateInfo();
 
       var getAnomalyTag = function(val) {
-        if (val >= 3.0) return 'Экстремальное тепло';
-        if (val >= 1.5) return 'Выше нормы (Тепло)';
-        if (val >= 0.5) return 'Умеренно тепло';
-        if (val > -0.5) return 'Около нормы';
-        if (val > -2.0) return 'Ниже нормы (Холод)';
-        return 'Аномальный мороз';
+        if (val >= 6.0) return 'Крупная положит. аномалия';
+        if (val >= 3.5) return 'Существенно теплее нормы';
+        if (val >= 1.5) return 'Выше клим. нормы';
+        if (val >= 0.5) return 'Умеренно выше нормы';
+        if (val >= -0.5) return 'Около нормы (±0.5°C)';
+        if (val >= -1.5) return 'Умеренно ниже нормы';
+        if (val >= -3.5) return 'Ниже клим. нормы';
+        if (val >= -6.0) return 'Существенно холоднее нормы';
+        return 'Очаг арктического холода';
       };
 
       dataList.forEach(function(res) {
@@ -8839,6 +8894,8 @@
 
         if (res.normT != null) reg.normTemp = res.normT;
         if (res.normP != null) reg.normPrecip = res.normP;
+        if (res.facts) reg.facts = res.facts;
+        if (res.norms) reg.decNorms = res.norms;
 
         // 1. Models assignment
         if (reg.models) {
