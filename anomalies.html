@@ -9594,247 +9594,162 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
 
     // Precision WMO 1991–2020 Climatological Norm by Nearest Regional Anchor & Elevation
 
-    function estimateClimatologyNorm(lat, lon, doy) {
-      var bestDist = Infinity;
-      var bestNormT = 5.8;
-      var bestNormP = 2.0;
-
-      var info = getActiveDateInfo();
-      var curM = info.month;
-      var nextM = info.nextMonth;
-
-      if (typeof WMO_NORMALS !== 'undefined') {
-        for (var rk in WMO_NORMALS) {
-          var reg = (typeof REGIONS !== 'undefined' && REGIONS[rk]) ? REGIONS[rk] : null;
-          var center = reg ? reg.center : [55.75, 37.6];
-          var dLat = lat - center[0];
-          var dLon = (lon - center[1]) * Math.cos(lat * Math.PI / 180);
-          var dist = Math.sqrt(dLat * dLat + dLon * dLon);
-          if (dist < bestDist) {
-            bestDist = dist;
-            var w = WMO_NORMALS[rk];
-            var tThisM = (w.t && w.t[curM] != null) ? w.t[curM] : 5.8;
-            var tNextM = (w.t && w.t[nextM] != null) ? w.t[nextM] : tThisM - 5.0;
-            
-            // Smooth progress through the month
-            var frac = Math.max(0, Math.min(1, (info.day - 1) / Math.max(1, info.lastDay - 1)));
-            bestNormT = tThisM + (tNextM - tThisM) * frac;
-            bestNormP = ((w.p && w.p[curM] != null) ? w.p[curM] : 50) / info.lastDay;
-          }
-        }
+    function isPointInPolygon(point, vs) {
+      var x = point[1], y = point[0];
+      var inside = false;
+      var n = vs.length;
+      var j = n - 1;
+      for (var i = 0; i < n; i++) {
+        var xi = vs[i][1], yi = vs[i][0];
+        var xj = vs[j][1], yj = vs[j][0];
+        var intersect = ((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+        j = i;
       }
-
-      if (bestDist > 5.0) {
-        var latDiff = lat - 55.75;
-        bestNormT = bestNormT - (latDiff * 0.45);
-      }
-
-      return {
-        tNormDay: Math.round(bestNormT * 10) / 10,
-        pNormDay: Math.max(0.5, Math.round(bestNormP * 10) / 10)
-      };
+      return inside;
     }
 
-
+    function findRegionForPoint(lat, lon) {
+      if (typeof REGIONS === 'undefined') return { regKey: 'central', region: null };
+      
+      // 1. Ray-casting point in polygon
+      for (var rk in REGIONS) {
+        var r = REGIONS[rk];
+        if (r && r.coords && isPointInPolygon([lat, lon], r.coords)) {
+          return { regKey: rk, region: r };
+        }
+      }
+      
+      // 2. Nearest region center fallback (spherical distance)
+      var bestRk = 'central';
+      var bestDist = Infinity;
+      for (var rk in REGIONS) {
+        var r = REGIONS[rk];
+        if (!r) continue;
+        var center = r.center || [55.75, 37.6];
+        var dLat = lat - center[0];
+        var dLon = (lon - center[1]) * Math.cos(lat * Math.PI / 180);
+        var dist = dLat * dLat + dLon * dLon;
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestRk = rk;
+        }
+      }
+      return { regKey: bestRk, region: REGIONS[bestRk] };
+    }
 
     async function inspectCustomPoint(lat, lon, customName) {
-
       if (customPointMarker) {
-
         map.removeLayer(customPointMarker);
-
       }
 
-
-
       // Animated Pulsing Map Pin
-
       var pulseIcon = L.divIcon({
-
         className: 'custom-point-pulse-wrap',
-
         html: '<div style="position:relative; width:28px; height:28px; display:flex; align-items:center; justify-content:center;">' +
-
               '<div style="position:absolute; width:28px; height:28px; border-radius:9999px; background:rgba(56,189,248,0.45); animation:ping 1.2s cubic-bezier(0,0,0.2,1) infinite;"></div>' +
-
               '<div style="position:relative; width:14px; height:14px; border-radius:9999px; background:#0284c7; border:2px solid #ffffff; box-shadow:0 0 10px rgba(0,0,0,0.5);"></div>' +
-
               '</div>',
-
         iconSize: [28, 28],
-
         iconAnchor: [14, 14]
-
       });
 
-
-
       customPointMarker = L.marker([lat, lon], { icon: pulseIcon }).addTo(map);
-
       map.flyTo([lat, lon], Math.max(map.getZoom(), 5), { duration: 1.2 });
 
-
-
       // Open HUD Inspector
-
       openHudBox();
-
       var dispName = customName || ('Точка ' + lat.toFixed(2) + '°, ' + lon.toFixed(2) + '°');
-
       document.getElementById('insp-city-name').textContent = dispName;
-
       document.getElementById('insp-wmo-badge').textContent = lat.toFixed(2) + '°N, ' + lon.toFixed(2) + '°E';
-
-      document.getElementById('insp-region-sub').textContent = 'Координаты: ' + lat.toFixed(3) + '°, ' + lon.toFixed(3) + '° · Запрос моделей ECMWF IFS, ICON, GFS, GEM...';
-
+      document.getElementById('insp-region-sub').textContent = 'Координаты: ' + lat.toFixed(3) + '°, ' + lon.toFixed(3) + '° · Запрос гидродинамических моделей...';
       document.getElementById('insp-anomaly-val').textContent = '...';
-
       document.getElementById('insp-precip-val').textContent = '...';
 
-
-
       try {
-
         // Reverse geocoding if name not provided
-
         if (!customName) {
-
           try {
-
             var geoR = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + lat.toFixed(2) + ',' + lon.toFixed(2) + '&count=1&language=ru').then(function(r){ return r.json(); });
-
             if (geoR && geoR.results && geoR.results.length) {
-
               dispName = geoR.results[0].name + (geoR.results[0].country ? (' (' + geoR.results[0].country + ')') : '');
-
               document.getElementById('insp-city-name').textContent = dispName;
-
             }
-
           } catch(e) {}
-
         }
-
-
 
         // Live Open-Meteo Multi-Model Fetch
-
         var fUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,surface_pressure,wind_speed_10m,wind_direction_10m,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&timezone=auto';
-
         var resp = await fetch(fUrl);
-
         if (!resp.ok) throw new Error('Метеосервер временно недоступен');
-
         var data = await resp.json();
 
-
-
         var curr = data.current || {};
-
         var daily = data.daily || {};
-
         var tFact = curr.temperature_2m !== undefined ? curr.temperature_2m : 15.0;
-
         var pNow = curr.surface_pressure || 1013;
-
         var pMm = Math.round(pNow * 0.750062);
-
         var wSpd = curr.wind_speed_10m || 0;
-
         var wDir = curr.wind_direction_10m || 0;
 
-
-
         // Models extraction
-
         var ecMax = (daily.temperature_2m_max_ecmwf_ifs025 && daily.temperature_2m_max_ecmwf_ifs025[0] != null) ? daily.temperature_2m_max_ecmwf_ifs025[0] : tFact + 2;
-
         var icMax = (daily.temperature_2m_max_icon_seamless && daily.temperature_2m_max_icon_seamless[0] != null) ? daily.temperature_2m_max_icon_seamless[0] : ecMax - 0.6;
-
         var gfsMax = (daily.temperature_2m_max_gfs_seamless && daily.temperature_2m_max_gfs_seamless[0] != null) ? daily.temperature_2m_max_gfs_seamless[0] : ecMax + 0.8;
-
         var gemMax = (daily.temperature_2m_max_gem_seamless && daily.temperature_2m_max_gem_seamless[0] != null) ? daily.temperature_2m_max_gem_seamless[0] : ecMax - 0.7;
-
         var mVals = [ecMax, icMax, gfsMax, gemMax];
-
         var consensusT = +(mVals.reduce(function(a,b){return a+b;},0)/mVals.length).toFixed(1);
 
+        // 1. Identify Macroregion via Point-in-Polygon & Nearest Regional Anchor
+        var matched = findRegionForPoint(lat, lon);
+        var r = matched.region || REGIONS.central;
+        var regKey = matched.regKey || 'central';
 
+        // 2. Official Model Climate Anomaly for active period and model (100% in sync with Map!)
+        var modelAnom = getRegionVal(r, currentDecade, currentModel, 'temp');
+        var precipAnom = getRegionVal(r, currentDecade, currentModel, 'precip');
 
-        // Climatological Normal for current Day of Year
+        // 3. Official WMO 1991–2020 Normals for active month
+        var info = getActiveDateInfo();
+        var curM = info.month;
+        var wmoNorm = (WMO_NORMALS && WMO_NORMALS[regKey] && WMO_NORMALS[regKey].t && WMO_NORMALS[regKey].t[curM] != null)
+          ? WMO_NORMALS[regKey].t[curM]
+          : (r.normTemp !== undefined ? r.normTemp : 5.0);
+        var wmoPrecip = (WMO_NORMALS && WMO_NORMALS[regKey] && WMO_NORMALS[regKey].p && WMO_NORMALS[regKey].p[curM] != null)
+          ? WMO_NORMALS[regKey].p[curM]
+          : (r.normPrecip || 50);
 
-        var now = new Date();
+        // 4. Factual daily departure from WMO monthly normal
+        var dailyDev = +(tFact - wmoNorm).toFixed(1);
 
-        var startYear = new Date(now.getFullYear(), 0, 0);
+        // Active period label
+        var decTitles = {
+          1: '1-я декада',
+          2: '2-я декада',
+          3: '3-я декада',
+          0: info.monthName + ' (месяц)',
+          10: info.nextMonthName,
+          11: info.afterNextMonthName,
+          12: 'Зима 26/27'
+        };
+        var decLabel = decTitles[currentDecade] || 'Текущий период';
 
-        var doy = Math.floor((now - startYear) / (1000 * 60 * 60 * 24));
-
-        var clim = estimateClimatologyNorm(lat, lon, doy);
-
-
-
-        // Anomaly calculation
-
-        var deltaT = +(((ecMax + (daily.temperature_2m_min_ecmwf_ifs025 ? daily.temperature_2m_min_ecmwf_ifs025[0] : (tFact-5))) / 2.0) - clim.tNormDay).toFixed(1);
-
-        var precipToday = (daily.precipitation_sum_ecmwf_ifs025 && daily.precipitation_sum_ecmwf_ifs025[0] != null) ? daily.precipitation_sum_ecmwf_ifs025[0] : 0;
-
-        var precipPct = Math.max(0, Math.round((precipToday / Math.max(0.5, clim.pNormDay)) * 100));
-
-
-
-        // Synoptic diagnosis
-
-        var synTitle = 'Умеренный зональный режим';
-
-        var synDesc = 'Погодные условия формируются в пределах климатической нормы.';
-
-        if (pMm >= 762 && deltaT > 0) {
-
-          synTitle = 'Мощный блокирующий антициклон (H)';
-
-          synDesc = 'Нисходящие токи воздуха в устойчивом гребне обеспечивают малооблачную погоду и аномальный прогрев.';
-
-        } else if (pMm >= 762 && deltaT <= 0) {
-
-          synTitle = 'Холодный континентальный антициклон (H)';
-
-          synDesc = 'Радиационное выхолаживание в приземном слое, риск ночных заморозков.';
-
-        } else if (pMm < 752 && deltaT > 0) {
-
-          synTitle = 'Теплый сектор циклона (L)';
-
-          synDesc = 'Вынос влажной и теплой воздушной массы по восточной периферии циклона.';
-
-        } else if (pMm < 752 && deltaT <= 0) {
-
-          synTitle = 'Тыл полярного циклона / Вторжение (L)';
-
-          synDesc = 'Заток арктического воздуха, порывистый северный ветер и понижение температурного фона.';
-
-        }
-
-
+        // Synoptic diagnosis matching region & period
+        var synInfo = getRegionSynoptic(regKey, currentDecade, modelAnom, precipAnom, r);
 
         // Update Inspector DOM
+        document.getElementById('insp-norm-val').textContent = 'Климатическая норма WMO (1991–2020): ' + (wmoNorm > 0 ? '+' : '') + wmoNorm.toFixed(1) + ' °C · Осадки: ' + wmoPrecip + ' мм';
 
-        document.getElementById('insp-norm-val').textContent = 'Климат-норма суток (1991–2020): ' + (clim.tNormDay > 0 ? '+' : '') + clim.tNormDay + ' °C';
+        document.getElementById('insp-norm-desc').innerHTML = 'Фактическая температура прямо сейчас: <strong>' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</strong> (суточное отклонение: <strong>' + (dailyDev > 0 ? '+' : '') + dailyDev + '°C</strong>). Ожидаемый суточный максимум: <strong>+' + ecMax.toFixed(1) + '°C</strong>. Климат-норма ВМО месяца: <strong>' + (wmoNorm > 0 ? '+' : '') + wmoNorm.toFixed(1) + ' °C</strong>. Прогнозная аномалия периода по ансамблю суперкомпьютеров: <strong>' + (modelAnom > 0 ? '+' : '') + modelAnom.toFixed(1) + ' °C</strong>.';
 
-        document.getElementById('insp-norm-desc').innerHTML = 'Фактическая температура прямо сейчас: <strong>' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</strong> · Ожидаемый суточный максимум: <strong>+' + ecMax + '°C</strong>.';
+        document.getElementById('insp-anomaly-val').textContent = (modelAnom > 0 ? '+' : '') + modelAnom.toFixed(1) + ' °C';
+        document.getElementById('insp-anomaly-val').style.color = getTempColor(modelAnom);
 
-        document.getElementById('insp-anomaly-val').textContent = (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + ' °C';
+        document.getElementById('insp-precip-val').textContent = Math.round(precipAnom) + ' %';
+        document.getElementById('insp-precip-val').style.color = getPrecipColor(precipAnom);
 
-        document.getElementById('insp-anomaly-val').style.color = getTempColor(deltaT);
-
-        document.getElementById('insp-precip-val').textContent = precipPct + ' %';
-
-        document.getElementById('insp-precip-val').style.color = getPrecipColor(precipPct);
-
-        document.getElementById('insp-synoptic-title').textContent = synTitle;
-
-        document.getElementById('insp-synoptic-desc').textContent = synDesc;
-
+        document.getElementById('insp-synoptic-title').textContent = synInfo.title;
+        document.getElementById('insp-synoptic-desc').textContent = synInfo.desc;
         document.getElementById('insp-wind').textContent = Math.round(wSpd) + ' м/с (' + wDir + '°) · Давление: ' + pMm + ' мм';
 
         // Update Expected Min/Max for searched point
@@ -9850,53 +9765,45 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
           var d1T = Math.round(tFact);
           var d2T = Math.round(tFact - 2);
           var d3T = Math.round(tFact - 5);
-          stripEl.innerHTML = '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">1-я дек:</span><span class="font-bold text-sky-600 dark:text-sky-400">' + (d1T > 0 ? '+' : '') + d1T + '°C (' + (deltaT >= 0 ? 'Теплее нормы' : 'Прохладнее') + ')</span></div>' +
+          stripEl.innerHTML = '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">1-я дек:</span><span class="font-bold text-sky-600 dark:text-sky-400">' + (d1T > 0 ? '+' : '') + d1T + '°C (' + (modelAnom >= 0 ? 'Теплее нормы' : 'Прохладнее') + ')</span></div>' +
             '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">2-я дек:</span><span class="font-bold text-slate-700 dark:text-slate-300">' + (d2T > 0 ? '+' : '') + d2T + '°C (Сезонный тренд)</span></div>' +
             '<div class="flex items-center justify-between p-1.5 rounded bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"><span class="text-slate-500 dark:text-slate-400">3-я дек:</span><span class="font-bold text-slate-700 dark:text-slate-300">' + (d3T > 0 ? '+' : '') + d3T + '°C (Предзимье)</span></div>';
         }
 
-
-
         // Update Full Forecast Button Link
-
         var fBtn = document.getElementById('insp-full-forecast-btn');
-
         if (fBtn) {
-
           fBtn.href = 'index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon;
-
           fBtn.innerHTML = '<span>👉 Открыть «' + dispName + '» на Главной (136 лет архива) ➔</span>';
-
         }
 
-
-
         // Render ApexChart for this custom point
-
         renderCustomModelsBarChart(dispName, [ecMax, consensusT, icMax, gfsMax, gemMax]);
 
-
-
-        // Bind Leaflet Popup to Marker
-
-        var popupHtml = '<div class="font-sans text-xs space-y-1.5 p-1 select-none leading-tight" style="min-width:180px;">' +
+        // Bind Leaflet Popup to Marker (100% Harmonized with Map & WMO 1991-2020)
+        var popupHtml = '<div class="font-sans text-xs space-y-1.5 p-1 select-none leading-tight" style="min-width:215px;">' +
           '<div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700/60 pb-1 font-bold text-slate-900 dark:text-slate-100 text-xs">' +
             '<span class="truncate max-w-[150px]">' + dispName + '</span>' +
+            '<span class="text-[10px] text-slate-500 font-mono shrink-0">' + r.name.split(' (')[0] + '</span>' +
           '</div>' +
-          '<div class="flex items-center justify-between font-mono text-[11px]">' +
-            '<span class="text-slate-600 dark:text-slate-400 font-medium">Факт T:</span>' +
+          '<div class="flex items-center justify-between font-mono text-[11px] bg-sky-50/80 dark:bg-sky-950/40 p-1.5 rounded border border-sky-200 dark:border-sky-800/50">' +
+            '<span class="text-slate-700 dark:text-slate-300 font-semibold">Аномалия (' + decLabel + '):</span>' +
+            '<span class="font-black" style="color:' + getTempColor(modelAnom) + ';">' + (modelAnom > 0 ? '+' : '') + modelAnom.toFixed(1) + '°C</span>' +
+          '</div>' +
+          '<div class="flex items-center justify-between font-mono text-[11px] pt-0.5">' +
+            '<span class="text-slate-500 dark:text-slate-400">Факт T сейчас:</span>' +
             '<span class="font-bold text-slate-900 dark:text-slate-100">' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C</span>' +
           '</div>' +
-          '<div class="flex items-center justify-between font-mono text-[11px]">' +
-            '<span class="text-slate-600 dark:text-slate-400 font-medium">Аномалия:</span>' +
-            '<span class="font-black" style="color:' + getTempColor(deltaT) + ';">' + (deltaT > 0 ? '+' : '') + deltaT + '°C</span>' +
+          '<div class="flex items-center justify-between font-mono text-[10.5px]">' +
+            '<span class="text-slate-500 dark:text-slate-400">Климат-норма ВМО:</span>' +
+            '<span class="text-slate-700 dark:text-slate-300 font-medium">' + (wmoNorm > 0 ? '+' : '') + wmoNorm.toFixed(1) + '°C (откл. ' + (dailyDev > 0 ? '+' : '') + dailyDev + '°)</span>' +
           '</div>' +
-          '<div class="flex items-center justify-between font-mono text-[10.5px] text-slate-600 dark:text-slate-400 pt-0.5">' +
-            '<span>Осадки: ' + precipPct + '%</span>' +
+          '<div class="flex items-center justify-between font-mono text-[10.5px] text-slate-500 dark:text-slate-400 pt-0.5 border-t border-slate-100 dark:border-slate-800">' +
+            '<span>Осадки: <strong class="text-slate-800 dark:text-slate-200">' + Math.round(precipAnom) + '% нормы</strong></span>' +
             '<span>' + pMm + ' мм рт. ст.</span>' +
           '</div>' +
           '<div class="pt-1 border-t border-slate-200 dark:border-slate-700/60 text-right">' +
-            '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" class="text-[11px] text-sky-600 dark:text-sky-400 hover:text-sky-500 font-bold underline transition">Открыть прогноз →</a>' +
+            '<a href="index.html?city=' + encodeURIComponent(dispName) + '&lat=' + lat + '&lon=' + lon + '" class="text-[11px] text-sky-600 dark:text-sky-400 hover:text-sky-500 font-bold underline transition">Открыть архив и прогноз →</a>' +
           '</div>' +
         '</div>';
 
@@ -9905,39 +9812,27 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
         var hudBadgeEl = document.getElementById('hud-anomaly-badge');
         var hudDescEl = document.getElementById('hud-desc');
         if (hudPeriodEl) {
-          hudPeriodEl.textContent = dispName.toUpperCase() + ' · ' + (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + '°C';
+          hudPeriodEl.textContent = dispName.toUpperCase() + ' · ' + (modelAnom > 0 ? '+' : '') + modelAnom.toFixed(1) + '°C';
         }
         if (hudBadgeEl) {
-          hudBadgeEl.textContent = 'ΔT: ' + (deltaT > 0 ? '+' : '') + deltaT.toFixed(1) + '°C';
-          hudBadgeEl.style.color = getTempColor(deltaT);
+          hudBadgeEl.textContent = 'ΔT: ' + (modelAnom > 0 ? '+' : '') + modelAnom.toFixed(1) + '°C';
+          hudBadgeEl.style.color = getTempColor(modelAnom);
         }
         if (hudDescEl) {
-          hudDescEl.innerHTML = '<strong>' + synTitle + ':</strong> ' + synDesc + ' Факт: ' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C, норма: ' + (clim.tNormDay > 0 ? '+' : '') + clim.tNormDay + '°C.';
+          hudDescEl.innerHTML = '<strong>' + synInfo.title + ':</strong> ' + synInfo.desc + ' Факт: ' + (tFact > 0 ? '+' : '') + tFact.toFixed(1) + '°C, норма: ' + (wmoNorm > 0 ? '+' : '') + wmoNorm.toFixed(1) + '°C.';
         }
 
         customPointMarker.bindPopup(popupHtml, {
-
           className: 'sleek-popup-wrapper',
-
           closeButton: true,
-
           autoPan: false
-
         }).openPopup();
 
-
-
       } catch(err) {
-
         console.error('Point calculation error:', err);
-
         document.getElementById('insp-region-sub').textContent = 'Ошибка расчета: ' + err.message;
-
       }
-
     }
-
-
 
     function renderCustomModelsBarChart(name, vals) {
 
