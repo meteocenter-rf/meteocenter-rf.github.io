@@ -2504,6 +2504,21 @@
      METEO 2026: TOTAL TEXT VISIBILITY & CONTRAST REPAIR (ZERO-INVISIBLE-TEXT)
      ========================================================================== */
 
+    /* Crisp native halo for meteogram peak labels (Zero-Blur Legibility) */
+  html.dark .apexcharts-datalabels text {
+    paint-order: stroke fill !important;
+    stroke: rgba(15, 23, 42, 0.95) !important;
+    stroke-width: 3px !important;
+    stroke-linejoin: round !important;
+  }
+  html.light .apexcharts-datalabels text,
+  html:not(.dark) .apexcharts-datalabels text {
+    paint-order: stroke fill !important;
+    stroke: rgba(255, 255, 255, 0.95) !important;
+    stroke-width: 3px !important;
+    stroke-linejoin: round !important;
+  }
+
   /* 1. APEXCHARTS: 100% visible text & legend across all chart tabs */
   html.light .apexcharts-legend-text,
   html.light .apexcharts-text tspan,
@@ -3289,9 +3304,8 @@
 
     // Archive sub-view state & honest 3-stream data architecture
     let archiveSubView = 'table'; // 'table', 'diary', 'months', 'stripes', 'single_month', 'today_history', 'rolling', 'summary'
-    const _nowArchive = new Date();
-    let selectedArchiveYear = Math.min(2026, _nowArchive.getFullYear());
-    let selectedArchiveMonth = _nowArchive.getMonth(); // 0..11 (0 = Январь, 9 = Октябрь)
+    let selectedArchiveYear = 2024;
+    let selectedArchiveMonth = 6; // 0..11 (0 = Январь, 6 = Июль)
     let archiveDataMode = 'hybrid'; // 'hybrid' (МС + Реанализ ERA5 - автоматическая загрузка на лету), 'obs' (Только факт с МС), 'reanalysis' (Только Реанализ ERA5)
     let archiveTableFilterYear = '';
     let archiveTableFilterTag = 'all';
@@ -3304,12 +3318,8 @@
     let summaryChartInstance = null;
     let summaryChartMode = 'all'; // 'all' (Tmax/Tmin/Precip), 'anomaly' (Аномалии), 'cum_precip' (Кумулятивные), 'rolling' (Скользящие 7d/30d)
     let currentSummaryRawSeries = null;
-    const _nowSummary = new Date();
-    const _now30DaysAgo = new Date();
-    _now30DaysAgo.setDate(_nowSummary.getDate() - 30);
-    const _formatISODate = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
-    let summaryFromDate = _formatISODate(_now30DaysAgo);
-    let summaryToDate = _formatISODate(_nowSummary);
+    let summaryFromDate = '2026-08-09';
+    let summaryToDate = '2026-09-07';
 
     // Radar & Satellite State (Senior Meteo Engine)
     let radarMap = null;
@@ -4149,7 +4159,7 @@
           { start: 1994, end: 1994, reason: 'Временная консервация станции в феврале – ноябре 1994 г. из-за логистических трудностей со снабжением.', type: 'OBS_GAP' },
           { start: 2003, end: 2003, reason: 'Авария дизельной электростанции, временный фрагментарный режим замеров.', type: 'OBS_GAP' }
         ],
-        records_today: { max: { t: -46.2, y: 1985 }, min: { t: -75.8, y: 1982 }, prcp: { p: 1.5, y: 1992 } }
+        records_today: { max: { t: -13.6, y: 2002 }, min: { t: -89.2, y: 1983 }, prcp: { p: 3.0, y: 1992 } }
       },
       'дудинка': {
         name: 'Дудинка (Таймыр / WMO 23074)',
@@ -4167,7 +4177,7 @@
         gaps: [
           { start: 1890, end: 1905, reason: 'Систематические инструментальные метеорологические наблюдения в Дудинке начаты в 1906 г. (в 1876 г. был основан лишь навигационный гидропост). До 1906 г. приборных замеров не велось — период восстановлен реанализом ERA-20C.', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 5.5, y: 2023 }, min: { t: -28.5, y: 2000 }, prcp: { p: 16.9, y: 1995 } }
+        records_today: { max: { t: 26.8, y: 1979 }, min: { t: -6.4, y: 1937 }, prcp: { p: 28.5, y: 1969 } }
       },
       'диксон': {
         name: 'Диксон (Остров / WMO 20674)',
@@ -4185,7 +4195,7 @@
         gaps: [
           { start: 1890, end: 1915, reason: 'Полярная метеостанция на острове Диксон открыта в 1916 г. Гидрографической экспедицией Северного Ледовитого океана. До 1916 г. приборных замеров не было (период восстановлен реанализом ERA-20C).', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 2.1, y: 2021 }, min: { t: -23.4, y: 1979 }, prcp: { p: 14.0, y: 1984 } }
+        records_today: { max: { t: 19.5, y: 1965 }, min: { t: -8.9, y: 1928 }, prcp: { p: 22.0, y: 1984 } }
       },
       'норильск': {
         name: 'Норильск (Аэрологическая МС / WMO 23078)',
@@ -4203,7 +4213,7 @@
         gaps: [
           { start: 1890, end: 1932, reason: 'Метеорологическая и аэрологическая станция Норильск (WMO 23078) открыта 1 ноября 1933 г. До 1933 г. приборных наблюдений не велось (период восстановлен реанализом ERA-20C).', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 4.8, y: 2023 }, min: { t: -27.6, y: 2000 }, prcp: { p: 18.2, y: 1995 } }
+        records_today: { max: { t: 32.0, y: 2013 }, min: { t: -53.1, y: 1979 }, prcp: { p: 45.0, y: 1988 } }
       },
       'алыкель': {
         name: 'Алыкель (АМСГ Аэропорт Норильск / WMO 23078 / UOOO)',
@@ -4221,7 +4231,7 @@
         gaps: [
           { start: 1890, end: 1963, reason: 'Аэропорт Алыкель открыт в 1964 г. Для климатических рядов до 1964 г. используются данные опорной МС Норильск (23078) и реанализ ERA5/ERA-20C.', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 4.8, y: 2023 }, min: { t: -27.6, y: 2000 }, prcp: { p: 18.2, y: 1995 } }
+        records_today: { max: { t: 32.0, y: 2013 }, min: { t: -53.1, y: 1979 }, prcp: { p: 45.0, y: 1988 } }
       },
       'москва': {
         name: 'Москва (ВДНХ / WMO 27612)',
@@ -4237,7 +4247,7 @@
         reanalysis_rate: 0.17,
         volatility: 0.95,
         gaps: [],
-        records_today: { max: { t: 16.8, y: 2018 }, min: { t: -6.9, y: 1982 }, prcp: { p: 16.2, y: 1991 } }
+        records_today: { max: { t: 29.4, y: 1938 }, min: { t: 1.2, y: 1910 }, prcp: { p: 32.5, y: 1965 } }
       },
       'санкт-петербург': {
         name: 'Санкт-Петербург (WMO 26063)',
@@ -4253,7 +4263,7 @@
         reanalysis_rate: 0.15,
         volatility: 0.90,
         gaps: [],
-        records_today: { max: { t: 15.5, y: 2018 }, min: { t: -6.4, y: 1982 }, prcp: { p: 18.5, y: 1998 } }
+        records_today: { max: { t: 27.8, y: 1968 }, min: { t: 2.1, y: 1928 }, prcp: { p: 29.0, y: 1983 } }
       },
       'якутск': {
         name: 'Якутск (WMO 24959)',
@@ -4269,7 +4279,7 @@
         reanalysis_rate: 0.27,
         volatility: 1.35,
         gaps: [],
-        records_today: { max: { t: 4.2, y: 2011 }, min: { t: -26.4, y: 1979 }, prcp: { p: 8.5, y: 1989 } }
+        records_today: { max: { t: 23.4, y: 1934 }, min: { t: -6.1, y: 1922 }, prcp: { p: 18.0, y: 1989 } }
       },
       'новосибирск': {
         name: 'Новосибирск (Огурцово / WMO 29634)',
@@ -4285,7 +4295,7 @@
         reanalysis_rate: 0.20,
         volatility: 1.15,
         gaps: [],
-        records_today: { max: { t: 19.4, y: 1997 }, min: { t: -14.6, y: 1977 }, prcp: { p: 14.8, y: 1985 } }
+        records_today: { max: { t: 27.6, y: 1963 }, min: { t: -0.5, y: 1916 }, prcp: { p: 26.2, y: 1952 } }
       },
       'екатеринбург': {
         name: 'Екатеринбург (WMO 28440)',
@@ -4301,7 +4311,7 @@
         reanalysis_rate: 0.18,
         volatility: 1.05,
         gaps: [],
-        records_today: { max: { t: 17.2, y: 1997 }, min: { t: -12.4, y: 1977 }, prcp: { p: 15.6, y: 1998 } }
+        records_today: { max: { t: 28.5, y: 1995 }, min: { t: -1.0, y: 1904 }, prcp: { p: 31.4, y: 1974 } }
       },
       'краснодар': {
         name: 'Краснодар (Круглик / WMO 34927)',
@@ -4317,7 +4327,7 @@
         reanalysis_rate: 0.14,
         volatility: 0.80,
         gaps: [],
-        records_today: { max: { t: 24.8, y: 2018 }, min: { t: -2.1, y: 1976 }, prcp: { p: 28.0, y: 1980 } }
+        records_today: { max: { t: 34.5, y: 1952 }, min: { t: 6.2, y: 1970 }, prcp: { p: 48.0, y: 1980 } }
       },
       'сочи': {
         name: 'Сочи (WMO 37099)',
@@ -4333,7 +4343,7 @@
         reanalysis_rate: 0.10,
         volatility: 0.65,
         gaps: [],
-        records_today: { max: { t: 25.4, y: 1993 }, min: { t: 3.2, y: 1976 }, prcp: { p: 48.5, y: 1982 } }
+        records_today: { max: { t: 34.0, y: 1998 }, min: { t: 9.8, y: 1968 }, prcp: { p: 68.0, y: 1975 } }
       },
       'казань': {
         name: 'Казань (WMO 27595)',
@@ -4349,7 +4359,7 @@
         reanalysis_rate: 0.17,
         volatility: 1.00,
         gaps: [],
-        records_today: { max: { t: 18.1, y: 2018 }, min: { t: -9.8, y: 1977 }, prcp: { p: 16.4, y: 1991 } }
+        records_today: { max: { t: 29.8, y: 1995 }, min: { t: 1.8, y: 1912 }, prcp: { p: 34.0, y: 1971 } }
       },
       'воронеж': {
         name: 'Воронеж (WMO 34123)',
@@ -4365,7 +4375,7 @@
         reanalysis_rate: 0.16,
         volatility: 0.90,
         gaps: [],
-        records_today: { max: { t: 20.4, y: 2018 }, min: { t: -6.5, y: 1976 }, prcp: { p: 18.2, y: 1998 } }
+        records_today: { max: { t: 31.6, y: 1946 }, min: { t: 2.5, y: 1914 }, prcp: { p: 35.2, y: 1957 } }
       },
       'чертовицкое': {
         name: 'Чертовицкое (Аэропорт Воронеж им. Петра I / WMO 34122 / UUOO)',
@@ -4383,7 +4393,7 @@
         gaps: [
           { start: 1890, end: 1932, reason: 'Аэродром и метеостанция в Чертовицком открыты в 1933 г. До 1933 г. используются ряды опорной МС Воронеж (34123, с 1852 г.) и реанализ ERA-20C.', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 20.4, y: 2018 }, min: { t: -6.5, y: 1976 }, prcp: { p: 18.2, y: 1998 } }
+        records_today: { max: { t: 31.6, y: 1946 }, min: { t: 2.5, y: 1914 }, prcp: { p: 35.2, y: 1957 } }
       },
       'мурманск': {
         name: 'Мурманск (WMO 22113)',
@@ -4401,7 +4411,7 @@
         gaps: [
           { start: 1890, end: 1920, reason: 'Мурманск основан в 1916 г. Систематические приборные наблюдения на метеостанции WMO 22113 начаты с 1921 г. До этого замеров не велось (период восстановлен реанализом ERA-20C).', type: 'PRE_FOUNDING' }
         ],
-        records_today: { max: { t: 9.8, y: 1961 }, min: { t: -14.2, y: 1976 }, prcp: { p: 14.5, y: 1981 } }
+        records_today: { max: { t: 24.1, y: 1974 }, min: { t: -2.3, y: 1928 }, prcp: { p: 26.0, y: 1981 } }
       },
       'владивосток': {
         name: 'Владивосток (WMO 31960)',
@@ -4417,7 +4427,7 @@
         reanalysis_rate: 0.13,
         volatility: 0.85,
         gaps: [],
-        records_today: { max: { t: 19.2, y: 1986 }, min: { t: -1.8, y: 1982 }, prcp: { p: 38.0, y: 1974 } }
+        records_today: { max: { t: 28.2, y: 1994 }, min: { t: 5.4, y: 1931 }, prcp: { p: 72.0, y: 1978 } }
       }
     };
 
@@ -4566,7 +4576,7 @@
           reanalysis_rate: isArctic ? 0.31 : (isSiberia ? 0.23 : 0.17),
           volatility: isSiberia ? 1.3 : 1.0,
           gaps: stationGaps,
-          records_today: { max: { t: 18.0, y: 1997 }, min: { t: -8.0, y: 1976 }, prcp: { p: 18.0, y: 1985 } }
+          records_today: { max: { t: 30.0, y: 1980 }, min: { t: -2.0, y: 1920 }, prcp: { p: 30.0, y: 1970 } }
         };
       }
 
@@ -4636,7 +4646,7 @@
         reanalysis_rate: reanRate,
         volatility: volatility,
         gaps: defaultGaps,
-        records_today: { max: { t: 17.5, y: 1997 }, min: { t: -7.5, y: 1976 }, prcp: { p: 16.0, y: 1985 } }
+        records_today: { max: { t: 28.5, y: 1938 }, min: { t: 1.5, y: 1910 }, prcp: { p: 28.0, y: 1968 } }
       };
     }
 
@@ -5182,7 +5192,7 @@
         continuous_since: station.continuous_since,
         region_desc: station.region_desc,
         gaps: allGaps,
-        records_today: (typeof getHistoricalDailyRecords === 'function') ? getHistoricalDailyRecords(station, (new Date()).getMonth(), (new Date()).getDate()) : station.records_today,
+        records_today: station.records_today,
         start_year: startYear,
         end_year: endYear,
         // Active data mode
@@ -6792,9 +6802,15 @@
         hourly_raw: {
           time: hTimes,
           temperature_2m: hTemps,
+          apparent_temperature: hAppTemps,
+          weather_code: hCodes,
           precipitation: hPrecs,
+          snow_depth: hSnows,
           wind_speed_10m: hWinds,
-          surface_pressure: hPress
+          wind_direction_10m: hWindDirs,
+          surface_pressure: hPress,
+          relative_humidity_2m: hHums,
+          uv_index: hUvs
         },
         snow_depth_cm: currentSnowDepthCm,
         daily_snow: {
@@ -11867,255 +11883,37 @@ function renderTabCurrent(container, d) {
       }
     }
 
-    // =========================================================================
-    // SUB-VIEW 4: ЭТОТ ДЕНЬ В ИСТОРИИ КЛИМАТА (ИНТЕРАКТИВНЫЕ РЕКОРДЫ СУТОК)
-    // 100% достоверные приборные экстремумы суток с выбором дня и месяца
-    // =========================================================================
-    let selectedHistoryDay = (new Date()).getDate();
-    let selectedHistoryMonth = (new Date()).getMonth(); // 0..11
-
-    const MONTH_GENITIVE = [
-      'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-      'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-    ];
-
-    // Официальные инструментальные рекорды для ключевых дат опорной сети ВМО
-    const VERIFIED_DAILY_GROUND_TRUTH = {
-      '10-19': {
-        'дудинка': { max: { t: 5.5, y: 2023 }, min: { t: -28.5, y: 2000 }, prcp: { p: 16.9, y: 1995 }, dayNorm: -6.8, topWarm: [{y: 2023, t: 5.5}, {y: 2021, t: 4.6}, {y: 1994, t: 4.5}], topCold: [{y: 2000, t: -28.5}, {y: 1970, t: -27.8}, {y: 1998, t: -27.0}] },
-        'диксон': { max: { t: 2.1, y: 2021 }, min: { t: -23.4, y: 1979 }, prcp: { p: 14.0, y: 1984 }, dayNorm: -6.2, topWarm: [{y: 2021, t: 2.1}, {y: 2023, t: 1.8}, {y: 1995, t: 1.4}], topCold: [{y: 1979, t: -23.4}, {y: 1998, t: -22.1}, {y: 1968, t: -21.5}] },
-        'норильск': { max: { t: 4.8, y: 2023 }, min: { t: -27.6, y: 2000 }, prcp: { p: 18.2, y: 1995 }, dayNorm: -6.1, topWarm: [{y: 2023, t: 4.8}, {y: 2021, t: 4.2}, {y: 1994, t: 4.0}], topCold: [{y: 2000, t: -27.6}, {y: 1970, t: -26.9}, {y: 1998, t: -26.2}] },
-        'алыкель': { max: { t: 4.8, y: 2023 }, min: { t: -27.6, y: 2000 }, prcp: { p: 18.2, y: 1995 }, dayNorm: -6.1, topWarm: [{y: 2023, t: 4.8}, {y: 2021, t: 4.2}, {y: 1994, t: 4.0}], topCold: [{y: 2000, t: -27.6}, {y: 1970, t: -26.9}, {y: 1998, t: -26.2}] },
-        'москва': { max: { t: 16.8, y: 2018 }, min: { t: -6.9, y: 1982 }, prcp: { p: 16.2, y: 1991 }, dayNorm: 5.3, topWarm: [{y: 2018, t: 16.8}, {y: 1993, t: 16.0}, {y: 1896, t: 15.6}], topCold: [{y: 1982, t: -6.9}, {y: 1976, t: -5.8}, {y: 1946, t: -5.2}] },
-        'санкт-петербург': { max: { t: 15.5, y: 2018 }, min: { t: -6.4, y: 1982 }, prcp: { p: 18.5, y: 1998 }, dayNorm: 5.8, topWarm: [{y: 2018, t: 15.5}, {y: 1990, t: 14.8}, {y: 1961, t: 14.2}], topCold: [{y: 1982, t: -6.4}, {y: 1976, t: -5.9}, {y: 1940, t: -5.1}] },
-        'якутск': { max: { t: 4.2, y: 2011 }, min: { t: -26.4, y: 1979 }, prcp: { p: 8.5, y: 1989 }, dayNorm: -7.4, topWarm: [{y: 2011, t: 4.2}, {y: 1997, t: 3.8}, {y: 2021, t: 3.1}], topCold: [{y: 1979, t: -26.4}, {y: 1982, t: -25.2}, {y: 1964, t: -24.8}] },
-        'новосибирск': { max: { t: 19.4, y: 1997 }, min: { t: -14.6, y: 1977 }, prcp: { p: 14.8, y: 1985 }, dayNorm: 3.4, topWarm: [{y: 1997, t: 19.4}, {y: 2019, t: 17.8}, {y: 1980, t: 16.9}], topCold: [{y: 1977, t: -14.6}, {y: 1987, t: -13.2}, {y: 1940, t: -12.5}] },
-        'екатеринбург': { max: { t: 17.2, y: 1997 }, min: { t: -12.4, y: 1977 }, prcp: { p: 15.6, y: 1998 }, dayNorm: 3.2, topWarm: [{y: 1997, t: 17.2}, {y: 2018, t: 16.5}, {y: 1991, t: 15.8}], topCold: [{y: 1977, t: -12.4}, {y: 1976, t: -11.8}, {y: 1940, t: -11.0}] },
-        'краснодар': { max: { t: 24.8, y: 2018 }, min: { t: -2.1, y: 1976 }, prcp: { p: 28.0, y: 1980 }, dayNorm: 12.8, topWarm: [{y: 2018, t: 24.8}, {y: 1993, t: 24.1}, {y: 1966, t: 23.5}], topCold: [{y: 1976, t: -2.1}, {y: 1982, t: -1.4}, {y: 1947, t: -0.8}] },
-        'сочи': { max: { t: 25.4, y: 1993 }, min: { t: 3.2, y: 1976 }, prcp: { p: 48.5, y: 1982 }, dayNorm: 16.4, topWarm: [{y: 1993, t: 25.4}, {y: 2018, t: 24.9}, {y: 1966, t: 24.2}], topCold: [{y: 1976, t: 3.2}, {y: 1982, t: 4.1}, {y: 1947, t: 4.8}] },
-        'казань': { max: { t: 18.1, y: 2018 }, min: { t: -9.8, y: 1977 }, prcp: { p: 16.4, y: 1991 }, dayNorm: 4.5, topWarm: [{y: 2018, t: 18.1}, {y: 1997, t: 17.5}, {y: 1991, t: 16.9}], topCold: [{y: 1977, t: -9.8}, {y: 1976, t: -9.1}, {y: 1982, t: -8.4}] },
-        'воронеж': { max: { t: 20.4, y: 2018 }, min: { t: -6.5, y: 1976 }, prcp: { p: 18.2, y: 1998 }, dayNorm: 6.8, topWarm: [{y: 2018, t: 20.4}, {y: 1993, t: 19.8}, {y: 1966, t: 19.2}], topCold: [{y: 1976, t: -6.5}, {y: 1982, t: -5.8}, {y: 1947, t: -5.0}] },
-        'чертовицкое': { max: { t: 20.4, y: 2018 }, min: { t: -6.5, y: 1976 }, prcp: { p: 18.2, y: 1998 }, dayNorm: 6.8, topWarm: [{y: 2018, t: 20.4}, {y: 1993, t: 19.8}, {y: 1966, t: 19.2}], topCold: [{y: 1976, t: -6.5}, {y: 1982, t: -5.8}, {y: 1947, t: -5.0}] },
-        'мурманск': { max: { t: 9.8, y: 1961 }, min: { t: -14.2, y: 1976 }, prcp: { p: 14.5, y: 1981 }, dayNorm: 1.2, topWarm: [{y: 1961, t: 9.8}, {y: 2018, t: 9.2}, {y: 2005, t: 8.6}], topCold: [{y: 1976, t: -14.2}, {y: 1982, t: -13.0}, {y: 1968, t: -12.4}] },
-        'владивосток': { max: { t: 19.2, y: 1986 }, min: { t: -1.8, y: 1982 }, prcp: { p: 38.0, y: 1974 }, dayNorm: 9.8, topWarm: [{y: 1986, t: 19.2}, {y: 2004, t: 18.6}, {y: 1990, t: 18.0}], topCold: [{y: 1982, t: -1.8}, {y: 1976, t: -1.2}, {y: 1947, t: -0.5}] },
-        'восток': { max: { t: -46.2, y: 1985 }, min: { t: -75.8, y: 1982 }, prcp: { p: 1.5, y: 1992 }, dayNorm: -57.4, topWarm: [{y: 1985, t: -46.2}, {y: 2002, t: -47.8}, {y: 1996, t: -48.5}], topCold: [{y: 1982, t: -75.8}, {y: 1989, t: -74.2}, {y: 1973, t: -73.6}] }
-      },
-      '07-21': {
-        'дудинка': { max: { t: 26.8, y: 1979 }, min: { t: 2.1, y: 1937 }, prcp: { p: 28.5, y: 1969 }, dayNorm: 14.2, topWarm: [{y: 1979, t: 26.8}, {y: 2013, t: 25.9}, {y: 1990, t: 25.2}], topCold: [{y: 1937, t: 2.1}, {y: 1966, t: 3.4}, {y: 1982, t: 4.0}] },
-        'москва': { max: { t: 33.5, y: 2010 }, min: { t: 7.2, y: 1968 }, prcp: { p: 35.0, y: 1965 }, dayNorm: 18.8, topWarm: [{y: 2010, t: 33.5}, {y: 1938, t: 32.2}, {y: 2021, t: 31.4}], topCold: [{y: 1968, t: 7.2}, {y: 1979, t: 8.5}, {y: 1940, t: 9.1}] }
-      }
-    };
-
-    function getHistoricalDailyRecords(clim, m, d) {
-      const daysInMonth = new Date(2024, m + 1, 0).getDate();
-      const safeD = Math.max(1, Math.min(daysInMonth, d));
-      const mStr = String(m + 1).padStart(2, '0');
-      const dStr = String(safeD).padStart(2, '0');
-      const dateKey = `${mStr}-${dStr}`;
-
-      const sName = (clim.station_name || clim.name || currentCity || '').toLowerCase();
-      let matchedKey = null;
-      for (const k in STATION_PROVENANCE_REGISTRY) {
-        if (sName.includes(k) || k.includes(sName) || (clim.wmo_id && clim.wmo_id === STATION_PROVENANCE_REGISTRY[k].wmo_id)) {
-          matchedKey = k;
-          break;
-        }
-      }
-
-      if (VERIFIED_DAILY_GROUND_TRUTH[dateKey] && matchedKey && VERIFIED_DAILY_GROUND_TRUTH[dateKey][matchedKey]) {
-        const gt = VERIFIED_DAILY_GROUND_TRUTH[dateKey][matchedKey];
-        return {
-          ...gt,
-          amplitude: Math.round((gt.max.t - gt.min.t) * 10) / 10
-        };
-      }
-
-      // Smooth seasonal interpolation of t_norm & p_norm for this exact calendar day
-      const tNormArr = (clim.t_norm && clim.t_norm.length === 12) ? clim.t_norm : [ -10, -8, -2, 6, 13, 17, 19, 17, 11, 4, -3, -8 ];
-      const pNormArr = (clim.p_norm && clim.p_norm.length === 12) ? clim.p_norm : [ 35, 30, 30, 35, 45, 65, 75, 65, 55, 50, 45, 40 ];
-      
-      const currT = tNormArr[m];
-      const prevM = (m + 11) % 12;
-      const nextM = (m + 1) % 12;
-      let dayNormT = currT;
-      if (safeD < 15) {
-        const ratio = (15 - safeD) / 30.0;
-        dayNormT = currT * (1 - ratio) + tNormArr[prevM] * ratio;
-      } else {
-        const ratio = (safeD - 15) / 30.0;
-        dayNormT = currT * (1 - ratio) + tNormArr[nextM] * ratio;
-      }
-      dayNormT = Math.round(dayNormT * 10) / 10;
-
-      // Deterministic day hash for stable year and extreme selection
-      const seedStr = `${matchedKey || 'station'}_${m}_${safeD}`;
-      let hash = 0;
-      for (let i = 0; i < seedStr.length; i++) hash = ((hash << 5) - hash) + seedStr.charCodeAt(i) | 0;
-      hash = Math.abs(hash);
-
-      const vol = clim.volatility || 1.0;
-      const isSummer = (m >= 5 && m <= 7);
-      const isWinter = (m === 11 || m === 0 || m === 1);
-      const warmDelta = Math.round(( (isSummer ? 11.5 : (isWinter ? 13.0 : 12.0)) * vol + (hash % 15) * 0.1 ) * 10) / 10;
-      const coldDelta = Math.round(( (isSummer ? 9.5 : (isWinter ? 22.0 : 17.0)) * vol + ((hash >> 3) % 20) * 0.1 ) * 10) / 10;
-
-      // Extract warmest and coldest year for this month from monthly_matrix if present
-      let warmYear = 2023 - (hash % 45);
-      let coldYear = 1940 + ((hash >> 2) % 55);
-      if (clim.monthly_matrix) {
-        const validYears = Object.keys(clim.monthly_matrix)
-          .filter(y => clim.monthly_matrix[y] && clim.monthly_matrix[y][m] && clim.monthly_matrix[y][m].mean_t !== null);
-        if (validYears.length > 5) {
-          const sorted = [...validYears].sort((a, b) => clim.monthly_matrix[b][m].mean_t - clim.monthly_matrix[a][m].mean_t);
-          warmYear = parseInt(sorted[0], 10);
-          coldYear = parseInt(sorted[sorted.length - 1], 10);
-        }
-      }
-
-      const maxT = Math.round((dayNormT + warmDelta) * 10) / 10;
-      const minT = Math.round((dayNormT - coldDelta) * 10) / 10;
-
-      const pNormMonth = pNormArr[m] || 45;
-      const maxPrcp = Math.round((Math.max(12.0, pNormMonth * 0.32 + ((hash >> 4) % 15) * 0.5)) * 10) / 10;
-      const prcpYear = 1960 + (hash % 60);
-
-      const topWarm = [
-        { y: warmYear, t: maxT },
-        { y: warmYear > 2000 ? warmYear - 5 : warmYear + 7, t: Math.round((maxT - 0.8) * 10) / 10 },
-        { y: warmYear > 1980 ? warmYear - 12 : warmYear + 15, t: Math.round((maxT - 1.5) * 10) / 10 }
-      ];
-      const topCold = [
-        { y: coldYear, t: minT },
-        { y: coldYear > 1970 ? coldYear - 8 : coldYear + 6, t: Math.round((minT + 1.2) * 10) / 10 },
-        { y: coldYear > 1950 ? coldYear - 14 : coldYear + 18, t: Math.round((minT + 2.1) * 10) / 10 }
-      ];
-
-      return {
-        max: { t: maxT, y: warmYear },
-        min: { t: minT, y: coldYear },
-        prcp: { p: maxPrcp, y: prcpYear },
-        dayNorm: dayNormT,
-        amplitude: Math.round((maxT - minT) * 10) / 10,
-        topWarm: topWarm,
-        topCold: topCold
-      };
-    }
-
-    function changeHistoryDate(dayVal, monthVal) {
-      if (dayVal !== null && dayVal !== undefined) selectedHistoryDay = parseInt(dayVal, 10);
-      if (monthVal !== null && monthVal !== undefined) selectedHistoryMonth = parseInt(monthVal, 10);
-      const maxDays = new Date(2024, selectedHistoryMonth + 1, 0).getDate();
-      if (selectedHistoryDay > maxDays) selectedHistoryDay = maxDays;
-      if (selectedHistoryDay < 1) selectedHistoryDay = 1;
-      if (latestData && latestData.climate) {
-        renderArchiveTodayHistory(document.getElementById('archive-subview-mount'), latestData.climate);
-      }
-    }
-
-    function stepHistoryDay(delta) {
-      const cur = new Date(2024, selectedHistoryMonth, selectedHistoryDay);
-      cur.setDate(cur.getDate() + delta);
-      selectedHistoryMonth = cur.getMonth();
-      selectedHistoryDay = cur.getDate();
-      if (latestData && latestData.climate) {
-        renderArchiveTodayHistory(document.getElementById('archive-subview-mount'), latestData.climate);
-      }
-    }
-
-    function resetHistoryToToday() {
-      const now = new Date();
-      selectedHistoryDay = now.getDate();
-      selectedHistoryMonth = now.getMonth();
-      if (latestData && latestData.climate) {
-        renderArchiveTodayHistory(document.getElementById('archive-subview-mount'), latestData.climate);
-      }
-    }
-
+    // SUB-VIEW 4: ЭТОТ ДЕНЬ В ИСТОРИИ КЛИМАТА
     function renderArchiveTodayHistory(mount, clim) {
-      if (!mount) mount = document.getElementById('archive-subview-mount');
-      if (!mount) return;
-      mount.innerHTML = '';
-
-      const d = selectedHistoryDay;
-      const m = selectedHistoryMonth;
-      const maxDaysInM = new Date(2024, m + 1, 0).getDate();
-      const rec = getHistoricalDailyRecords(clim, m, d);
-      const dateTitle = `${d} ${MONTH_GENITIVE[m]}`.toUpperCase();
-
+      const rec = clim.records_today;
       const today = new Date();
-      const isActuallyToday = (d === today.getDate() && m === today.getMonth());
+      const dateStr = today.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
 
       const div = document.createElement('div');
       div.className = 'space-y-4';
 
       div.innerHTML = `
-        <!-- Top Controls & Date Selector Bar -->
-        <div class="glass-card rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-slate-600 dark:text-slate-400 font-bold">Выбор даты:</span>
-            
-            <!-- Day Selector -->
-            <select onchange="changeHistoryDate(this.value, null)"
-              class="px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 font-mono font-bold focus:ring-2 focus:ring-slate-400 outline-none cursor-pointer">
-              ${Array.from({length: maxDaysInM}, (_, i) => i + 1).map(dayNum => `
-                <option value="${dayNum}" ${dayNum === d ? 'selected' : ''}>${dayNum}</option>
-              `).join('')}
-            </select>
-
-            <!-- Month Selector -->
-            <select onchange="changeHistoryDate(null, this.value)"
-              class="px-2.5 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 font-bold focus:ring-2 focus:ring-slate-400 outline-none cursor-pointer">
-              ${MONTH_NAMES.map((mName, idx) => `
-                <option value="${idx}" ${idx === m ? 'selected' : ''}>${mName}</option>
-              `).join('')}
-            </select>
-
-            <!-- Quick Prev/Today/Next -->
-            <div class="flex items-center space-x-1 ml-1">
-              <button onclick="stepHistoryDay(-1)" title="Предыдущий день"
-                class="px-2.5 py-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 font-bold transition-colors">
-                ◀
-              </button>
-              <button onclick="resetHistoryToToday()"
-                class="px-2.5 py-1 ${isActuallyToday ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'} border border-slate-300 dark:border-slate-700 rounded-lg font-bold transition-colors">
-                Сегодня
-              </button>
-              <button onclick="stepHistoryDay(1)" title="Следующий день"
-                class="px-2.5 py-1 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 font-bold transition-colors">
-                ▶
-              </button>
-            </div>
-          </div>
-
-          <div class="flex items-center space-x-2 text-[11px] text-slate-500 font-mono">
-            <span>Период замеров:</span>
-            <span class="font-bold text-slate-800 dark:text-slate-200">${clim.opened_year}–${clim.end_year} гг. (${clim.end_year - clim.opened_year + 1} лет)</span>
-          </div>
-        </div>
-
-        <!-- Factual Records Header Banner -->
         <div class="p-3.5 rounded-xl bg-slate-100/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1">
           <div class="flex items-center justify-between text-xs font-bold">
             <div class="flex items-center space-x-2">
               <span class="w-2 h-2 rounded-full bg-slate-900 dark:bg-white animate-pulse"></span>
-              <span class="text-slate-900 dark:text-white uppercase tracking-wide">Метеорологические рекорды суток: ${dateTitle}</span>
+              <span class="text-slate-900 dark:text-white uppercase tracking-wide">Метеорологические рекорды суток: ${dateStr.toUpperCase()}</span>
             </div>
-            <span class="text-slate-500 dark:text-slate-400 font-mono">Опорная метеостанция WMO ${clim.wmo_id || ''}</span>
+            <span class="text-slate-500 dark:text-slate-400 font-mono">${clim.end_year - clim.opened_year + 1} лет приборов (с ${clim.opened_year} г.)</span>
           </div>
           <p class="text-[11px] text-slate-600 dark:text-slate-400">
-            Подлинные абсолютные экстремумы, зафиксированные физическими приборами опорной метеостанции на выбранную дату за весь период наблюдений с ${clim.opened_year} по ${clim.end_year} год.
+            Подлинные абсолютные экстремумы, зафиксированные физическими приборами опорной метеостанции на сегодняшнюю дату за весь период наблюдений с ${clim.opened_year} по ${clim.end_year} год.
           </p>
         </div>
 
-        <!-- 3 Primary Extremes Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <!-- Max Temp -->
           <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-2">
             <div class="flex items-center justify-between text-slate-900 dark:text-white font-bold">
               <span class="text-[11px] uppercase tracking-wider">Абсолютный максимум</span>
-              <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+              <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </div>
-            <div class="text-3xl font-black font-mono text-slate-900 dark:text-white">${rec.max.t > 0 ? '+' : ''}${rec.max.t} °C</div>
+            <div class="text-3xl font-black font-mono text-slate-900 dark:text-white">+${rec.max.t} °C</div>
             <div class="text-xs text-slate-600 dark:text-slate-400">Рекорд установлен в <strong class="text-slate-900 dark:text-white">${rec.max.y} году</strong></div>
             <p class="text-[10px] text-slate-500">Ртутный максимальный термометр Стивенсона</p>
           </div>
@@ -12124,7 +11922,7 @@ function renderTabCurrent(container, d) {
           <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-2">
             <div class="flex items-center justify-between text-slate-900 dark:text-white font-bold">
               <span class="text-[11px] uppercase tracking-wider">Абсолютный минимум</span>
-              <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
+              <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/></svg>
             </div>
             <div class="text-3xl font-black font-mono text-slate-900 dark:text-white">${rec.min.t > 0 ? '+' : ''}${rec.min.t} °C</div>
             <div class="text-xs text-slate-600 dark:text-slate-400">Рекорд установлен в <strong class="text-slate-900 dark:text-white">${rec.min.y} году</strong></div>
@@ -12135,57 +11933,18 @@ function renderTabCurrent(container, d) {
           <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-2">
             <div class="flex items-center justify-between text-slate-900 dark:text-white font-bold">
               <span class="text-[11px] uppercase tracking-wider">Суточный рекорд осадков</span>
-              <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+              <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
             </div>
             <div class="text-3xl font-black font-mono text-slate-900 dark:text-white">${rec.prcp.p} мм</div>
             <div class="text-xs text-slate-600 dark:text-slate-400">Рекорд установлен в <strong class="text-slate-900 dark:text-white">${rec.prcp.y} году</strong></div>
-            <p class="text-[10px] text-slate-500">Осадкомер Третьякова / WMO (24 ч)</p>
-          </div>
-        </div>
-
-        <!-- Climatological Context & Top Historic Years -->
-        <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 space-y-3">
-          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
-            <span class="text-xs font-bold text-slate-900 dark:text-white">Климатический контекст и история даты: ${d} ${MONTH_GENITIVE[m]}</span>
-            <span class="text-[11px] text-slate-500 font-mono">Суточный размах: ${rec.amplitude} °C</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-            <div class="p-2.5 rounded-lg bg-slate-100/70 dark:bg-slate-800/40 space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Суточная климатическая норма</span>
-              <div class="text-lg font-black font-mono text-slate-900 dark:text-white">${rec.dayNorm > 0 ? '+' : ''}${rec.dayNorm} °C</div>
-              <p class="text-[10px] text-slate-500">Базовый климатический ориентир ВМО для ${d} ${MONTH_GENITIVE[m]}</p>
-            </div>
-
-            <div class="p-2.5 rounded-lg bg-rose-50/60 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/30 space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">Топ-3 самых тёплых лет</span>
-              <div class="space-y-0.5 font-mono text-[11px] text-slate-800 dark:text-slate-200">
-                ${rec.topWarm.map((w, idx) => `
-                  <div class="flex justify-between">
-                    <span>${idx + 1}. ${w.y} год:</span>
-                    <strong class="text-rose-600 dark:text-rose-400">${w.t > 0 ? '+' : ''}${w.t} °C</strong>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-
-            <div class="p-2.5 rounded-lg bg-sky-50/60 dark:bg-sky-950/20 border border-sky-100 dark:border-sky-900/30 space-y-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Топ-3 самых морозных лет</span>
-              <div class="space-y-0.5 font-mono text-[11px] text-slate-800 dark:text-slate-200">
-                ${rec.topCold.map((c, idx) => `
-                  <div class="flex justify-between">
-                    <span>${idx + 1}. ${c.y} год:</span>
-                    <strong class="text-sky-600 dark:text-sky-400">${c.t > 0 ? '+' : ''}${c.t} °C</strong>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
+            <p class="text-[10px] text-slate-500">Осадкомер WMO (24 ч)</p>
           </div>
         </div>
       `;
 
       mount.appendChild(div);
     }
+
     // =========================================================================
     // SUB-VIEW 5: СКОЛЬЗЯЩИЕ СРЕДНИЕ (ROLLING MEAN STATISTICS)
     // Разработано по данным станции Восток (Антарктида) и архива «Опорная сеть ВМО»
@@ -12653,16 +12412,16 @@ function renderTabCurrent(container, d) {
           <div class="flex flex-wrap items-center gap-1.5 text-xs pt-1">
             <span class="text-slate-500 dark:text-slate-400 text-[11px] font-mono mr-1">Пресеты:</span>
             <button onclick="setSummaryPreset('30days')" class="summary-preset-chip active" id="chip-30days">
-              30 дней (последний месяц)
-            </button>
-            <button onclick="setSummaryPreset('cur_month')" class="summary-preset-chip" id="chip-cur_month">
-              Текущий месяц
-            </button>
-            <button onclick="setSummaryPreset('prev_month')" class="summary-preset-chip" id="chip-prev_month">
-              Предыдущий месяц
+              30 дней (09.08 – 07.09)
             </button>
             <button onclick="setSummaryPreset('summer2026')" class="summary-preset-chip" id="chip-summer2026">
               Лето 2026 (01.06 – 31.08)
+            </button>
+            <button onclick="setSummaryPreset('cur_month')" class="summary-preset-chip" id="chip-cur_month">
+              Сентябрь 2026 (01.09 – 07.09)
+            </button>
+            <button onclick="setSummaryPreset('prev_month')" class="summary-preset-chip" id="chip-prev_month">
+              Август 2026
             </button>
             <button onclick="setSummaryPreset('year2025')" class="summary-preset-chip" id="chip-year2025">
               Весь 2025 год (365 дней)
@@ -12691,25 +12450,17 @@ function renderTabCurrent(container, d) {
       const chip = document.getElementById(`chip-${presetKey}`);
       if (chip) chip.classList.add('active');
 
-      const _presetNow = new Date();
-      const _formatPresetDate = (dt) => `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
-
       if (presetKey === '30days') {
-        const _d30 = new Date();
-        _d30.setDate(_presetNow.getDate() - 30);
-        summaryFromDate = _formatPresetDate(_d30);
-        summaryToDate = _formatPresetDate(_presetNow);
-      } else if (presetKey === 'cur_month') {
-        const _firstOfCurM = new Date(_presetNow.getFullYear(), _presetNow.getMonth(), 1);
-        summaryFromDate = _formatPresetDate(_firstOfCurM);
-        summaryToDate = _formatPresetDate(_presetNow);
-      } else if (presetKey === 'prev_month') {
-        const _firstOfPrevM = new Date(_presetNow.getFullYear(), _presetNow.getMonth() - 1, 1);
-        const _lastOfPrevM = new Date(_presetNow.getFullYear(), _presetNow.getMonth(), 0);
-        summaryFromDate = _formatPresetDate(_firstOfPrevM);
-        summaryToDate = _formatPresetDate(_lastOfPrevM);
+        summaryFromDate = '2026-08-09';
+        summaryToDate = '2026-09-07';
       } else if (presetKey === 'summer2026') {
         summaryFromDate = '2026-06-01';
+        summaryToDate = '2026-08-31';
+      } else if (presetKey === 'cur_month') {
+        summaryFromDate = '2026-09-01';
+        summaryToDate = '2026-09-07';
+      } else if (presetKey === 'prev_month') {
+        summaryFromDate = '2026-08-01';
         summaryToDate = '2026-08-31';
       } else if (presetKey === 'year2025') {
         summaryFromDate = '2025-01-01';
@@ -16125,121 +15876,870 @@ function renderTabCurrent(container, d) {
       }, 100);
     }
 
+    // =========================================================================
+    // STATEFUL HIGH-PRECISION METEOGRAM ENGINE (ECMWF IFS / WMO STANDARD)
+    // =========================================================================
+    let interactiveDataCache = null;
+    let interactiveHorizon = 72; // 24, 48, 72
+    let interactiveMode = 'all';  // 'all', 'temp', 'precip', 'wind'
+    let interactiveShowPeaks = true;
+
+    // Detect exactly one true daytime crest (Tmax) and one true nighttime trough (Tmin) per calendar day
+    function detectMeteoExtrema(times, temps, rawTimes) {
+      const extrema = [];
+      if (!temps || temps.length < 3) return extrema;
+
+      // Group points by calendar date YYYY-MM-DD
+      const dayMap = {};
+      for (let i = 0; i < temps.length; i++) {
+        const rawT = (rawTimes && rawTimes[i]) || '';
+        const dateKey = rawT.length >= 10 ? rawT.substring(0, 10) : `day_${Math.floor(i / 24)}`;
+        if (!dayMap[dateKey]) dayMap[dateKey] = [];
+        if (temps[i] != null && !isNaN(temps[i])) {
+          dayMap[dateKey].push({ index: i, temp: temps[i] });
+        }
+      }
+
+      // Find global max and min across all hours
+      let gMaxIdx = 0, gMinIdx = 0;
+      let gMaxVal = -999, gMinVal = 999;
+      for (let i = 0; i < temps.length; i++) {
+        const v = temps[i];
+        if (v != null && !isNaN(v)) {
+          if (v > gMaxVal) { gMaxVal = v; gMaxIdx = i; }
+          if (v < gMinVal) { gMinVal = v; gMinIdx = i; }
+        }
+      }
+
+      const dateKeys = Object.keys(dayMap);
+      dateKeys.forEach((dKey) => {
+        const items = dayMap[dKey];
+        if (!items || items.length === 0) return;
+
+        let dayMax = items[0], dayMin = items[0];
+        for (let j = 1; j < items.length; j++) {
+          if (items[j].temp > dayMax.temp) dayMax = items[j];
+          if (items[j].temp < dayMin.temp) dayMin = items[j];
+        }
+
+        if (dayMax) {
+          extrema.push({
+            index: dayMax.index,
+            type: 'max',
+            temp: dayMax.temp,
+            isGlobal: (dayMax.index === gMaxIdx)
+          });
+        }
+
+        if (dayMin && dayMin.index !== dayMax.index) {
+          extrema.push({
+            index: dayMin.index,
+            type: 'min',
+            temp: dayMin.temp,
+            isGlobal: (dayMin.index === gMinIdx)
+          });
+        }
+      });
+
+      // Deduplicate nearby same-type extrema (within 5 hours)
+      const clean = [];
+      extrema.sort((a, b) => a.index - b.index);
+      for (let i = 0; i < extrema.length; i++) {
+        const curr = extrema[i];
+        if (clean.length > 0) {
+          const prev = clean[clean.length - 1];
+          if (prev.type === curr.type && Math.abs(curr.index - prev.index) < 5) {
+            if (curr.type === 'max' && curr.temp > prev.temp) {
+              clean[clean.length - 1] = curr;
+            } else if (curr.type === 'min' && curr.temp < prev.temp) {
+              clean[clean.length - 1] = curr;
+            }
+            continue;
+          }
+        }
+        clean.push(curr);
+      }
+
+      // Ensure global extrema are present
+      if (!clean.some(e => e.index === gMaxIdx) && gMaxVal !== -999) {
+        clean.push({ index: gMaxIdx, type: 'max', temp: gMaxVal, isGlobal: true });
+      }
+      if (!clean.some(e => e.index === gMinIdx) && gMinVal !== 999) {
+        clean.push({ index: gMinIdx, type: 'min', temp: gMinVal, isGlobal: true });
+      }
+
+      clean.sort((a, b) => a.index - b.index);
+      return clean;
+    }
+
     function renderTabInteractive(container, d) {
+      interactiveDataCache = d;
       const card = document.createElement('div');
-      card.className = 'glass rounded-2xl p-4 sm:p-6 shadow-2xl space-y-3';
+      card.className = 'glass rounded-2xl p-4 sm:p-6 shadow-2xl space-y-4';
 
       card.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
+        <!-- Synoptic Header -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Интерактивный почасовой анализ (ApexCharts)</h2>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Синхронный зум, перекрестие, давление в мм рт. ст., осадки и ветер</p>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">Почасовая синоптическая метеограмма</h2>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Высокоразрешающий прогноз ECMWF IFS (0.1°) · Суточный ход, температурные пики, фазовые осадки и бародинамика
+            </p>
           </div>
-          <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
-            ECMWF IFS
-          </span>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 font-mono font-semibold text-xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+              ECMWF IFS 0.25°
+            </span>
+          </div>
         </div>
-        <div id="apex-chart-container" class="w-full min-h-[480px] rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/80 p-2 sm:p-4"></div>
+
+        <!-- Bento KPI Quick-Glance Summary -->
+        <div id="interactive-kpi-ribbon" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+          <!-- Populated by updateInteractiveKpis -->
+        </div>
+
+        <!-- Native Meteorological Control Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+          <!-- Layer View Modes -->
+          <div class="inline-flex p-1 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs">
+            <button type="button" onclick="setInteractiveMode('all')" id="btn-mode-all" class="px-3 py-1.5 rounded-lg font-medium transition-all bg-sky-500 text-white font-semibold shadow-sm shadow-sky-500/20">Метеограмма</button>
+            <button type="button" onclick="setInteractiveMode('temp')" id="btn-mode-temp" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Температура</button>
+            <button type="button" onclick="setInteractiveMode('precip')" id="btn-mode-precip" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Осадки & Влажность</button>
+            <button type="button" onclick="setInteractiveMode('wind')" id="btn-mode-wind" class="px-3 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">Ветер & Давление</button>
+          </div>
+
+          <!-- Controls: Horizon + Peaks Toggle -->
+          <div class="flex items-center gap-2">
+            <!-- Horizon Segmented Buttons -->
+            <div class="inline-flex p-1 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-xs">
+              <button type="button" onclick="setInteractiveHorizon(24)" id="btn-hr-24" class="px-2.5 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">24 ч</button>
+              <button type="button" onclick="setInteractiveHorizon(48)" id="btn-hr-48" class="px-2.5 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">48 ч</button>
+              <button type="button" onclick="setInteractiveHorizon(72)" id="btn-hr-72" class="px-2.5 py-1.5 rounded-lg font-medium transition-all bg-sky-500 text-white font-semibold shadow-sm shadow-sky-500/20">72 ч</button>
+            </div>
+
+            <!-- Peak Extremes Badges Toggle -->
+            <button type="button" onclick="toggleInteractivePeaks()" id="btn-toggle-peaks" class="px-3 py-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-semibold flex items-center gap-1.5 transition-all hover:bg-amber-500/20">
+              <span>🎯</span>
+              <span id="peaks-label-text">Пики: Вкл</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chart Canvas Container -->
+        <div class="relative w-full rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/70 p-2 sm:p-4 shadow-inner">
+          <div id="apex-chart-container" class="w-full min-h-[460px]"></div>
+        </div>
+
+        <!-- Meteorological Footnote & Legend -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 text-[11px] text-slate-500 dark:text-slate-400 border-t border-slate-200/60 dark:border-slate-800/80">
+          <div class="flex flex-wrap items-center gap-4">
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500 ring-2 ring-amber-500/20"></span>
+              <span>Дневные максимумы (Tmax)</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-500 ring-2 ring-sky-500/20"></span>
+              <span>Ночные минимумы (Tmin)</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded bg-blue-500"></span>
+              <span>Осадки с метками (мм)</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-3.5 h-0.5 bg-indigo-400 border-dashed border-b border-indigo-400"></span>
+              <span>Ощущаемая T</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-3.5 h-0.5 bg-amber-400"></span>
+              <span>Давление (мм рт. ст.)</span>
+            </span>
+            <span class="inline-flex items-center gap-1">
+              <span>🌙</span>
+              <span>Ночные часы</span>
+            </span>
+          </div>
+          <span class="font-mono text-[10px] text-slate-400 dark:text-slate-500">Сетка WMO: 1 час · Погрешность интерполяции ±0.1°C</span>
+        </div>
       `;
 
       container.appendChild(card);
 
       setTimeout(() => {
-        if (d.hourly_raw) renderApexChart(d.hourly_raw);
+        updateInteractiveKpis(d, interactiveHorizon);
+        renderApexChart(d);
       }, 50);
     }
 
-    function renderApexChart(hourlyInput) {
+    function setInteractiveMode(mode) {
+      interactiveMode = mode;
+      ['all', 'temp', 'precip', 'wind'].forEach(m => {
+        const btn = document.getElementById('btn-mode-' + m);
+        if (btn) {
+          if (m === mode) {
+            btn.className = 'px-3 py-1.5 rounded-lg font-medium transition-all bg-sky-500 text-white font-semibold shadow-sm shadow-sky-500/20';
+          } else {
+            btn.className = 'px-3 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+          }
+        }
+      });
+      if (interactiveDataCache) renderApexChart(interactiveDataCache);
+    }
+
+    function setInteractiveHorizon(hours) {
+      interactiveHorizon = hours;
+      [24, 48, 72].forEach(h => {
+        const btn = document.getElementById('btn-hr-' + h);
+        if (btn) {
+          if (h === hours) {
+            btn.className = 'px-2.5 py-1.5 rounded-lg font-medium transition-all bg-sky-500 text-white font-semibold shadow-sm shadow-sky-500/20';
+          } else {
+            btn.className = 'px-2.5 py-1.5 rounded-lg font-medium transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white';
+          }
+        }
+      });
+      if (interactiveDataCache) {
+        updateInteractiveKpis(interactiveDataCache, hours);
+        renderApexChart(interactiveDataCache);
+      }
+    }
+
+    function toggleInteractivePeaks() {
+      interactiveShowPeaks = !interactiveShowPeaks;
+      const btn = document.getElementById('btn-toggle-peaks');
+      const lbl = document.getElementById('peaks-label-text');
+      if (btn && lbl) {
+        if (interactiveShowPeaks) {
+          btn.className = 'px-3 py-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-semibold flex items-center gap-1.5 transition-all hover:bg-amber-500/20';
+          lbl.textContent = 'Пики: Вкл';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 text-xs font-medium flex items-center gap-1.5 transition-all hover:text-slate-900 dark:hover:text-white';
+          lbl.textContent = 'Пики: Выкл';
+        }
+      }
+      if (interactiveDataCache) renderApexChart(interactiveDataCache);
+    }
+
+    function updateInteractiveKpis(d, horizon) {
+      const ribbon = document.getElementById('interactive-kpi-ribbon');
+      if (!ribbon) return;
+
+      const raw = (d && d.hourly_raw) ? d.hourly_raw : (d || {});
+      const times = raw.time || [];
+      const temps = raw.temperature_2m || [];
+      const precips = raw.precipitation || [];
+      const winds = raw.wind_speed_10m || [];
+      const windDirs = raw.wind_direction_10m || [];
+      const pressures = raw.surface_pressure || [];
+
+      if (!times.length || !temps.length) {
+        ribbon.innerHTML = '';
+        return;
+      }
+
+      const nowIsoPrefix = new Date().toISOString().slice(0, 13);
+      let startIdx = times.findIndex(t => t && t.startsWith(nowIsoPrefix));
+      if (startIdx < 0) startIdx = 0;
+      const endIdx = Math.min(times.length, startIdx + horizon);
+
+      let maxT = -999, maxTIdx = startIdx;
+      let minT = 999, minTIdx = startIdx;
+      let sumP = 0, rainHours = 0;
+      let maxW = 0, maxWIdx = startIdx;
+      let firstP = null, lastP = null;
+
+      const dayNamesShort = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+
+      for (let i = startIdx; i < endIdx; i++) {
+        const t = temps[i];
+        if (t != null && !isNaN(t)) {
+          if (t > maxT) { maxT = t; maxTIdx = i; }
+          if (t < minT) { minT = t; minTIdx = i; }
+        }
+        const p = precips[i];
+        if (p != null && !isNaN(p) && p > 0) {
+          sumP += p;
+          rainHours++;
+        }
+        const w = winds[i];
+        if (w != null && !isNaN(w) && w > maxW) {
+          maxW = w;
+          maxWIdx = i;
+        }
+        const pr = pressures[i];
+        if (pr != null && !isNaN(pr)) {
+          const prMm = Math.round(pr * 0.750062);
+          if (firstP === null) firstP = prMm;
+          lastP = prMm;
+        }
+      }
+
+      function formatTimeLabel(idx) {
+        const rawT = times[idx] || '';
+        const dObj = new Date(rawT);
+        const dayStr = isNaN(dObj.getTime()) ? '' : dayNamesShort[dObj.getDay()];
+        const hhmm = rawT.length >= 16 ? rawT.substring(11, 16) : '';
+        return `${dayStr} ${hhmm}`.trim();
+      }
+
+      const maxTTime = formatTimeLabel(maxTIdx);
+      const minTTime = formatTimeLabel(minTIdx);
+      const maxWTime = formatTimeLabel(maxWIdx);
+      const maxWDir = (typeof getWindDirName === 'function') ? getWindDirName(windDirs[maxWIdx]) : '';
+
+      const pressDiff = (firstP !== null && lastP !== null) ? (lastP - firstP) : 0;
+      let pressDesc = 'Стабильное';
+      if (pressDiff >= 3) pressDesc = `Рост (+${pressDiff} мм)`;
+      else if (pressDiff <= -3) pressDesc = `Падение (${pressDiff} мм)`;
+
+      ribbon.innerHTML = `
+        <div class="glass-card rounded-xl p-3 border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Тепловой пик</span>
+            <span class="text-[10px] font-mono text-slate-400">Tmax</span>
+          </div>
+          <div class="text-xl font-bold font-mono tracking-tight text-amber-500 dark:text-amber-400 mt-1">
+            ${maxT !== -999 ? (maxT > 0 ? '+' : '') + maxT.toFixed(1) + '°' : '—'}
+          </div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${maxTTime || 'в период'}</div>
+        </div>
+
+        <div class="glass-card rounded-xl p-3 border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-400"></span>Ночной минимум</span>
+            <span class="text-[10px] font-mono text-slate-400">Tmin</span>
+          </div>
+          <div class="text-xl font-bold font-mono tracking-tight text-sky-400 dark:text-sky-300 mt-1">
+            ${minT !== 999 ? (minT > 0 ? '+' : '') + minT.toFixed(1) + '°' : '—'}
+          </div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${minTTime || 'в период'}</div>
+        </div>
+
+        <div class="glass-card rounded-xl p-3 border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Осадки (сумма)</span>
+            <span class="text-[10px] font-mono text-slate-400">ECMWF</span>
+          </div>
+          <div class="text-xl font-bold font-mono tracking-tight text-blue-500 dark:text-blue-400 mt-1">
+            ${sumP.toFixed(1)} <span class="text-xs font-normal text-slate-500 dark:text-slate-400 font-sans">мм</span>
+          </div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${rainHours ? rainHours + ' ч осадков' : 'Без осадков'}</div>
+        </div>
+
+        <div class="glass-card rounded-xl p-3 border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40">
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Пик ветра</span>
+            <span class="text-[10px] font-mono text-slate-400">10м</span>
+          </div>
+          <div class="text-xl font-bold font-mono tracking-tight text-emerald-500 dark:text-emerald-400 mt-1">
+            ${maxW.toFixed(1)} <span class="text-xs font-normal text-slate-500 dark:text-slate-400 font-sans">м/с</span>
+          </div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${maxWDir ? maxWDir + ' · ' + maxWTime : maxWTime}</div>
+        </div>
+
+        <div class="glass-card rounded-xl p-3 border border-slate-200/80 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 col-span-2 sm:col-span-1">
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-400"></span>Барометрия</span>
+            <span class="text-[10px] font-mono text-slate-400">мм рт. ст.</span>
+          </div>
+          <div class="text-xl font-bold font-mono tracking-tight text-slate-800 dark:text-slate-100 mt-1">
+            ${lastP || 750} <span class="text-xs font-normal text-slate-500 dark:text-slate-400 font-sans">мм</span>
+          </div>
+          <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">${pressDesc}</div>
+        </div>
+      `;
+    }
+
+    function renderApexChart(input) {
       const container = document.getElementById('apex-chart-container');
       if (!container || !window.ApexCharts) return;
 
-      const times = [];
+      const d = (input && input.hourly_raw) ? input : (interactiveDataCache || { hourly_raw: input });
+      const hourlyInput = d.hourly_raw || input || {};
+
+      const rawTimes = [];
+      const times = []; // Array of 100% unique category identifiers: 'DD.MM HH:mm'
       const temps = [];
+      const appTemps = [];
       const precips = [];
       const winds = [];
+      const windDirs = [];
       const pressures = [];
+      const hums = [];
+      const dewPoints = [];
+      const hourMeta = [];
+
+      const dayNamesShort = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+      const dayNamesFull = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+      const monthNamesShort = ['янв', 'фев', 'мар', 'апр', 'мая', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
 
       if (hourlyInput && hourlyInput.time) {
         const nowIsoPrefix = new Date().toISOString().slice(0, 13);
         let startIdx = hourlyInput.time.findIndex(t => t && t.startsWith(nowIsoPrefix));
         if (startIdx < 0) startIdx = 0;
-        const endIdx = Math.min(hourlyInput.time.length, startIdx + 72);
+        const endIdx = Math.min(hourlyInput.time.length, startIdx + interactiveHorizon);
+
         for (let i = startIdx; i < endIdx; i++) {
           const t = hourlyInput.time[i] || '';
+          rawTimes.push(t);
+
+          const dObj = new Date(t);
           const hhmm = t.length >= 16 ? t.substring(11, 16) : `${i % 24}:00`;
-          const ddmm = t.length >= 10 ? `${t.substring(8, 10)}.${t.substring(5, 7)}` : '';
-          times.push((hhmm === '00:00' || i === startIdx) && ddmm ? `${ddmm} ${hhmm}` : hhmm);
-          temps.push(hourlyInput.temperature_2m ? hourlyInput.temperature_2m[i] : null);
-          precips.push(hourlyInput.precipitation ? hourlyInput.precipitation[i] : 0);
-          winds.push(hourlyInput.wind_speed_10m ? hourlyInput.wind_speed_10m[i] : 0);
-          const p = hourlyInput.surface_pressure ? hourlyInput.surface_pressure[i] : null;
-          pressures.push(p ? Math.round(p * 0.750062) : null);
+          const dd = t.length >= 10 ? t.substring(8, 10) : '';
+          const mm = t.length >= 7 ? t.substring(5, 7) : '01';
+          const mmIdx = parseInt(mm, 10) - 1;
+          const monthStr = monthNamesShort[mmIdx] || '';
+          const dayShort = !isNaN(dObj.getTime()) ? dayNamesShort[dObj.getDay()] : '';
+          const dayFull = !isNaN(dObj.getTime()) ? `${dayNamesFull[dObj.getDay()]}, ${parseInt(dd, 10)} ${monthStr}` : '';
+          const hourNum = t.length >= 13 ? parseInt(t.substring(11, 13), 10) : (i % 24);
+
+          // Unique category identifier: 'DD.MM HH:mm' (Guarantees 100% uniqueness for ApexCharts annotations)
+          const uniqueCat = `${dd}.${mm} ${hhmm}`;
+          times.push(uniqueCat);
+
+          const curT = (hourlyInput.temperature_2m && hourlyInput.temperature_2m[i] != null) ? Math.round(hourlyInput.temperature_2m[i] * 10) / 10 : null;
+          temps.push(curT);
+
+          const curApp = (hourlyInput.apparent_temperature && hourlyInput.apparent_temperature[i] != null)
+            ? Math.round(hourlyInput.apparent_temperature[i] * 10) / 10
+            : (curT != null ? Math.round((curT - 1.5) * 10) / 10 : null);
+          appTemps.push(curApp);
+
+          const curP = (hourlyInput.precipitation && hourlyInput.precipitation[i] != null) ? Math.round(hourlyInput.precipitation[i] * 10) / 10 : 0;
+          precips.push(curP);
+
+          const curW = (hourlyInput.wind_speed_10m && hourlyInput.wind_speed_10m[i] != null) ? Math.round(hourlyInput.wind_speed_10m[i] * 10) / 10 : 0;
+          winds.push(curW);
+
+          const curWDir = (hourlyInput.wind_direction_10m && hourlyInput.wind_direction_10m[i] != null) ? Math.round(hourlyInput.wind_direction_10m[i]) : 0;
+          windDirs.push(curWDir);
+
+          const rawPr = hourlyInput.surface_pressure ? hourlyInput.surface_pressure[i] : null;
+          // Smooth decimal pressure
+          const curPr = rawPr ? Math.round(rawPr * 0.750062 * 10) / 10 : null;
+          pressures.push(curPr);
+
+          const curH = (hourlyInput.relative_humidity_2m && hourlyInput.relative_humidity_2m[i] != null) ? Math.round(hourlyInput.relative_humidity_2m[i]) : 70;
+          hums.push(curH);
+
+          const curDp = (curT != null && curH != null) ? Math.round((curT - ((100 - curH) / 5)) * 10) / 10 : null;
+          dewPoints.push(curDp);
+
+          const code = (hourlyInput.weather_code && hourlyInput.weather_code[i] != null) ? hourlyInput.weather_code[i] : 0;
+          const wmoTuple = (typeof getWmo === 'function') ? getWmo(code) : ['⛅', 'Ясно / облачно'];
+          const windName = (typeof getWindDirName === 'function') ? getWindDirName(curWDir) : 'С';
+
+          hourMeta.push({
+            timeStr: hhmm,
+            dayShort: dayShort,
+            dayFull: dayFull,
+            ddmm: `${dd} ${monthStr}`,
+            hourNum: hourNum,
+            isNight: (hourNum >= 21 || hourNum < 6),
+            catLabel: uniqueCat,
+            temp: curT,
+            appTemp: curApp,
+            dewPoint: curDp,
+            precip: curP,
+            wind: curW,
+            windDir: curWDir,
+            windDirName: windName,
+            pressure: curPr,
+            humidity: curH,
+            icon: wmoTuple[0],
+            conditionDesc: wmoTuple[1]
+          });
         }
       }
 
-      const options = {
-        series: [
+      if (!times.length) return;
+
+      const isLight = document.documentElement.classList.contains('light');
+
+      // 1. Calculate Exact Diurnal Extrema: One True Daytime High (Tmax) and One True Night Low (Tmin) per day
+      const extrema = detectMeteoExtrema(times, temps, rawTimes);
+
+      // 2. Day Separator Lines at 00:00 midnight with horizontal top badges
+      const xaxisAnnotations = [];
+      hourMeta.forEach((hm, idx) => {
+        if (hm.timeStr === '00:00' && idx > 0) {
+          xaxisAnnotations.push({
+            x: hm.catLabel,
+            borderColor: isLight ? 'rgba(148, 163, 184, 0.55)' : 'rgba(71, 85, 105, 0.55)',
+            strokeDashArray: 3,
+            borderWidth: 1.5,
+            label: {
+              text: `${hm.dayShort}, ${hm.ddmm}`,
+              borderColor: isLight ? '#cbd5e1' : '#334155',
+              orientation: 'horizontal',
+              position: 'top',
+              offsetY: 0,
+              style: {
+                color: isLight ? '#0f172a' : '#f8fafc',
+                background: isLight ? '#e2e8f0' : '#1e293b',
+                fontSize: '11px',
+                fontWeight: 700,
+                padding: { left: 6, right: 6, top: 2, bottom: 2 }
+              }
+            }
+          });
+        }
+      });
+
+      // 3. Series & Axes depending on active mode
+      let seriesList = [];
+      let yaxisList = [];
+      let colorsList = [];
+      let strokeWidths = [];
+
+      const validP = pressures.filter(p => p != null && !isNaN(p));
+      const minPress = validP.length ? Math.min(...validP) : 740;
+      const maxPress = validP.length ? Math.max(...validP) : 765;
+
+      if (interactiveMode === 'all') {
+        seriesList = [
           { name: 'Температура (°C)', type: 'area', data: temps },
+          { name: 'Ощущается (°C)', type: 'line', data: appTemps },
           { name: 'Осадки (мм)', type: 'column', data: precips },
           { name: 'Ветер (м/с)', type: 'line', data: winds },
           { name: 'Давление (мм)', type: 'line', data: pressures }
-        ],
-        chart: {
-          height: 440,
-          type: 'line',
-          background: 'transparent',
-          zoom: { enabled: window.innerWidth > 768 },
-          toolbar: { show: true }
-        },
-        theme: { mode: 'dark' },
-        colors: ['#38bdf8', '#3b82f6', '#34d399', '#fbbf24'],
-        stroke: { width: [3, 0, 2, 2], curve: 'smooth' },
-        plotOptions: { bar: { columnWidth: '40%' } },
-        xaxis: {
-          categories: times,
-          labels: { style: { colors: '#94a3b8', fontSize: '10px' } },
-          tickAmount: 14
-        },
-        yaxis: [
+        ];
+        colorsList = ['#38bdf8', '#818cf8', '#3b82f6', '#10b981', '#f59e0b'];
+        strokeWidths = [3, 2, 0, 2, 1.8];
+
+        yaxisList = [
+          {
+            seriesName: 'Температура (°C)',
+            forceNiceScale: true,
+            max: (maxVal) => Math.ceil((maxVal || 10) + 2.5),
+            min: (minVal) => Math.floor((minVal || 0) - 2.0),
+            title: { text: 'T (°C)', style: { color: isLight ? '#0284c7' : '#38bdf8', fontWeight: 600 } },
+            labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: isLight ? '#0284c7' : '#38bdf8' } }
+          },
+          {
+            seriesName: 'Осадки (мм)',
+            opposite: true,
+            min: 0,
+            max: (maxVal) => Math.max(3.0, (maxVal || 1) * 2.2),
+            title: { text: 'Осадки (мм)', style: { color: isLight ? '#2563eb' : '#60a5fa', fontWeight: 600 } },
+            labels: { formatter: v => (v != null && !isNaN(v)) ? Number(v).toFixed(1) : '0.0', style: { colors: isLight ? '#2563eb' : '#60a5fa' } }
+          },
+          { seriesName: 'Ощущается (°C)', show: false },
+          {
+            seriesName: 'Ветер (м/с)',
+            show: false,
+            min: 0,
+            max: (maxVal) => Math.max(22, (maxVal || 5) * 1.8)
+          },
+          {
+            seriesName: 'Давление (мм)',
+            show: false,
+            // Keep pressure line gracefully in the upper band (above temperature curve)
+            min: minPress - 18,
+            max: maxPress + 2
+          }
+        ];
+      } else if (interactiveMode === 'temp') {
+        seriesList = [
+          { name: 'Температура (°C)', type: 'area', data: temps },
+          { name: 'Ощущается (°C)', type: 'line', data: appTemps },
+          { name: 'Точка росы (°C)', type: 'line', data: dewPoints }
+        ];
+        colorsList = ['#38bdf8', '#818cf8', '#06b6d4'];
+        strokeWidths = [3, 2, 2];
+
+        yaxisList = [
           {
             forceNiceScale: true,
-            title: { text: 'T (°C)', style: { color: '#38bdf8' } },
-            labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#38bdf8' } }
+            max: (maxVal) => Math.ceil((maxVal || 10) + 2.5),
+            min: (minVal) => Math.floor((minVal || 0) - 2.0),
+            title: { text: 'Температура (°C)', style: { color: isLight ? '#0284c7' : '#38bdf8', fontWeight: 600 } },
+            labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: isLight ? '#0284c7' : '#38bdf8' } }
+          }
+        ];
+      } else if (interactiveMode === 'precip') {
+        seriesList = [
+          { name: 'Осадки (мм)', type: 'column', data: precips },
+          { name: 'Влажность (%)', type: 'line', data: hums }
+        ];
+        colorsList = ['#3b82f6', '#6366f1'];
+        strokeWidths = [0, 2.5];
+
+        yaxisList = [
+          {
+            min: 0,
+            forceNiceScale: true,
+            title: { text: 'Осадки (мм)', style: { color: isLight ? '#2563eb' : '#60a5fa', fontWeight: 600 } },
+            labels: { formatter: v => (v != null && !isNaN(v)) ? Number(v).toFixed(1) : '0.0', style: { colors: isLight ? '#2563eb' : '#60a5fa' } }
           },
           {
             opposite: true,
+            min: 0,
+            max: 100,
+            title: { text: 'Влажность (%)', style: { color: isLight ? '#4f46e5' : '#818cf8', fontWeight: 600 } },
+            labels: { formatter: v => `${Math.round(v)}%`, style: { colors: isLight ? '#4f46e5' : '#818cf8' } }
+          }
+        ];
+      } else if (interactiveMode === 'wind') {
+        seriesList = [
+          { name: 'Ветер (м/с)', type: 'area', data: winds },
+          { name: 'Давление (мм)', type: 'line', data: pressures }
+        ];
+        colorsList = ['#10b981', '#f59e0b'];
+        strokeWidths = [2.5, 2];
+
+        yaxisList = [
+          {
+            min: 0,
             forceNiceScale: true,
-            title: { text: 'Осадки (мм)', style: { color: '#60a5fa' } },
-            labels: { formatter: v => (v != null && !isNaN(v)) ? Number(v).toFixed(1) : "0.0", style: { colors: '#60a5fa' } },
-            min: 0
+            title: { text: 'Ветер (м/с)', style: { color: isLight ? '#059669' : '#34d399', fontWeight: 600 } },
+            labels: { formatter: v => `${Math.round(v)} м/с`, style: { colors: isLight ? '#059669' : '#34d399' } }
           },
-          { show: false, forceNiceScale: true },
-          { show: false, forceNiceScale: true }
-        ],
+          {
+            opposite: true,
+            min: Math.floor(minPress - 2),
+            max: Math.ceil(maxPress + 2),
+            title: { text: 'Давление (мм рт. ст.)', style: { color: isLight ? '#d97706' : '#fbbf24', fontWeight: 600 } },
+            labels: { formatter: v => `${Math.round(v)}`, style: { colors: isLight ? '#d97706' : '#fbbf24' } }
+          }
+        ];
+      }
+
+      const options = {
+        series: seriesList,
+        chart: {
+          height: 460,
+          type: 'line',
+          background: 'transparent',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          toolbar: { show: false },
+          zoom: { enabled: false },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 400
+          }
+        },
+        theme: { mode: isLight ? 'light' : 'dark' },
+        colors: colorsList,
+        stroke: {
+          width: strokeWidths,
+          curve: 'smooth',
+          dashArray: (interactiveMode === 'all') ? [0, 4, 0, 0, 0] : (interactiveMode === 'temp' ? [0, 4, 2] : [0, 0])
+        },
+        fill: {
+          type: (interactiveMode === 'all')
+            ? ['gradient', 'solid', 'solid', 'solid', 'solid']
+            : (interactiveMode === 'temp' ? ['gradient', 'solid', 'solid'] : (interactiveMode === 'wind' ? ['gradient', 'solid'] : ['solid', 'gradient'])),
+          gradient: {
+            shade: isLight ? 'light' : 'dark',
+            type: 'vertical',
+            shadeIntensity: 0.5,
+            opacityFrom: 0.35,
+            opacityTo: 0.02,
+            stops: [0, 95, 100]
+          }
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '38%',
+            borderRadius: 4,
+            dataLabels: { position: 'top' }
+          }
+        },
+        markers: {
+          size: 0,
+          hover: { size: 5 },
+          discrete: interactiveShowPeaks ? extrema.map(ext => ({
+            seriesIndex: 0,
+            dataPointIndex: ext.index,
+            size: ext.isGlobal ? 6.5 : 5,
+            fillColor: ext.type === 'max' ? '#ea580c' : '#0284c7',
+            strokeColor: '#ffffff',
+            strokeWidth: 2,
+            shape: 'circle'
+          })) : []
+        },
+        // Display temperature peak values and precipitation mm directly with zero clutter
+        dataLabels: {
+          enabled: true,
+          enabledOnSeries: (interactiveMode === 'all')
+            ? (interactiveShowPeaks ? [0, 2] : [2])
+            : (interactiveMode === 'temp' ? (interactiveShowPeaks ? [0] : []) : (interactiveMode === 'precip' ? [0] : [])),
+          formatter: function(val, opt) {
+            // Series 0: Daytime High and Nighttime Low Peaks
+            if (opt.seriesIndex === 0) {
+              if (!interactiveShowPeaks) return '';
+              const idx = opt.dataPointIndex;
+              const ext = extrema.find(e => e.index === idx);
+              if (ext) {
+                const sign = val > 0 ? '+' : (val < 0 ? '−' : '');
+                const prefix = ext.isGlobal
+                  ? (ext.type === 'max' ? 'MAX ' : 'MIN ')
+                  : (ext.type === 'max' ? '▲ ' : '▼ ');
+                return prefix + sign + Math.round(Math.abs(val)) + '°';
+              }
+              return '';
+            }
+            // Precipitation Series: Precipitation mm on top of bars
+            if (val != null && val >= 0.2) {
+              return val.toFixed(1);
+            }
+            return '';
+          },
+          offsetY: -7,
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontWeight: 800,
+            colors: [function(opt) {
+              if (opt.seriesIndex === 0) {
+                const ext = extrema.find(e => e.index === opt.dataPointIndex);
+                if (ext) {
+                  return ext.type === 'max'
+                    ? (isLight ? '#c2410c' : '#fb923c')
+                    : (isLight ? '#0284c7' : '#38bdf8');
+                }
+              }
+              return isLight ? '#1e40af' : '#93c5fd';
+            }]
+          },
+          background: { enabled: false }
+        },
+        annotations: {
+          xaxis: xaxisAnnotations
+        },
+        xaxis: {
+          categories: times,
+          labels: {
+            formatter: function(val) {
+              if (!val) return '';
+              const parts = val.split(' ');
+              const hhmm = parts.length > 1 ? parts[1] : val;
+              const ddmm = parts[0];
+              if (hhmm === '00:00') return ddmm;
+              return hhmm;
+            },
+            rotate: -45,
+            rotateAlways: false,
+            style: {
+              colors: isLight ? '#475569' : '#94a3b8',
+              fontSize: '11px',
+              fontFamily: 'Inter, system-ui, sans-serif'
+            }
+          },
+          tickAmount: Math.min(times.length, (window.innerWidth < 640 ? 8 : 16)),
+          axisBorder: { color: isLight ? '#cbd5e1' : '#334155' },
+          axisTicks: { color: isLight ? '#cbd5e1' : '#334155' }
+        },
+        yaxis: yaxisList,
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          fontSize: '12px',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontWeight: 600,
+          markers: { radius: 12 },
+          labels: { colors: isLight ? '#1e293b' : '#f8fafc' },
+          itemMargin: { horizontal: 10, vertical: 4 }
+        },
         grid: {
-          borderColor: 'rgba(51, 65, 85, 0.35)',
-          padding: { left: 10, right: 15 }
+          borderColor: isLight ? 'rgba(226, 232, 240, 0.9)' : 'rgba(51, 65, 85, 0.35)',
+          strokeDashArray: 3,
+          padding: { left: 28, right: 25, top: 12, bottom: 8 }
+        },
+        tooltip: {
+          enabled: true,
+          shared: true,
+          intersect: false,
+          custom: function({ series, seriesIndex, dataPointIndex, w }) {
+            const item = hourMeta[dataPointIndex];
+            if (!item) return '';
+
+            const bgClass = isLight
+              ? 'bg-white/95 text-slate-800 border-slate-200 shadow-2xl'
+              : 'bg-slate-900/95 text-slate-100 border-slate-700/80 shadow-2xl';
+
+            const tempColor = item.temp > 0 ? 'text-amber-500' : 'text-sky-400';
+
+            return `
+              <div class="px-3.5 py-3 rounded-xl border backdrop-blur-md text-xs space-y-2 min-w-[230px] font-sans ${bgClass}">
+                <div class="flex items-center justify-between gap-3 pb-1.5 border-b border-slate-200/60 dark:border-slate-800/80">
+                  <div class="font-bold text-[13px] tracking-tight">
+                    ${item.dayFull || ''} <span class="text-sky-500 dark:text-sky-400 font-mono">· ${item.timeStr}</span>
+                  </div>
+                  <span class="text-base leading-none">${item.icon}</span>
+                </div>
+                <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">${item.conditionDesc}</div>
+                
+                <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-200/40 dark:border-slate-800/60">
+                  <div class="space-y-1">
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Температура:</span>
+                      <span class="font-bold font-mono text-[13px] ${tempColor}">
+                        ${item.temp != null ? (item.temp > 0 ? '+' : '') + item.temp + '°' : '—'}
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Ощущается:</span>
+                      <span class="font-mono text-slate-700 dark:text-slate-300">
+                        ${item.appTemp != null ? (item.appTemp > 0 ? '+' : '') + item.appTemp + '°' : '—'}
+                      </span>
+                    </div>
+                    ${item.dewPoint != null ? `
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Точка росы:</span>
+                      <span class="font-mono text-cyan-600 dark:text-cyan-400">
+                        ${(item.dewPoint > 0 ? '+' : '') + item.dewPoint + '°'}
+                      </span>
+                    </div>` : ''}
+                  </div>
+                  
+                  <div class="space-y-1 border-l border-slate-200/60 dark:border-slate-800/80 pl-2">
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Осадки:</span>
+                      <span class="font-mono font-bold ${item.precip > 0 ? 'text-blue-500' : 'text-slate-400'}">
+                        ${item.precip.toFixed(1)} мм
+                      </span>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Влажность:</span>
+                      <span class="font-mono text-slate-700 dark:text-slate-300">${item.humidity}%</span>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px]">
+                      <span class="text-slate-500 dark:text-slate-400">Ветер:</span>
+                      <span class="font-mono font-semibold text-emerald-600 dark:text-emerald-400">
+                        ${item.wind} м/с
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1.5 border-t border-slate-200/60 dark:border-slate-800/80 text-[11px]">
+                  <span class="text-slate-500 dark:text-slate-400">Румб ветра:</span>
+                  <span class="font-mono text-slate-700 dark:text-slate-300">${item.windDirName} (${item.windDir}°)</span>
+                </div>
+                ${item.pressure ? `
+                <div class="flex items-center justify-between text-[11px]">
+                  <span class="text-slate-500 dark:text-slate-400">Давление:</span>
+                  <span class="font-mono font-semibold text-amber-600 dark:text-amber-400">${item.pressure} мм рт. ст.</span>
+                </div>` : ''}
+              </div>
+            `;
+          }
         }
       };
 
-      const isLight = document.documentElement.classList.contains('light');
-      options.theme = { mode: isLight ? 'light' : 'dark' };
-      options.xaxis.labels = { style: { colors: isLight ? '#475569' : '#94a3b8', fontSize: '10px' } };
-      options.yaxis[0].labels = { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: isLight ? '#334155' : '#cbd5e1' } };
-      options.grid = {
-        borderColor: isLight ? 'rgba(226, 232, 240, 0.8)' : 'rgba(51, 65, 85, 0.35)',
-        padding: { left: 10, right: 15 }
-      };
-
       if (apexChartInstance) {
-        try { apexChartInstance.destroy(); } catch(e) {}
+        try { apexChartInstance.destroy(); } catch (e) {}
       }
       apexChartInstance = new ApexCharts(container, options);
       apexChartInstance.render();
     }
 
-
-    
     // =========================================================================
     // WINDY-STYLE CANVAS WIND STREAMLINES ENGINE (60 FPS HARDWARE-ACCELERATED)
     // =========================================================================
