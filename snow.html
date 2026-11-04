@@ -555,6 +555,25 @@
       background: rgba(255, 255, 255, 0.96) !important;
     }
 
+    /* High-Resolution Satellite Map Viewer */
+    #sat-leaflet-map {
+      width: 100%;
+      height: 100%;
+      background: #020617;
+      z-index: 0;
+    }
+    #sat-leaflet-map.ndsi-mode .leaflet-tile-pane {
+      filter: contrast(185%) hue-rotate(185deg) saturate(220%) brightness(1.05) !important;
+      transition: filter 0.4s ease;
+    }
+    #sat-leaflet-map .leaflet-tile-pane {
+      transition: filter 0.4s ease;
+    }
+    .sat-radar-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
@@ -1061,26 +1080,70 @@
             </div>
           </div>
 
-          <!-- SATELLITE IMAGE DISPLAY BOX -->
-          <div class="mt-4 relative rounded-xl overflow-hidden bg-slate-900 aspect-video flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-inner group">
-            <img id="sat-preview-img" src="https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg" 
-              alt="Спутниковый снимок снежного покрова" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              onerror="handleSatImageError(this)">
+          <!-- SATELLITE INTERACTIVE VIEWER BOX -->
+          <div id="sat-viewer-wrapper" class="mt-4 relative rounded-xl overflow-hidden bg-slate-950 aspect-video min-h-[380px] sm:min-h-[460px] flex items-center justify-center border border-slate-200 dark:border-slate-800 shadow-2xl group">
             
-            <div class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span id="sat-source-badge">Sentinel-2 / NASA VIIRS</span>
+            <!-- Leaflet Map Container -->
+            <div id="sat-leaflet-map" class="w-full h-full absolute inset-0 z-0"></div>
+
+            <!-- Top Left: Source Badge -->
+            <div class="absolute top-3 left-3 z-10 px-2.5 py-1.5 rounded-lg bg-slate-950/85 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono flex items-center gap-2 shadow-lg pointer-events-auto">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="sat-source-badge">Sentinel-2 / World Imagery (10м Оптика)</span>
             </div>
 
-            <div class="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-slate-950/80 backdrop-blur-md border border-white/10 text-white flex items-center justify-between">
-              <div>
-                <div class="text-xs font-bold" id="sat-scene-title">Оптический снимок Sentinel-2B (Tile 45WWT)</div>
-                <div class="text-[10px] text-slate-300" id="sat-scene-desc">Облачность 28.1% · Сход снега на равнине 95% · Снежники на Кайерканской гряде</div>
+            <!-- Top Right: Interactive Map Controls -->
+            <div class="absolute top-3 right-3 z-10 flex items-center gap-1.5 shadow-lg pointer-events-auto">
+              <button onclick="satZoomIn()" class="w-8 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white font-bold flex items-center justify-center border border-white/20 backdrop-blur-md text-sm transition" title="Приблизить">
+                +
+              </button>
+              <button onclick="satZoomOut()" class="w-8 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white font-bold flex items-center justify-center border border-white/20 backdrop-blur-md text-sm transition" title="Отдалить">
+                −
+              </button>
+              <button onclick="satCenterSector()" class="px-2.5 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1 border border-white/20 backdrop-blur-md transition" title="Центрировать на секторе">
+                <span>🎯</span> <span class="hidden sm:inline">Сектор</span>
+              </button>
+              <button onclick="toggleSatLabels()" id="btn-sat-labels" class="px-2.5 h-8 rounded-lg bg-sky-600/90 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1 border border-sky-400/40 backdrop-blur-md transition" title="Вкл/выкл названия и ориентиры">
+                <span>🏷️</span> <span class="hidden sm:inline">Названия</span>
+              </button>
+              <button onclick="toggleSatFullscreen()" class="w-8 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white flex items-center justify-center border border-white/20 backdrop-blur-md text-xs transition" title="На весь экран">
+                ⛶
+              </button>
+            </div>
+
+            <!-- Floating NDSI Legend (Visible in NDSI mode) -->
+            <div id="sat-ndsi-legend" class="hidden absolute top-14 left-3 z-10 p-2.5 rounded-xl bg-slate-950/90 backdrop-blur-md border border-cyan-500/40 text-white text-[11px] font-mono shadow-xl space-y-1 pointer-events-auto">
+              <div class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider mb-1">Спектральная классификация NDSI:</div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded bg-cyan-400 border border-white/50 shrink-0"></span>
+                <span>Снег / Наст / Фирн (NDSI > 0.4)</span>
               </div>
-              <a id="sat-direct-download" href="https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif" target="_blank"
-                class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition shrink-0 hidden sm:inline-block" rel="noopener noreferrer">
-                Скачать TIF (10м)
-              </a>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded bg-slate-900 border border-slate-700 shrink-0"></span>
+                <span>Реки / Озера / Вода</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded bg-amber-900/80 border border-amber-600 shrink-0"></span>
+                <span>Бесснежная тундра / Грунт</span>
+              </div>
+            </div>
+
+            <!-- Bottom HUD Banner -->
+            <div class="absolute bottom-3 left-3 right-3 z-10 p-3 sm:p-3.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/10 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-2xl pointer-events-auto">
+              <div>
+                <div class="text-xs sm:text-sm font-bold flex items-center gap-2" id="sat-scene-title">
+                  Оптический снимок Sentinel-2 / World Imagery (10м)
+                </div>
+                <div class="text-[10.5px] text-slate-300 mt-0.5" id="sat-scene-desc">
+                  Сектор: Норильский промрайон · Разрешение до 1 м · Высокая четкость рельефа и озер
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <a id="sat-direct-download" href="https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.354&lng=88.203&themeId=DEFAULT-THEME" target="_blank"
+                  class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition inline-flex items-center gap-1.5 shadow" rel="noopener noreferrer">
+                  <span>🛰️</span> <span>Copernicus L2A ↗</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1254,10 +1317,9 @@
         currentStatus: 'Покров 2 см (Идет снег)',
         currentTempSub: 'T: 0.0°C, влажный снег, ветер 7-12 м/с',
         snowDays: '250–265 дней',
-        satTile: 'Sentinel-2B (Tile 45WWT)',
-        satDesc: 'НПР: Норильск, Кайеркан, Талнах · 10 м/пикс',
-        satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
-        satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
+        satTile: 'Sentinel-2 / World Imagery (Норильский промрайон)',
+        satDesc: 'НПР: Норильск, Кайеркан, Талнах · Оптический зум 10м–1м · Озера Долгое и Пясино',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.354&lng=88.203&themeId=DEFAULT-THEME',
         profile: [0, 8, 25, 48, 72, 90, 85, 30, 0],
         glaciology: {
           title: 'Заполярная гляциология: феномен снежников Норильска и Кайеркана',
@@ -1284,10 +1346,9 @@
         currentStatus: 'Покров 3 см (Снегопад)',
         currentTempSub: 'T: +0.3°C, снеговой покров на кочках тундры',
         snowDays: '245–260 дней',
-        satTile: 'Sentinel-2B (Пойма Валёк / Оганер)',
-        satDesc: 'Открытая тундра и долина Норилки · 10 м/пикс',
-        satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
-        satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
+        satTile: 'Sentinel-2 / World Imagery (Пойма реки Норильской)',
+        satDesc: 'Открытая тундра Оганера, пойма р. Норильской и Валёк · 10 м/пикс',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.380&lng=88.550&themeId=DEFAULT-THEME',
         profile: [0, 7, 22, 44, 68, 85, 78, 25, 0],
         glaciology: {
           title: 'Гляциология поймы р. Норильской: сдув снега в открытой тундре Оганера',
@@ -1314,10 +1375,9 @@
         currentStatus: 'Покров 2 см (Метель)',
         currentTempSub: 'T: -0.1°C, порывистый ветер до 12 м/с',
         snowDays: '255–270 дней',
-        satTile: 'Sentinel-2B (Tile 45WWT, Кайеркан)',
-        satDesc: 'Кайерканская гряда и разрез · 19 июня 2026',
-        satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
-        satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
+        satTile: 'Sentinel-2 / World Imagery (Кайерканская гряда)',
+        satDesc: 'Кайерканский разрез, щиты Потанина, трасса на Алыкель · 10 м/пикс',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.345&lng=87.755&themeId=DEFAULT-THEME',
         profile: [0, 9, 28, 55, 80, 100, 95, 45, 10],
         glaciology: {
           title: 'Гляциология Кайерканской гряды: 15-метровые снежники и щиты Потанина',
@@ -1344,10 +1404,9 @@
         currentStatus: 'Покров 4 см (Снегопад)',
         currentTempSub: 'T: -0.2°C, склоны Хараелаха белеют',
         snowDays: '260–275 дней',
-        satTile: 'Sentinel-2B (Отроги Путорана)',
-        satDesc: 'Талнах и Гора Отдельная · 10 м/пикс',
-        satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
-        satDownload: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/TCI.tif',
+        satTile: 'Sentinel-2 / World Imagery (Отроги плато Путорана)',
+        satDesc: 'Талнах, Гора Отдельная, хребет Хараелах · Реликтовый фирн и каньоны',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.500&lng=88.400&themeId=DEFAULT-THEME',
         profile: [0, 12, 35, 65, 95, 125, 110, 50, 5],
         glaciology: {
           title: 'Орографическая гляциология плато Путорана и Талнаха: гора Отдельная',
@@ -1374,10 +1433,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Арктическая каменистая тундра',
         snowDays: '275–290 дней',
-        satTile: 'Sentinel-2 / VIIRS (Диксон)',
-        satDesc: 'Побережье Карского моря · 10 м/пикс',
-        satImg: 'https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/45/W/WT/2026/6/S2B_45WWT_20260619_0_L2A/preview.jpg',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Остров Диксон / Карское море)',
+        satDesc: 'Высокоширотная каменистая тундра, пролив Вега и береговой припай',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=11&lat=73.507&lng=80.569&themeId=DEFAULT-THEME',
         profile: [2, 15, 30, 48, 62, 70, 65, 40, 5],
         glaciology: {
           title: 'Высокоширотная морская гляциология Карского моря: Диксон',
@@ -1404,10 +1462,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Северное тепло удерживается',
         snowDays: '200–215 дней',
-        satTile: 'Sentinel-2 (Кольский залив)',
-        satDesc: 'Мурманск и сопки Кольского края',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Кольский залив / Мурманск)',
+        satDesc: 'Мурманск, незамерзающий залив Баренцева моря и сопки Кольского края',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=68.973&lng=33.086&themeId=DEFAULT-THEME',
         profile: [0, 4, 18, 35, 52, 65, 55, 12, 0],
         glaciology: {
           title: 'Субарктическая морская гляциология Кольского Севера: Мурманск',
@@ -1434,10 +1491,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Лиственничная тайга',
         snowDays: '205–215 дней',
-        satTile: 'Sentinel-2 (Долина Туймаада)',
-        satDesc: 'Якутск и бассейн реки Лены',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Долина Туймаада / Лена)',
+        satDesc: 'Якутск, бассейн реки Лены, песчаные косы и реликтовая мерзлота',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=11&lat=62.035&lng=129.675&themeId=DEFAULT-THEME',
         profile: [0, 6, 18, 28, 36, 42, 30, 2, 0],
         glaciology: {
           title: 'Ультраконтинентальная гляциология долины Туймаада: Якутск',
@@ -1464,10 +1520,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Осень, тепло +18°C',
         snowDays: '135–145 дней',
-        satTile: 'Sentinel-2 (Московский регион)',
-        satDesc: 'Москва и Подмосковье · 10 м/пикс',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Московский регион)',
+        satDesc: 'Москва, Лосиный Остров, пойма Москвы-реки · Оптический зум 10м–1м',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=11&lat=55.755&lng=37.617&themeId=DEFAULT-THEME',
         profile: [0, 1, 8, 22, 38, 45, 25, 0, 0],
         glaciology: {
           title: 'Снеговой режим Центральной России: мезоклимат и антропогенное тепло Москвы',
@@ -1494,10 +1549,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Балтийская теплая осень',
         snowDays: '120–135 дней',
-        satTile: 'Sentinel-2 (Невская губа)',
-        satDesc: 'Санкт-Петербург и Финский залив',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Невская губа / Санкт-Петербург)',
+        satDesc: 'Санкт-Петербург, Финский залив, дельта Невы и комплекс КЗС',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=11&lat=59.934&lng=30.335&themeId=DEFAULT-THEME',
         profile: [0, 1, 6, 18, 30, 38, 18, 0, 0],
         glaciology: {
           title: 'Морской снеговой режим Финского залива: температурные качели Санкт-Петербурга',
@@ -1524,10 +1578,9 @@
         currentStatus: 'Покров 0 см',
         currentTempSub: 'Бабье лето Западной Сибири',
         snowDays: '160–170 дней',
-        satTile: 'Sentinel-2 (Обь / Новосибирск)',
-        satDesc: 'Новосибирск и Обское водохранилище',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Бассейн Оби / Новосибирск)',
+        satDesc: 'Новосибирск, Обское водохранилище, реликтовые сосновые боры',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=11&lat=55.008&lng=82.935&themeId=DEFAULT-THEME',
         profile: [0, 3, 14, 30, 48, 58, 35, 0, 0],
         glaciology: {
           title: 'Континентальная сибирская гляциология: лесостепной режим Новосибирска',
@@ -1554,10 +1607,9 @@
         currentStatus: 'Покров 0 см (Сухо)',
         currentTempSub: 'Теплое Черноземье, комфортная осень',
         snowDays: '105–115 дней',
-        satTile: 'Sentinel-2 (Долина реки Дон / Семилуки / Воронеж)',
-        satDesc: 'Семилуки, Донгор и Воронежское водохранилище · 10 м/пикс',
-        satImg: '',
-        satDownload: '',
+        satTile: 'Sentinel-2 / World Imagery (Долина реки Дон / Семилуки / Воронеж)',
+        satDesc: 'Семилуки, Донгор, меловые склоны и долина Дона · 10 м/пикс',
+        satDownload: 'https://browser.dataspace.copernicus.eu/?zoom=12&lat=51.685&lng=39.030&themeId=DEFAULT-THEME',
         profile: [0, 0, 4, 15, 26, 32, 10, 0, 0],
         glaciology: {
           title: 'Снеговой режим Черноземья: лесостепная динамика и агроклиматология Воронежа',
@@ -2026,52 +2078,172 @@
       fetchLiveSnow(key);
     }
 
-    function updateSatImage(d) {
-    const dlBtn = document.getElementById('sat-direct-download');
-    if (dlBtn) {
-        if (d && d.satDownload) {
-            dlBtn.href = d.satDownload;
-            dlBtn.classList.remove('hidden');
-        } else {
-            dlBtn.classList.add('hidden');
-        }
-    }
-      const imgEl = document.getElementById('sat-preview-img');
-      const badge = document.getElementById('sat-source-badge');
+    var satLeafletMap = null;
+    var satBaseLayer = null;
+    var satLabelsLayer = null;
+    var satMarker = null;
+    var satSectorCircle = null;
+    var satLabelsVisible = true;
 
-      if (spectralMode === 'ndsi') {
-        imgEl.style.filter = 'contrast(160%) hue-rotate(170deg) saturate(190%)';
-        badge.innerText = 'NDSI Снежный индекс (Снег = Бирюзовый)';
-      } else {
-        imgEl.style.filter = 'none';
-        badge.innerText = 'Sentinel-2 True Color (10м RGB)';
+    function initSatMap() {
+      if (satLeafletMap) return;
+      var mapEl = document.getElementById('sat-leaflet-map');
+      if (!mapEl) return;
+
+      var d = PRESETS[currentCityKey] || PRESETS['norilsk'];
+
+      satLeafletMap = L.map('sat-leaflet-map', {
+        center: [d.lat, d.lon],
+        zoom: 11,
+        minZoom: 4,
+        maxZoom: 18,
+        zoomControl: false,
+        attributionControl: false
+      });
+
+      // Ultra-crisp High-Resolution World Imagery Base
+      satBaseLayer = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        attribution: '© Esri, Maxar, Earthstar Geographics'
+      }).addTo(satLeafletMap);
+
+      // Boundaries and Places labels overlay
+      satLabelsLayer = L.tileLayer('https://services.arcgisonline.com/arcgis/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        pane: 'overlayPane'
+      }).addTo(satLeafletMap);
+
+      // Custom pulsing radar target marker
+      var radarIcon = L.divIcon({
+        className: 'sat-radar-icon',
+        html: '<div style="position:relative;width:28px;height:28px;display:flex;align-items:center;justify-content:center;">' +
+              '<span class="animate-ping" style="position:absolute;width:28px;height:28px;border-radius:50%;background:rgba(56,189,248,0.45);border:1px solid #38bdf8;"></span>' +
+              '<span style="position:relative;width:10px;height:10px;border-radius:50%;background:#0284c7;border:2px solid #ffffff;box-shadow:0 0 10px #38bdf8;"></span>' +
+              '</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+
+      satMarker = L.marker([d.lat, d.lon], { icon: radarIcon }).addTo(satLeafletMap);
+      satMarker.bindPopup(`<strong>${d.name}</strong><br>Координаты: ${d.lat.toFixed(3)}° N, ${d.lon.toFixed(3)}° E`, { className: 'snow-leaflet-popup' });
+
+      // 14km observation sector circle
+      satSectorCircle = L.circle([d.lat, d.lon], {
+        radius: 14000,
+        color: '#38bdf8',
+        weight: 1.5,
+        dashArray: '5, 5',
+        fillColor: '#38bdf8',
+        fillOpacity: 0.04
+      }).addTo(satLeafletMap);
+
+      setTimeout(function() {
+        if (satLeafletMap) satLeafletMap.invalidateSize();
+      }, 400);
+    }
+
+    function updateSatImage(d) {
+      if (!d) return;
+
+      const dlBtn = document.getElementById('sat-direct-download');
+      if (dlBtn) {
+        dlBtn.href = d.satDownload || `https://browser.dataspace.copernicus.eu/?zoom=12&lat=${d.lat}&lng=${d.lon}&themeId=DEFAULT-THEME`;
       }
 
-      if (d.satImg) {
-        imgEl.src = d.satImg;
+      const badge = document.getElementById('sat-source-badge');
+      const sceneTitle = document.getElementById('sat-scene-title');
+      const sceneDesc = document.getElementById('sat-scene-desc');
+      const locationTitle = document.getElementById('sat-location-title');
+
+      if (locationTitle) {
+        locationTitle.innerText = `Сектор: ${d.name} (${d.lat.toFixed(2)}° N, ${d.lon.toFixed(2)}° E)`;
+      }
+
+      if (spectralMode === 'ndsi') {
+        if (badge) badge.innerText = 'NDSI Снежный индекс (Снег = Бирюзовый)';
+        if (sceneTitle) sceneTitle.innerText = `Спектральный анализ снега (NDSI) · ${d.name}`;
+        if (sceneDesc) sceneDesc.innerText = `Спектр SWIR/Green · Бирюзовый = Снег/Фирн · Разделение облаков и наста`;
       } else {
-        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${d.lat-0.2},${d.lon-0.3},${d.lat+0.2},${d.lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
-        imgEl.src = gibsUrl;
+        if (badge) badge.innerText = 'Sentinel-2 / World Imagery (10м Оптика)';
+        if (sceneTitle) sceneTitle.innerText = d.satTile || `Оптический снимок Sentinel-2 / World Imagery · ${d.name}`;
+        if (sceneDesc) sceneDesc.innerText = d.satDesc || `Координаты: ${d.lat.toFixed(3)}° N, ${d.lon.toFixed(3)}° E · Детализация рельефа, тундры и озер`;
+      }
+
+      if (satLeafletMap) {
+        var targetZoom = (d.lat > 70) ? 10 : 11;
+        satLeafletMap.flyTo([d.lat, d.lon], targetZoom, { duration: 1.2 });
+        if (satMarker) {
+          satMarker.setLatLng([d.lat, d.lon]);
+          satMarker.setPopupContent(`<strong>${d.name}</strong><br>Координаты: ${d.lat.toFixed(3)}° N, ${d.lon.toFixed(3)}° E`);
+        }
+        if (satSectorCircle) {
+          satSectorCircle.setLatLng([d.lat, d.lon]);
+        }
+      } else {
+        initSatMap();
       }
     }
 
     function setSpectralMode(mode) {
       spectralMode = mode;
-      document.getElementById('btn-truecolor').className = mode === 'truecolor' 
-        ? 'px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400 transition' 
-        : 'px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
-      document.getElementById('btn-ndsi').className = mode === 'ndsi' 
-        ? 'px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 shadow-sm text-cyan-600 dark:text-cyan-400 transition' 
-        : 'px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
-      
-      const d = PRESETS[currentCityKey];
+      var mapEl = document.getElementById('sat-leaflet-map');
+      var legendEl = document.getElementById('sat-ndsi-legend');
+
+      if (mode === 'ndsi') {
+        if (mapEl) mapEl.classList.add('ndsi-mode');
+        if (legendEl) legendEl.classList.remove('hidden');
+        document.getElementById('btn-truecolor').className = 'px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+        document.getElementById('btn-ndsi').className = 'px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 shadow-sm text-cyan-600 dark:text-cyan-400 font-bold transition';
+      } else {
+        if (mapEl) mapEl.classList.remove('ndsi-mode');
+        if (legendEl) legendEl.classList.add('hidden');
+        document.getElementById('btn-truecolor').className = 'px-3 py-1.5 rounded-lg bg-white dark:bg-slate-700 shadow-sm text-sky-600 dark:text-sky-400 font-bold transition';
+        document.getElementById('btn-ndsi').className = 'px-3 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
+      }
+
+      const d = PRESETS[currentCityKey] || PRESETS['norilsk'];
       if (d) updateSatImage(d);
     }
 
-    function handleSatImageError(img) {
-      const d = PRESETS[currentCityKey] || { lat: 55.75, lon: 37.62 };
-      img.src = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${d.lat-0.3},${d.lon-0.4},${d.lat+0.3},${d.lon+0.4}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
+    function satZoomIn() {
+      if (satLeafletMap) satLeafletMap.zoomIn();
     }
+    function satZoomOut() {
+      if (satLeafletMap) satLeafletMap.zoomOut();
+    }
+    function satCenterSector() {
+      const d = PRESETS[currentCityKey] || PRESETS['norilsk'];
+      if (satLeafletMap && d) {
+        var targetZoom = (d.lat > 70) ? 10 : 11;
+        satLeafletMap.flyTo([d.lat, d.lon], targetZoom, { duration: 0.8 });
+      }
+    }
+    function toggleSatLabels() {
+      if (!satLeafletMap || !satLabelsLayer) return;
+      satLabelsVisible = !satLabelsVisible;
+      var btn = document.getElementById('btn-sat-labels');
+      if (satLabelsVisible) {
+        satLeafletMap.addLayer(satLabelsLayer);
+        if (btn) btn.className = 'px-2.5 h-8 rounded-lg bg-sky-600/90 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1 border border-sky-400/40 backdrop-blur-md transition';
+      } else {
+        satLeafletMap.removeLayer(satLabelsLayer);
+        if (btn) btn.className = 'px-2.5 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-slate-300 text-xs font-semibold flex items-center gap-1 border border-white/20 backdrop-blur-md transition';
+      }
+    }
+    function toggleSatFullscreen() {
+      var wrap = document.getElementById('sat-viewer-wrapper');
+      if (!wrap) return;
+      if (!document.fullscreenElement) {
+        wrap.requestFullscreen().catch(function(e) { console.warn(e); });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    document.addEventListener('fullscreenchange', function() {
+      setTimeout(function() {
+        if (satLeafletMap) satLeafletMap.invalidateSize();
+      }, 200);
+    });
 
     function submitCitySearch(query) {
       if (!query || !query.trim()) return;
