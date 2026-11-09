@@ -8650,8 +8650,8 @@ function renderTabCurrent(container, d) {
         const curM = new Date().getMonth() + 1;
         const isPolarDark = (centerLat >= 58.0 && (curM >= 10 || curM <= 3));
         const vLayer = isPolarDark ? 'VIIRS_NOAA20_Brightness_Temp_BandI5_Night' : 'VIIRS_SNPP_CorrectedReflectance_TrueColor';
-        const vLabel = isPolarDark ? NASA VIIRS Thermal IR 375м (Всепогодный 24/7 за ) : NASA VIIRS TrueColor (~250м за );
-        satLayer = L.tileLayer(https://gibs.earthdata.nasa.gov/wmts/epsg3857/best//default//GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg, {
+        const vLabel = isPolarDark ? `NASA VIIRS Thermal IR 375м (Всепогодный 24/7 за ${nasaDate})` : `NASA VIIRS TrueColor (~250м за ${nasaDate})`;
+        satLayer = L.tileLayer(`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${vLayer}/default/${nasaDate}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`, {
           maxNativeZoom: 9,
           maxZoom: 18,
           opacity: radarOpacity,
