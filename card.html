@@ -70,6 +70,15 @@
   </style>
 </head>
 <body class="p-2 sm:p-4 antialiased min-h-screen">
+  <!-- Top Portal Link Banner -->
+  <div class="w-full bg-slate-900/90 border-b border-slate-800 text-center py-1.5 px-3">
+    <a id="full-portal-link" href="https://meteocenter-rf.github.io/" target="_blank" class="text-[11px] font-bold text-sky-400 hover:text-sky-300 transition inline-flex items-center space-x-1.5">
+      <span>⚡ МетеоПортал</span>
+      <span>·</span>
+      <span>↗ Открыть полный архив 136 лет, радар и модели</span>
+    </a>
+  </div>
+
 
   <div class="max-w-4xl mx-auto bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 sm:p-5 shadow-2xl overflow-hidden transition-all duration-300">
     
@@ -696,6 +705,10 @@
 
     function updateCardUI(data) {
       document.getElementById('city-title').textContent = data.name;
+      const topLink = document.getElementById('full-portal-link');
+      if (topLink) {
+        topLink.href = 'https://meteocenter-rf.github.io/?city=' + encodeURIComponent(data.name || currentCityKey);
+      }
       const statusText = data.lastUpdated 
         ? `<span class="text-emerald-400 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>ВМО Онлайн: 100% реальные замеры (${data.lastUpdated})</span>`
         : `<span class="text-emerald-400">Live Синхронизация</span>`;
