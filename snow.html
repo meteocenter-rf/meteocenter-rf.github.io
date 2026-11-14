@@ -574,7 +574,22 @@
       align-items: center;
       justify-content: center;
     }
-  </style>
+  
+/* Frosted Glass Effect */
+.glass {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+html.light .glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+</style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0284c7">
@@ -824,7 +839,29 @@
   <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-6">
 
     <!-- HERO TITLE & CITY SELECTOR -->
-    <div class="glass-card rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+    
+    <!-- Travel Partner Box -->
+    <div id="travel-partner-box" class="glass-card rounded-2xl p-4 sm:p-5 border border-sky-500/20 bg-slate-900/40 text-xs space-y-2.5 my-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">✈️</span>
+          <span class="font-bold text-white text-sm" id="travel-partner-title">Планируете поездку на горнолыжный курорт или в тур?</span>
+        </div>
+        <span class="text-[10px] text-slate-500 font-mono">Реклама · erid: LjN8KXXXX</span>
+      </div>
+      <p class="text-slate-400 text-[11.5px] leading-relaxed">
+        Сравните предложения отелей, горнолыжных баз и авиабилетов с гарантией лучших цен.
+      </p>
+      <div class="flex flex-wrap items-center gap-2.5 pt-1">
+        <a id="travel-partner-aviasales" href="https://aviasales.ru" target="_blank" rel="noopener sponsored" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition">
+          Подобрать билеты →
+        </a>
+        <a id="travel-partner-ostrovok" href="https://ostrovok.ru" target="_blank" rel="noopener sponsored" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
+          Отели и базы отдыха →
+        </a>
+      </div>
+    </div>
+<div class="glass-card rounded-2xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
       <div class="absolute -right-16 -top-16 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
       
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -2468,6 +2505,12 @@
       }
       localStorage.setItem('theme', isDark ? 'dark' : 'light'); localStorage.setItem('meteo_theme', isDark ? 'dark' : 'light');
       updateThemeIcons(isDark);
+      if (typeof updateSnowTileLayer === 'function') {
+        try { updateSnowTileLayer(); } catch(e) {}
+      }
+      if (typeof syncSubpageThemeButton === 'function') {
+        try { syncSubpageThemeButton(); } catch(e) {}
+      }
       if (chartInstance) {
         chartInstance.options.scales.y.grid.color = isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.25)';
         chartInstance.update();
