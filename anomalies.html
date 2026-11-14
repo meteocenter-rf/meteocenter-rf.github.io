@@ -4511,80 +4511,35 @@ html.light .glass {
     // Theme Switcher Logic
 
     function toggleTheme() {
-
       var isDark = document.documentElement.classList.contains('dark');
-
       if (isDark) {
-
         document.documentElement.classList.remove('dark');
-
         document.documentElement.classList.add('light');
-
         localStorage.setItem('meteo_theme', 'light');
-
-        var tIcon = document.getElementById('theme-toggle-icon');
-
-        if (tIcon) tIcon.textContent = '🌙';
-
-        var tText = document.getElementById('theme-toggle-text');
-
-        if (tText) tText.textContent = 'Светлая';
-
       } else {
-
         document.documentElement.classList.remove('light');
-
         document.documentElement.classList.add('dark');
-
         localStorage.setItem('meteo_theme', 'dark');
-
-        var tIcon2 = document.getElementById('theme-toggle-icon');
-
-        if (tIcon2) tIcon2.textContent = '☀️';
-
-        var tText2 = document.getElementById('theme-toggle-text');
-
-        if (tText2) tText2.textContent = 'Тёмная';
-
       }
-
+      if (typeof syncSubpageThemeButton === 'function') {
+        syncSubpageThemeButton();
+      }
       updateTileLayer();
-
       updateChartsTheme();
-
       renderLegend();
-
       if (typeof renderQuickStationsStrip === 'function') renderQuickStationsStrip();
-
       if (typeof renderStationMarkers === 'function') renderStationMarkers();
-
       if (typeof renderIsolines === 'function') renderIsolines();
-
       if (typeof renderChoropleth === 'function') renderChoropleth();
-
       if (typeof renderPressureCenters === 'function') renderPressureCenters();
-
     }
 
-
-
     // Initialize Theme Icon
-
     (function() {
-
-      var isDark = document.documentElement.classList.contains('dark');
-
-      var icon = document.getElementById('theme-toggle-icon');
-
-      var text = document.getElementById('theme-toggle-text');
-
-      if (icon) icon.textContent = isDark ? '☀️' : '🌙';
-
-      if (text) text.textContent = isDark ? 'Тёмная' : 'Светлая';
-
+      if (typeof syncSubpageThemeButton === 'function') {
+        syncSubpageThemeButton();
+      }
     })();
-
-
 
     function sharePage() {
 
@@ -7148,6 +7103,8 @@ if (rKey === 'central') {
       var info = getActiveDateInfo();
 
       var periodLabels = {
+        'daily': "Суточная аномалия ΔT (Сегодня)",
+        'tomorrow': "Суточная аномалия ΔT (Завтра)",
         1: "Аномалия 1-й дек ΔT",
         2: "Аномалия 2-й дек ΔT",
         3: "Аномалия 3-й дек ΔT",
@@ -8982,6 +8939,8 @@ if (rKey === 'central') {
             if (res.win != null) reg.models.ecmwf.win = res.win;
           }
           if (reg.models.consensus) {
+            if (res.daily != null) reg.models.consensus.daily = +(res.daily * 0.95).toFixed(1);
+            if (res.tomorrow != null) reg.models.consensus.tomorrow = +(res.tomorrow * 0.95).toFixed(1);
             reg.models.consensus.dec1 = +(res.dec1 * 0.95).toFixed(1);
             reg.models.consensus.dec2 = +(res.dec2 * 0.95).toFixed(1);
             reg.models.consensus.dec3 = +(res.dec3 * 0.95).toFixed(1);
@@ -8992,6 +8951,8 @@ if (rKey === 'central') {
             if (res.win != null) reg.models.consensus.win = +(res.win * 0.95).toFixed(1);
           }
           if (reg.models.ukmo) {
+            if (res.daily != null) reg.models.ukmo.daily = +(res.daily * 1.02).toFixed(1);
+            if (res.tomorrow != null) reg.models.ukmo.tomorrow = +(res.tomorrow * 1.02).toFixed(1);
             reg.models.ukmo.dec1 = +(res.dec1 * 1.02).toFixed(1);
             reg.models.ukmo.dec2 = +(res.dec2 * 1.02).toFixed(1);
             reg.models.ukmo.dec3 = +(res.dec3 * 1.02).toFixed(1);
@@ -8999,18 +8960,24 @@ if (rKey === 'central') {
             reg.models.ukmo.precip = res.precip;
           }
           if (reg.models.jma) {
+            if (res.daily != null) reg.models.jma.daily = +(res.daily * 0.9).toFixed(1);
+            if (res.tomorrow != null) reg.models.jma.tomorrow = +(res.tomorrow * 0.9).toFixed(1);
             reg.models.jma.dec1 = +(res.dec1 * 0.9).toFixed(1);
             reg.models.jma.dec2 = +(res.dec2 * 0.9).toFixed(1);
             reg.models.jma.dec3 = +(res.dec3 * 0.9).toFixed(1);
             reg.models.jma.m0 = +(res.m0 * 0.9).toFixed(1);
           }
           if (reg.models.cfsv2) {
+            if (res.daily != null) reg.models.cfsv2.daily = +(res.daily * 1.08).toFixed(1);
+            if (res.tomorrow != null) reg.models.cfsv2.tomorrow = +(res.tomorrow * 1.08).toFixed(1);
             reg.models.cfsv2.dec1 = +(res.dec1 * 1.08).toFixed(1);
             reg.models.cfsv2.dec2 = +(res.dec2 * 1.08).toFixed(1);
             reg.models.cfsv2.dec3 = +(res.dec3 * 1.08).toFixed(1);
             reg.models.cfsv2.m0 = +(res.m0 * 1.08).toFixed(1);
           }
           if (reg.models.meteoinfo) {
+            if (res.daily != null) reg.models.meteoinfo.daily = +(res.daily * 0.85).toFixed(1);
+            if (res.tomorrow != null) reg.models.meteoinfo.tomorrow = +(res.tomorrow * 0.85).toFixed(1);
             reg.models.meteoinfo.dec1 = +(res.dec1 * 0.85).toFixed(1);
             reg.models.meteoinfo.dec2 = +(res.dec2 * 0.85).toFixed(1);
             reg.models.meteoinfo.dec3 = +(res.dec3 * 0.85).toFixed(1);
