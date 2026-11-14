@@ -3153,10 +3153,7 @@
           </div>
         </div>
 
-        <!-- Light / Dark Theme Switcher Button -->
-        <button id="unit-toggle-btn" onclick="toggleTempUnit()" class="nav-btn font-mono text-xs font-bold px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-sky-500 transition" title="Переключить единицы измерения (°C / °F)">
-          <span id="unit-toggle-label">°C</span>
-        </button>
+
         <button id="theme-toggle-btn"  onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
           <svg id="theme-toggle-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
@@ -8291,7 +8288,6 @@
             </div>
           </div>
         </div>
-        </div>
       `;
 
       
@@ -11752,7 +11748,7 @@
             DIARY_DAILY_CACHE[cacheKey] = fallbackData;
             if (archiveSubView === 'diary') renderArchiveDiary(mount, clim);
           }
-        }, 3500);
+        }, 10500);
 
         isDiaryFetching = true;
         fetchArchiveDiaryDaily(lat, lon, y, m, clim).then(() => {
@@ -17557,10 +17553,7 @@
         s2Amt.textContent = selectedDonationAmount > 0 ? selectedDonationAmount.toLocaleString('ru-RU') : 'любая сумма';
       }
 
-      const s2ContactDisp = document.getElementById('step2-receipt-contact-display');
-      if (s2ContactDisp) {
-        s2ContactDisp.textContent = payerReceiptContact ? payerReceiptContact : 'Не указан (будет запрошен банком при необходимости)';
-      }
+
     }
 
     function confirmDonationPaid() {
@@ -17579,10 +17572,7 @@
       const amtEl = document.getElementById('step3-amount-val');
       if (amtEl) amtEl.textContent = selectedDonationAmount > 0 ? `${selectedDonationAmount.toLocaleString('ru-RU')} ₽` : 'Произвольная сумма';
 
-      const contactEl = document.getElementById('step3-contact-val');
-      if (contactEl) {
-        contactEl.textContent = payerReceiptContact ? payerReceiptContact : 'на контакт, привязанный к вашему банковскому счёту СБП';
-      }
+
 
       // 1-Click Telegram confirmation for instant receipt issuance
       const tgBtn = document.getElementById('step3-tg-btn');
@@ -18343,10 +18333,7 @@
                 <button onclick="copySberAmount()" id="sber-copy-amt-btn" class="px-2 py-0.5 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[10px] transition" title="Скопировать сумму">Копировать</button>
               </div>
             </div>
-            <div class="flex items-center justify-between text-[11px] border-b border-slate-200 dark:border-slate-800 pb-2">
-              <span class="text-slate-500 dark:text-slate-400">Куда отправить чек:</span>
-              <span id="step2-receipt-contact-display" class="font-mono font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px]">Не указан</span>
-            </div>
+
             <div class="flex items-center justify-between text-[11px]">
               <span class="text-slate-500 dark:text-slate-400">Назначение перевода:</span>
               <span class="text-slate-600 dark:text-slate-300 font-medium">Поддержка метеорологического проекта</span>
@@ -18411,7 +18398,7 @@
               В соответствии с частью 3 статьи 14 Федерального закона от 27.11.2018 № 422-ФЗ «О проведении эксперимента по установлению специального налогового режима...» официальный электронный фискальный чек формируется в мобильном приложении ФНС России «Мой налог».
             </p>
             <p>
-              Электронный чек с фискальным QR-кодом ФНС будет направлен: <strong id="step3-contact-val" class="text-slate-900 dark:text-white">...</strong> сразу после зачисления средств. Все доходы декларируются официально, налог на профессиональный доход уплачивается в бюджет РФ.
+              Все полученные средства направляются на оплату серверов, вычислительных мощностей и поддержку бесперебойной работы МетеоПортала. Все доходы декларируются официально в приложении ФНС «Мой налог» в соответствии с законодательством РФ.
             </p>
           </div>
 
@@ -18639,13 +18626,20 @@
           if (typeof showToast === 'function') showToast(`Координаты определены: ${lat}°, ${lon}°`, 'success');
           if (typeof getNearestWmoStation === 'function') {
             const nearest = getNearestWmoStation(lat, lon);
-            if (nearest && nearest.distKm <= 35) {
-              selectCityItem(nearest.station.name, nearest.station.lat, nearest.station.lon);
+            if (nearest && nearest.distanceKm <= 35) {
+              setCity(nearest.station.name, {
+                lat: nearest.station.lat,
+                lon: nearest.station.lon,
+                tz: nearest.station.tz,
+                name: nearest.station.fullName,
+                region: nearest.station.region
+              });
               return;
             }
           }
           currentCity = `Координаты (${lat}°, ${lon}°)`;
-          fetchData(lat, lon, currentCity);
+          pendingCityCoords = { lat, lon, name: currentCity };
+          fetchData();
         },
         (err) => {
           setTopProgress(100);
