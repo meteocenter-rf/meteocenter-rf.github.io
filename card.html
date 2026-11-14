@@ -1310,7 +1310,7 @@
       draw();
     }
 
-    function init() {
+    async function init() {
       const urlParams = new URLSearchParams(window.location.search);
       const cityParam = urlParams.get('city');
       let targetKey = 'norilsk';
@@ -1323,6 +1323,67 @@
         else if (cLower.includes('екат') || cLower.includes('екб') || cLower.includes('ekb') || cLower.includes('ekaterinburg')) targetKey = 'ekb';
         else if (cLower.includes('норильск') || cLower.includes('norilsk')) targetKey = 'norilsk';
         else if (CITIES_DATA[cLower]) targetKey = cLower;
+        else {
+          // Dynamic Open-Meteo Geocoding for arbitrary cities
+          try {
+            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityParam.trim())}&count=1&language=ru`);
+            if (geoRes.ok) {
+              const geoData = await geoRes.json();
+              if (geoData.results && geoData.results.length > 0) {
+                const found = geoData.results[0];
+                const customKey = 'city_' + (found.id || Math.abs(Math.round(found.latitude * 100)));
+                const cName = found.name;
+                const cLat = Math.round(found.latitude * 100) / 100;
+                const cLon = Math.round(found.longitude * 100) / 100;
+                const cAlt = Math.round(found.elevation || 50) + ' м';
+
+                CITY_GEOS[customKey] = {
+                  name: cName,
+                  lat: cLat,
+                  lon: cLon,
+                  alt: cAlt,
+                  st: [
+                    { code: String(found.id || '99999'), name: `${cName} (Метеопост)`, lat: cLat, lon: cLon }
+                  ]
+                };
+
+                CITIES_DATA[customKey] = {
+                  name: cName,
+                  coords: `${Math.abs(cLat).toFixed(2)}° ${cLat >= 0 ? 'N' : 'S'}, ${Math.abs(cLon).toFixed(2)}° ${cLon >= 0 ? 'E' : 'W'}`,
+                  alt: cAlt,
+                  temp: 0,
+                  feel: 0,
+                  desc: "Загрузка метеоданных...",
+                  icon: "⏳",
+                  pressHpa: 1013,
+                  windSpd: 0,
+                  windGust: 0,
+                  windDir: "—",
+                  dew: 0,
+                  rh: 50,
+                  precip: 0,
+                  precipPhase: "—",
+                  freezeH: 1000,
+                  t850: 0,
+                  h850: 1500,
+                  airmass: found.admin1 ? `${found.admin1}, ${found.country || 'РФ'}` : "Умеренная воздушная масса",
+                  models: [
+                    { name: "ECMWF IFS (Европа)", temp: 0, rain: 0, wind: 0 },
+                    { name: "DWD ICON (Германия)", temp: 0, rain: 0, wind: 0 },
+                    { name: "NOAA GFS (США)", temp: 0, rain: 0, wind: 0 },
+                    { name: "CMC GEM (Канада)", temp: 0, rain: 0, wind: 0 }
+                  ],
+                  stations: [
+                    { name: `${cName} (Метеопост)`, temp: 0, rh: 50, press: 1013, wind: 0, dew: 0 }
+                  ]
+                };
+                targetKey = customKey;
+              }
+            }
+          } catch (e) {
+            console.warn('Geocoding fallback failed for card widget:', e);
+          }
+        }
       }
 
       setCity(targetKey);
