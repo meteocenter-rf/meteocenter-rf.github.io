@@ -832,6 +832,9 @@ html.light .glass {
         document.documentElement.classList.add('dark');
         localStorage.setItem('meteo_theme', 'dark');
       }
+      if (typeof syncSubpageThemeButton === 'function') {
+        syncSubpageThemeButton();
+      }
     }
 
     const CITY_MODEL_DATA = {
