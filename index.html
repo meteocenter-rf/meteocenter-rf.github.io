@@ -2008,7 +2008,25 @@
     border-color: #075985 !important;
   }
 
-</style>
+
+    /* ШАГ 6: Премиальная стилизация карточек и числовых индикаторов */
+    #current-temp, #ribbon-temp, table, table td, table th, .weather-num, .mc-num, [data-tabular] {
+      font-variant-numeric: tabular-nums !important;
+      font-feature-settings: "tnum" 1, "lnum" 1 !important;
+    }
+
+    .meteo-card, .glass-card {
+      transition: transform 200ms ease-out, box-shadow 200ms ease-out, background-color 200ms ease-out;
+    }
+
+    .dark .meteo-card, .dark .glass-card {
+      background: linear-gradient(165deg, rgba(15, 23, 42, 0.88) 0%, rgba(9, 14, 28, 0.94) 100%) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(148, 163, 184, 0.14) !important;
+    }
+
+  </style>
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -3202,7 +3220,7 @@
       </form>
 
       <!-- Quick Station Badges -->
-      <div id="stations-bar" class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-mono select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x;">
+      <div id="stations-bar" class="mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x;">
         <span class="text-slate-400 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
         <button onclick="setCity('Восток')" class="station-chip station-chip-accent">Восток (Антарктида)</button>
         <button onclick="setCity('Оймякон')" class="station-chip">Оймякон</button>
@@ -3224,6 +3242,19 @@
     </div>
 
     
+
+    
+    <!-- WMO STATION INFO STATUS BAR (Зеленый - опорная МС ВМО / Янтарный - расчет модели) -->
+    <div id="wmo-station-info-bar" class="hidden mb-3 p-3 rounded-2xl bg-slate-900/90 border border-emerald-500/30 shadow-md flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5">
+        <span id="wmo-bar-wmo" class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold">ВМО</span>
+        <h2 id="wmo-bar-title" class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm m-0"></h2>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <span id="wmo-bar-details" class="text-[11px] font-mono text-slate-500 dark:text-slate-400"></span>
+        <div id="wmo-bar-source" class="px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5"></div>
+      </div>
+    </div>
 
     <!-- ================= INNOVATIVE HIGH-PRECISION TABS COMMAND BAR ================= -->
     <div class="relative group my-2 select-none w-full max-w-full overflow-hidden rounded-xl">
@@ -3368,6 +3399,7 @@
         </p>
       </div>
       <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2.5">
+        <a href="https://kwork.ru/user/norilsktaimyr" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition shadow-md inline-flex items-center gap-2"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Заказать через Kwork (Рейтинг 5.0)</a>
         <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2" rel="noopener noreferrer">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
           <span>Запросить выборку</span>
@@ -3455,7 +3487,10 @@
     <div class="max-w-7xl mx-auto space-y-6">
       
       <!-- 3 Columns: Legal Disclaimers, Statutory Licensing Exemption, Emergency Disclaimer -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 leading-relaxed text-[11.5px]">
+      <details class="mt-6 rounded-2xl bg-slate-900/50 border border-slate-800 p-4 text-xs text-slate-400">
+        <summary class="cursor-pointer font-semibold text-slate-300">Правовая информация и регламент источников данных (99-ФЗ, 113-ФЗ, 422-ФЗ)</summary>
+        <div class="mt-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 leading-relaxed text-[11.5px]">
         
         <!-- Col 1: Aggregator & Licensing (99-FZ & 113-FZ) -->
         <div class="p-3.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 space-y-1.5">
@@ -3500,6 +3535,8 @@
         </div>
 
       </div>
+        </div>
+      </details>
 
       <!-- Quick Action Buttons & Legal Policy Modals -->
       <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200 dark:border-slate-800 text-[11px]">
@@ -3722,7 +3759,7 @@
       { id: 'dikson', name: 'Диксон', fullName: 'Диксон (Остров)', wmo: '20674', region: 'Карское море, Таймыр (Арктика)', lat: 73.51, lon: 80.40, tz: 'Asia/Krasnoyarsk', icon: '', badge: 'Арктическая опорная станция', tags: ['диксон', 'таймыр', 'карское море', 'арктика', '20674'] },
       { id: 'dudinka', name: 'Дудинка', fullName: 'Дудинка (Таймыр)', wmo: '23074', region: 'Таймырский Долгано-Ненецкий район', lat: 69.40, lon: 86.18, tz: 'Asia/Krasnoyarsk', icon: '', badge: 'Заполярная опорная станция', tags: ['дудинка', 'таймыр', 'енисей', '23074'] },
       { id: 'norilsk', name: 'Норильск', fullName: 'Норильск (Аэрологическая МС)', wmo: '23078', region: 'Таймыр, Норильский промрайон (Вальковское ш.)', lat: 69.3481, lon: 88.2597, tz: 'Asia/Krasnoyarsk', icon: '', badge: 'Заполярная опорная МС (23078)', tags: ['норильск', 'талнах', 'кайеркан', '23078', 'таймыр'] },
-      { id: 'alykel', name: 'Алыкель', fullName: 'Алыкель (Аэропорт Норильск, UOOO)', wmo: '23078', region: 'Таймыр, Аэропорт Норильск (35 км западнее города)', lat: 69.3111, lon: 82.2536, tz: 'Asia/Krasnoyarsk', icon: '✈️', badge: 'АМСГ Аэропорт / ВМО 23078', tags: ['алыкель', 'алыкелю', 'по алыкелю', 'в алыкеле', 'аэропорт', 'uooo', 'норильск', '23078'] },
+      { id: 'alykel', name: 'Алыкель', fullName: 'Алыкель (Аэропорт Норильск, UOOO)', wmo: '23078', region: 'Таймыр, Аэропорт Норильск (35 км западнее города)', lat: 69.3111, lon: 87.3322, tz: 'Asia/Krasnoyarsk', icon: '✈️', badge: 'АМСГ Аэропорт / ВМО 23078', tags: ['алыкель', 'алыкелю', 'по алыкелю', 'в алыкеле', 'аэропорт', 'uooo', 'норильск', '23078'] },
       { id: 'yakutsk', name: 'Якутск', fullName: 'Якутск', wmo: '24959', region: 'Республика Саха (Якутия), Лена', lat: 62.03, lon: 129.73, tz: 'Asia/Yakutsk', icon: '', badge: 'Континентальный центр', tags: ['якутск', 'саха', '24959'] },
       { id: 'moscow', name: 'Москва', fullName: 'Москва (ВДНХ)', wmo: '27612', region: 'Центральный федеральный округ', lat: 55.83, lon: 37.62, tz: 'Europe/Moscow', icon: '', badge: 'Главная обсерватория РФ', tags: ['москва', 'вднх', 'столица', '27612'] },
       { id: 'spb', name: 'Санкт-Петербург', fullName: 'Санкт-Петербург', wmo: '26063', region: 'Северо-Запад (старейшая станция с 1743 г.)', lat: 59.97, lon: 30.30, tz: 'Europe/Moscow', icon: '', badge: 'Старейшая станция РФ (1743)', tags: ['питер', 'спб', 'петербург', 'ленинград', '26063'] },
@@ -3878,6 +3915,32 @@
                }));
       }) || null;
     }
+
+    function calcGeoDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function getNearestWmoStation(lat, lon) {
+      let nearest = null;
+      let minDist = Infinity;
+      if (typeof WMO_STATIONS_CATALOG !== 'undefined' && Array.isArray(WMO_STATIONS_CATALOG)) {
+        for (const st of WMO_STATIONS_CATALOG) {
+          const d = calcGeoDistanceKm(Number(lat), Number(lon), st.lat, st.lon);
+          if (d < minDist) {
+            minDist = d;
+            nearest = st;
+          }
+        }
+      }
+      return { station: nearest, distanceKm: Math.round(minDist * 10) / 10 };
+    }
+
 
     let pendingCityCoords = null;
     let citySearchDebounceTimer = null;
@@ -5713,7 +5776,7 @@
         return sessionCached;
       }
       // 1. Geocoding
-      let lat, lon, tz, cityName, region;
+      let lat, lon, tz, cityName, region, matchedStation = null;
       
       if (/^\d{5}$/.test(lowerCity)) {
         try {
@@ -5753,6 +5816,7 @@
         tz = s.tz || 'auto';
         cityName = s.fullName || s.name;
         region = s.region;
+        matchedStation = s;
       } else if (typeof WMO_STATIONS_CATALOG_MAP !== 'undefined' && WMO_STATIONS_CATALOG_MAP[lowerCity]) {
         const s = WMO_STATIONS_CATALOG_MAP[lowerCity];
         lat = s.lat;
@@ -5775,6 +5839,17 @@
         tz = g.timezone || 'auto';
         cityName = g.name || city;
         region = [g.admin1, g.country].filter(Boolean).join(', ') || 'Россия';
+
+        // Check if locality is within 12km of an official WMO station
+        if (typeof getNearestWmoStation === 'function') {
+          const nearInfo = getNearestWmoStation(lat, lon);
+          if (nearInfo && nearInfo.distanceKm <= 12 && nearInfo.station) {
+            lat = nearInfo.station.lat;
+            lon = nearInfo.station.lon;
+            tz = nearInfo.station.tz || tz;
+            matchedStation = nearInfo.station;
+          }
+        }
       }
       lastCoords = { lat, lon };
 
@@ -6880,6 +6955,8 @@
         status: 'ok',
         city: cityName,
         region: region,
+        matched_station: matchedStation,
+        station_obj: matchedStation,
         coords: `${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
         lat: lat,
         lon: lon,
@@ -7102,6 +7179,7 @@
 
         // Update Sticky Ribbon
         updateStickyRibbon(data);
+        updateWmoStationBar(data.matched_station || (typeof findStationInCatalog === 'function' ? findStationInCatalog(data.city) : null), data.city || currentCity, data.lat || (lastCoords && lastCoords.lat), data.lon || (lastCoords && lastCoords.lon));
 
         // Render Active Tab
         renderCurrentTab(data);
@@ -7176,6 +7254,71 @@
       } else {
         const cleanLoc = s.replace(/\s*\(.*?\)/g, ' ').replace(/\s+/g, ' ').trim();
         return cleanLoc ? `МС ${cleanLoc}` : 'Опорная станция ВМО';
+      }
+    }
+
+    
+    function updateWmoStationBar(stationObj, cityName, lat, lon) {
+      const bar = document.getElementById('wmo-station-info-bar');
+      const titleEl = document.getElementById('wmo-bar-title');
+      const wmoEl = document.getElementById('wmo-bar-wmo');
+      const detailsEl = document.getElementById('wmo-bar-details');
+      const sourceEl = document.getElementById('wmo-bar-source');
+      const heroBadge = document.getElementById('station-badge');
+      const heroBadgeText = document.getElementById('station-badge-text');
+
+      const nearestInfo = (typeof getNearestWmoStation === 'function' && lat != null && lon != null)
+        ? getNearestWmoStation(lat, lon)
+        : { station: null, distanceKm: 999 };
+      const effectiveStation = stationObj || (nearestInfo.distanceKm <= 12 ? nearestInfo.station : null);
+
+      if (bar) bar.classList.remove('hidden');
+
+      if (effectiveStation) {
+        // РЕЖИМ 1: В ГОРОДЕ ЕСТЬ ОПОРНАЯ МЕТЕОСТАНЦИЯ ВМО (ЗЕЛЕНЫЙ СТАТУС — ФАКТ МС)
+        if (bar) {
+          bar.className = 'mb-4 p-3 rounded-2xl bg-slate-900/90 border border-emerald-500/30 shadow-md flex flex-wrap items-center justify-between gap-3';
+        }
+        if (titleEl) titleEl.textContent = `${effectiveStation.fullName || effectiveStation.name}`;
+        if (wmoEl) {
+          wmoEl.textContent = `ВМО #${effectiveStation.wmo}`;
+          wmoEl.className = 'px-2.5 py-0.5 rounded-md bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold';
+        }
+        if (detailsEl) {
+          detailsEl.textContent = `Координаты МС: ${Number(effectiveStation.lat).toFixed(4)}°N, ${Number(effectiveStation.lon).toFixed(4)}°E • ${effectiveStation.region || ''}`;
+        }
+        if (sourceEl) {
+          sourceEl.className = 'px-3 py-1 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5';
+          sourceEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>Данные опорной метеостанции ВМО #${effectiveStation.wmo}</span>`;
+        }
+        if (heroBadge) {
+          heroBadge.className = 'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-500/40 text-xs font-semibold text-emerald-300 mt-1.5 shadow-sm';
+          heroBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span id="station-badge-text">Метеостанция ВМО #${effectiveStation.wmo} (${effectiveStation.name}) • ${Number(effectiveStation.lat).toFixed(2)}°N, ${Number(effectiveStation.lon).toFixed(2)}°E</span>`;
+        }
+      } else {
+        // РЕЖИМ 2: В ГОРОДЕ НЕТ МЕТЕОСТАНЦИИ — ПРОГРАММНЫЙ РАСЧЕТ МЕТЕОМОДЕЛИ + ДИСТАНЦИЯ ДО БЛИЖАЙШЕЙ МС
+        const nearSt = nearestInfo.station;
+        const nearText = nearSt ? `Ближайшая МС ВМО #${nearSt.wmo} (${nearSt.name}) — ${Math.round(nearestInfo.distanceKm)} км` : 'Интерполяция по сетке координат';
+
+        if (bar) {
+          bar.className = 'mb-4 p-3 rounded-2xl bg-slate-900/90 border border-amber-500/30 shadow-md flex flex-wrap items-center justify-between gap-3';
+        }
+        if (titleEl) titleEl.textContent = `${cityName} — в н.п. нет опорной МС ВМО`;
+        if (wmoEl) {
+          wmoEl.textContent = `РАСЧЕТ МОДЕЛИ (${Number(lat).toFixed(2)}°N, ${Number(lon).toFixed(2)}°E)`;
+          wmoEl.className = 'px-2.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold';
+        }
+        if (detailsEl) {
+          detailsEl.textContent = `Программный расчет численной модели (сетка ECMWF / ICON) • Коррекция: ${nearText}`;
+        }
+        if (sourceEl) {
+          sourceEl.className = 'px-3 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-semibold flex items-center gap-1.5';
+          sourceEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span>Программный расчет модели + ${nearText}</span>`;
+        }
+        if (heroBadge) {
+          heroBadge.className = 'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/70 border border-amber-500/40 text-xs font-semibold text-amber-300 mt-1.5 shadow-sm';
+          heroBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span id="station-badge-text">Расчет метеомодели (ECMWF/ICON) • ${nearText}</span>`;
+        }
       }
     }
 
@@ -7724,10 +7867,11 @@
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
             <!-- Left: City, Condition, Comfort, Min/Max -->
             <div class="space-y-2.5">
-              <div class="flex items-center space-x-2">
-                <span class="w-2 h-2 rounded-full bg-sky-500 shrink-0"></span>
-                <span class="text-xs font-bold text-slate-700 dark:text-slate-300 font-mono tracking-wide uppercase">${getCleanStationDisplay(c.station_name, d.city)}</span>
-                <span class="text-slate-600 dark:text-slate-300 text-xs font-mono">· ${d.coords}</span>
+              <div class="flex flex-wrap items-center gap-2">
+                <div id="station-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm">
+                  <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                  <span id="station-badge-text">${getCleanStationDisplay(c.station_name, d.city)} • ${d.coords}</span>
+                </div>
               </div>
 
               <div class="flex items-center space-x-3.5">
@@ -15630,9 +15774,7 @@
                 <strong>${dec1Snow > 0 ? dec1Snow.toFixed(1) + ' см' : '0 см'} · ${dec1EndDepth > 0 ? dec1EndDepth.toFixed(1) + ' см' : 'нет'}</strong>
               </div>
             </div>
-            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
-              Высокая синоптическая детерминированность. Фазовые переходы осадков и конвективная активность рассчитываются нейрооператорами SFNO 3.0.
-            </p>
+            <div class="text-[11px] font-mono text-sky-400 pt-0.5">WeatherNext 3.0 · 64 члена</div>
           </div>
 
           <!-- Decade 2 -->
@@ -15652,9 +15794,7 @@
                 <strong>${dec2Snow > 0 ? dec2Snow.toFixed(1) + ' см' : '0 см'} · ${dec2EndDepth > 0 ? dec2EndDepth.toFixed(1) + ' см' : 'нет'}</strong>
               </div>
             </div>
-            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
-              Переходная фаза: дни 11–14 рассчитываются по ансамблю высокого разрешения ECMWF IFS ENS, дни 15–30 интегрируют климатический ансамбль ECMWF SEAS5. Оценка риска первых волн холода и мокрого снега.
-            </p>
+            <div class="text-[11px] font-mono text-indigo-400 pt-0.5">ECMWF IFS ENS / SEAS5</div>
           </div>
 
           <!-- Decade 3 -->
@@ -15674,9 +15814,7 @@
                 <strong>${dec3Snow > 0 ? dec3Snow.toFixed(1) + ' см' : '0 см'} · ${endMonthSnowDepth > 0 ? endMonthSnowDepth.toFixed(1) + ' см' : 'нет'}</strong>
               </div>
             </div>
-            <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed pt-1">
-              Сезонная макроциркуляция атмосферы. 50 ансамблевых возмущений ECMWF (Reading, UK) моделируют крупномасштабные волны арктического холода и устойчивый снежный покров.
-            </p>
+            <div class="text-[11px] font-mono text-amber-400 pt-0.5">ECMWF SEAS5 · 50 сценариев</div>
           </div>
         </div>
 
@@ -15738,9 +15876,7 @@
                 </h3>
                 <span class="px-2 py-0.5 rounded-full bg-blue-600 text-white font-mono text-[10px] font-bold">1890–2026</span>
               </div>
-              <p class="text-[11px] text-slate-600 dark:text-slate-400">
-                Мультимодельный прогноз (WeatherNext 3.0 64 члена + ECMWF SEAS5 50 членов + IFS/ICON) с верификацией по вековым рядам ВМО за 136 лет
-              </p>
+              <span class="text-[11px] font-mono text-slate-500">WeatherNext 3.0 + ECMWF SEAS5 · ВМО 1890–2026</span>
             </div>
             <div class="flex items-center space-x-2">
               <span class="px-3 py-1 rounded-xl text-xs font-mono font-bold border ${fsa.air_diff_badge_class}">
