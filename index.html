@@ -33,7 +33,7 @@
     })();
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>МетеоПортал — независимый погодный агрегатор: фактическая температура, открытый климатический архив 1890–2026 гг., нормы ВМО и прогноз Open-Meteo / ECMWF</title>
+  <title>МетеоПортал — Погода, радар осадков и архив ВМО 1890–2026</title>
   <meta name="description" content="Независимый информационный агрегатор погоды: фактическая температура, интерактивный радар осадков RainViewer, открытый климатический архив 1890–2026 гг. и прогностические расчеты открытых моделей (ECMWF, ICON, GFS). Сервис не является государственным ресурсом.">
   <meta name="keywords" content="погода онлайн, независимый метеопортал, фактическая температура, архив погоды 100 лет, климатический архив 1890 2026, радар осадков онлайн, спутник облака, метеостанция WMO, прогноз ecmwf, open meteo api">
 
@@ -2026,7 +2026,34 @@
       border: 1px solid rgba(148, 163, 184, 0.14) !important;
     }
 
-  </style>
+  
+  /* ================= @media print (CLEAN A4 ENGINEERING REPORT) ================= */
+  @media print {
+    header, #sticky-ribbon, #tabs-bar, #search-form, #wmo-station-info-bar, nav, #btn-scroll-top, footer, #cookie-notice, .export-btn, .modal-backdrop, #widget-modal, #donation-modal, #legal-modal, #privacy-modal {
+      display: none !important;
+    }
+    body, main, .glass, .glass-card {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: none !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+    }
+    * {
+      color: #000000 !important;
+      text-shadow: none !important;
+    }
+    table, th, td {
+      border: 1px solid #94a3b8 !important;
+      color: #000000 !important;
+    }
+    .text-sky-400, .text-sky-500, .text-emerald-400, .text-emerald-500 {
+      color: #000000 !important;
+      font-weight: bold !important;
+    }
+  }
+
+</style>
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -3046,6 +3073,7 @@
 
 </head>
 <body class="min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
+  <div id="top-progress-bar" class="fixed top-0 left-0 h-[2px] bg-gradient-to-r from-sky-400 to-blue-500 z-50 transition-all duration-300 pointer-events-none opacity-0 w-0"></div>
 
   <!-- ================= TOP HEADER ================= -->
   <header class="glass border-b border-slate-200/80 dark:border-slate-800/80 z-40">
@@ -3126,7 +3154,10 @@
         </div>
 
         <!-- Light / Dark Theme Switcher Button -->
-        <button id="theme-toggle-btn" onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
+        <button id="unit-toggle-btn" onclick="toggleTempUnit()" class="nav-btn font-mono text-xs font-bold px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-sky-500 transition" title="Переключить единицы измерения (°C / °F)">
+          <span id="unit-toggle-label">°C</span>
+        </button>
+        <button id="theme-toggle-btn"  onclick="toggleTheme()" class="nav-btn nav-btn-theme" title="Переключить тему оформления (Светлая / Тёмная)">
           <svg id="theme-toggle-icon" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         </button>
       </div>
@@ -3196,6 +3227,9 @@
     <!-- ================= SEARCH BAR & QUICK CITIES ================= -->
     <div class="glass rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200/80 dark:border-slate-800/80 relative z-40">
       <form id="search-form" onsubmit="handleSearch(event)" class="flex gap-2 relative">
+          <button type="button" onclick="locateUserGps()" title="Моё местоположение (GPS)" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 transition flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
         <div class="relative flex-1">
           <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -3371,6 +3405,9 @@
           <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Метеорологический протокол и сводка данных</h2>
         </div>
         <div class="flex items-center space-x-2">
+          <button type="button" onclick="event.stopPropagation(); window.print();" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1" title="Распечатать или сохранить в PDF (A4)">
+            <span>🖨️ Печать / PDF</span>
+          </button>
           <button type="button" onclick="event.stopPropagation(); copyReport();" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-sky-600 dark:text-sky-400 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 transition">
             <span id="copy-btn-text">Скопировать протокол</span>
           </button>
@@ -3382,27 +3419,29 @@
       </div>
     </details>
 
-    <!-- ================= B2B CLIMATE CERTIFICATES BANNER ================= -->
+    <!-- ================= B2B IT SERVICES & WIDGET SHOWCASE ================= -->
     <div class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="space-y-1.5 text-left max-w-2xl">
         <div class="flex items-center space-x-2.5">
           <div class="w-7 h-7 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 shrink-0">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           </div>
           <div>
-            <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">Аналитические выписки и архивные климатические справки</h3>
-            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Data Science обработка массивов ВМО, NOAA и ERA5 для бизнеса и науки</p>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">IT-разработка погодных виджетов, дашбордов и интеграция API</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Веб-разработка и Data Visualization (JS, Tailwind, ApexCharts, Leaflet) для бизнеса, отелей и логистики</p>
           </div>
         </div>
         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pl-9">
-          Формирование структурированных архивных выборок по опорным метеостанциям за 136 лет: для строительного аудита, проектных изысканий, сельского хозяйства, логистики и научных исследований.
+          Разработка кастомных интерактивных карт, дашбордов с графиками, подключение открытых API к вашему сайту или CRM (TropaTT, Bitrix24, AmoCRM), автоматизация выгрузок CSV/Excel. Официальная работа по договору с самозанятым (чек ФНС 422-ФЗ).
         </p>
       </div>
       <div class="shrink-0 w-full md:w-auto flex flex-wrap items-center justify-end gap-2.5">
-        <a href="https://kwork.ru/user/norilsktaimyr" target="_blank" rel="noopener" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition shadow-md inline-flex items-center gap-2"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Заказать через Kwork (Рейтинг 5.0)</a>
+        <button type="button" onclick="openWidgetModal()" class="px-4 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition shadow-md flex items-center space-x-1.5">
+          <span>&lt;/&gt; Виджет на ваш сайт</span>
+        </button>
         <a href="https://t.me/Danila_Vladimirovich_Ru" target="_blank" class="px-4 py-2.5 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white text-xs font-bold rounded-xl transition shadow-md shadow-sky-600/20 flex items-center space-x-2" rel="noopener noreferrer">
           <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.458c.538-.196 1.006.128.832.943z"/></svg>
-          <span>Запросить выборку</span>
+          <span>Обсудить задачу в Telegram</span>
         </a>
         <a href="https://vk.me/id444630800" target="_blank" class="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1.5" rel="noopener noreferrer">
           <span>ВКонтакте</span>
@@ -5854,7 +5893,7 @@
       lastCoords = { lat, lon };
 
       // 2. Multi-Model 4-Ensemble Forecast API: ECMWF + ICON + GFS + GEM
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,sunrise,sunset,daylight_duration&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
@@ -11586,6 +11625,9 @@
 
           <!-- Actions -->
           <div class="flex items-center space-x-2">
+            <button onclick="window.print()" class="export-btn" title="Печать дневника / Сохранить в PDF">
+              <span>🖨️ Печать / PDF</span>
+            </button>
             <button onclick="exportArchiveDiaryCsv('${mName}', ${y})" class="export-btn">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Экспорт дневника в CSV</span>
@@ -18131,7 +18173,61 @@
 
 
   <!-- ================= MODAL 2: DONATIONS & SBP CHECKOUT (422-FZ SELF-EMPLOYED) ================= -->
-  <div id="donation-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDonationModal()">
+    <!-- ================= MODAL 3: EMBED WEATHER WIDGET (VIRAL GENERATOR) ================= -->
+  <div id="widget-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeWidgetModal()">
+    <div class="modal-card p-5 sm:p-7 space-y-4 max-w-xl" role="dialog" aria-modal="true">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Бесплатный МетеоВиджет на ваш сайт</h2>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Адаптивный погодный информер для блогов, отелей и городских порталов</p>
+          </div>
+        </div>
+        <button onclick="closeWidgetModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1 transition">✕</button>
+      </div>
+
+      <div class="space-y-3.5 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase mb-1">Город виджета:</label>
+            <input type="text" id="widget-city-input" class="w-full px-3 py-2 rounded-xl text-xs font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" oninput="updateWidgetPreview()" />
+          </div>
+          <div>
+            <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase mb-1">Высота блока:</label>
+            <select id="widget-height-select" class="w-full px-3 py-2 rounded-xl text-xs font-medium border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white" onchange="updateWidgetPreview()">
+              <option value="380">Компактный (380 px)</option>
+              <option value="480" selected>Стандартный (480 px)</option>
+              <option value="560">Расширенный (560 px)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-500 dark:text-slate-400 text-[11px] font-bold uppercase mb-1">HTML-код для вставки (скопируйте и вставьте в HTML своего сайта):</label>
+          <textarea id="widget-code-output" readonly rows="3" class="w-full p-3 rounded-xl font-mono text-[11px] bg-slate-900 text-sky-300 border border-slate-700 focus:outline-none select-all" onclick="this.select()"></textarea>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <button onclick="copyWidgetCode()" id="copy-widget-btn" class="px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs shadow-md transition flex items-center space-x-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+            <span id="copy-widget-btn-text">Скопировать код виджета</span>
+          </button>
+          <span class="text-[11px] text-slate-500 font-mono">100% бесплатно · Без ограничений</span>
+        </div>
+
+        <div class="pt-2">
+          <div class="text-[11px] text-slate-400 font-bold uppercase mb-1.5">Предпросмотр виджета:</div>
+          <div id="widget-iframe-container" class="rounded-2xl border border-slate-700/60 overflow-hidden bg-slate-950">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="donation-modal" class="modal-backdrop hidden" onclick="if(event.target===this) closeDonationModal()">
     <div class="modal-card p-5 sm:p-7 space-y-4 max-w-lg" role="dialog" aria-modal="true">
       
       <!-- STEP 1: Amount Selection & Receipt Contact -->
@@ -18170,15 +18266,9 @@
             <input type="number" id="donation-custom-input" oninput="setCustomDonationVal(this.value)" placeholder="Или укажите свою сумму, ₽..." min="50" max="500000" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono font-medium transition" />
           </div>
 
-          <!-- 422-FZ Receipt Contact Field -->
-          <div class="space-y-1.5 pt-1">
-            <label class="block text-slate-700 dark:text-slate-300 text-[11px] font-bold uppercase tracking-wider">
-              Куда отправить официальный чек ФНС РФ (№ 422-ФЗ):
-            </label>
-            <input type="text" id="donation-receipt-contact" placeholder="Ваш E-mail или @telegram для получения чека..." class="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono font-medium transition" />
-            <p class="text-[10.5px] text-slate-500 dark:text-slate-400 leading-relaxed">
-              В соответствии со ст. 14 Федерального закона № 422-ФЗ официальный электронный фискальный чек формируется через приложение «Мой налог» и направляется на этот контакт.
-            </p>
+          <!-- 152-FZ Safe Voluntary Donation Statement -->
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+            Перевод является добровольной безвозмездной поддержкой открытого научного проекта. Мы не собираем и не обрабатываем ваши персональные данные (152-ФЗ).
           </div>
 
           <!-- THE PRIMARY SBER / SBP BUTTON -->
@@ -18376,11 +18466,11 @@
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
       <span class="mt-1 tracking-tight">Город</span>
     </button>
-    <a href="anomalies.html" onclick="if(window.switchTab){ switchTab('anomalies'); return false; }" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition active:scale-95">
+    <a href="anomalies.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition active:scale-95">
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
       <span class="mt-1 tracking-tight">Аномалии</span>
     </a>
-    <a href="models.html" onclick="if(window.switchTab){ switchTab('models'); return false; }" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+    <a href="models.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
       <span class="mt-1 tracking-tight">Модели</span>
     </a>
@@ -18388,7 +18478,7 @@
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
       <span class="mt-1 tracking-tight">Журнал</span>
     </a>
-    <a href="snow.html" onclick="if(window.switchTab){ switchTab('snow'); return false; }" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
+    <a href="snow.html" class="flex flex-col items-center py-1 px-1 text-slate-600 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-400 transition active:scale-95">
       <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
       <span class="mt-1 tracking-tight">Снег</span>
     </a>
@@ -18489,6 +18579,224 @@
       window.addEventListener('resize', checkHudScroll, { passive: true });
       document.addEventListener('DOMContentLoaded', checkHudScroll);
     })();
+
+    // =========================================================================
+    // GLOBAL KEYBOARD SHORTCUTS (/ OR Ctrl+K FOR SEARCH, ESCAPE FOR MODALS)
+    // =========================================================================
+    window.addEventListener('keydown', function(e) {
+      if (e.key === '/' && document.activeElement !== document.getElementById('city-input') && document.activeElement !== document.getElementById('city-search')) {
+        e.preventDefault();
+        const inp = document.getElementById('city-input') || document.getElementById('city-search');
+        if (inp) { inp.focus(); inp.select(); }
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        const inp = document.getElementById('city-input') || document.getElementById('city-search');
+        if (inp) { inp.focus(); inp.select(); }
+      }
+      if (e.key === 'Escape') {
+        window.closeWidgetModal();
+      }
+    });
+
+    // =========================================================================
+    // TOP PROGRESS BAR CONTROLLER (ZERO CLS SMOOTH LOADING)
+    // =========================================================================
+    window.setTopProgress = function(pct) {
+      const bar = document.getElementById('top-progress-bar');
+      if (!bar) return;
+      if (pct <= 0) {
+        bar.style.width = '0%';
+        bar.style.opacity = '0';
+      } else if (pct >= 100) {
+        bar.style.width = '100%';
+        bar.style.opacity = '1';
+        setTimeout(() => {
+          bar.style.opacity = '0';
+          setTimeout(() => { bar.style.width = '0%'; }, 300);
+        }, 300);
+      } else {
+        bar.style.opacity = '1';
+        bar.style.width = pct + '%';
+      }
+    };
+
+    // =========================================================================
+    // GPS GEOLOCATION ENGINE
+    // =========================================================================
+    window.locateUserGps = function() {
+      if (!navigator.geolocation) {
+        if (typeof showToast === 'function') showToast('Геолокация не поддерживается вашим браузером', 'error');
+        return;
+      }
+      if (typeof showToast === 'function') showToast('Определяем координаты по GPS / вышкам...', 'info');
+      setTopProgress(30);
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          setTopProgress(70);
+          const lat = Math.round(pos.coords.latitude * 10000) / 10000;
+          const lon = Math.round(pos.coords.longitude * 10000) / 10000;
+          if (typeof showToast === 'function') showToast(`Координаты определены: ${lat}°, ${lon}°`, 'success');
+          if (typeof getNearestWmoStation === 'function') {
+            const nearest = getNearestWmoStation(lat, lon);
+            if (nearest && nearest.distKm <= 35) {
+              selectCityItem(nearest.station.name, nearest.station.lat, nearest.station.lon);
+              return;
+            }
+          }
+          currentCity = `Координаты (${lat}°, ${lon}°)`;
+          fetchData(lat, lon, currentCity);
+        },
+        (err) => {
+          setTopProgress(100);
+          if (typeof showToast === 'function') showToast('Доступ к геолокации отклонен в настройках браузера', 'error');
+        },
+        { timeout: 10000 }
+      );
+    };
+
+    // =========================================================================
+    // FAVORITE CITIES MANAGER (LOCALSTORAGE)
+    // =========================================================================
+    window.getFavoriteCities = function() {
+      try {
+        return JSON.parse(localStorage.getItem('meteo_fav_cities') || '[]');
+      } catch(e) { return []; }
+    };
+
+    window.toggleFavoriteCity = function(cityName) {
+      const target = cityName || currentCity || 'Москва';
+      let favs = getFavoriteCities();
+      const idx = favs.indexOf(target);
+      if (idx >= 0) {
+        favs.splice(idx, 1);
+        if (typeof showToast === 'function') showToast(`Удалено из избранного: ${target}`, 'info');
+      } else {
+        favs.push(target);
+        if (typeof showToast === 'function') showToast(`Добавлено в избранное: ${target}`, 'success');
+      }
+      localStorage.setItem('meteo_fav_cities', JSON.stringify(favs));
+      updateFavStarIcon(target);
+    };
+
+    window.updateFavStarIcon = function(cityName) {
+      const icon = document.getElementById('fav-star-icon');
+      if (!icon) return;
+      const target = cityName || currentCity || 'Москва';
+      const favs = getFavoriteCities();
+      const isFav = favs.includes(target);
+      icon.textContent = isFav ? '★' : '☆';
+      icon.className = isFav ? 'text-amber-400 font-bold' : 'text-slate-400 hover:text-amber-400';
+    };
+
+    // =========================================================================
+    // TEMPERATURE UNIT TOGGLE (°C / °F)
+    // =========================================================================
+    window.getTempUnit = function() {
+      return localStorage.getItem('meteo_unit') || 'C';
+    };
+
+    window.toggleTempUnit = function() {
+      const cur = getTempUnit();
+      const next = (cur === 'C' ? 'F' : 'C');
+      localStorage.setItem('meteo_unit', next);
+      const lbl = document.getElementById('unit-toggle-label');
+      if (lbl) lbl.textContent = '°' + next;
+      if (typeof showToast === 'function') showToast(`Единицы измерения: °${next}`, 'info');
+      if (latestData) renderCurrentTab(latestData);
+    };
+
+    // =========================================================================
+    // TRAVELPAYOUTS PARTNER ENGINE WITH ERID (38-FZ)
+    // =========================================================================
+    const TRAVELPAYOUTS_CONFIG = {
+      enabled: false,
+      marker: '500100',
+      aviasalesUrl: 'https://aviasales.ru',
+      ostrovokUrl: 'https://ostrovok.ru',
+      erid: 'LjN8KXXXX'
+    };
+
+    window.renderTravelPartnerBox = function(city) {
+      if (!TRAVELPAYOUTS_CONFIG.enabled && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        return '';
+      }
+      const cityName = city || 'выбранный регион';
+      return `
+        <div id="travel-partner-box" class="glass-card rounded-2xl p-4 sm:p-5 border border-sky-500/20 bg-slate-900/40 text-xs space-y-2.5 my-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+              <span class="text-base">✈️</span>
+              <span class="font-bold text-white text-sm">Планируете поездку в г. ${cityName}?</span>
+            </div>
+            <span class="text-[10px] text-slate-500 font-mono">Реклама · erid: ${TRAVELPAYOUTS_CONFIG.erid}</span>
+          </div>
+          <p class="text-slate-400 text-[11.5px] leading-relaxed">
+            Сравните предложения отелей, гостиниц и авиабилетов на ваши даты с гарантией лучших цен.
+          </p>
+          <div class="flex flex-wrap items-center gap-2.5 pt-1">
+            <a href="${TRAVELPAYOUTS_CONFIG.aviasalesUrl}" target="_blank" rel="noopener sponsored" class="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs transition">
+              Билеты в ${cityName} →
+            </a>
+            <a href="${TRAVELPAYOUTS_CONFIG.ostrovokUrl}" target="_blank" rel="noopener sponsored" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs transition">
+              Отели в ${cityName} →
+            </a>
+          </div>
+        </div>
+      `;
+    };
+
+    // =========================================================================
+    // VIRAL WIDGET GENERATOR MODAL CONTROLLER
+    // =========================================================================
+    window.openWidgetModal = function() {
+      const m = document.getElementById('widget-modal');
+      if (m) {
+        m.classList.remove('hidden');
+        if (typeof lockBodyScroll === 'function') lockBodyScroll(true);
+        const inp = document.getElementById('widget-city-input');
+        if (inp) inp.value = currentCity || 'Москва';
+        updateWidgetPreview();
+      }
+    };
+
+    window.closeWidgetModal = function() {
+      const m = document.getElementById('widget-modal');
+      if (m) m.classList.add('hidden');
+      if (typeof lockBodyScroll === 'function') lockBodyScroll(false);
+    };
+
+    window.updateWidgetPreview = function() {
+      const cityInp = document.getElementById('widget-city-input');
+      const hSel = document.getElementById('widget-height-select');
+      const out = document.getElementById('widget-code-output');
+      const preview = document.getElementById('widget-iframe-container');
+      const cName = (cityInp && cityInp.value.trim()) || currentCity || 'Москва';
+      const h = (hSel && hSel.value) || '480';
+      const srcUrl = `https://meteocenter-rf.github.io/card.html?city=${encodeURIComponent(cName)}`;
+      const code = `<iframe src="${srcUrl}" width="100%" height="${h}" style="border:0;border-radius:16px;" loading="lazy"></iframe>\n<div style="font-size:11px;margin-top:4px;color:#64748b;">Данные: <a href="https://meteocenter-rf.github.io/?city=${encodeURIComponent(cName)}" target="_blank" style="color:#0284c7;text-decoration:none;">МетеоПортал РФ</a></div>`;
+      if (out) out.value = code;
+      if (preview) {
+        preview.innerHTML = `<iframe src="./card.html?city=${encodeURIComponent(cName)}" width="100%" height="${h}" style="border:0;" loading="lazy"></iframe>`;
+      }
+    };
+
+    window.copyWidgetCode = function() {
+      const out = document.getElementById('widget-code-output');
+      if (!out) return;
+      out.select();
+      navigator.clipboard.writeText(out.value).then(() => {
+        const btnText = document.getElementById('copy-widget-btn-text');
+        if (btnText) {
+          const orig = btnText.textContent;
+          btnText.textContent = '✓ Код скопирован!';
+          setTimeout(() => { btnText.textContent = orig; }, 2000);
+        }
+      }).catch(() => {
+        document.execCommand('copy');
+      });
+    };
+
 </script>
 </body>
 
