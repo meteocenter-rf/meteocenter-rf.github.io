@@ -6188,6 +6188,8 @@
     function getRegionVal(reg, decade, model, metric) {
       var mData = reg.models[model] || reg.models.ecmwf;
       if (metric === 'precip') return mData.precip;
+      if (decade === 'daily') return (mData.daily != null ? mData.daily : mData.dec1);
+      if (decade === 'tomorrow') return (mData.tomorrow != null ? mData.tomorrow : mData.dec1);
       if (decade === 1) return mData.dec1;
       if (decade === 2) return mData.dec2;
       if (decade === 3) return mData.dec3;
@@ -6204,7 +6206,9 @@
 
       var mult = 1.0;
 
-      if (decade === 1) mult = 0.5;
+      if (decade === 'daily' || decade === 'tomorrow') mult = 0.5;
+
+      else if (decade === 1) mult = 0.5;
 
       else if (decade === 2) mult = 0.8;
 
@@ -6705,6 +6709,8 @@
       var info = getActiveDateInfo();
 
       var periodMap = {
+        'daily': "Суточная аномалия (Сегодня): Отклонение среднесуточной T от нормы ВМО",
+        'tomorrow': "Суточная аномалия (Завтра): Ожидаемое отклонение температуры по модели",
         1: "1-я декада (1–10 " + info.monthShort + "): " + (info.month === 10 ? "Вход глубоких циклонов на север Сибири и теплый вынос на ЕТР" : "Текущий декадный период"),
         2: "2-я декада (11–20 " + info.monthShort + "): " + (info.month === 10 ? "Продвижение арктического холода и переход среднесуточной T через 0°C" : "Развитие синоптических процессов"),
         3: "3-я декада (21–" + info.lastDay + " " + info.monthShort + "): " + (info.month === 10 ? "Формирование Сибирского антициклона и снежный покров" : "Кульминация декадной циркуляции"),
@@ -6715,6 +6721,8 @@
       };
 
       var descMap = {
+        'daily': "Фактическое поле температурных аномалий за текущие сутки по регионам России относительно базового климатического периода WMO 1991–2020.",
+        'tomorrow': "Прогностическое распределение суточных аномалий температуры на завтрашние сутки по данным ансамбля численных моделей.",
         1: "Активная циклоническая деятельность на арктическом побережье Сибири (снегопады на Таймыре при T около -1...0°C, выше нормы). В Центральной России и Поволжье удерживается теплая антициклоническая погода (+2...+3°C выше нормы).",
         2: "Смещение высотной фронтальной зоны к югу. Усиление ночных радиационных заморозков на Урале и в Западной Сибири, стабилизация снежного покрова в тундре и лесотундре.",
         3: "Углубление континентального ядра высокого давления над Сибирью и Якутией. Установление постоянного зимнего режима в азиатской части страны, предзимнее похолодание в Европейской России.",
@@ -8830,12 +8838,39 @@ if (rKey === 'central') {
         var expectedP = (normP / info.lastDay) * daysCount;
         var pctP = Math.max(10, Math.min(300, Math.round((totalP / Math.max(1.0, expectedP)) * 100)));
 
+        // Daily (Today) and Tomorrow Anomaly Calculation
+        var todayStr = new Date().toISOString().slice(0, 10);
+        var tomorrowDate = new Date();
+        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        var tomorrowStr = tomorrowDate.toISOString().slice(0, 10);
+
+        var todayIdx = times.indexOf(todayStr);
+        var tomorrowIdx = times.indexOf(tomorrowStr);
+
+        var todayT = (todayIdx >= 0 && tmean[todayIdx] != null) ? tmean[todayIdx] : (all_month_t.length ? all_month_t[all_month_t.length - 1] : normT);
+        var tomorrowT = (tomorrowIdx >= 0 && tmean[tomorrowIdx] != null) ? tmean[tomorrowIdx] : todayT;
+
+        var curDayNum = new Date().getDate();
+        var curDayNorm = curDayNum <= 10 ? normD1 : (curDayNum <= 20 ? normD2 : normD3);
+
+        var anomDaily = +(todayT - curDayNorm).toFixed(1);
+        var anomTomorrow = +(tomorrowT - curDayNorm).toFixed(1);
+
         // Seasonal Model ECMWF SEAS5 Calculation for upcoming months
         var nextMAnom = null, afterNextMAnom = null, winAnom = null;
         if (seasonalData && seasonalData[idx] && seasonalData[idx].daily) {
           var sDaily = seasonalData[idx].daily;
           var sTimes = sDaily.time || [];
-          var sT = sDaily.temperature_2m_mean || [];
+          var sT = sDaily.temperature_2m_mean;
+          if (!sT || !Array.isArray(sT)) {
+            for (var sk in sDaily) {
+              if (sk.indexOf('temperature_2m_mean') === 0 && Array.isArray(sDaily[sk])) {
+                sT = sDaily[sk];
+                break;
+              }
+            }
+          }
+          sT = sT || [];
           var next_t = [], after_t = [], win_t = [];
 
           var nextMStr = curY + '-' + (nextM < 10 ? '0' : '') + nextM;
@@ -8863,6 +8898,8 @@ if (rKey === 'central') {
 
         calculatedResults.push({
           key: regMeta.key,
+          daily: anomDaily,
+          tomorrow: anomTomorrow,
           dec1: anom1,
           dec2: anom2,
           dec3: anom3,
@@ -8918,6 +8955,8 @@ if (rKey === 'central') {
         // 1. Models assignment
         if (reg.models) {
           if (reg.models.ecmwf) {
+            if (res.daily != null) reg.models.ecmwf.daily = res.daily;
+            if (res.tomorrow != null) reg.models.ecmwf.tomorrow = res.tomorrow;
             reg.models.ecmwf.dec1 = res.dec1;
             reg.models.ecmwf.dec2 = res.dec2;
             reg.models.ecmwf.dec3 = res.dec3;
