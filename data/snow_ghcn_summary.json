@@ -1,0 +1,290 @@
+{
+  "metadata": {
+    "source": "NOAA NCEI GHCN-Daily / WMO Observatory Live Network",
+    "license": "Public Domain / WMO Resolution 40",
+    "last_build_utc": "2026-11-14T22:59:34Z",
+    "total_stations": 28
+  },
+  "stations": [
+    {
+      "wmo": "22113",
+      "name": "Мурманск",
+      "lat": 68.97,
+      "lon": 33.08,
+      "snow_cm": 11.0,
+      "temp_c": -3.0,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "22550",
+      "name": "Архангельск",
+      "lat": 64.54,
+      "lon": 40.54,
+      "snow_cm": 5.0,
+      "temp_c": 0.3,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "23205",
+      "name": "Нарьян-Мар",
+      "lat": 67.64,
+      "lon": 53.0,
+      "snow_cm": 12.0,
+      "temp_c": -0.3,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "23274",
+      "name": "Воркута",
+      "lat": 67.5,
+      "lon": 64.05,
+      "snow_cm": 17.0,
+      "temp_c": -4.4,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "23804",
+      "name": "Сыктывкар",
+      "lat": 61.67,
+      "lon": 50.83,
+      "snow_cm": 3.0,
+      "temp_c": 0.5,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "26063",
+      "name": "Санкт-Петербург",
+      "lat": 59.93,
+      "lon": 30.31,
+      "snow_cm": 0,
+      "temp_c": 4.1,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "22820",
+      "name": "Петрозаводск",
+      "lat": 61.78,
+      "lon": 34.35,
+      "snow_cm": 4.0,
+      "temp_c": 0.0,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "27612",
+      "name": "Москва (ВДНХ)",
+      "lat": 55.83,
+      "lon": 37.62,
+      "snow_cm": 0,
+      "temp_c": 2.2,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "27595",
+      "name": "Казань",
+      "lat": 55.79,
+      "lon": 49.12,
+      "snow_cm": 0,
+      "temp_c": 2.9,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "27459",
+      "name": "Нижний Новгород",
+      "lat": 56.33,
+      "lon": 44.0,
+      "snow_cm": 0,
+      "temp_c": 2.0,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "28807",
+      "name": "Самара",
+      "lat": 53.2,
+      "lon": 50.15,
+      "snow_cm": 0,
+      "temp_c": 8.9,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T02:45"
+    },
+    {
+      "wmo": "34123",
+      "name": "Воронеж",
+      "lat": 51.67,
+      "lon": 39.2,
+      "snow_cm": 0,
+      "temp_c": 2.1,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "34731",
+      "name": "Ростов-на-Дону",
+      "lat": 47.23,
+      "lon": 39.72,
+      "snow_cm": 0,
+      "temp_c": 6.2,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "34927",
+      "name": "Краснодар",
+      "lat": 45.04,
+      "lon": 38.98,
+      "snow_cm": 0,
+      "temp_c": 7.6,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "37099",
+      "name": "Сочи",
+      "lat": 43.6,
+      "lon": 39.73,
+      "snow_cm": 0,
+      "temp_c": 15.7,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T01:45"
+    },
+    {
+      "wmo": "28224",
+      "name": "Пермь",
+      "lat": 58.01,
+      "lon": 56.25,
+      "snow_cm": 3.0,
+      "temp_c": 2.9,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T03:45"
+    },
+    {
+      "wmo": "28440",
+      "name": "Екатеринбург",
+      "lat": 56.84,
+      "lon": 60.61,
+      "snow_cm": 0,
+      "temp_c": 0.8,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T03:45"
+    },
+    {
+      "wmo": "28367",
+      "name": "Тюмень",
+      "lat": 57.15,
+      "lon": 65.54,
+      "snow_cm": 0,
+      "temp_c": 0.3,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T03:45"
+    },
+    {
+      "wmo": "23330",
+      "name": "Салехард",
+      "lat": 66.53,
+      "lon": 66.6,
+      "snow_cm": 23.0,
+      "temp_c": -4.2,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T03:45"
+    },
+    {
+      "wmo": "23358",
+      "name": "Новый Уренгой",
+      "lat": 66.08,
+      "lon": 76.68,
+      "snow_cm": 10.0,
+      "temp_c": -4.8,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T03:45"
+    },
+    {
+      "wmo": "28698",
+      "name": "Омск",
+      "lat": 54.99,
+      "lon": 73.37,
+      "snow_cm": 2.0,
+      "temp_c": -0.7,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T04:45"
+    },
+    {
+      "wmo": "29634",
+      "name": "Новосибирск",
+      "lat": 55.03,
+      "lon": 82.93,
+      "snow_cm": 0,
+      "temp_c": -1.4,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T05:45"
+    },
+    {
+      "wmo": "29570",
+      "name": "Красноярск",
+      "lat": 56.01,
+      "lon": 92.85,
+      "snow_cm": 0,
+      "temp_c": -3.6,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T05:45"
+    },
+    {
+      "wmo": "23078",
+      "name": "Норильск",
+      "lat": 69.35,
+      "lon": 88.2,
+      "snow_cm": 19.0,
+      "temp_c": -9.4,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T05:45"
+    },
+    {
+      "wmo": "30710",
+      "name": "Иркутск",
+      "lat": 52.29,
+      "lon": 104.3,
+      "snow_cm": 6.0,
+      "temp_c": -9.5,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T06:45"
+    },
+    {
+      "wmo": "24959",
+      "name": "Якутск",
+      "lat": 62.03,
+      "lon": 129.73,
+      "snow_cm": 13.0,
+      "temp_c": -26.7,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T07:45"
+    },
+    {
+      "wmo": "25913",
+      "name": "Магадан",
+      "lat": 59.57,
+      "lon": 150.8,
+      "snow_cm": 20.0,
+      "temp_c": -16.0,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T09:45"
+    },
+    {
+      "wmo": "31960",
+      "name": "Владивосток",
+      "lat": 43.12,
+      "lon": 131.89,
+      "snow_cm": 0,
+      "temp_c": -0.6,
+      "source": "● ФАКТ (ВМО / GHCNd)",
+      "updated_at": "2026-11-15T08:45"
+    }
+  ]
+}
