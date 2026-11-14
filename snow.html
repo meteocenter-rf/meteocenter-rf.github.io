@@ -1305,7 +1305,7 @@
       'norilsk': {
         name: 'Норильск (НПР)',
         lat: 69.354, lon: 88.203,
-        firstSnowDate: '3–4 окт 2026',
+        firstSnowDate: 'Начало октября',
         firstSnowDetail: 'ФАКТ: первый снегопад начался в ночь на 4 окт (T: 0°C), покров 1–2 см, днем до 4–5 см',
         normFirstSnow: '15–20 сентября',
         meltDate: '14–18 июня',
@@ -1315,7 +1315,7 @@
         avgDepth: 'Средняя за зиму: 64 см',
         ridgeDepth: 'до 10–15 метров',
         currentStatus: 'Покров 2 см (Идет снег)',
-        currentTempSub: 'T: 0.0°C, влажный снег, ветер 7-12 м/с',
+        currentTempSub: 'Заполярье: снежный покров',
         snowDays: '250–265 дней',
         satTile: 'Sentinel-2 / World Imagery (Норильский промрайон)',
         satDesc: 'НПР: Норильск, Кайеркан, Талнах · Оптический зум 10м–1м · Озера Долгое и Пясино',
@@ -1334,7 +1334,7 @@
       'oganer': {
         name: 'Оганер (Пойма р. Норильской / Тундра)',
         lat: 69.380, lon: 88.550,
-        firstSnowDate: '3–4 окт 2026',
+        firstSnowDate: 'Начало октября',
         firstSnowDetail: 'ФАКТ: снегопад в открытой тундре, текущий покров 3 см, днем на равнине до 6–7 см',
         normFirstSnow: '16–21 сентября',
         meltDate: '12–16 июня',
@@ -1363,7 +1363,7 @@
       'kayerkan': {
         name: 'Кайеркан (Гряда и трасса на Алыкель)',
         lat: 69.345, lon: 87.755,
-        firstSnowDate: '3–4 окт 2026',
+        firstSnowDate: 'Начало октября',
         firstSnowDetail: 'ФАКТ: метель на автодороге Норильск–Алыкель, покров 2–4 см',
         normFirstSnow: '14–19 сентября',
         meltDate: '20 июня – 10 авг',
@@ -1392,7 +1392,7 @@
       'talnakh': {
         name: 'Талнах (Гора Отдельная / Хараелах)',
         lat: 69.500, lon: 88.400,
-        firstSnowDate: '3–4 окт 2026',
+        firstSnowDate: 'Начало октября',
         firstSnowDetail: 'ФАКТ: орографический снег у подножия Отдельной, покров 4–6 см',
         normFirstSnow: '12–16 сентября',
         meltDate: '20–28 июня',
@@ -2441,9 +2441,8 @@
         document.getElementById('link-copernicus').href = `https://browser.dataspace.copernicus.eu/?zoom=12&lat=${lat}&lng=${lon}&themeId=DEFAULT-THEME`;
         document.getElementById('link-nasa').href = `https://worldview.earthdata.nasa.gov/?v=${lon-1.5},${lat-0.5},${lon+1.5},${lat+0.5}`;
 
-        // Live GIBS snapshot
-        const gibsUrl = `https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=${new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10)}T00:00:00Z&BBOX=${lat-0.2},${lon-0.3},${lat+0.2},${lon+0.3}&CRS=EPSG:4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor,Coastlines_15m&FORMAT=image/jpeg&WIDTH=800&HEIGHT=500`;
-        document.getElementById('sat-preview-img').src = gibsUrl;
+        // Live satellite update
+        updateSatImage(customData);
 
         // Custom curve for chart
         if (chartInstance) {
@@ -2782,6 +2781,128 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
       marker.bindPopup(popupContent, { className: 'snow-leaflet-popup' });
       snowMarkers.push({ marker: marker, data: st });
     });
+
+    // Live batch update from Open-Meteo for all 65 Russian snow stations
+    var lats = RUSSIA_SNOW_STATIONS.map(function(s) { return s.lat; }).join(',');
+    var lons = RUSSIA_SNOW_STATIONS.map(function(s) { return s.lon; }).join(',');
+    var snowBatchUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + lats + '&longitude=' + lons +
+                       '&current=temperature_2m&hourly=snow_depth&forecast_days=1';
+
+    fetch(snowBatchUrl)
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(batchData) {
+        if (!batchData) return;
+        var items = Array.isArray(batchData) ? batchData : [batchData];
+        var maxSnow = 0;
+        var maxStation = null;
+        var etrCount = 0, etrNoSnow = 0;
+        var minLatSnowSiberia = 90, minLatSnowETR = 90;
+
+        items.forEach(function(item, idx) {
+          var st = RUSSIA_SNOW_STATIONS[idx];
+          var markerObj = snowMarkers[idx];
+          if (!st || !item) return;
+
+          var cur = item.current || {};
+          var h = item.hourly || {};
+          if (cur.temperature_2m != null) st.temp = Math.round(cur.temperature_2m * 10) / 10;
+          if (h.snow_depth && h.snow_depth[0] != null) {
+            var rawM = h.snow_depth[0];
+            st.snow = rawM > 0 ? (rawM < 10 ? Math.round(rawM * 100) : Math.round(rawM)) : 0;
+          }
+
+          if (st.snow > maxSnow) {
+            maxSnow = st.snow;
+            maxStation = st;
+          }
+
+          if (st.lon < 60) {
+            etrCount++;
+            if (st.snow === 0) etrNoSnow++;
+            else if (st.lat < minLatSnowETR) minLatSnowETR = Math.round(st.lat);
+          } else {
+            if (st.snow > 0 && st.lat < minLatSnowSiberia) minLatSnowSiberia = Math.round(st.lat);
+          }
+
+          var pinClass = "snow-pin-zero";
+          var pinIcon = "🌱";
+          var pinLabel = "0 см";
+
+          if (st.snow > 0 && st.snow <= 5) {
+            pinClass = "snow-pin-low";
+            pinIcon = "❄️";
+            pinLabel = st.snow + " см";
+            st.status = "Снежный покров " + st.snow + " см";
+          } else if (st.snow > 5 && st.snow <= 15) {
+            pinClass = "snow-pin-mid";
+            pinIcon = "❄️";
+            pinLabel = st.snow + " см";
+            st.status = "Устойчивый покров " + st.snow + " см";
+          } else if (st.snow > 15 && st.snow <= 30) {
+            pinClass = "snow-pin-high";
+            pinIcon = "🏔️";
+            pinLabel = st.snow + " см";
+            st.status = "Сугробы " + st.snow + " см";
+          } else if (st.snow > 30) {
+            pinClass = "snow-pin-extreme";
+            pinIcon = "⛄";
+            pinLabel = st.snow + " см";
+            st.status = "Глубокий снег " + st.snow + " см";
+          } else {
+            st.status = "Снега нет (голая земля)";
+          }
+
+          if (markerObj && markerObj.marker) {
+            var newIcon = L.divIcon({
+              className: 'custom-snow-div-icon',
+              html: '<div class="snow-pin ' + pinClass + '"><span>' + pinIcon + '</span><span>' + pinLabel + '</span></div>',
+              iconSize: [60, 24],
+              iconAnchor: [30, 12]
+            });
+            markerObj.marker.setIcon(newIcon);
+
+            var newPopup = [
+              '<div class="p-2 font-sans" style="min-width: 200px;">',
+              '  <div class="text-[11px] font-mono text-sky-400 font-bold uppercase tracking-wider">Метеостанция WMO ' + st.wmo + ' (LIVE)</div>',
+              '  <div class="text-base font-black mt-0.5">' + st.name + '</div>',
+              '  <div class="mt-2 pt-2 border-t border-slate-700/60 flex items-center justify-between text-xs">',
+              '    <span class="text-slate-400">Толщина снега:</span>',
+              '    <span class="font-mono font-black text-sm ' + (st.snow > 0 ? 'text-sky-300' : 'text-emerald-400') + '">' + st.snow + ' см</span>',
+              '  </div>',
+              '  <div class="flex items-center justify-between text-xs mt-1">',
+              '    <span class="text-slate-400">Температура:</span>',
+              '    <span class="font-mono font-bold text-slate-200">' + (st.temp > 0 ? '+' : '') + st.temp + ' °C</span>',
+              '  </div>',
+              '  <div class="text-[11px] text-slate-300 bg-slate-800/80 rounded px-2 py-1 mt-2">',
+              '    ' + st.status,
+              '  </div>',
+              '</div>'
+            ].join('');
+            markerObj.marker.setPopupContent(newPopup);
+          }
+        });
+
+        // Update 3 summary cards above map
+        var boundEl = document.getElementById('snow-boundary-status');
+        var maxEl = document.getElementById('snow-max-status');
+        var etrEl = document.getElementById('snow-etr-status');
+
+        if (boundEl) {
+          var sibTxt = minLatSnowSiberia < 90 ? (minLatSnowSiberia + '° с.ш. в Сибири') : 'полярные широты';
+          var etrTxt = minLatSnowETR < 90 ? (minLatSnowETR + '° на ЕТР') : 'на севере ЕТР';
+          boundEl.innerHTML = '<span class="text-sky-400 font-bold">● LIVE:</span> Покров от 1 см: севернее ' + sibTxt + ' и ' + etrTxt;
+        }
+        if (maxEl && maxStation) {
+          maxEl.innerHTML = '<span class="text-sky-400 font-mono font-bold">' + maxStation.name + ': ' + maxSnow + ' см</span> (T: ' + (maxStation.temp > 0 ? '+' : '') + maxStation.temp + '°C)';
+        }
+        if (etrEl && etrCount > 0) {
+          var noPct = Math.round((etrNoSnow / etrCount) * 100);
+          etrEl.innerHTML = '<span class="text-emerald-400 font-bold">● LIVE:</span> ' + noPct + '% станций ЕТР без снега (0 см)';
+        }
+      })
+      .catch(function(e) {
+        console.warn('Snow batch fetch notice:', e);
+      });
   }
 
   function updateSnowTileLayer() {
