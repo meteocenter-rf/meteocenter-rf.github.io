@@ -207,8 +207,12 @@
     :root {
       --font-sans: 'Onest', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-      font-feature-settings: 'tnum' on, 'zero' on;
-      font-variant-numeric: tabular-nums;
+      font-feature-settings: normal;
+      font-variant-numeric: normal;
+    }
+    button, nav, .tab-btn, .tab-btn-anomalies, h1, h2, h3, h4, h5, h6 {
+      font-variant-numeric: proportional-nums;
+      font-feature-settings: "pnum" 1;
     }
     *, ::before, ::after {
       box-sizing: border-box;
@@ -710,6 +714,9 @@
       font-size: 0.8125rem;
       white-space: nowrap;
       font-family: var(--font-sans);
+      font-variant-numeric: proportional-nums !important;
+      font-feature-settings: "pnum" 1 !important;
+      letter-spacing: -0.01em;
       flex-shrink: 0;
       user-select: none;
     }
