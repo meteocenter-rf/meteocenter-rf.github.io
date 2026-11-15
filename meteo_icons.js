@@ -179,14 +179,15 @@
     }
 
     // 2. Crisp Asterisk Snowflake Generator (6-point with solid center core)
-    function mkSnowflake(cx, cy, r = 3.6) {
+    function mkSnowflake(cx, cy, r = 3.8) {
       return `
         <g transform="translate(${cx}, ${cy})">
-          <line x1="-${r}" y1="0" x2="${r}" y2="0" stroke="#0284c7" stroke-width="1.7" stroke-linecap="round"/>
-          <line x1="0" y1="-${r}" x2="0" y2="${r}" stroke="#0284c7" stroke-width="1.7" stroke-linecap="round"/>
-          <line x1="-${r*0.7}" y1="-${r*0.7}" x2="${r*0.7}" y2="${r*0.7}" stroke="#0284c7" stroke-width="1.7" stroke-linecap="round"/>
-          <line x1="-${r*0.7}" y1="${r*0.7}" x2="${r*0.7}" y2="-${r*0.7}" stroke="#0284c7" stroke-width="1.7" stroke-linecap="round"/>
-          <circle cx="0" cy="0" r="1.1" fill="#0284c7"/>
+          <line x1="-${r}" y1="0" x2="${r}" y2="0" stroke="#38bdf8" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="0" y1="-${r}" x2="0" y2="${r}" stroke="#38bdf8" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="-${r*0.7}" y1="-${r*0.7}" x2="${r*0.7}" y2="${r*0.7}" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="-${r*0.7}" y1="${r*0.7}" x2="${r*0.7}" y2="-${r*0.7}" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="0" cy="0" r="1.2" fill="#0284c7"/>
+          <circle cx="0" cy="0" r="0.6" fill="#f0f9ff"/>
         </g>
       `;
     }
@@ -230,9 +231,9 @@
     if (isBlizz) {
       badge = `
         <g transform="translate(3, 4)">
-          <polygon points="10,0 20,17 0,17" fill="#f59e0b" stroke="#d97706" stroke-width="1.4" stroke-linejoin="round"/>
-          <circle cx="10" cy="11" r="3.4" fill="#ffffff"/>
-          <path d="M8.5 10.5 A 1.8 1.8 0 0 1 11.5 11 A 1.4 1.4 0 0 1 10 12.5" fill="none" stroke="#b45309" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M10 1.5 C10.8 1.5 11.6 2 12 2.8 L19.2 15.5 C19.6 16.3 19.6 17.2 19.2 18 C18.8 18.7 18 19.2 17.2 19.2 L2.8 19.2 C2 19.2 1.2 18.7 0.8 18 C0.4 17.2 0.4 16.3 0.8 15.5 L8 2.8 C8.4 2 9.2 1.5 10 1.5 Z" fill="#f59e0b" stroke="#d97706" stroke-width="1.2"/>
+          <circle cx="10" cy="12.5" r="3.6" fill="#ffffff"/>
+          <path d="M8.2 12 A 1.8 1.8 0 0 1 11.8 12.5 A 1.4 1.4 0 0 1 10 14.2" fill="none" stroke="#b45309" stroke-width="1.3" stroke-linecap="round"/>
         </g>
       `;
     }
@@ -274,8 +275,11 @@
   /**
    * Transforms raw API hourly data into 3 days x 4 synoptic periods with meteorological indicators.
    */
-  function buildGismeteoDays(d) {
+  function buildGismeteoDays(d, maxDays) {
     if (!d) return [];
+    const limit = (typeof maxDays === 'number' && maxDays > 0) 
+      ? maxDays 
+      : ((typeof window !== 'undefined' && window.gismeteoDaysCount) ? window.gismeteoDaysCount : 3);
     const raw = d.hourly_raw || {};
     const hTimes = raw.time || [];
     const hTemps = raw.temperature_2m || [];
@@ -302,7 +306,7 @@
       const hourPart = parseInt(tStr.split('T')[1].split(':')[0], 10);
 
       if (!daysMap[datePart]) {
-        if (Object.keys(daysMap).length >= 3) break;
+        if (Object.keys(daysMap).length >= limit) break;
         const dt = new Date(datePart + 'T12:00:00');
         const dayOfWeek = dt.getDay(); // 0 is Sun, 6 is Sat
         const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
@@ -509,23 +513,32 @@
 
     return `
       <div class="w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm p-4 overflow-hidden mb-6">
-        <!-- Header: Breadcrumbs & Title & Nav -->
+        <!-- Header: Breadcrumbs & Title & Day Selector & Nav -->
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
           <div>
             <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 tracking-tight truncate">
               Россия / ${region || 'Регион РФ'}
             </div>
             <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">
-              Погода в ${city ? (city.startsWith('г. ') ? city : 'г. ' + city) : 'городе'} на 3 дня
+              Погода в ${city ? (city.startsWith('г. ') ? city : 'г. ' + city) : 'городе'} на ${days.length} дня
             </h3>
           </div>
-          <div class="flex items-center gap-1">
-            <button onclick="document.getElementById('${randId}').scrollBy({left: -288, behavior: 'smooth'})" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors" title="Назад">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
-            </button>
-            <button onclick="document.getElementById('${randId}').scrollBy({left: 288, behavior: 'smooth'})" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors" title="Вперед">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-            </button>
+          <div class="flex items-center gap-2">
+            <!-- Day Selector Toggle: 3 дня / 5 дней / 7 дней -->
+            <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-bold">
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(3)" class="px-2 py-0.5 rounded ${days.length === 3 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">3 дня</button>
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(5)" class="px-2 py-0.5 rounded ${days.length === 5 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">5 дней</button>
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(7)" class="px-2 py-0.5 rounded ${days.length === 7 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">7 дней</button>
+            </div>
+            <!-- Scroll Navigation Buttons -->
+            <div class="flex items-center gap-1">
+              <button onclick="document.getElementById('${randId}').scrollBy({left: -288, behavior: 'smooth'})" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer" title="Назад">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button onclick="document.getElementById('${randId}').scrollBy({left: 288, behavior: 'smooth'})" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer" title="Вперед">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
           </div>
         </div>
 
