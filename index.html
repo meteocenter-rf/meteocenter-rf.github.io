@@ -2002,7 +2002,7 @@
   }
 
   /* Snow chips & downloads */
-  button#chip-norilsk, a#sat-direct-download {
+  a#sat-direct-download {
     background-color: #0369a1 !important;
     color: #ffffff !important;
     border-color: #075985 !important;
@@ -2053,7 +2053,68 @@
     }
   }
 
-</style>
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-height: 36px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border-radius: 0.625rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+    }
+    .nav-btn {
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .nav-btn:hover {
+      background-color: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
+    .dark .nav-btn {
+      background-color: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .dark .nav-btn:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    .nav-btn-active {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    }
+    .dark .nav-btn-active {
+      background-color: rgba(30, 41, 59, 0.95) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    .nav-btn-active svg {
+      color: #0284c7 !important;
+    }
+    .dark .nav-btn-active svg {
+      color: #38bdf8 !important;
+    }
+
+  </style>
 
   <!-- Yandex.Metrika counter -->
   <script type="text/javascript">
@@ -3102,17 +3163,15 @@
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Dedicated Anomalies & Circulation Page Link -->
-        <a href="anomalies.html" class="nav-btn hidden sm:inline-flex !bg-rose-500/10 !border-rose-300 dark:!border-rose-500/30 text-rose-700 dark:text-rose-300 font-bold shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
-          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <a href="anomalies.html" class="nav-btn hidden sm:inline-flex" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span class="hidden sm:inline">Аномалии</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-rose-700 text-white font-black hidden sm:inline">Карта</span>
         </a>
 
         <!-- Snow Monitor -->
-        <a href="snow.html" class="nav-btn hidden sm:inline-flex !bg-sky-500/20 !border-sky-400/60 !text-sky-300 hover:!bg-sky-500/30 font-bold shadow-sm" title="Снежный монитор и космическая гляциология">
-          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
-          <span class="inline font-bold">Снег</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-sky-700 text-white font-black hidden md:inline">NEW</span>
+        <a href="snow.html" class="nav-btn hidden sm:inline-flex" title="Снежный монитор и космическая гляциология">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
+          <span class="hidden sm:inline">Снег</span>
         </a>
 
         <!-- Clean Navigation: Models & Articles -->
