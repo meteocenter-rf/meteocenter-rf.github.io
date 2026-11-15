@@ -3818,7 +3818,7 @@
     }
 
     // Tab Switching
-    window.gismeteoDaysCount = 3;
+    window.gismeteoDaysCount = 14;
     window.setGismeteoDays = function(n) {
       window.gismeteoDaysCount = n;
       if (latestData) {
@@ -7935,11 +7935,11 @@
 
 
     // =========================================================================
-    // GISMETEO-STYLE 3-5 DAY STEPPED FORECAST VISUALIZER ENGINE
+    // GISMETEO-STYLE 14-DAY STEPPED FORECAST VISUALIZER ENGINE
     // =========================================================================
-    function buildGismeteoDays(d) {
+    function buildGismeteoDays(d, maxDays) {
       if (typeof buildGismeteoFlawlessDays === 'function') {
-        return buildGismeteoFlawlessDays(d);
+        return buildGismeteoFlawlessDays(d, maxDays || window.gismeteoDaysCount || 14);
       }
       return [];
     }
@@ -8326,8 +8326,8 @@
           </div>
         </div>
 
-        <!-- ================= GISMETEO-STYLE 3-5-7 DAY STEPPED FORECAST VISUALIZER ================= -->
-        ${renderGismeteoVisualizer(pureCity, d.region || d.coords, buildGismeteoDays(d, window.gismeteoDaysCount || 3))}
+        <!-- ================= GISMETEO-STYLE 14-DAY STEPPED FORECAST VISUALIZER ================= -->
+        ${renderGismeteoVisualizer(pureCity, d.region || d.coords, buildGismeteoDays(d, window.gismeteoDaysCount || 14))}
 
         <!-- =================  HIGH-DENSITY METEOROLOGICAL MATRIX (ПОЧАСОВАЯ СЕТКА) ================= -->
         <div class="glass-card rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-lg space-y-2.5">
