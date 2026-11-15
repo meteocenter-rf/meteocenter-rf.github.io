@@ -6340,8 +6340,15 @@
         }
         minMembers.sort((a, b) => a - b);
 
-        const ctrlMaxVal = Math.round((wnMaxCtrlRaw[i] != null ? wnMaxCtrlRaw[i] : maxMembers[Math.floor(maxMembers.length / 2)]) * 10) / 10;
-        const ctrlMinVal = Math.round((wnMinCtrlRaw[i] != null ? wnMinCtrlRaw[i] : minMembers[Math.floor(minMembers.length / 2)]) * 10) / 10;
+        let rawMax = (wnMaxCtrlRaw && wnMaxCtrlRaw[i] != null) ? wnMaxCtrlRaw[i] : (maxMembers.length ? maxMembers[Math.floor(maxMembers.length / 2)] : (ecMax[i] != null ? ecMax[i] : 10));
+        let rawMin = (wnMinCtrlRaw && wnMinCtrlRaw[i] != null) ? wnMinCtrlRaw[i] : (minMembers.length ? minMembers[Math.floor(minMembers.length / 2)] : (ecMin[i] != null ? ecMin[i] : 4));
+        if (rawMax < rawMin) {
+          const swapTmp = rawMax;
+          rawMax = rawMin;
+          rawMin = swapTmp;
+        }
+        const ctrlMaxVal = Math.round(rawMax * 10) / 10;
+        const ctrlMinVal = Math.round(rawMin * 10) / 10;
         const p10Max = Math.round((maxMembers[Math.floor(maxMembers.length * 0.1)] != null ? maxMembers[Math.floor(maxMembers.length * 0.1)] : maxMembers[0]) * 10) / 10;
         const p90Max = Math.round((maxMembers[Math.floor(maxMembers.length * 0.9)] != null ? maxMembers[Math.floor(maxMembers.length * 0.9)] : maxMembers[maxMembers.length - 1]) * 10) / 10;
         const p10Min = Math.round((minMembers[Math.floor(minMembers.length * 0.1)] != null ? minMembers[Math.floor(minMembers.length * 0.1)] : minMembers[0]) * 10) / 10;
@@ -7682,7 +7689,7 @@
           <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 pl-1">Режим сопоставления:</span>
           <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-medium">
             <button onclick="switchTab('models')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'models' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">🌐 Мультимодели (ECMWF, ICON, GFS, GEM)</button>
-            <button onclick="switchTab('weathernext')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'weathernext' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">🤖 Ансамбль WeatherNext (ИИ)</button>
+            <button onclick="switchTab('weathernext')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'weathernext' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">🤖 Google DeepMind WeatherNext 2 (64 члена)</button>
           </div>
         </div>
         <div class="text-[11px] text-slate-400 font-mono pr-1 hidden sm:block">64 члена ансамбля · Открытые данные</div>
@@ -10367,12 +10374,12 @@
               <p class="text-[11px] text-slate-400 mt-0.5">
                 ${clim.station_name} · ${clim.region_desc || ''}
               </p>
-              <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[10.5px] text-slate-400 font-mono">
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-800/90 border border-slate-700/60 text-slate-300">
-                  🏛️ 1890–1939: метеостанции ВМО / NOAA GHCN-Daily
+              <div class="flex flex-wrap items-center gap-2 pt-1.5 text-[11px] text-slate-400 font-mono">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/90 border border-slate-700/60 text-slate-200 shadow-xs">
+                  🏛️ 1890 - 1939: ВМО / NOAA GHCN-Daily
                 </span>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-950/70 border border-sky-800/60 text-sky-300">
-                  🌐 1940–2026: реанализ ECMWF ERA5 (0.25°)
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-950/70 border border-sky-800/60 text-sky-200 shadow-xs">
+                  🌐 1940 - 2026: реанализ ECMWF ERA5
                 </span>
               </div>
             </div>
@@ -15729,7 +15736,7 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white tracking-tight text-sm sm:text-base">Гидродинамический ансамбль ECMWF IFS (14 дней)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white tracking-tight text-sm sm:text-base">Google DeepMind WeatherNext 2 (64 члена ансамбля, 0.25°)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 сценариев на 2 полные недели</p>
             </div>
           </div>
@@ -15930,7 +15937,7 @@
         <div class="glass-card rounded-xl p-4 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
           <div class="text-slate-900 dark:text-white font-bold uppercase flex items-center space-x-2">
             <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
-            <span>ГИДРОДИНАМИЧЕСКИЙ АНСАМБЛЬ WEATHERNEXT IFS</span>
+            <span>АНСАМБЛЬ GOOGLE DEEPMIND WEATHERNEXT 2 (0.25°)</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
             <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
@@ -15957,10 +15964,10 @@
         const ctrlMax = (wn.control_max && wn.control_max.length) ? wn.control_max.slice(0, 14) : daily.map(d => d.t_max);
         const ctrlMin = (wn.control_min && wn.control_min.length) ? wn.control_min.slice(0, 14) : daily.map(d => d.t_min);
         const p90Max = (wn.p90_max && wn.p90_max.length) ? wn.p90_max.slice(0, 14) : ctrlMax.map(v => v + 1.6);
-        const p10Max = (wn.p10_max && wn.p10_max.length) ? wn.p10_max.slice(0, 14) : ctrlMax.map(v => v - 1.5);
+        const p10Max = (wn.p10_max && wn.p10_max.length) ? wn.p10_max.slice(0, 14) : ctrlMin.map(v => v - 1.5);
         const precipMedian = (wn.precip && wn.precip.length) ? wn.precip.slice(0, 14) : daily.map(d => d.precip || 0);
 
-        // Ensure physical consistency: Day Tmax is always >= Night Tmin
+        // Guarantee physical consistency: Day Tmax is ALWAYS >= Night Tmin across all 14 days
         for (let i = 0; i < ctrlMax.length; i++) {
           if (ctrlMax[i] != null && ctrlMin[i] != null && ctrlMax[i] < ctrlMin[i]) {
             const tmp = ctrlMax[i];
@@ -15970,6 +15977,11 @@
           if (p90Max[i] != null && ctrlMax[i] != null && p90Max[i] < ctrlMax[i]) p90Max[i] = ctrlMax[i] + 1.2;
           if (p10Max[i] != null && ctrlMin[i] != null && p10Max[i] > ctrlMin[i]) p10Max[i] = ctrlMin[i] - 1.2;
         }
+
+        // Calculate explicit shared temperature scale bounds to eliminate independent axis scaling
+        const allTemps = [...ctrlMax, ...ctrlMin, ...p90Max, ...p10Max].filter(v => v != null && !isNaN(v));
+        const sharedTMin = allTemps.length ? Math.floor(Math.min(...allTemps)) - 2 : -10;
+        const sharedTMax = allTemps.length ? Math.ceil(Math.max(...allTemps)) + 2 : 25;
 
         const options = {
           series: [
@@ -16016,24 +16028,29 @@
           yaxis: [
             {
               seriesName: 'WeatherNext Днём (°C)',
+              min: sharedTMin,
+              max: sharedTMax,
               forceNiceScale: true,
               title: { text: 'T (°C)', style: { color: '#10b981', fontSize: '11px', fontWeight: 600 } },
               labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#10b981' } }
             },
             {
               seriesName: 'WeatherNext Днём (°C)',
-              show: false,
-              forceNiceScale: true
+              min: sharedTMin,
+              max: sharedTMax,
+              show: false
             },
             {
               seriesName: 'WeatherNext Днём (°C)',
-              show: false,
-              forceNiceScale: true
+              min: sharedTMin,
+              max: sharedTMax,
+              show: false
             },
             {
               seriesName: 'WeatherNext Днём (°C)',
-              show: false,
-              forceNiceScale: true
+              min: sharedTMin,
+              max: sharedTMax,
+              show: false
             },
             {
               seriesName: 'Осадки медиана (мм)',
@@ -18475,7 +18492,7 @@
         }
         if (urlParams.has('mode')) {
           const m = urlParams.get('mode').trim();
-          if (tabButtons[m]) {
+          if (m) {
             currentMode = m;
           }
         }
