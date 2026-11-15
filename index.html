@@ -18093,15 +18093,28 @@
         }
       } catch (e) {}
     }
-    function acceptCookieNotice() {
+    function acceptAllCookies() {
       try {
-        localStorage.setItem('meteo_cookie_consent', 'true');
+        localStorage.setItem('meteo_cookie_consent', 'all');
+        const el = document.getElementById('cookie-notice');
+        if (el) el.classList.add('hidden');
+        if (typeof initYandexMetrika === 'function') initYandexMetrika();
+      } catch (e) {}
+    }
+    function acceptTechnicalCookies() {
+      try {
+        localStorage.setItem('meteo_cookie_consent', 'technical');
         const el = document.getElementById('cookie-notice');
         if (el) el.classList.add('hidden');
       } catch (e) {}
     }
+    function acceptCookieNotice() {
+      acceptTechnicalCookies();
+    }
     window.initCookieNotice = initCookieNotice;
     window.acceptCookieNotice = acceptCookieNotice;
+    window.acceptAllCookies = acceptAllCookies;
+    window.acceptTechnicalCookies = acceptTechnicalCookies;
     setTimeout(initCookieNotice, 1500);
 
   </script>
