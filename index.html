@@ -6874,6 +6874,7 @@
         daily_list.push({
           date_lbl: dLbl,
           day_name: dName,
+          wmo: dCodes[i] != null ? dCodes[i] : 0,
           icon: dIcon,
           desc: dDesc,
           t_min: dMins[i] != null ? Math.round(dMins[i]) : 5,
@@ -8081,56 +8082,166 @@
             ${uvVal > 0 ? uvVal : '0'}
           </td>
         `;
-      });
+            });
+
+      // Build 7-Day Forecast Cards Strip for Side-by-Side Ergonomic Hub
+      const dailyList = d.daily || [];
+      const weekSlice = dailyList.slice(0, 7);
+      const allMins = weekSlice.map(x => x.t_min != null ? x.t_min : 0);
+      const allMaxs = weekSlice.map(x => x.t_max != null ? x.t_max : 10);
+      const globMin = allMins.length ? Math.min(...allMins) : 0;
+      const globMax = allMaxs.length ? Math.max(...allMaxs) : 15;
+      const globSpan = Math.max(1, globMax - globMin);
+
+      const sevenDaysHtml = weekSlice.map((day, idx) => {
+        const isToday = (idx === 0);
+        const dayName = day.day_name || (isToday ? 'Сегодня' : 'День');
+        const isWeekend = (dayName === 'Сб' || dayName === 'Вс');
+        const dayHeaderColor = isToday 
+          ? 'text-sky-700 dark:text-sky-300 font-black' 
+          : (isWeekend ? 'text-rose-600 dark:text-rose-400 font-extrabold' : 'text-slate-700 dark:text-slate-200 font-bold');
+
+        const cardBg = isToday 
+          ? 'bg-sky-50/60 dark:bg-sky-950/40 border-sky-200/80 dark:border-sky-800/80 shadow-xs' 
+          : (isWeekend ? 'bg-rose-50/20 dark:bg-rose-950/20 border-rose-200/50 dark:border-rose-900/40 hover:bg-rose-50/40' : 'bg-slate-50/40 dark:bg-slate-800/40 border-slate-200/70 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-800/70');
+
+        const tMin = day.t_min != null ? day.t_min : 0;
+        const tMax = day.t_max != null ? day.t_max : 10;
+        const maxStr = (tMax > 0 ? '+' : '') + Math.round(tMax) + '°';
+        const minStr = (tMin > 0 ? '+' : '') + Math.round(tMin) + '°';
+
+        const leftPct = Math.max(0, Math.min(85, ((tMin - globMin) / globSpan) * 100));
+        const widthPct = Math.max(12, Math.min(100 - leftPct, ((tMax - tMin) / globSpan) * 100));
+        const barColor = tMax > 15 ? 'bg-amber-500' : (tMax > 0 ? 'bg-sky-500' : 'bg-cyan-500');
+
+        const iconSvg = (typeof getMeteoIconSvg === 'function') 
+          ? getMeteoIconSvg(day.wmo != null ? day.wmo : (day.code != null ? day.code : 2), 1, 32)
+          : (day.icon || '⛅');
+
+        const precVal = (day.precip != null && day.precip >= 0.1) ? Number(day.precip).toFixed(1) : null;
+        let precBadge = `<div class="text-[10px] text-slate-400 dark:text-slate-500 truncate leading-none">без осадков</div>`;
+        if (precVal) {
+          const isSnowDay = tMax <= 1;
+          precBadge = `
+            <div class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/70 px-1 py-0.5 rounded leading-none">
+              <span>${isSnowDay ? '❄️' : '💧'}</span><span>${precVal} ${isSnowDay ? 'см' : 'мм'}</span>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="p-2.5 rounded-xl ${cardBg} border text-center flex flex-col justify-between h-[215px] transition-colors select-none">
+            <div>
+              <div class="text-xs ${dayHeaderColor} uppercase tracking-tight">${dayName}</div>
+              <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">${day.date_lbl || ''}</div>
+            </div>
+            <div class="my-1 flex items-center justify-center h-10" title="${day.desc || ''}">
+              ${iconSvg}
+            </div>
+            <div class="space-y-1">
+              <div class="font-mono font-bold text-base text-slate-800 dark:text-slate-100 leading-none">${maxStr}</div>
+              <div class="font-mono text-xs text-slate-400 dark:text-slate-500 leading-none">${minStr}</div>
+              <div class="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full overflow-hidden my-1">
+                <div class="${barColor} h-full rounded-full" style="width: ${widthPct}%; margin-left: ${leftPct}%;"></div>
+              </div>
+              <div class="h-4 flex items-center justify-center">${precBadge}</div>
+              <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500">💨 ${day.wind || 3} м/с</div>
+            </div>
+          </div>
+        `;
+      }).join('');
 
       card.innerHTML = `
-        <!-- ================= COMPACT HERO CURRENT WEATHER BANNER ================= -->
-        <div class="glass-card rounded-3xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-xl relative overflow-hidden">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 relative z-10">
-            <!-- Left: City, Condition, Comfort, Min/Max -->
-            <div class="space-y-2.5">
-              <div class="flex flex-wrap items-center gap-2">
-                <div id="station-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 shadow-sm">
-                  <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
-                  <span id="station-badge-text">${getCleanStationDisplay(c.station_name, d.city)} • ${d.coords}</span>
+        <!-- ================= GISMETEO-STYLE UNIFIED ERGONOMIC HUB: CURRENT WEATHER + 7-DAY FORECAST ================= -->
+        <div class="flex flex-col lg:flex-row gap-4 items-stretch">
+          <!-- LEFT: COMPACT ACTUAL CURRENT WEATHER (~350px on desktop) -->
+          <div class="w-full lg:w-[350px] shrink-0 glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-sm flex flex-col justify-between relative overflow-hidden">
+            <div>
+              <!-- Station Badge -->
+              <div class="flex items-center gap-1.5 mb-2">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-50 dark:bg-sky-950/60 border border-sky-200/60 dark:border-sky-800/60 text-[11px] font-semibold text-sky-700 dark:text-sky-300">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse"></span>
+                  <span>${getCleanStationDisplay(c.station_name, d.city)}</span>
+                </span>
+              </div>
+
+              <!-- City & Current Temp Row -->
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <h1 class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">${pureCity}</h1>
+                  <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-0.5">Фактическая погода сейчас</div>
+                </div>
+                <div class="text-right">
+                  <div class="flex items-baseline justify-end">
+                    <span class="text-4xl sm:text-5xl font-black weather-num text-slate-900 dark:text-white tracking-tight leading-none">${tSign}</span>
+                    <span class="text-xl font-medium text-slate-400 dark:text-slate-500 ml-0.5 select-none">°C</span>
+                  </div>
+                  <div class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
+                    ощущается как <strong class="text-slate-800 dark:text-slate-200 font-mono font-bold">${appSign}°</strong>
+                  </div>
                 </div>
               </div>
 
-              <div class="flex items-center space-x-3.5">
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-none">${pureCity}</h1>
-                <div class="inline-flex items-center justify-center -my-3 select-none">${getAnimatedWeatherSvg(c.weather_code, c.is_day)}</div>
+              <!-- Condition & Today's Min/Max -->
+              <div class="mt-3 flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-200">
+                  <span>${c.condition || 'Пасмурно'}</span>
+                </div>
+                <div class="font-mono text-slate-500 dark:text-slate-400 font-medium">
+                  ↓ Мин <strong class="text-slate-700 dark:text-slate-200">${minSign}°</strong> / ↑ Макс <strong class="text-slate-700 dark:text-slate-200">${maxSign}°</strong>
+                </div>
               </div>
 
-              <div class="text-sm sm:text-base text-slate-800 dark:text-slate-200 font-medium flex items-center space-x-2.5">
-                <span class="font-bold">${c.condition || 'Переменная облачность'}</span>
-                <span class="text-slate-600 dark:text-slate-300">•</span>
-                <span class="text-slate-700 dark:text-slate-300">Ощущается как <strong class="text-slate-900 dark:text-white font-mono font-bold">${appSign}°C</strong></span>
-              </div>
-
-              <div class="flex flex-wrap items-center gap-2 pt-1 text-xs font-mono">
-                <div class="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center space-x-2 shadow-sm">
-                  <span class="font-bold">↓ Мин ${minSign}°</span>
-                  <span class="text-slate-600 dark:text-slate-300">/</span>
-                  <span class="font-bold">↑ Макс ${maxSign}°</span>
-                </div>
-                <div class="px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold shadow-sm">
-                  <span>${anomText}</span>
-                </div>
+              <!-- Climate Anomaly Pill -->
+              <div class="mt-2 text-[11px] font-medium text-sky-700 dark:text-sky-300 bg-sky-50/70 dark:bg-sky-950/40 border border-sky-200/50 dark:border-sky-800/50 rounded-lg px-2.5 py-1 flex items-center justify-between">
+                <span>Климат-норма ${normMonthName}: ${normMonthVal}</span>
+                <span class="font-bold font-mono">${anomText.replace('В пределах климатической нормы ВМО', 'Норма')}</span>
               </div>
             </div>
 
-            <!-- Right: Temperature & Norm Display -->
-            <div class="flex items-start md:items-end flex-col justify-center shrink-0 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800/80 pt-4 md:pt-0 md:pl-8">
-              <div class="text-[11px] font-sans uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-1 font-bold">Фактическая температура</div>
-              <div class="flex items-baseline">
-                <span class="text-6xl sm:text-7xl font-extrabold weather-num tracking-tighter text-slate-900 dark:text-white leading-none">
-                  ${tSign}
-                </span>
-                <span class="text-2xl sm:text-3xl font-medium text-slate-400 dark:text-slate-500 ml-1 select-none">°C</span>
+            <!-- Quick Metrics (2x2 Grid) -->
+            <div class="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
+              <div class="p-2 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500">Ветер</div>
+                <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${w} м/с <span class="font-sans font-normal text-[11px] text-slate-500 dark:text-slate-400">${c.wind_dir_name || ''}</span></div>
+                <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">порывы до ${c.wind_gusts || Math.round((c.wind_speed || 3) * 1.4)} м/с</div>
               </div>
-              <div class="text-xs text-slate-700 dark:text-slate-300 font-sans mt-2 flex items-center space-x-2">
-                <span>Климат-норма ${normMonthName}:</span>
-                <strong class="text-slate-800 dark:text-slate-200 font-bold weather-num">${normMonthVal}</strong>
+              <div class="p-2 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500">Давление</div>
+                <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${pr}</div>
+                <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">${c.pressure_hpa ? c.pressure_hpa + ' гПа' : 'в норме'}</div>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500">Влажность</div>
+                <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${hum}</div>
+                <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">роса ${dp}°C</div>
+              </div>
+              <div class="p-2 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80">
+                <div class="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500">Снежный покров</div>
+                <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${snDepth}</div>
+                <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">сегодня: ${snToday}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: 7-DAY FORECAST STRIP ALONGSIDE CURRENT WEATHER (~65-70% width) -->
+          <div class="w-full lg:flex-1 min-w-0 glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-sm flex flex-col justify-between">
+            <!-- Header: Title + Controls -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <h2 class="text-sm font-extrabold uppercase tracking-tight text-slate-800 dark:text-slate-100">Прогноз погоды на 7 дней</h2>
+              </div>
+              <div class="flex items-center gap-1.5 text-xs">
+                <span class="px-2 py-0.5 rounded-md bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-bold text-[11px] border border-sky-200/60 dark:border-sky-800/60">ECMWF IFS</span>
+                <button onclick="switchTab('daily_14')" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 font-semibold text-[11px] transition-colors ml-1 cursor-pointer">На 14 дней →</button>
+              </div>
+            </div>
+
+            <!-- 7 Daily Cards Strip -->
+            <div class="overflow-x-auto scrollbar-thin pt-3 pb-1">
+              <div class="grid grid-cols-7 gap-2 min-w-[560px]">
+                ${sevenDaysHtml}
               </div>
             </div>
           </div>
