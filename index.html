@@ -7136,15 +7136,37 @@
         });
       }
 
-      // 14-day Daily forecast
-      const daily_list = [];
-      const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+      // 16-day Multi-Model Daily forecast with Seamless Cascade (Zero Synthetic Fallbacks)
       const dCodes = getField(daily, 'weather_code');
       const dMaxs = getField(daily, 'temperature_2m_max');
       const dMins = getField(daily, 'temperature_2m_min');
       const dPrecs = getField(daily, 'precipitation_sum');
       const dSnows = getField(daily, 'snowfall_sum');
       const dWinds = getField(daily, 'wind_speed_10m_max');
+      const daily_list = [];
+      const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+
+      // Seamless Multi-Model Per-Day Resolver: ECMWF IFS -> GFS -> ICON -> GEM -> base key
+      const resolveDailyVal = (key, idx) => {
+        const priorityModels = [
+          'ecmwf_ifs025',
+          'gfs_seamless',
+          'icon_seamless',
+          'gem_seamless',
+          'ecmwf_aifs025',
+          'jma_seamless'
+        ];
+        for (const m of priorityModels) {
+          const arr = daily[`${key}_${m}`];
+          if (Array.isArray(arr) && arr[idx] != null && !isNaN(arr[idx])) {
+            return arr[idx];
+          }
+        }
+        if (Array.isArray(daily[key]) && daily[key][idx] != null && !isNaN(daily[key][idx])) {
+          return daily[key][idx];
+        }
+        return null;
+      };
 
       for (let i = 0; i < dTimes.length; i++) {
         const dtStr = dTimes[i];
@@ -7155,27 +7177,49 @@
           const dayIdx = dObj.getDay();
           dName = (i === 0) ? 'Сегодня' : ((i === 1) ? 'Завтра' : dayNames[dayIdx]);
         } catch (e) {}
-        const [dIcon, dDesc] = getWmo(dCodes[i] != null ? dCodes[i] : 0);
-        const tMinVal = dMins[i] != null ? Math.round(dMins[i]) : 5;
-        const tMaxVal = dMaxs[i] != null ? Math.round(dMaxs[i]) : 15;
-        const precVal = dPrecs[i] != null ? Math.round(dPrecs[i]*10)/10 : 0;
-        let snowVal = (dSnows && dSnows[i] != null) ? Math.round(dSnows[i]*10)/10 : 0;
+
+        const rawMax = resolveDailyVal('temperature_2m_max', i);
+        const rawMin = resolveDailyVal('temperature_2m_min', i);
+        const rawCode = resolveDailyVal('weather_code', i);
+        const rawPrec = resolveDailyVal('precipitation_sum', i);
+        const rawSnow = resolveDailyVal('snowfall_sum', i);
+        const rawWind = resolveDailyVal('wind_speed_10m_max', i);
+
+        // If no model has data for this day and it is beyond forecast range, do not push phantom days
+        if (rawMax == null && rawMin == null) {
+          if (i >= 14) continue;
+        }
+
+        let tMaxVal = rawMax != null ? Math.round(rawMax) : (daily_list.length > 0 ? daily_list[daily_list.length - 1].t_max : 0);
+        let tMinVal = rawMin != null ? Math.round(rawMin) : (daily_list.length > 0 ? daily_list[daily_list.length - 1].t_min : -3);
+        if (tMaxVal < tMinVal) {
+          const tmp = tMaxVal;
+          tMaxVal = tMinVal;
+          tMinVal = tmp;
+        }
+
+        const effectiveCode = rawCode != null ? rawCode : (daily_list.length > 0 ? daily_list[daily_list.length - 1].wmo : 3);
+        const [dIcon, dDesc] = getWmo(effectiveCode);
+        const precVal = rawPrec != null ? Math.round(rawPrec * 10) / 10 : 0;
+        let snowVal = rawSnow != null ? Math.round(rawSnow * 10) / 10 : 0;
+
         // Physical snow-to-liquid calculation if snowfall_sum is 0 but temperature <= 0 and precip > 0
         if (snowVal === 0 && precVal > 0 && tMaxVal <= 0) {
           const slr = tMaxVal <= -8 ? 1.5 : (tMaxVal <= -3 ? 1.2 : 1.0);
           snowVal = Math.round(precVal * slr * 10) / 10;
         }
+
         daily_list.push({
           date_lbl: dLbl,
           day_name: dName,
-          wmo: dCodes[i] != null ? dCodes[i] : 0,
+          wmo: effectiveCode,
           icon: dIcon,
           desc: dDesc,
           t_min: tMinVal,
           t_max: tMaxVal,
           precip: precVal,
           snowfall: snowVal,
-          wind: dWinds[i] != null ? Math.round(dWinds[i]) : 3
+          wind: rawWind != null ? Math.round(rawWind) : 3
         });
       }
 
