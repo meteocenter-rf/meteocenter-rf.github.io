@@ -446,7 +446,7 @@
       const cx = i * slotWidth + slotWidth / 2;
       const sign = st.temp > 0 ? `+${st.temp}` : `${st.temp}`;
       return `
-        <text x="${cx}" y="${st.midY}" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', 'Inter', system-ui, sans-serif" font-weight="800" font-size="14.5" fill="#0369a1" class="dark:fill-[#f0f9ff] select-none pointer-events-none" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
+        <text x="${cx}" y="${st.midY}" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', 'Inter', system-ui, sans-serif" font-weight="800" font-size="14.5" fill="#082f49" class="select-none pointer-events-none font-bold" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
           ${sign}
         </text>
       `;
