@@ -68,6 +68,7 @@
       to { transform: rotate(360deg); }
     }
   </style>
+  <script src="meteo_icons.js"></script>
 </head>
 <body class="p-2 sm:p-4 antialiased min-h-screen">
   <!-- Top Portal Link Banner -->
@@ -734,7 +735,7 @@
 
       document.getElementById('metric-temp').textContent = `${tSign}${data.temp.toFixed(1)}°`;
       document.getElementById('metric-feel').textContent = `ощущ. ${fSign}${data.feel.toFixed(1)}°`;
-      document.getElementById('temp-icon').textContent = data.icon;
+      document.getElementById('temp-icon').innerHTML = (typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(data.weather_code != null ? data.weather_code : (data.wmo != null ? data.wmo : 2), 1, 32) : (data.icon || '⛅');
       document.getElementById('metric-weather-desc').textContent = data.desc;
 
       document.getElementById('metric-press').textContent = pressMmHg;
@@ -894,6 +895,7 @@
           target.feel = Math.round(cur.apparent_temperature * 10) / 10;
           target.desc = wDesc;
           target.icon = wIcon;
+          target.weather_code = cur.weather_code;
           target.pressHpa = pressHpa;
           target.windSpd = Math.round((cur.wind_speed_10m || 0) * 10) / 10;
           target.windGust = Math.round((cur.wind_gusts_10m || cur.wind_speed_10m * 1.5) * 10) / 10;
@@ -1067,9 +1069,10 @@
       hoursData.forEach((d, i) => {
         const card = document.createElement('div');
         card.className = "flex-shrink-0 w-20 bg-[var(--card)] border border-[var(--border)] rounded-xl p-2 flex flex-col items-center justify-between text-center hover:border-sky-500/40 transition";
+        const iconSvg = (typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(d.rain > 0 ? 61 : (d.t <= 0 ? 71 : (d.t > 14 ? 0 : 2)), 1, 24) : (d.rain > 0 ? '🌧' : (d.t > 14 ? '☀️' : (d.t <= 0 ? '❄️' : '⛅')));
         card.innerHTML = `
           <span class="text-[11px] text-[var(--muted-foreground)] font-mono">${i === 0 ? 'Сейчас' : d.time}</span>
-          <span class="text-base my-0.5">${d.rain > 0 ? '🌧' : (d.t > 14 ? '☀️' : (d.t <= 0 ? '❄️' : '⛅'))}</span>
+          <span class="my-0.5 inline-flex items-center justify-center">${iconSvg}</span>
           <span class="text-xs font-black font-mono text-[var(--foreground)]">${d.t > 0 ? '+' : ''}${d.t}°</span>
           <span class="text-[10px] text-blue-400 font-mono">${d.td > 0 ? '+' : ''}${d.td}°</span>
           <span class="text-[10px] text-cyan-300 font-mono">${d.wind} м/с</span>
@@ -1145,7 +1148,7 @@
         card.innerHTML = `
           <div class="flex justify-between items-center text-xs font-semibold">
             <span class="text-[var(--foreground)]">${dName}</span>
-            <span class="text-base">${icon}</span>
+            <span class="inline-flex items-center justify-center">${(typeof getMeteoIconSvg === "function") ? getMeteoIconSvg(prec > 0 ? (minVal <= 0 ? 71 : 61) : (maxVal > 15 ? 0 : (maxVal <= 0 ? 71 : 2)), 1, 26) : icon}</span>
           </div>
           <div class="my-2">
             <div class="flex justify-between items-baseline font-mono text-xs">
@@ -1191,7 +1194,7 @@
         row.innerHTML = `
           <div class="flex items-center gap-2.5 w-28">
             <span class="text-[var(--muted-foreground)] font-semibold">${dateLabel}</span>
-            <span class="text-base">${icon}</span>
+            <span class="inline-flex items-center justify-center">${(typeof getMeteoIconSvg === "function") ? getMeteoIconSvg(prec > 0 ? (minVal <= 0 ? 71 : 61) : (maxVal > 16 ? 0 : (maxVal <= 0 ? 71 : 2)), 1, 24) : icon}</span>
           </div>
           <div class="flex items-center gap-2 flex-1 max-w-xs">
             <span class="text-sky-300 w-12 text-right">${minVal > 0 ? '+' : ''}${minVal}°</span>
