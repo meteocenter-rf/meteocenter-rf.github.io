@@ -2274,18 +2274,35 @@ html.light .glass {
 
     // SEARCH GEOCODING
     let searchTimeout = null;
+    let snowSearchAbortController = null;
+    let snowSearchSeq = 0;
+
     async function handleSearchInput(query) {
       clearTimeout(searchTimeout);
       const dropdown = document.getElementById('search-dropdown');
       if (!query || query.trim().length < 2) {
+        if (snowSearchAbortController) {
+          try { snowSearchAbortController.abort(); } catch(e) {}
+          snowSearchAbortController = null;
+        }
         dropdown.classList.add('hidden');
         return;
       }
 
+      const seq = ++snowSearchSeq;
+      if (snowSearchAbortController) {
+        try { snowSearchAbortController.abort(); } catch(e) {}
+      }
+      snowSearchAbortController = new AbortController();
+      const signal = snowSearchAbortController.signal;
+
       searchTimeout = setTimeout(async () => {
         try {
-          const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=ru&format=json`);
+          const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=ru&format=json`, { signal });
+          if (seq !== snowSearchSeq || signal.aborted) return;
           const data = await res.json();
+          if (seq !== snowSearchSeq || signal.aborted) return;
+
           if (data.results && data.results.length > 0) {
             dropdown.innerHTML = data.results.map(city => `
               <div onclick="selectGeocodedCity(${city.latitude}, ${city.longitude}, '${city.name.replace("'", "")}', '${(city.admin1 || city.country || "").replace("'", "")}')"
@@ -2303,9 +2320,9 @@ html.light .glass {
             dropdown.classList.remove('hidden');
           }
         } catch (e) {
-          console.error(e);
+          if (e.name !== 'AbortError') console.error(e);
         }
-      }, 300);
+      }, 250);
     }
 
     async function selectGeocodedCity(lat, lon, name, region) {
