@@ -279,7 +279,7 @@
     if (!d) return [];
     const limit = (typeof maxDays === 'number' && maxDays > 0) 
       ? maxDays 
-      : ((typeof window !== 'undefined' && window.gismeteoDaysCount) ? window.gismeteoDaysCount : 3);
+      : ((typeof window !== 'undefined' && window.gismeteoDaysCount) ? window.gismeteoDaysCount : 14);
     const raw = d.hourly_raw || {};
     const hTimes = raw.time || [];
     const hTemps = raw.temperature_2m || [];
@@ -398,12 +398,12 @@
   function renderGismeteoFlawless(city, region, days) {
     if (!days || !days.length) return '';
 
-    // Flatten all slots across days (12 slots for 3 days)
+    // Flatten all slots across days
     const allSlots = [];
     days.forEach(d => d.slots.forEach(s => allSlots.push(s)));
     const N = allSlots.length;
-    const slotWidth = 72; // Fixed width per slot in px
-    const totalW = N * slotWidth; // Exactly 864px for 12 slots
+    const slotWidth = (N <= 12) ? 96 : 72; // 96px for 3 days to fill desktop card; 72px for 7-14+ days
+    const totalW = N * slotWidth;
     const ribbonH = 76;
     const bandH = 34;
 
@@ -446,7 +446,7 @@
       const cx = i * slotWidth + slotWidth / 2;
       const sign = st.temp > 0 ? `+${st.temp}` : `${st.temp}`;
       return `
-        <text x="${cx}" y="${st.midY}" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', 'Inter', system-ui, sans-serif" font-weight="800" font-size="14.5" fill="#0369a1" class="dark:fill-[#f0f9ff] select-none pointer-events-none">
+        <text x="${cx}" y="${st.midY}" text-anchor="middle" dominant-baseline="central" font-family="'JetBrains Mono', 'Inter', system-ui, sans-serif" font-weight="800" font-size="14.5" fill="#0369a1" class="dark:fill-[#f0f9ff] select-none pointer-events-none" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
           ${sign}
         </text>
       `;
@@ -470,7 +470,7 @@
 
       return `
         <div style="width: ${d.slots.length * slotWidth}px;" class="shrink-0 ${dayBorder} px-0 flex flex-col">
-          <div class="px-3 py-2 text-sm font-extrabold tracking-tight ${dayHeaderColor} border-b border-slate-200/60 dark:border-slate-800/80">
+          <div class="px-3 py-2 text-sm font-extrabold tracking-tight ${dayHeaderColor} border-b border-slate-200/60 dark:border-slate-800/80" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
             ${d.dateStr}
           </div>
           <div class="flex">
@@ -480,7 +480,7 @@
       `;
     }).join('');
 
-    // Row 3: Wind & Gusts Cards (matching the 72px slot width)
+    // Row 3: Wind & Gusts Cards (matching the slot width)
     const windsHtml = allSlots.map(s => {
       let gustBg = 'bg-slate-200/60 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300';
       if (s.gust >= 15) {
@@ -493,7 +493,7 @@
         <div style="width: ${slotWidth}px;" class="shrink-0 px-1 py-1">
           <div class="wind-pill text-center rounded-lg bg-slate-50/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 overflow-hidden shadow-xs">
             <div class="pt-2 pb-1.5 px-0.5">
-              <div class="font-mono font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-none">${s.wind}</div>
+              <div class="font-mono font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-none" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">${s.wind}</div>
               <div class="flex items-center justify-center gap-1 text-[10px] mt-1 text-slate-500 dark:text-slate-400">
                 <svg style="transform: rotate(${s.dir}deg)" class="w-2.5 h-2.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19V5m0 0l-4 4m4-4l4 4"/>
@@ -501,7 +501,7 @@
                 <span class="font-medium">${s.dirName}</span>
               </div>
             </div>
-            <div class="py-1 px-0.5 font-mono text-[11px] ${gustBg} tracking-tight">
+            <div class="py-1 px-0.5 font-mono text-[11px] ${gustBg} tracking-tight" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
               ${s.gust}
             </div>
           </div>
@@ -511,24 +511,33 @@
 
     const randId = 'gismeteo_scroll_' + Math.random().toString(36).substr(2, 6);
 
+    let daysWord = `${days.length} дней`;
+    if (days.length === 1) daysWord = '1 день';
+    else if (days.length >= 2 && days.length <= 4) daysWord = `${days.length} дня`;
+    else if (days.length === 7) daysWord = '7 дней (неделю)';
+    else if (days.length === 10) daysWord = '10 дней';
+    else if (days.length === 14) daysWord = '14 дней (2 недели)';
+    else if (days.length === 16) daysWord = '16 дней';
+
     return `
       <div class="w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm p-4 overflow-hidden mb-6">
         <!-- Header: Breadcrumbs & Title & Day Selector & Nav -->
-        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800/80">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-3 border-b border-slate-100 dark:border-slate-800/80">
           <div>
             <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-500 tracking-tight truncate">
               Россия / ${region || 'Регион РФ'}
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight">
-              Погода в ${city ? (city.startsWith('г. ') ? city : 'г. ' + city) : 'городе'} на ${days.length} дня
+            <h3 class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 tracking-tight" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important; letter-spacing: -0.01em;">
+              Погода в ${city ? (city.startsWith('г. ') ? city : 'г. ' + city) : 'городе'} на ${daysWord}
             </h3>
           </div>
-          <div class="flex items-center gap-2">
-            <!-- Day Selector Toggle: 3 дня / 5 дней / 7 дней -->
-            <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-bold">
-              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(3)" class="px-2 py-0.5 rounded ${days.length === 3 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">3 дня</button>
-              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(5)" class="px-2 py-0.5 rounded ${days.length === 5 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">5 дней</button>
-              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(7)" class="px-2 py-0.5 rounded ${days.length === 7 ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-300 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer">7 дней</button>
+          <div class="flex flex-wrap items-center gap-2">
+            <!-- Day Selector Toggle: 14 дней (2 нед.) / 10 дней / 7 дней / 3 дня -->
+            <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700/60 text-[11px] font-bold" style="font-variant-numeric: proportional-nums !important; font-feature-settings: 'pnum' 1 !important;">
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(14)" class="px-2.5 py-1 rounded ${days.length === 14 ? 'bg-sky-600 text-white font-extrabold shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer select-none" style="letter-spacing: -0.01em;">14 дней (2 нед.)</button>
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(10)" class="px-2.5 py-1 rounded ${days.length === 10 ? 'bg-sky-600 text-white font-extrabold shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer select-none" style="letter-spacing: -0.01em;">10 дней</button>
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(7)" class="px-2.5 py-1 rounded ${days.length === 7 ? 'bg-sky-600 text-white font-extrabold shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer select-none" style="letter-spacing: -0.01em;">7 дней</button>
+              <button type="button" onclick="if(window.setGismeteoDays)window.setGismeteoDays(3)" class="px-2.5 py-1 rounded ${days.length === 3 ? 'bg-sky-600 text-white font-extrabold shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'} transition-colors cursor-pointer select-none" style="letter-spacing: -0.01em;">3 дня</button>
             </div>
             <!-- Scroll Navigation Buttons -->
             <div class="flex items-center gap-1">
@@ -542,50 +551,61 @@
           </div>
         </div>
 
-        <!-- Scrollable Table -->
-        <div id="${randId}" class="overflow-x-auto scrollbar-thin pt-2">
-          <div style="min-width: ${totalW}px;" class="flex flex-col select-none">
-            <!-- Row 1: Day Columns with Periods and Weather Icons -->
-            <div class="flex w-full">
-              ${daysColumnsHtml}
-            </div>
+        <!-- Relative Wrapper with Scrollable Table and Floating Chevron Buttons -->
+        <div class="relative w-full group mt-1">
+          <!-- Scrollable Table -->
+          <div id="${randId}" class="overflow-x-auto scrollbar-thin pt-2 scroll-smooth">
+            <div style="min-width: ${totalW}px;" class="flex flex-col select-none">
+              <!-- Row 1: Day Columns with Periods and Weather Icons -->
+              <div class="flex w-full">
+                ${daysColumnsHtml}
+              </div>
 
-            <!-- Row 2: Section Label for Temperature -->
-            <div class="px-2 pt-2.5 pb-1 text-xs font-bold text-slate-600 dark:text-slate-400">
-              Температура воздуха, °C
-            </div>
+              <!-- Row 2: Section Label for Temperature -->
+              <div class="px-2 pt-2.5 pb-1 text-xs font-bold text-slate-600 dark:text-slate-400">
+                Температура воздуха, °C
+              </div>
 
-            <!-- Row 3: CONTINUOUS STEPPED SVG RIBBON (ZERO CUTS, ZERO GAPS) -->
-            <div class="w-full relative" style="height: ${ribbonH}px;">
-              <svg width="${totalW}" height="${ribbonH}" viewBox="0 0 ${totalW} ${ribbonH}" fill="none" xmlns="http://www.w3.org/2000/svg" class="overflow-visible block">
-                <defs>
-                  <linearGradient id="frostGrad_${randId}" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#cbe8fe"/>
-                    <stop offset="100%" stop-color="#90cdf4"/>
-                  </linearGradient>
-                  <filter id="ribbonShadow_${randId}" x="-2%" y="-5%" width="104%" height="115%">
-                    <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#0284c7" flood-opacity="0.15"/>
-                  </filter>
-                </defs>
-                <path d="${pathD}" fill="url(#frostGrad_${randId})" stroke="#7ec3f5" stroke-width="1.2" stroke-linejoin="miter" filter="url(#ribbonShadow_${randId})"/>
-                ${tempTexts}
-              </svg>
-            </div>
+              <!-- Row 3: CONTINUOUS STEPPED SVG RIBBON (ZERO CUTS, ZERO GAPS) -->
+              <div class="w-full relative" style="height: ${ribbonH}px;">
+                <svg width="${totalW}" height="${ribbonH}" viewBox="0 0 ${totalW} ${ribbonH}" fill="none" xmlns="http://www.w3.org/2000/svg" class="overflow-visible block">
+                  <defs>
+                    <linearGradient id="frostGrad_${randId}" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#cbe8fe"/>
+                      <stop offset="100%" stop-color="#90cdf4"/>
+                    </linearGradient>
+                    <filter id="ribbonShadow_${randId}" x="-2%" y="-5%" width="104%" height="115%">
+                      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#0284c7" flood-opacity="0.15"/>
+                    </filter>
+                  </defs>
+                  <path d="${pathD}" fill="url(#frostGrad_${randId})" stroke="#7ec3f5" stroke-width="1.2" stroke-linejoin="miter" filter="url(#ribbonShadow_${randId})"/>
+                  ${tempTexts}
+                </svg>
+              </div>
 
-            <!-- Row 4: Section Label for Wind -->
-            <div class="px-2 pt-3 pb-1 flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-400">
-              <svg class="w-3.5 h-3.5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                <path stroke-linecap="round" stroke-width="2" d="M12 16v-4m0-4h.01"/>
-              </svg>
-              <span>Ветер и порывы, м/с</span>
-            </div>
+              <!-- Row 4: Section Label for Wind -->
+              <div class="px-2 pt-3 pb-1 flex items-center gap-1.5 text-xs font-bold text-slate-600 dark:text-slate-400">
+                <svg class="w-3.5 h-3.5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                  <path stroke-linecap="round" stroke-width="2" d="M12 16v-4m0-4h.01"/>
+                </svg>
+                <span>Ветер и порывы, м/с</span>
+              </div>
 
-            <!-- Row 5: Wind & Gusts Modular Cards -->
-            <div class="flex w-full">
-              ${windsHtml}
+              <!-- Row 5: Wind & Gusts Modular Cards -->
+              <div class="flex w-full">
+                ${windsHtml}
+              </div>
             </div>
           </div>
+
+          <!-- Floating Chevron Scroll Arrows for instant easy scrolling (matches Gismeteo UX) -->
+          <button type="button" onclick="document.getElementById('${randId}').scrollBy({left: 360, behavior: 'smooth'})" class="hidden sm:flex absolute right-1 top-[48%] -translate-y-1/2 z-20 w-8 h-16 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-md shadow-md border border-slate-200/90 dark:border-slate-700/80 items-center justify-center text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-white dark:hover:bg-slate-800 hover:scale-105 transition-all cursor-pointer select-none" title="Прокрутить прогноз вперед">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button type="button" onclick="document.getElementById('${randId}').scrollBy({left: -360, behavior: 'smooth'})" class="hidden sm:flex absolute left-1 top-[48%] -translate-y-1/2 z-20 w-8 h-16 rounded-xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-md shadow-md border border-slate-200/90 dark:border-slate-700/80 items-center justify-center text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-white dark:hover:bg-slate-800 hover:scale-105 transition-all cursor-pointer select-none" title="Прокрутить прогноз назад">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+          </button>
         </div>
       </div>
     `;
