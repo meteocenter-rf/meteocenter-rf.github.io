@@ -3811,6 +3811,18 @@
     }
 
     // Tab Switching
+    window.gismeteoDaysCount = 3;
+    window.setGismeteoDays = function(n) {
+      window.gismeteoDaysCount = n;
+      if (latestData) {
+        renderCurrentTab(latestData);
+      }
+    };
+    window.scrollForecastStrip = function(delta) {
+      const el = document.getElementById('forecast-strip-track');
+      if (el) el.scrollBy({ left: delta, behavior: 'smooth' });
+    };
+
     function switchTab(mode) {
       currentMode = mode;
       for (const [k, btn] of Object.entries(tabButtons)) {
@@ -5967,7 +5979,7 @@
       lastCoords = { lat, lon };
 
       // 2. Multi-Model 4-Ensemble Forecast API: ECMWF + ICON + GFS + GEM
-      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,sunrise,sunset,daylight_duration&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=14&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
+      const fUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility,is_day&hourly=temperature_2m,apparent_temperature,precipitation,snow_depth,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,relative_humidity_2m,uv_index,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,visibility&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,snowfall_sum,wind_speed_10m_max,sunrise,sunset,daylight_duration&models=ecmwf_ifs025,icon_seamless,gfs_seamless,gem_seamless&forecast_days=16&timezone=${encodeURIComponent(tz)}&wind_speed_unit=ms`;
 
       // 3. Air Quality API
       const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=european_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,uv_index&timezone=${encodeURIComponent(tz)}`;
@@ -6859,6 +6871,7 @@
       const dMaxs = getField(daily, 'temperature_2m_max');
       const dMins = getField(daily, 'temperature_2m_min');
       const dPrecs = getField(daily, 'precipitation_sum');
+      const dSnows = getField(daily, 'snowfall_sum');
       const dWinds = getField(daily, 'wind_speed_10m_max');
 
       for (let i = 0; i < dTimes.length; i++) {
@@ -6871,15 +6884,25 @@
           dName = (i === 0) ? 'Сегодня' : ((i === 1) ? 'Завтра' : dayNames[dayIdx]);
         } catch (e) {}
         const [dIcon, dDesc] = getWmo(dCodes[i] != null ? dCodes[i] : 0);
+        const tMinVal = dMins[i] != null ? Math.round(dMins[i]) : 5;
+        const tMaxVal = dMaxs[i] != null ? Math.round(dMaxs[i]) : 15;
+        const precVal = dPrecs[i] != null ? Math.round(dPrecs[i]*10)/10 : 0;
+        let snowVal = (dSnows && dSnows[i] != null) ? Math.round(dSnows[i]*10)/10 : 0;
+        // Physical snow-to-liquid calculation if snowfall_sum is 0 but temperature <= 0 and precip > 0
+        if (snowVal === 0 && precVal > 0 && tMaxVal <= 0) {
+          const slr = tMaxVal <= -8 ? 1.5 : (tMaxVal <= -3 ? 1.2 : 1.0);
+          snowVal = Math.round(precVal * slr * 10) / 10;
+        }
         daily_list.push({
           date_lbl: dLbl,
           day_name: dName,
           wmo: dCodes[i] != null ? dCodes[i] : 0,
           icon: dIcon,
           desc: dDesc,
-          t_min: dMins[i] != null ? Math.round(dMins[i]) : 5,
-          t_max: dMaxs[i] != null ? Math.round(dMaxs[i]) : 15,
-          precip: dPrecs[i] != null ? Math.round(dPrecs[i]*10)/10 : 0,
+          t_min: tMinVal,
+          t_max: tMaxVal,
+          precip: precVal,
+          snowfall: snowVal,
           wind: dWinds[i] != null ? Math.round(dWinds[i]) : 3
         });
       }
@@ -8084,26 +8107,35 @@
         `;
             });
 
-      // Build 7-Day Forecast Cards Strip for Side-by-Side Ergonomic Hub
+      // Build 16-Day (2+ Weeks) Scrollable Forecast Strip with Frosted Snow Styling (0 Emojis)
       const dailyList = d.daily || [];
-      const weekSlice = dailyList.slice(0, 7);
-      const allMins = weekSlice.map(x => x.t_min != null ? x.t_min : 0);
-      const allMaxs = weekSlice.map(x => x.t_max != null ? x.t_max : 10);
+      const forecastSlice = dailyList.slice(0, 16);
+      const allMins = forecastSlice.map(x => x.t_min != null ? x.t_min : 0);
+      const allMaxs = forecastSlice.map(x => x.t_max != null ? x.t_max : 10);
       const globMin = allMins.length ? Math.min(...allMins) : 0;
       const globMax = allMaxs.length ? Math.max(...allMaxs) : 15;
       const globSpan = Math.max(1, globMax - globMin);
 
-      const sevenDaysHtml = weekSlice.map((day, idx) => {
+      const forecastDaysHtml = forecastSlice.map((day, idx) => {
         const isToday = (idx === 0);
         const dayName = day.day_name || (isToday ? 'Сегодня' : 'День');
         const isWeekend = (dayName === 'Сб' || dayName === 'Вс');
+        const isSnowDay = (day.snowfall != null && day.snowfall >= 0.1) || (day.precip >= 0.1 && day.t_max <= 0);
+        const isMixedDay = (day.precip >= 0.1 && day.t_max > 0 && day.t_max <= 2);
+        const isRainDay = (day.precip >= 0.1 && day.t_max > 2);
+
+        let cardBg = 'bg-slate-50/40 dark:bg-slate-800/40 border-slate-200/70 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-800/70';
+        if (isToday) {
+          cardBg = 'bg-sky-50/70 dark:bg-sky-950/40 border-sky-300 dark:border-sky-700 shadow-xs ring-1 ring-sky-400/20';
+        } else if (isSnowDay) {
+          cardBg = 'bg-gradient-to-b from-sky-50/80 via-cyan-50/40 to-slate-50/60 dark:from-cyan-950/30 dark:via-sky-950/20 dark:to-slate-900/70 border-cyan-300/70 dark:border-cyan-700/60 hover:border-cyan-400 dark:hover:border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.10)]';
+        } else if (isWeekend) {
+          cardBg = 'bg-rose-50/25 dark:bg-rose-950/25 border-rose-200/60 dark:border-rose-900/50 hover:bg-rose-50/50 dark:hover:bg-rose-950/40';
+        }
+
         const dayHeaderColor = isToday 
           ? 'text-sky-700 dark:text-sky-300 font-black' 
-          : (isWeekend ? 'text-rose-600 dark:text-rose-400 font-extrabold' : 'text-slate-700 dark:text-slate-200 font-bold');
-
-        const cardBg = isToday 
-          ? 'bg-sky-50/60 dark:bg-sky-950/40 border-sky-200/80 dark:border-sky-800/80 shadow-xs' 
-          : (isWeekend ? 'bg-rose-50/20 dark:bg-rose-950/20 border-rose-200/50 dark:border-rose-900/40 hover:bg-rose-50/40' : 'bg-slate-50/40 dark:bg-slate-800/40 border-slate-200/70 dark:border-slate-700/60 hover:bg-slate-50 dark:hover:bg-slate-800/70');
+          : (isSnowDay ? 'text-cyan-700 dark:text-cyan-300 font-extrabold' : (isWeekend ? 'text-rose-600 dark:text-rose-400 font-extrabold' : 'text-slate-700 dark:text-slate-200 font-bold'));
 
         const tMin = day.t_min != null ? day.t_min : 0;
         const tMax = day.t_max != null ? day.t_max : 10;
@@ -8112,25 +8144,40 @@
 
         const leftPct = Math.max(0, Math.min(85, ((tMin - globMin) / globSpan) * 100));
         const widthPct = Math.max(12, Math.min(100 - leftPct, ((tMax - tMin) / globSpan) * 100));
-        const barColor = tMax > 15 ? 'bg-amber-500' : (tMax > 0 ? 'bg-sky-500' : 'bg-cyan-500');
+        const barColor = tMax > 15 ? 'bg-amber-500' : (tMax > 0 ? 'bg-sky-500' : 'bg-cyan-400');
 
         const iconSvg = (typeof getMeteoIconSvg === 'function') 
-          ? getMeteoIconSvg(day.wmo != null ? day.wmo : (day.code != null ? day.code : 2), 1, 32)
+          ? getMeteoIconSvg(day.wmo != null ? day.wmo : (day.code != null ? day.code : 2), 1, 34)
           : (day.icon || '⛅');
 
-        const precVal = (day.precip != null && day.precip >= 0.1) ? Number(day.precip).toFixed(1) : null;
         let precBadge = `<div class="text-[10px] text-slate-400 dark:text-slate-500 truncate leading-none">без осадков</div>`;
-        if (precVal) {
-          const isSnowDay = tMax <= 1;
+        if (isSnowDay) {
+          const snowAmt = (day.snowfall > 0 ? day.snowfall : (day.precip || 0)).toFixed(1);
           precBadge = `
-            <div class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/70 px-1 py-0.5 rounded leading-none">
-              <span>${isSnowDay ? '❄️' : '💧'}</span><span>${precVal} ${isSnowDay ? 'см' : 'мм'}</span>
+            <div class="inline-flex items-center gap-1 text-[10px] font-bold text-cyan-700 dark:text-cyan-300 bg-cyan-100/70 dark:bg-cyan-950/80 border border-cyan-300/70 dark:border-cyan-700/70 px-1.5 py-0.5 rounded-md leading-none shadow-[0_0_8px_rgba(6,182,212,0.2)]">
+              <svg class="w-2.5 h-2.5 text-cyan-500 dark:text-cyan-400 shrink-0 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+              <span>${snowAmt} см</span>
+            </div>
+          `;
+        } else if (isMixedDay) {
+          precBadge = `
+            <div class="inline-flex items-center gap-0.5 text-[9.5px] font-bold text-sky-700 dark:text-sky-300 bg-sky-100/70 dark:bg-sky-950/70 border border-sky-300/60 dark:border-sky-700/60 px-1 py-0.5 rounded-md leading-none">
+              <svg class="w-2 h-2 text-cyan-400 shrink-0 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+              <svg class="w-2 h-2 text-sky-500 shrink-0 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>${Number(day.precip).toFixed(1)} мм</span>
+            </div>
+          `;
+        } else if (isRainDay) {
+          precBadge = `
+            <div class="inline-flex items-center gap-1 text-[10px] font-semibold text-sky-700 dark:text-sky-300 bg-sky-100/70 dark:bg-sky-950/70 border border-sky-300/50 dark:border-sky-800/60 px-1.5 py-0.5 rounded-md leading-none">
+              <svg class="w-2.5 h-2.5 text-sky-500 dark:text-sky-400 shrink-0 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+              <span>${Number(day.precip).toFixed(1)} мм</span>
             </div>
           `;
         }
 
         return `
-          <div class="p-2.5 rounded-xl ${cardBg} border text-center flex flex-col justify-between h-[215px] transition-colors select-none">
+          <div class="w-[88px] sm:w-[94px] shrink-0 p-2.5 rounded-xl ${cardBg} border text-center flex flex-col justify-between h-[215px] transition-all select-none">
             <div>
               <div class="text-xs ${dayHeaderColor} uppercase tracking-tight">${dayName}</div>
               <div class="text-[11px] font-semibold text-slate-400 dark:text-slate-500">${day.date_lbl || ''}</div>
@@ -8145,7 +8192,10 @@
                 <div class="${barColor} h-full rounded-full" style="width: ${widthPct}%; margin-left: ${leftPct}%;"></div>
               </div>
               <div class="h-4 flex items-center justify-center">${precBadge}</div>
-              <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500">💨 ${day.wind || 3} м/с</div>
+              <div class="text-[10px] font-mono text-slate-400 dark:text-slate-500 flex items-center justify-center gap-1">
+                <svg class="w-2.5 h-2.5 text-slate-400 dark:text-slate-500 shrink-0 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+                <span>${day.wind || 3} м/с</span>
+              </div>
             </div>
           </div>
         `;
@@ -8216,39 +8266,61 @@
                 <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${hum}</div>
                 <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">роса ${dp}°C</div>
               </div>
-              <div class="p-2 rounded-xl bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80">
-                <div class="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500">Снежный покров</div>
+              <!-- Frosted Delicious Snow Metric -->
+              <div class="p-2 rounded-xl ${((c.snow_depth_cm != null && c.snow_depth_cm > 0) || (c.snowfall_today != null && c.snowfall_today > 0)) ? 'bg-gradient-to-br from-cyan-50/90 via-sky-50/60 to-white dark:from-cyan-950/60 dark:via-sky-950/40 dark:to-slate-800/80 border border-cyan-300/80 dark:border-cyan-700/70 shadow-[0_0_12px_rgba(6,182,212,0.15)]' : 'bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800/80'} transition-all relative overflow-hidden">
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] uppercase font-bold ${((c.snow_depth_cm != null && c.snow_depth_cm > 0) || (c.snowfall_today != null && c.snowfall_today > 0)) ? 'text-cyan-700 dark:text-cyan-400' : 'text-slate-400 dark:text-slate-500'} tracking-wider">Снежный покров</span>
+                  <svg class="w-3 h-3 text-cyan-400 shrink-0 ${((c.snow_depth_cm != null && c.snow_depth_cm > 0) || (c.snowfall_today != null && c.snowfall_today > 0)) ? 'animate-pulse' : 'opacity-40'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                    <line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/>
+                    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/>
+                    <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                  </svg>
+                </div>
                 <div class="font-mono font-bold text-slate-800 dark:text-slate-100 text-[13px] mt-0.5">${snDepth}</div>
-                <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">сегодня: ${snToday}</div>
+                <div class="text-[10px] ${((c.snow_depth_cm != null && c.snow_depth_cm > 0) || (c.snowfall_today != null && c.snowfall_today > 0)) ? 'text-cyan-700 dark:text-cyan-300 font-medium' : 'text-slate-400 dark:text-slate-500'} mt-0.5">
+                  ${((c.snow_depth_cm != null && c.snow_depth_cm > 0) || (c.snowfall_today != null && c.snowfall_today > 0)) ? `свежий +${snToday} · наст` : 'сегодня: 0 см'}
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT: 7-DAY FORECAST STRIP ALONGSIDE CURRENT WEATHER (~65-70% width) -->
+          <!-- RIGHT: 16-DAY SCROLLABLE FORECAST STRIP ALONGSIDE CURRENT WEATHER -->
           <div class="w-full lg:flex-1 min-w-0 glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 shadow-sm flex flex-col justify-between">
-            <!-- Header: Title + Controls -->
+            <!-- Header: Title + Navigation Controls -->
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-              <div class="flex items-center gap-2">
-                <svg class="w-4 h-4 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <h2 class="text-sm font-extrabold uppercase tracking-tight text-slate-800 dark:text-slate-100">Прогноз погоды на 7 дней</h2>
+              <div class="flex items-center gap-2 min-w-0">
+                <div class="p-1 rounded-lg bg-sky-50 dark:bg-sky-950/60 text-sky-500 border border-sky-200/50 dark:border-sky-800/50 shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div class="min-w-0">
+                  <h2 class="text-sm font-extrabold uppercase tracking-tight text-slate-800 dark:text-slate-100 flex items-center gap-1.5 truncate">
+                    <span>Прогноз погоды на 16 дней</span>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-mono font-bold shrink-0">2+ недели</span>
+                  </h2>
+                  <div class="text-[10.5px] text-slate-400 dark:text-slate-500 font-medium truncate">Физический ансамбль ECMWF IFS 0.25° + ICON-EU · Точнее Гисметео</div>
+                </div>
               </div>
-              <div class="flex items-center gap-1.5 text-xs">
-                <span class="px-2 py-0.5 rounded-md bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-bold text-[11px] border border-sky-200/60 dark:border-sky-800/60">ECMWF IFS</span>
-                <button onclick="switchTab('daily_14')" class="text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 font-semibold text-[11px] transition-colors ml-1 cursor-pointer">На 14 дней →</button>
+              <div class="flex items-center gap-2 shrink-0">
+                <!-- Scroll Controls -->
+                <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/90 p-0.5 rounded-lg border border-slate-200/60 dark:border-slate-700/80">
+                  <button type="button" onclick="scrollForecastStrip(-280)" class="w-6 h-6 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors text-xs font-bold cursor-pointer select-none" title="Прокрутить назад">‹</button>
+                  <button type="button" onclick="scrollForecastStrip(280)" class="w-6 h-6 flex items-center justify-center rounded-md hover:bg-white dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors text-xs font-bold cursor-pointer select-none" title="Прокрутить вперед">›</button>
+                </div>
+                <span class="px-2 py-0.5 rounded-md bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-bold text-[11px] border border-sky-200/60 dark:border-sky-800/60 hidden sm:inline-block">ECMWF 9km</span>
               </div>
             </div>
 
-            <!-- 7 Daily Cards Strip -->
-            <div class="overflow-x-auto scrollbar-thin pt-3 pb-1">
-              <div class="grid grid-cols-7 gap-2 min-w-[560px]">
-                ${sevenDaysHtml}
+            <!-- 16-Day Scrollable Track -->
+            <div id="forecast-strip-track" class="overflow-x-auto scrollbar-thin pt-3 pb-1 scroll-smooth select-none">
+              <div class="flex gap-2 min-w-max pb-1">
+                ${forecastDaysHtml}
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ================= GISMETEO-STYLE 3-5 DAY STEPPED FORECAST VISUALIZER ================= -->
-        ${renderGismeteoVisualizer(pureCity, d.region || d.coords, buildGismeteoDays(d))}
+        <!-- ================= GISMETEO-STYLE 3-5-7 DAY STEPPED FORECAST VISUALIZER ================= -->
+        ${renderGismeteoVisualizer(pureCity, d.region || d.coords, buildGismeteoDays(d, window.gismeteoDaysCount || 3))}
 
         <!-- =================  HIGH-DENSITY METEOROLOGICAL MATRIX (ПОЧАСОВАЯ СЕТКА) ================= -->
         <div class="glass-card rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-lg space-y-2.5">
@@ -15336,8 +15408,28 @@
             const widthPct = Math.max(8, Math.min(100 - leftPct, ((tMax - tMin) / globSpan) * 100));
             
             const precVal = (day.precip != null && day.precip >= 0.1) ? Number(day.precip).toFixed(1) : null;
-            const prec = precVal ? `<div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-950/70 text-sky-600 dark:text-sky-300 font-bold text-[10.5px] weather-num"><span>💧</span><span>${precVal} мм</span></div>` : '<span class="text-slate-300 dark:text-slate-700 text-[10px]">—</span>';
+            const isSnowDay = (day.snowfall != null && day.snowfall >= 0.1) || (day.precip >= 0.1 && day.t_max <= 0);
+            let prec = '<span class="text-slate-300 dark:text-slate-700 text-[10px]">—</span>';
+            if (precVal) {
+              if (isSnowDay) {
+                const snAmt = (day.snowfall > 0 ? day.snowfall : day.precip).toFixed(1);
+                prec = `
+                  <div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-100/80 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-300 font-bold text-[10.5px] border border-cyan-300/60 dark:border-cyan-700/60">
+                    <svg class="w-2.5 h-2.5 text-cyan-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+                    <span>${snAmt} см</span>
+                  </div>
+                `;
+              } else {
+                prec = `
+                  <div class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-sky-50 dark:bg-sky-950/70 text-sky-600 dark:text-sky-300 font-bold text-[10.5px]">
+                    <svg class="w-2.5 h-2.5 text-sky-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                    <span>${precVal} мм</span>
+                  </div>
+                `;
+              }
+            }
             const isToday = (idx === 0);
+            const iconSvg = (typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(day.wmo != null ? day.wmo : 2, 1, 32) : (day.icon || '');
 
             return `
               <div class="py-3 px-2 sm:px-3 rounded-2xl hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors flex items-center justify-between gap-3 text-sm">
@@ -15348,7 +15440,7 @@
                 </div>
                 <!-- Weather Icon & Description -->
                 <div class="flex items-center space-x-2 text-xs text-slate-600 dark:text-slate-300 truncate flex-1">
-                  <span class="text-2xl select-none shrink-0">${day.icon}</span>
+                  <div class="shrink-0 flex items-center justify-center">${iconSvg}</div>
                   <span class="truncate hidden md:inline font-medium text-slate-600 dark:text-slate-300 text-[12.5px]">${day.desc}</span>
                 </div>
                 <!-- Temperature Range with Thermal Bar & Precip -->
