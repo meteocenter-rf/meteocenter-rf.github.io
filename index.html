@@ -2124,16 +2124,24 @@
 
   </style>
 
-  <!-- Yandex.Metrika counter -->
+  <!-- Yandex.Metrika deferred loader (152-FZ cookie consent compliant) -->
   <script type="text/javascript">
-    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-    m[i].l=1*new Date();
-    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-    (window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112330199', 'ym');
-    ym(112330199, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer"});
+    function initYandexMetrika() {
+      if (window.__ym_loaded) return;
+      window.__ym_loaded = true;
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112330199', 'ym');
+      ym(112330199, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer"});
+    }
+    try {
+      if (localStorage.getItem('meteo_cookie_consent') === 'all') {
+        initYandexMetrika();
+      }
+    } catch(e) {}
   </script>
-  <noscript><div><img src="https://mc.yandex.ru/watch/112330199" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <style id="global-light-mode-contrast-override">
   /* Global Leaflet Popup Light Mode Fix */
   html.light .leaflet-popup-content-wrapper,
@@ -2390,10 +2398,11 @@
     color: #ffffff !important;
   }
 
-  /* Smooth, eye-pleasing theme transition (no flashbangs) */
-  body, header, nav, footer, 
+  /* Smooth, eye-pleasing theme transition (no flashbangs & zero contrast drop) */
+  body, header, nav, footer, main, section,
   .glass, .glass-card, .weather-ribbon, 
-  .metric-card, button, input, select {
+  .metric-card, button, input, select,
+  h1, h2, h3, h4, h5, h6, p, span, strong, a, label, svg {
     transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
   }
 
@@ -3286,7 +3295,7 @@
   </div>
 
   <!-- ================= MASTER MAIN VIEWPORT CONTAINER (ПРЕМИУМ ШИРОКИЙ ИНТЕРФЕЙС) ================= -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-5 flex-1 w-full space-y-3 sm:space-y-4">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 pt-1 sm:pt-2 pb-4 sm:pb-6 flex-1 w-full space-y-3 sm:space-y-4">
 
     <!-- ================= SEARCH BAR & QUICK CITIES ================= -->
     <div class="glass rounded-2xl p-3.5 sm:p-4 shadow-sm border border-slate-200/80 dark:border-slate-800/80 relative z-40">
@@ -3318,9 +3327,9 @@
       </form>
 
       <!-- Quick Station Badges -->
-      <div id="stations-bar" class="mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 text-xs font-mono select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x;">
+      <div id="stations-bar" class="mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 pr-6 text-xs font-mono select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x;">
         <span class="text-slate-400 text-[11px] font-sans font-medium shrink-0">Опорные станции ВМО:</span>
-        <button onclick="setCity('Восток')" class="station-chip station-chip-accent">Восток (Антарктида)</button>
+        <button onclick="setCity('Восток')" class="station-chip">Восток (Антарктида)</button>
         <button onclick="setCity('Оймякон')" class="station-chip">Оймякон</button>
         <button onclick="setCity('Диксон')" class="station-chip">Диксон (Арктика)</button>
         <button onclick="setCity('Москва')" class="station-chip">Москва</button>
@@ -3365,7 +3374,7 @@
       <div id="tabs-fade-left" class="pointer-events-none absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent z-10 opacity-0 transition-opacity duration-200"></div>
 
       <!-- Horizontal Tabs Container -->
-      <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1.5 px-0.5 text-xs select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x; -webkit-overflow-scrolling: touch;">
+      <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1.5 px-8 text-xs select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x; -webkit-overflow-scrolling: touch;">
         <button onclick="switchTab('current')" id="tab-current" class="tab-btn tab-active">
           <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
           <span>Сейчас (48 ч)</span>
@@ -3528,6 +3537,10 @@
           <span>ВКонтакте</span>
         </a>
       </div>
+      <!-- Disclaimer st. 437 GK RF -->
+      <div class="w-full pt-2 border-t border-slate-200/60 dark:border-slate-800/60 text-[10.5px] text-slate-500 dark:text-slate-400 italic leading-relaxed">
+        Указанные цены носят информационный характер и не являются публичной офертой (ст. 437 ГК РФ). Для коммерческого использования погодных API требуется оформление соответствующего тарифа/ключа у провайдера данных.
+      </div>
     </div>
 
     <!-- ================= MEGA-CATALOG OF RUSSIAN & CIS CITIES (SEO INTERNAL LINKING) ================= -->
@@ -3603,7 +3616,7 @@
 
 
   <!-- ================= COMPREHENSIVE STATUTORY FOOTER (99-FZ, 113-FZ, 152-FZ, ст. 13.15 КоАП РФ, ст. 1334 ГК РФ) ================= -->
-  <footer class="mt-12 border-t border-slate-200/80 dark:border-slate-800/80 py-8 px-4 sm:px-6 glass text-xs text-slate-500 dark:text-slate-400">
+  <footer class="mt-12 border-t border-slate-200/80 dark:border-slate-800/80 pt-8 pb-28 md:pb-20 px-4 sm:px-6 glass text-xs text-slate-500 dark:text-slate-400">
     <div class="max-w-7xl mx-auto space-y-6">
       
       <!-- 3 Columns: Legal Disclaimers, Statutory Licensing Exemption, Emergency Disclaimer -->
@@ -4095,8 +4108,16 @@
     function clearCityInput() {
       const inp = document.getElementById('city-input');
       if (inp) {
-        inp.value = '';
         inp.focus();
+        inp.select();
+        let deleted = false;
+        try {
+          // Native command preserves Undo/Redo stack for Ctrl+Z / Cmd+Z
+          deleted = document.execCommand('delete', false, null);
+        } catch(e) {}
+        if (!deleted) {
+          inp.value = '';
+        }
         updateClearButtonVisibility();
         showCityRecommendations();
       }
@@ -4235,15 +4256,29 @@
       dropdown.classList.remove('hidden'); const ci = document.getElementById('city-input'); if (ci) ci.setAttribute('aria-expanded', 'true');
     }
 
+    let citySearchAbortController = null;
+    let citySearchSeq = 0;
+
     async function searchCitySuggestions(rawQuery) {
       const q = (rawQuery || '').trim().toLowerCase();
       const dropdown = document.getElementById('city-suggestions-dropdown');
       if (!dropdown) return;
 
       if (!q) {
+        if (citySearchAbortController) {
+          try { citySearchAbortController.abort(); } catch(e) {}
+          citySearchAbortController = null;
+        }
         showCityRecommendations();
         return;
       }
+
+      const seq = ++citySearchSeq;
+      if (citySearchAbortController) {
+        try { citySearchAbortController.abort(); } catch(e) {}
+      }
+      citySearchAbortController = new AbortController();
+      const signal = citySearchAbortController.signal;
 
       // 1. Filter Local Station Catalog (0ms latency, prioritized by prefix then contains)
       const cleanQ = q.replace(/^(по|в|во|на|г\.|г|город|аэропорт|станция|мс)\s+/i, '').trim();
@@ -4278,9 +4313,11 @@
           geoResults = geoSuggestionsCache[q];
         } else {
           try {
-            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(rawQuery.trim())}&count=6&language=ru`);
+            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(rawQuery.trim())}&count=6&language=ru`, { signal });
+            if (seq !== citySearchSeq || signal.aborted) return;
             if (geoRes.ok) {
               const data = await geoRes.json();
+              if (seq !== citySearchSeq || signal.aborted) return;
               if (data && data.results) {
                 geoResults = data.results.map(g => ({
                   source: 'geo',
@@ -4303,6 +4340,8 @@
           }
         }
       }
+
+      if (seq !== citySearchSeq || signal.aborted) return;
 
       // Combine into unified suggestions list (avoiding duplicate names)
       activeSuggestions = [
@@ -4417,7 +4456,7 @@
       };
       saveRecentSearch(item.name, coords);
 
-      setCity(item.name, coords);
+      setCity(item.name, coords, true);
     }
 
     function handleCityInputKeydown(e) {
@@ -4469,8 +4508,21 @@
       const input = document.getElementById('city-input');
       if (!input) return;
 
+      let isComposing = false;
+      input.addEventListener('compositionstart', () => { isComposing = true; });
+      input.addEventListener('compositionend', () => {
+        isComposing = false;
+        updateClearButtonVisibility();
+        clearTimeout(citySearchDebounceTimer);
+        const val = input.value;
+        citySearchDebounceTimer = setTimeout(() => {
+          searchCitySuggestions(val);
+        }, 180);
+      });
+
       input.addEventListener('input', () => {
         updateClearButtonVisibility();
+        if (isComposing) return;
         clearTimeout(citySearchDebounceTimer);
         const val = input.value;
         citySearchDebounceTimer = setTimeout(() => {
@@ -4499,18 +4551,52 @@
       updateClearButtonVisibility();
     }
 
-    function setCity(name, coords = null) {
+    
+    function updateStationsBarActive(activeCityName) {
+      const sb = document.getElementById('stations-bar');
+      if (!sb) return;
+      const buttons = sb.querySelectorAll('button.station-chip');
+      const target = (activeCityName || '').toLowerCase().trim();
+      buttons.forEach(btn => {
+        const btnText = btn.textContent.toLowerCase().trim();
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const match = onclickAttr.includes(`'${activeCityName}'`) ||
+                      onclickAttr.includes(`"${activeCityName}"`) ||
+                      btnText.startsWith(target) ||
+                      (target.includes('москв') && btnText.includes('москва')) ||
+                      (target.includes('петербург') && btnText.includes('петербург')) ||
+                      (target.includes('норильск') && btnText.includes('норильск')) ||
+                      (target.includes('диксон') && btnText.includes('диксон')) ||
+                      (target.includes('оймякон') && btnText.includes('оймякон')) ||
+                      (target.includes('восток') && btnText.includes('восток'));
+        if (match && target) {
+          btn.classList.add('station-chip-accent');
+        } else {
+          btn.classList.remove('station-chip-accent');
+        }
+      });
+    }
+
+    function setCity(name, coords = null, forceInputUpdate = false) {
+      updateStationsBarActive(name);
       if (typeof citySearchDebounceTimer !== 'undefined' && citySearchDebounceTimer) {
         clearTimeout(citySearchDebounceTimer);
         citySearchDebounceTimer = null;
       }
+      if (typeof citySearchAbortController !== 'undefined' && citySearchAbortController) {
+        try { citySearchAbortController.abort(); } catch(e) {}
+        citySearchAbortController = null;
+      }
       const mainInput = document.getElementById('city-input');
-      if (mainInput) {
+      // Invariant: Never overwrite user's actively typed input unless explicitly forced (e.g. chip or dropdown click)
+      if (mainInput && (forceInputUpdate || document.activeElement !== mainInput)) {
         mainInput.value = name;
         updateClearButtonVisibility();
       }
       const sbInput = document.getElementById('sidebar-city-input');
-      if (sbInput) sbInput.value = name;
+      if (sbInput && (forceInputUpdate || document.activeElement !== sbInput)) {
+        sbInput.value = name;
+      }
       currentCity = name;
       pendingCityCoords = coords;
       hideCitySuggestions();
@@ -7359,6 +7445,7 @@
     // MAIN DATA FETCH ORCHESTRATOR
     // =========================================================================
     async function fetchData() {
+      if (typeof updateStationsBarActive === 'function') updateStationsBarActive(currentCity);
       const loading = document.getElementById('loading');
       const errorBox = document.getElementById('error-box');
       const reportText = document.getElementById('report-text');
@@ -7993,7 +8080,7 @@
         const e = (hum / 100) * 6.105 * Math.exp((17.27 * temp) / (237.7 + temp));
         return Math.round(temp + 0.33 * e - 0.70 * wind - 4.00);
       };
-      const realAppVal = calcApparentTemp(c.temp, c.humidity, c.wind_speed);
+      const realAppVal = (c.apparent != null && !isNaN(c.apparent)) ? Math.round(c.apparent) : Math.round(c.temp);
       const appSign = realAppVal > 0 ? `+${realAppVal}` : `${realAppVal}`;
       const minToday = c.temp_min_today != null ? Math.round(c.temp_min_today) : (tVal - 5);
       const maxToday = c.temp_max_today != null ? Math.round(c.temp_max_today) : (tVal + 5);
@@ -8304,7 +8391,7 @@
                     <span>Прогноз погоды на 16 дней</span>
                     <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-mono font-bold shrink-0">2+ недели</span>
                   </h2>
-                  <div class="text-[10.5px] text-slate-400 dark:text-slate-500 font-medium truncate">Физический ансамбль ECMWF IFS 0.25° + ICON-EU · Точнее Гисметео</div>
+                  <div class="text-[10.5px] text-slate-400 dark:text-slate-500 font-medium truncate">Ансамблевый расчёт ECMWF IFS 0.25° + ICON-EU · 384 часа данных</div>
                 </div>
               </div>
               <div class="flex items-center gap-2 shrink-0">
@@ -8753,7 +8840,7 @@
                 <svg class="w-4 h-4 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                 <span>Радиолокационный и спутниковый мониторинг 4K</span>
               </h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки NASA AIRS • Спутник ИК 24/7 EUMETSAT • Радар RainViewer HD • Потоки ветра 60 FPS</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки <a href="https://airs.jpl.nasa.gov/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">NASA AIRS</a> • Спутник ИК 24/7 <a href="https://www.eumetsat.int/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">EUMETSAT</a> • Радар <a href="https://www.rainviewer.com/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">RainViewer</a> HD • Потоки ветра 60 FPS</p>
             </div>
           </div>
 
@@ -8782,8 +8869,9 @@
             </select>
 
             <!-- Fullscreen Toggle -->
-            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-mono transition shadow-sm">
-              ⛶ Экран
+            <button onclick="toggleRadarFullscreen()" title="На весь экран" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-mono transition shadow-sm flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+              <span>Экран</span>
             </button>
           </div>
         </div>
@@ -12254,8 +12342,7 @@
         <div class="glass-card rounded-xl p-2.5 flex flex-wrap items-center justify-between gap-2.5 text-xs border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60">
           <div class="flex flex-wrap items-center gap-2">
             <div class="relative">
-              <input type="text" placeholder="Поиск года (напр. 2020)..." oninput="filterArchiveTable(this.value)"
-                class="pl-3 pr-8 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 text-xs w-44 focus:ring-2 focus:ring-slate-400 outline-none font-mono" />
+              <input type="text" placeholder="Поиск года (напр. 2025)..." oninput="filterArchiveTable(this.value)" class="pl-3 pr-8 py-1.5 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 text-xs w-60 sm:w-64 min-w-[210px] focus:ring-2 focus:ring-slate-400 outline-none font-mono" />
             </div>
 
             <select onchange="filterArchiveTableByTag(this.value)" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-slate-400">
@@ -17267,23 +17354,45 @@
         },
         yaxis: [
           {
+            seriesName: 'Температура (°C)',
             forceNiceScale: true,
             title: { text: 'T (°C)', style: { color: '#38bdf8' } },
             labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#38bdf8' } }
           },
           {
+            seriesName: 'Осадки (мм)',
             opposite: true,
             forceNiceScale: true,
             title: { text: 'Осадки (мм)', style: { color: '#60a5fa' } },
             labels: { formatter: v => (v != null && !isNaN(v)) ? Number(v).toFixed(1) : "0.0", style: { colors: '#60a5fa' } },
             min: 0
           },
-          { show: false, forceNiceScale: true },
-          { show: false, forceNiceScale: true }
+          {
+            seriesName: 'Ветер (м/с)',
+            show: false,
+            min: 0,
+            forceNiceScale: true
+          },
+          {
+            seriesName: 'Давление (мм)',
+            show: false,
+            forceNiceScale: true
+          }
         ],
+        tooltip: {
+          shared: true,
+          intersect: false,
+          theme: 'dark',
+          y: [
+            { formatter: v => (v != null && !isNaN(v)) ? `${v > 0 ? '+' : ''}${v.toFixed(1)} °C` : '-' },
+            { formatter: v => (v != null && !isNaN(v)) ? `${Number(v).toFixed(1)} мм` : '0 мм' },
+            { formatter: v => (v != null && !isNaN(v)) ? `${Number(v).toFixed(1)} м/с` : '-' },
+            { formatter: v => (v != null && !isNaN(v)) ? `${Math.round(v)} мм рт. ст.` : '-' }
+          ]
+        },
         grid: {
           borderColor: 'rgba(51, 65, 85, 0.35)',
-          padding: { left: 10, right: 15 }
+          padding: { left: 10, right: 30 }
         }
       };
 
@@ -17293,8 +17402,9 @@
       options.yaxis[0].labels = { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: isLight ? '#334155' : '#cbd5e1' } };
       options.grid = {
         borderColor: isLight ? 'rgba(226, 232, 240, 0.8)' : 'rgba(51, 65, 85, 0.35)',
-        padding: { left: 10, right: 15 }
+        padding: { left: 10, right: 30 }
       };
+      if (options.tooltip) options.tooltip.theme = isLight ? 'light' : 'dark';
 
       if (apexChartInstance) {
         try { apexChartInstance.destroy(); } catch(e) {}
@@ -17591,7 +17701,11 @@
           if (gd.results && gd.results.length) cName = gd.results[0].name;
         }
         currentCity = cName;
-        document.getElementById('city-input').value = cName;
+        const mainInp = document.getElementById('city-input');
+        if (mainInp && document.activeElement !== mainInp) {
+          mainInp.value = cName;
+          updateClearButtonVisibility();
+        }
         fetchData();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch(err) {
@@ -18329,7 +18443,7 @@
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">99-ФЗ • 113-ФЗ • 152-ФЗ • ст. 13.15, 17.10 КоАП РФ • ст. 1334 ГК РФ</p>
           </div>
         </div>
-        <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1">✕</button>
+        <button onclick="closeLegalModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-2">
@@ -18422,10 +18536,19 @@
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»</p>
           </div>
         </div>
-        <button onclick="closePrivacyModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1">✕</button>
+        <button onclick="closePrivacyModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+        <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+          <h4 class="font-bold text-slate-900 dark:text-white">Оператор персональных данных</h4>
+          <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
+            ФИО: Русин Данила Владимирович<br>
+            Статус: самозанятый (плательщик налога на профессиональный доход, 422-ФЗ)<br>
+            Email для обращений: <a href="mailto:taimyr.dolgan@mail.ru" class="text-sky-500 hover:underline font-mono">taimyr.dolgan@mail.ru</a>
+          </p>
+        </div>
+
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
           <h4 class="font-bold text-slate-900 dark:text-white">1. Отсутствие сбора персональных данных</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
@@ -18446,9 +18569,9 @@
         </div>
 
         <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
-          <h4 class="font-bold text-slate-900 dark:text-white">3. Обезличенная веб-аналитика</h4>
+          <h4 class="font-bold text-slate-900 dark:text-white">3. Обезличенная веб-аналитика и согласие пользователя</h4>
           <p class="text-slate-600 dark:text-slate-300 text-[11.5px] leading-relaxed">
-            Сайт может использовать стандартные сервисы веб-аналитики (Яндекс.Метрика) исключительно для анализа стабильности работы интерфейса, частоты обращений к различным региональным вкладкам и мониторинга ошибок сетевых запросов к API. Все собираемые метрики являются строго агрегированными и обезличенными (тип браузера, язык интерфейса, разрешение экрана, ориентировочное геоположение по IP без привязки к личности).
+            Сайт использует сервис веб-аналитики Яндекс.Метрика исключительно при условии предоставления пользователем согласия в cookie-баннере («Принять всё»). Если пользователь выбирает вариант «Только технические», скрипт аналитики не загружается и cookies веб-аналитики не устанавливаются. При включенной аналитике собираются строго агрегированные и обезличенные данные (тип браузера, разрешение экрана, ориентировочное геоположение по IP без идентификации конкретного физического лица) для контроля стабильности работы и ошибок API.
           </p>
         </div>
 
@@ -18490,7 +18613,7 @@
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Адаптивный погодный информер для блогов, отелей и городских порталов</p>
           </div>
         </div>
-        <button onclick="closeWidgetModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1 transition">✕</button>
+        <button onclick="closeWidgetModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1 transition" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
 
       <div class="space-y-3.5 text-xs">
@@ -18546,7 +18669,7 @@
               <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Автономная климатическая инфраструктура и архив ВМО</p>
             </div>
           </div>
-          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1 transition">✕</button>
+          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1 transition" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
 
         <div class="space-y-3.5 text-xs">
@@ -18609,7 +18732,7 @@
               <p class="text-[11px] text-slate-600 dark:text-slate-400 font-mono font-semibold">✓ Прямой перевод самозанятому (без комиссии)</p>
             </div>
           </div>
-          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1 transition">✕</button>
+          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1 transition" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
 
         <div class="space-y-3.5 text-xs">
@@ -18687,7 +18810,7 @@
               <p class="text-[11px] text-slate-600 dark:text-slate-400 font-mono font-semibold">Огромное спасибо за поддержку науки!</p>
             </div>
           </div>
-          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 text-xl font-bold p-1 transition">✕</button>
+          <button onclick="closeDonationModal()" class="text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 p-1 transition" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
 
         <div class="space-y-3.5 text-xs">
@@ -18738,7 +18861,7 @@
     <div class="modal-card p-3 sm:p-5 max-w-5xl space-y-3">
       <div class="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
         <span class="font-bold text-slate-100 uppercase font-mono" id="lightbox-title">Спутниковый снимок высокого разрешения</span>
-        <button onclick="closeSatelliteLightbox()" class="text-slate-400 hover:text-slate-100 text-xl font-bold p-1">✕</button>
+        <button onclick="closeSatelliteLightbox()" class="text-slate-400 hover:text-slate-100 p-1" title="Закрыть"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
       </div>
       <div class="rounded-xl overflow-hidden bg-black flex items-center justify-center max-h-[75vh]">
         <img id="lightbox-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Спутник HD" class="max-w-full max-h-[75vh] object-contain" />
@@ -18747,16 +18870,21 @@
   </div>
 
   <!-- ================= COOKIE & 152-FZ COMPLIANCE BANNER ================= -->
-  <div id="cookie-notice" class="hidden fixed bottom-16 right-4 sm:bottom-4 sm:right-4 sm:max-w-md z-40 glass-card shadow-2xl p-3 rounded-2xl border border-slate-700/80 bg-slate-900/95 text-slate-200 shadow-2xl flex items-center justify-between gap-3 text-xs backdrop-blur-md">
-    <div class="text-slate-300 text-[11px] leading-relaxed flex items-center gap-2">
-      <span class="text-base">🍪</span>
-      <span>Технические cookie (152-ФЗ) для настроек города и темы. Без сбора личных данных. <button type="button" onclick="openPrivacyModal()" class="text-sky-400 hover:text-sky-300 underline font-medium inline">Подробнее</button>.</span>
+  <div id="cookie-notice" class="hidden fixed bottom-20 md:bottom-6 left-4 right-4 sm:right-auto sm:max-w-lg z-40 glass-card shadow-2xl p-3.5 rounded-2xl border border-slate-700/80 bg-slate-900/95 text-slate-200 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs backdrop-blur-md">
+    <div class="text-slate-300 text-[11px] leading-relaxed flex items-start gap-2.5">
+      <span class="text-base shrink-0">🍪</span>
+      <span>Мы используем технические cookies для настроек города и темы, а также Яндекс.Метрику (при согласии) для анализа стабильности интерфейса. <button type="button" onclick="openPrivacyModal()" class="text-sky-400 hover:text-sky-300 underline font-medium inline">Подробнее</button>.</span>
     </div>
-    <div class="flex items-center gap-2 shrink-0">
-      <button onclick="acceptCookieNotice()" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-white font-bold rounded-xl text-xs shadow transition">
-        Понятно
+    <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
+      <button onclick="acceptAllCookies()" class="px-3 py-1.5 bg-sky-500 hover:bg-sky-400 text-white font-bold rounded-xl text-xs shadow transition whitespace-nowrap">
+        Принять всё
       </button>
-      <button onclick="acceptCookieNotice()" class="p-1 text-slate-400 hover:text-white text-sm" title="Закрыть">✕</button>
+      <button onclick="acceptTechnicalCookies()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-xl text-xs border border-slate-700 transition whitespace-nowrap">
+        Только технические
+      </button>
+      <button onclick="acceptTechnicalCookies()" class="p-1 text-slate-400 hover:text-white transition" title="Закрыть">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
     </div>
   </div>
 
@@ -18884,13 +19012,22 @@
     // =========================================================================
     // GLOBAL KEYBOARD SHORTCUTS (/ OR Ctrl+K FOR SEARCH, ESCAPE FOR MODALS)
     // =========================================================================
+    function isEditableElement(el) {
+      if (!el) return false;
+      const tag = el.tagName ? el.tagName.toLowerCase() : '';
+      return tag === 'input' || tag === 'textarea' || tag === 'select' || el.isContentEditable;
+    }
+
     window.addEventListener('keydown', function(e) {
-      if (e.key === '/' && document.activeElement !== document.getElementById('city-input') && document.activeElement !== document.getElementById('city-search')) {
+      const inEditable = isEditableElement(document.activeElement);
+
+      // Never steal focus or trigger shortcuts if user is typing in ANY input, textarea or editable element
+      if (e.key === '/' && !inEditable) {
         e.preventDefault();
         const inp = document.getElementById('city-input') || document.getElementById('city-search');
         if (inp) { inp.focus(); inp.select(); }
       }
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K') && !inEditable) {
         e.preventDefault();
         const inp = document.getElementById('city-input') || document.getElementById('city-search');
         if (inp) { inp.focus(); inp.select(); }
