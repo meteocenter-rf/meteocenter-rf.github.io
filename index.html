@@ -6796,7 +6796,9 @@
       const hPrecs = getField(hourly, 'precipitation');
       const hSnows = getField(hourly, 'snow_depth');
       const hWinds = getField(hourly, 'wind_speed_10m');
+      const hGusts = getField(hourly, 'wind_gusts_10m');
       const hWindDirs = getField(hourly, 'wind_direction_10m');
+      const hIsDay = hourly.is_day || [];
       const hPress = getField(hourly, 'surface_pressure');
       const hHums = getField(hourly, 'relative_humidity_2m');
       const hUvs = getField(hourly, 'uv_index');
@@ -7288,6 +7290,10 @@
           temperature_2m: hTemps,
           precipitation: hPrecs,
           wind_speed_10m: hWinds,
+          wind_gusts_10m: hGusts,
+          weather_code: hCodes,
+          wind_direction_10m: hWindDirs,
+          is_day: hIsDay,
           surface_pressure: hPress
         },
         snow_depth_cm: currentSnowDepthCm,
@@ -7895,6 +7901,283 @@
     }
     document.addEventListener("DOMContentLoaded", configureMeteoCenterCharts);
 
+
+    // =========================================================================
+    // GISMETEO-STYLE 3-5 DAY STEPPED FORECAST VISUALIZER ENGINE
+    // =========================================================================
+    function buildGismeteoDays(d) {
+      if (!d) return [];
+      const raw = d.hourly_raw || {};
+      const hTimes = raw.time || [];
+      const hTemps = raw.temperature_2m || [];
+      const hCodes = raw.weather_code || [];
+      const hWinds = raw.wind_speed_10m || [];
+      const hGusts = raw.wind_gusts_10m || [];
+      const hDirs = raw.wind_direction_10m || [];
+      const hIsDay = raw.is_day || [];
+
+      const daysRu = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+      const monthsRu = ["", "января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+      const dirs = ['С', 'ССВ', 'СВ', 'ВСВ', 'В', 'ВЮВ', 'ЮВ', 'ЮЮВ', 'Ю', 'ЮЮЗ', 'ЮЗ', 'ЗЮЗ', 'З', 'ЗСЗ', 'СЗ', 'ССЗ'];
+
+      if (hTimes.length >= 72) {
+        const daysMap = {};
+        for (let i = 0; i < hTimes.length; i++) {
+          const rawT = hTimes[i];
+          if (!rawT) continue;
+          const datePart = rawT.substring(0, 10);
+          const hourPart = parseInt(rawT.substring(11, 13), 10);
+
+          if (!daysMap[datePart]) {
+            const parts = datePart.split('-');
+            const dt = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            const dayW = dt.getDay();
+            const isWeekend = (dayW === 0 || dayW === 6);
+            const dateStr = `${daysRu[dayW]}, ${dt.getDate()} ${monthsRu[dt.getMonth() + 1]}`;
+            daysMap[datePart] = {
+              dateStr,
+              isWeekend,
+              rawDate: datePart,
+              slots: {}
+            };
+          }
+
+          let slotName = null;
+          if (hourPart === 3) slotName = "Ночь";
+          else if (hourPart === 9) slotName = "Утро";
+          else if (hourPart === 15) slotName = "День";
+          else if (hourPart === 21) slotName = "Вечер";
+
+          if (slotName) {
+            const temp = (hTemps[i] != null && !isNaN(hTemps[i])) ? Math.round(hTemps[i]) : 0;
+            const code = (hCodes[i] != null) ? hCodes[i] : 2;
+            const isD = (hIsDay[i] != null) ? hIsDay[i] : (slotName === "Утро" || slotName === "День" ? 1 : 0);
+            const wind = (hWinds[i] != null && !isNaN(hWinds[i])) ? Math.round(hWinds[i]) : 3;
+            const gust = (hGusts[i] != null && !isNaN(hGusts[i])) ? Math.round(hGusts[i]) : Math.round(wind * 1.4);
+            const wDir = (hDirs[i] != null) ? Math.round(hDirs[i]) : 0;
+            const dirName = dirs[Math.round(wDir / 22.5) % 16] || 'С';
+
+            daysMap[datePart].slots[slotName] = {
+              name: slotName,
+              hour: `${hourPart.toString().padStart(2, '0')}:00`,
+              temp,
+              code,
+              isDay: isD,
+              wind,
+              gust,
+              dir: wDir,
+              dirName
+            };
+          }
+        }
+
+        const resultDays = [];
+        for (const [dKey, dObj] of Object.entries(daysMap)) {
+          const ordered = [];
+          for (const sName of ["Ночь", "Утро", "День", "Вечер"]) {
+            if (dObj.slots[sName]) ordered.push(dObj.slots[sName]);
+          }
+          if (ordered.length === 4) {
+            resultDays.push({
+              dateStr: dObj.dateStr,
+              isWeekend: dObj.isWeekend,
+              slots: ordered
+            });
+          }
+          if (resultDays.length >= 5) break;
+        }
+        if (resultDays.length >= 3) return resultDays;
+      }
+
+      // Fallback from d.hourly (48 hours)
+      if (d.hourly && d.hourly.length) {
+        const daysMap = {};
+        d.hourly.forEach(h => {
+          const datePart = h.date_str || (h.raw_time ? h.raw_time.substring(0, 10) : '2026-11-15');
+          const hourPart = parseInt(h.time_lbl.substring(0, 2), 10);
+          if (!daysMap[datePart]) {
+            const parts = datePart.split('-');
+            const dt = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            const dayW = dt.getDay();
+            const isWeekend = (dayW === 0 || dayW === 6);
+            const dateStr = `${daysRu[dayW]}, ${dt.getDate()} ${monthsRu[dt.getMonth() + 1]}`;
+            daysMap[datePart] = { dateStr, isWeekend, slots: {} };
+          }
+          let slotName = null;
+          if (hourPart >= 1 && hourPart <= 5 && !daysMap[datePart].slots["Ночь"]) slotName = "Ночь";
+          else if (hourPart >= 7 && hourPart <= 11 && !daysMap[datePart].slots["Утро"]) slotName = "Утро";
+          else if (hourPart >= 13 && hourPart <= 17 && !daysMap[datePart].slots["День"]) slotName = "День";
+          else if (hourPart >= 19 && hourPart <= 23 && !daysMap[datePart].slots["Вечер"]) slotName = "Вечер";
+
+          if (slotName && !daysMap[datePart].slots[slotName]) {
+            daysMap[datePart].slots[slotName] = {
+              name: slotName,
+              hour: h.time_lbl,
+              temp: Math.round(h.temp),
+              code: h.wmo != null ? h.wmo : 2,
+              isDay: h.is_day != null ? h.is_day : (slotName === "Утро" || slotName === "День" ? 1 : 0),
+              wind: Math.round(h.wind || 3),
+              gust: Math.round(h.gust || (h.wind ? h.wind * 1.4 : 5)),
+              dir: h.wind_dir || 0,
+              dirName: h.wind_dir_name || 'С'
+            };
+          }
+        });
+
+        const resultDays = [];
+        for (const [dKey, dObj] of Object.entries(daysMap)) {
+          const ordered = [];
+          for (const sName of ["Ночь", "Утро", "День", "Вечер"]) {
+            if (dObj.slots[sName]) ordered.push(dObj.slots[sName]);
+          }
+          if (ordered.length >= 2) {
+            resultDays.push({
+              dateStr: dObj.dateStr,
+              isWeekend: dObj.isWeekend,
+              slots: ordered
+            });
+          }
+        }
+        return resultDays;
+      }
+      return [];
+    }
+
+    function renderGismeteoVisualizer(city, region, days) {
+      if (!days || !days.length) return '';
+
+      let allTemps = [];
+      days.forEach(d => d.slots.forEach(s => allTemps.push(s.temp)));
+      const minT = allTemps.length ? Math.min(...allTemps) : 0;
+      const maxT = allTemps.length ? Math.max(...allTemps) : 10;
+      const rangeT = Math.max(1, maxT - minT);
+      const ribbonContainerHeight = 64;
+
+      let daysHtml = days.map((day, dIdx) => {
+        const dayHeaderColor = day.isWeekend ? 'text-rose-500 dark:text-rose-400' : 'text-sky-600 dark:text-sky-400';
+        const dayBorder = (dIdx > 0) ? 'border-l border-slate-200/80 dark:border-slate-800' : '';
+
+        let slotsHeader = '';
+        let iconsHtml = '';
+        let tempsHtml = '';
+        let windsHtml = '';
+
+        day.slots.forEach((s, sIdx) => {
+          slotsHeader += `
+            <div class="flex-1 py-1.5 text-center text-[11px] font-semibold text-slate-500 dark:text-slate-400 select-none">
+              ${s.name}
+            </div>
+          `;
+
+          const iconSvg = (typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(s.code, s.isDay, 36) : '⛅';
+          iconsHtml += `
+            <div class="flex-1 py-2 flex items-center justify-center relative group" title="${s.name}: ${s.hour}, WMO ${s.code}">
+              ${iconSvg}
+            </div>
+          `;
+
+          const norm = (s.temp - minT) / rangeT;
+          const shiftUp = Math.round(norm * 24);
+
+          let tempClass = 'temp-cold';
+          if (s.temp > 15) tempClass = 'temp-warm';
+          else if (s.temp > 0) tempClass = 'temp-mild';
+
+          const isFirst = (dIdx === 0 && sIdx === 0);
+          const isLast = (dIdx === days.length - 1 && sIdx === day.slots.length - 1);
+          const roundedPill = isFirst ? 'rounded-l-lg' : (isLast ? 'rounded-r-lg' : '');
+
+          tempsHtml += `
+            <div class="flex-1 flex flex-col justify-end px-0" style="height: ${ribbonContainerHeight}px;">
+              <div class="temp-ribbon-step ${tempClass} ${roundedPill}" style="margin-bottom: ${shiftUp}px;">
+                ${s.temp > 0 ? '+' : ''}${s.temp}
+              </div>
+            </div>
+          `;
+
+          let gustBg = 'bg-slate-200/60 dark:bg-slate-700/60 text-slate-600 dark:text-slate-300';
+          if (s.gust >= 15) {
+            gustBg = 'bg-rose-500/25 dark:bg-rose-950/80 text-rose-700 dark:text-rose-300 font-extrabold border-t border-rose-300/40 dark:border-rose-700/50';
+          } else if (s.gust >= 10) {
+            gustBg = 'bg-amber-500/25 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-bold border-t border-amber-300/40 dark:border-amber-700/50';
+          }
+
+          windsHtml += `
+            <div class="flex-1 px-1">
+              <div class="wind-card text-center">
+                <div class="pt-2 pb-1.5 px-1">
+                  <div class="font-mono font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-none">${s.wind}</div>
+                  <div class="flex items-center justify-center gap-1 text-[10px] mt-1 text-slate-500 dark:text-slate-400">
+                    <svg style="transform: rotate(${s.dir}deg)" class="w-2.5 h-2.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19V5m0 0l-4 4m4-4l4 4"/>
+                    </svg>
+                    <span class="font-medium">${s.dirName}</span>
+                  </div>
+                </div>
+                <div class="py-1 px-1 font-mono text-[11px] ${gustBg} tracking-tight">
+                  ${s.gust}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        return `
+          <div class="flex-1 min-w-[280px] sm:min-w-[320px] ${dayBorder} px-3 py-3 flex flex-col justify-between">
+            <div class="text-sm font-extrabold tracking-tight ${dayHeaderColor} pb-2 border-b border-slate-200/60 dark:border-slate-800/80">
+              ${day.dateStr}
+            </div>
+            <div class="flex">
+              ${slotsHeader}
+            </div>
+            <div class="flex my-1">
+              ${iconsHtml}
+            </div>
+            <div class="pt-2 pb-1">
+              <div class="text-[11px] font-medium text-slate-400 mb-1">Температура воздуха, °C</div>
+              <div class="flex items-end">
+                ${tempsHtml}
+              </div>
+            </div>
+            <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800/80">
+              <div class="text-[11px] font-medium text-slate-400 mb-1.5 flex items-center gap-1">
+                <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 16v-4m0-4h.01"/></svg>
+                <span>Ветер и порывы, м/с</span>
+              </div>
+              <div class="flex">
+                ${windsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="glass-card rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-200/90 dark:border-white/10 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="text-xs text-slate-400 font-medium">${region}</div>
+              <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 mt-0.5">
+                <span>Погода в ${city} на ${days.length} ${days.length === 1 ? 'день' : (days.length < 5 ? 'дня' : 'дней')}</span>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-400 border border-sky-400/30 font-mono font-bold">WMO + ECMWF IFS</span>
+              </h2>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="document.getElementById('gismeteo-scroll-box').scrollBy({left: -320, behavior: 'smooth'})" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center border border-slate-700 shadow transition active:scale-95" title="Прокрутить назад">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <button onclick="document.getElementById('gismeteo-scroll-box').scrollBy({left: 320, behavior: 'smooth'})" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center border border-slate-700 shadow transition active:scale-95" title="Прокрутить вперед">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="gismeteo-scroll-box" class="custom-scroll overflow-x-auto rounded-2xl bg-white/50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800/80 flex shadow-inner">
+            ${daysHtml}
+          </div>
+        </div>
+      `;
+    }
+
     function renderTabCurrent(container, d) {
       const c = d.current || {};
       const card = document.createElement('div');
@@ -7981,8 +8264,8 @@
 
         // Icon Cell
         synopticIconTd += `
-          <td class="px-2 py-1.5 ${borderLeft} text-xl select-none ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}" title="${h.desc || ''}">
-            ${h.icon || '⛅'}
+          <td class="px-2 py-1.5 ${borderLeft} text-center select-none ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}" title="${h.desc || ''}">
+            <div class="inline-flex items-center justify-center">${(typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(h.wmo, h.is_day, 26) : (h.icon || '⛅')}</div>
           </td>
         `;
 
@@ -8022,9 +8305,9 @@
         // Precip / Snow Cell
         let pDisplay = '<span class="text-slate-400 dark:text-slate-600">—</span>';
         if (h.snow_depth && h.snow_depth > 0) {
-          pDisplay = `<span class="text-blue-500 dark:text-blue-400 font-bold">❄️ ${h.snow_depth}см</span>`;
+          pDisplay = `<span class="inline-flex items-center gap-1 text-blue-500 dark:text-blue-400 font-bold"><svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 2v20m-7-17l14 14m0-14L5 19"/></svg><span>${h.snow_depth} см</span></span>`;
         } else if (h.precip && h.precip >= 0.1) {
-          pDisplay = `<span class="text-cyan-600 dark:text-cyan-400 font-bold">💧 ${h.precip}мм</span>`;
+          pDisplay = `<span class="inline-flex items-center gap-1 text-cyan-600 dark:text-cyan-400 font-bold"><svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg><span>${h.precip} мм</span></span>`;
         }
         synopticPrecipTd += `
           <td class="px-1.5 py-1.5 ${borderLeft} font-mono text-[10.5px] ${isNow ? 'bg-sky-50/40 dark:bg-sky-950/30' : ''}">
@@ -8111,6 +8394,9 @@
           </div>
         </div>
 
+        <!-- ================= GISMETEO-STYLE 3-5 DAY STEPPED FORECAST VISUALIZER ================= -->
+        ${renderGismeteoVisualizer(pureCity, d.region || d.coords, buildGismeteoDays(d))}
+
         <!-- =================  HIGH-DENSITY METEOROLOGICAL MATRIX (ПОЧАСОВАЯ СЕТКА) ================= -->
         <div class="glass-card rounded-2xl p-4 border border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-lg space-y-2.5">
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
@@ -8139,49 +8425,49 @@
               <tbody class="divide-y divide-slate-100 dark:divide-slate-800/70">
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    ⛅ Погода
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-sky-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg><span>Погода</span></span>
                   </td>
                   ${synopticIconTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    🌡️ Температура
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><span>Температура</span></span>
                   </td>
                   ${synopticTempTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    🧣 Ощущается
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span>Ощущается</span></span>
                   </td>
                   ${synopticAppTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    💨 Ветер, м/с
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-teal-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg><span>Ветер, м/с</span></span>
                   </td>
                   ${synopticWindTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-2 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    ❄️💧 Осадки/Снег
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg><span>Осадки/Снег</span></span>
                   </td>
                   ${synopticPrecipTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    🧭 Давление, мм
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 7v5l3 3"/></svg><span>Давление, мм</span></span>
                   </td>
                   ${synopticPressTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    💧 Влажность, %
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"/></svg><span>Влажность, %</span></span>
                   </td>
                   ${synopticHumTd}
                 </tr>
                 <tr class="synoptic-row">
                   <td class="sticky left-0 bg-white dark:bg-slate-900 z-10 px-3 py-1.5 text-left font-bold text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
-                    ☀️ УФ-индекс
+                    <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 2v2m0 16v2m10-10h-2M4 12H2"/></svg><span>УФ-индекс</span></span>
                   </td>
                   ${synopticUvTd}
                 </tr>
@@ -8213,7 +8499,7 @@
           <!-- Card 1: Snow Cover & Snowpack -->
           <div class="mc-glass-card rounded-2xl p-4 space-y-2 border border-blue-200 dark:border-blue-900/50 bg-blue-50/40 dark:bg-blue-950/20 shadow-sm">
             <div class="flex justify-between items-center text-blue-600 dark:text-blue-400 text-[10.5px] font-bold uppercase tracking-wider font-mono">
-              <span class="flex items-center gap-1.5"><span>❄️</span><span>Снежный покров</span></span>
+              <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 2v20m-7-17l14 14m0-14L5 19"/></svg><span>Снежный покров</span></span>
               <span class="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 font-mono text-[10px] font-bold">ВМО / ECMWF</span>
             </div>
             <div class="grid grid-cols-2 gap-2 pt-1">
@@ -8508,7 +8794,7 @@
             <div class="shrink-0 w-16 px-2 py-2 rounded-xl text-center transition hover:border-sky-400/50 cursor-default ${isNow ? 'bg-sky-100 dark:bg-sky-950/90 border border-sky-400 dark:border-sky-500/60 shadow-md' : (h.is_midnight ? 'bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/50' : 'bg-white/80 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800')}">
               <div class="text-[9px] font-bold uppercase tracking-wider ${dayColor}">${currentDayTag}</div>
               <div class="text-[10.5px] font-medium text-slate-400 font-mono mt-0.5">${isNow ? 'Сейчас' : h.time_lbl}</div>
-              <div class="text-xl my-1 select-none">${h.icon || '⛅'}</div>
+              <div class="my-1 flex items-center justify-center select-none">${(typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(h.wmo, h.is_day, 28) : (h.icon || '⛅')}</div>
               <div class="text-sm font-black font-mono text-white tracking-tight">${tSign}</div>
               ${precBadge}
             </div>
@@ -8583,7 +8869,7 @@
               <span>💨 Ветер (Векторы)</span>
             </button>
             <button onclick="switchUniversalLayer('temp')" id="btn-unilayer-temp" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-              <span>🌡️ Температура</span>
+              <span><span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg><span>Температура</span></span></span>
             </button>
             <button onclick="switchUniversalLayer('clouds')" id="btn-unilayer-clouds" class="shrink-0 px-3 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
               <span>☁️ Спутник ИК 24/7</span>
