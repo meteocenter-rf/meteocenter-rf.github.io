@@ -177,7 +177,7 @@
   <style>
     
     /* Modern 2026 Weather Numerics & Tabular Data */
-    .weather-num {
+    .weather-num, .tnum {
       font-family: var(--font-sans);
       font-feature-settings: "tnum" 1, "zero" 1, "cv01" 1;
       font-variant-numeric: tabular-nums;
@@ -755,11 +755,11 @@
 
     /* Dark Mode Tabs */
     html.dark .tab-active {
-      background-color: #38bdf8 !important;
-      color: #082f49 !important;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4) !important;
-      border: 1px solid #7dd3fc !important;
-      font-weight: 800 !important;
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid #38bdf8 !important;
+      font-weight: 700 !important;
       transform: translateY(-1px);
     }
     html.dark .tab-active * {
@@ -3376,65 +3376,30 @@
       <!-- Horizontal Tabs Container -->
       <div id="tabs-bar" class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-1.5 px-8 text-xs select-none cursor-grab active:cursor-grabbing" style="touch-action: pan-y pan-x; -webkit-overflow-scrolling: touch;">
         <button onclick="switchTab('current')" id="tab-current" class="tab-btn tab-active">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
-          <span>Сейчас (48 ч)</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 7v5l3 3"/></svg>
+          <span>Сейчас и 48 ч</span>
+        </button>
+        <button onclick="switchTab('forecast')" id="tab-forecast" class="tab-btn tab-inactive">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <span>Прогноз</span>
         </button>
         <button onclick="switchTab('radar')" id="tab-radar" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l4-4"/></svg>
-          <span>Радар и Спутник</span>
-        </button>
-        <button onclick="switchTab('week')" id="tab-week" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2v4M8 2v4M3 10h18"/></svg>
-          <span>7 дней</span>
-        </button>
-        <button onclick="switchTab('14days')" id="tab-14days" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-          <span>14 дней</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12l4-4"/></svg>
+          <span>Радар и спутник</span>
         </button>
         <button onclick="switchTab('models')" id="tab-models" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.6 9h16.8M3.6 15h16.8M12 3a14 14 0 000 18 14 14 0 000-18z"/></svg>
-          <span>Мультимодели</span>
-        </button>
-        <button onclick="switchTab('weathernext')" id="tab-weathernext" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          <span>WeatherNext</span>
-        </button>
-        <button onclick="switchTab('month')" id="tab-month" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>
-          <span>30 дней (SEAS5)</span>
-        </button>
-        <button onclick="switchTab('interactive')" id="tab-interactive" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-          <span>По часам</span>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span>Модели</span>
         </button>
         <button onclick="switchTab('archive')" id="tab-archive" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span>Архив (1890–2026)</span>
-          <span class="tab-badge text-[9px] px-1 py-0.2 rounded font-mono font-bold">WMO</span>
         </button>
         <button onclick="switchTab('ecology')" id="tab-ecology" class="tab-btn tab-inactive">
-          <svg class="w-4 h-4 shrink-0 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span>Экология</span>
         </button>
       </div>
-
-      <!-- Right Fade & Arrow -->
-      <div id="tabs-fade-right" class="pointer-events-none absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 transition-opacity duration-200"></div>
-      <button id="tabs-scroll-btn-right" aria-label="Прокрутить вкладки вправо" onclick="scrollTabsBar(220)" class="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-white/95 dark:bg-slate-900/95 shadow-md border border-slate-200 dark:border-slate-700 items-center justify-center text-slate-600 dark:text-slate-300 opacity-0 pointer-events-none transition-all duration-200 hover:scale-110 active:scale-95 group-hover:opacity-100 group-hover:pointer-events-auto" title="Прокрутить вправо">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-
-    <!-- LOADING INDICATOR -->
-    <div id="loading" class="hidden w-full flex flex-col gap-6">
-  <!-- Smart Skeleton Shimmer State (CLS = 0) -->
-  <div class="glass-card rounded-3xl p-6 md:p-10 border border-slate-200/60 dark:border-slate-800/80 relative overflow-hidden">
-    <div class="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/40 dark:via-white/5 to-transparent"></div>
-    <div class="flex items-center gap-4 mb-8">
-      <div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800"></div>
-      <div class="space-y-2">
-        <div class="h-5 w-48 bg-slate-200 dark:bg-slate-800 rounded"></div>
-        <div class="h-3 w-32 bg-slate-100 dark:bg-slate-800/60 rounded"></div>
       </div>
     </div>
     <div class="flex items-end gap-6">
@@ -3475,7 +3440,7 @@
       <summary class="flex items-center justify-between cursor-pointer select-none">
         <div class="flex items-center space-x-2">
           <svg class="w-4 h-4 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">Метеорологический протокол и сводка данных</h2>
+          <h2 class="text-xs font-bold text-slate-800 dark:text-slate-200 tracking-tight">Метеорологический протокол и сводка данных</h2>
         </div>
         <div class="flex items-center space-x-2">
           <button type="button" onclick="event.stopPropagation(); window.print();" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 transition flex items-center space-x-1" title="Распечатать или сохранить в PDF (A4)">
@@ -3500,7 +3465,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           </div>
           <div>
-            <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">IT-разработка погодных виджетов, дашбордов и интеграция API</h3>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 tracking-tight">IT-разработка погодных виджетов, дашбордов и интеграция API</h3>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Веб-разработка и Data Visualization (JS, Tailwind, ApexCharts, Leaflet) для бизнеса, отелей и логистики</p>
           </div>
         </div>
@@ -3765,13 +3730,9 @@
     // Tab buttons map
     const tabButtons = {
       'current': document.getElementById('tab-current'),
+      'forecast': document.getElementById('tab-forecast'),
       'radar': document.getElementById('tab-radar'),
-      'week': document.getElementById('tab-week'),
-      '14days': document.getElementById('tab-14days'),
       'models': document.getElementById('tab-models'),
-      'weathernext': document.getElementById('tab-weathernext'),
-      'month': document.getElementById('tab-month'),
-      'interactive': document.getElementById('tab-interactive'),
       'archive': document.getElementById('tab-archive'),
       'ecology': document.getElementById('tab-ecology'),
     };
@@ -3845,13 +3806,26 @@
 
     function switchTab(mode) {
       currentMode = mode;
+
+      // Map any mode or legacy URL param to one of the 6 master tabs
+      let masterKey = 'current';
+      if (mode === 'forecast' || mode === 'week' || mode === '14days' || mode === 'month') {
+        masterKey = 'forecast';
+      } else if (mode === 'models' || mode === 'weathernext') {
+        masterKey = 'models';
+      } else if (mode === 'radar') {
+        masterKey = 'radar';
+      } else if (mode === 'archive') {
+        masterKey = 'archive';
+      } else if (mode === 'ecology') {
+        masterKey = 'ecology';
+      } else {
+        masterKey = 'current';
+      }
+
       for (const [k, btn] of Object.entries(tabButtons)) {
         if (btn) {
-          if (k === 'anomalies') {
-            btn.className = 'tab-btn-anomalies shadow-sm shrink-0';
-            continue;
-          }
-          if (k === mode) {
+          if (k === masterKey) {
             btn.className = 'tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-active';
           } else {
             btn.className = 'tab-btn shrink-0 px-3.5 py-2 rounded-xl transition flex items-center space-x-1.5 tab-inactive';
@@ -3861,16 +3835,16 @@
 
       // Update sidebar nav buttons
       document.querySelectorAll('.sidebar-nav-btn').forEach(btn => btn.classList.remove('sidebar-nav-active'));
-      const activeNavBtn = document.getElementById(`nav-btn-${mode}`);
+      const activeNavBtn = document.getElementById(`nav-btn-${masterKey}`) || document.getElementById(`nav-btn-${mode}`);
       if (activeNavBtn) activeNavBtn.classList.add('sidebar-nav-active');
 
       // Scroll active tab into view in tabs bar
-      const activeBtn = tabButtons[mode];
+      const activeBtn = tabButtons[masterKey];
       if (activeBtn) {
         activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
 
-      // Update URL param without page reload
+      // Update URL param without page reload (100% backward compatible)
       try {
         const newUrl = `?city=${encodeURIComponent(currentCity)}${mode !== 'current' ? `&mode=${mode}` : ''}`;
         window.history.replaceState({}, '', newUrl);
@@ -5753,7 +5727,7 @@
     
     // =========================================================================
     // ОФИЦИАЛЬНАЯ БАЗА ОСАДКОВ И ТЕМПЕРАТУР НА 14–30 ДНЕЙ ПЕРЕДОВЫХ МОДЕЛЕЙ
-    // Модели: Google DeepMind WeatherNext 3.0 (64 ансамбля), ECMWF SEAS5 (50 ансамблей),
+    // Модели: Google DeepMind WeatherNext (ИИ) (64 ансамбля), ECMWF SEAS5 (50 ансамблей),
     // ECMWF IFS 0.25°, DWD ICON, NOAA GFS, CMC GEM
     // =========================================================================
     const VERIFIED_MODELS_PRECIP_30D_ARCHIVE = {"norilsk": {"station_name": "Норильск", "wmo_id": "23078", "summary": {"station_id": "norilsk", "wmo_id": "23078", "station_name": "Норильск", "start_date": "2026-09-09", "dec1_precip_sum": 14.7, "dec1_t_avg": 11.7, "dec2_precip_sum": 39.5, "dec2_t_avg": 4.0, "dec3_precip_sum": 36.0, "dec3_t_avg": 0.1, "total_30d_precip": 90.2, "month_t_avg": 5.3, "norm_month_precip": 58.0, "precip_anomaly_pct": 55.5, "wet_days_count": 20, "heavy_rain_risk_days": 11}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [8.0, 0.8, 1.3, 3.7, 0.1, 0.0, 0.0, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "wn_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "wn_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "wn_prob": [99, 99, 95, 99, 70, 18, 10, 51, 79, 81, 81, 81, 82, 89, 78, 82, 84, 80, 78, 84, 84, 86, 80, 90, 95, 92, 88, 92, 92, 86], "wn_tmax": [10.4, 8.6, 16.0, 11.6, 9.7, 11.8, 13.9, 11.6, 12.5, 10.9, 10.6, 9.1, 10.0, 8.2, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "wn_tmin": [8.4, 5.8, 8.8, 7.5, 5.0, 3.7, 6.3, 7.1, 6.1, 8.3, 6.7, 5.9, 7.9, 5.6, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9], "ec_precip_14d": [4.2, 0.4, 1.1, 6.8, 0.0, 0.0, 0.0, 1.4, 10.6, 0.8, 7.6, 23.6, 5.4, 5.6], "ic_precip_14d": [2.7, 0.1, 2.5, 4.3, 0.0, 0.0, 4.7, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9], "gfs_precip_14d": [3.5, 0.0, 6.3, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.4, 7.2], "gem_precip_14d": [3.7, 0.0, 2.7, 2.7, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.9, 1.4, 8.4, 5.9], "model_totals_14d": {"ec": 67.5, "wn": 31.3, "ic": 31.7, "gfs": 19.9, "gem": 26.3}, "seas5_precip": [19.8, 4.1, 3.3, 1.5, 0.1, 0.2, 3.4, 4.3, 1.1, 1.5, 0.2, 0.0, 0.0, 0.3, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "seas5_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "seas5_tmax": [15.9, 17.2, 16.2, 13.6, 13.6, 7.2, 5.8, 4.0, 2.8, 1.9, 1.5, 0.9, -0.1, -1.3, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "seas5_tmin": [14.3, 13.2, 12.0, 11.4, 6.4, 3.9, 2.9, 0.5, -0.0, -0.7, -5.0, -10.9, -10.7, -9.2, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9]}, "alykel": {"station_name": "Алыкель (Аэропорт)", "wmo_id": "UOOO", "summary": {"station_id": "alykel", "wmo_id": "UOOO", "station_name": "Алыкель (Аэропорт)", "start_date": "2026-09-09", "dec1_precip_sum": 4.1, "dec1_t_avg": 13.4, "dec2_precip_sum": 36.5, "dec2_t_avg": 5.6, "dec3_precip_sum": 25.9, "dec3_t_avg": 2.6, "total_30d_precip": 66.5, "month_t_avg": 7.2, "norm_month_precip": 55.0, "precip_anomaly_pct": 20.9, "wet_days_count": 20, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.7, 1.1, 0.0, 0.9, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "wn_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "wn_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "wn_prob": [99, 99, 75, 99, 56, 10, 10, 59, 87, 90, 85, 82, 82, 84, 76, 76, 86, 80, 84, 76, 78, 84, 86, 76, 88, 94, 94, 86, 78, 88], "wn_tmax": [11.8, 14.2, 16.8, 10.8, 11.5, 13.6, 16.4, 14.0, 13.9, 10.6, 9.9, 9.5, 9.3, 7.9, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "wn_tmin": [8.0, 6.2, 11.2, 7.6, 7.6, 3.5, 8.5, 8.2, 6.6, 5.8, 5.4, 7.2, 7.9, 5.2, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5], "ec_precip_14d": [1.1, 0.0, 1.6, 1.9, 0.1, 0.0, 0.2, 4.0, 6.6, 1.4, 2.8, 14.2, 1.4, 5.4], "ic_precip_14d": [2.2, 0.6, 0.8, 0.3, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8], "gfs_precip_14d": [2.0, 0.2, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [2.3, 0.2, 0.8, 0.4, 0.0, 0.0, 0.0, 2.7, 0.6, 2.1, 0.8, 1.1, 12.9, 2.8], "model_totals_14d": {"ec": 40.7, "wn": 21.7, "ic": 22.9, "gfs": 2.7, "gem": 26.7}, "seas5_precip": [4.1, 2.0, 4.7, 0.0, 0.0, 0.1, 0.5, 0.3, 1.3, 0.3, 0.1, 0.0, 0.0, 0.0, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "seas5_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "seas5_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "seas5_tmax": [17.0, 17.4, 18.0, 16.0, 13.1, 7.7, 7.6, 4.7, 4.7, 3.5, 3.9, 2.2, 3.0, 0.2, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "seas5_tmin": [12.6, 12.8, 11.2, 11.2, 5.9, 2.6, 2.4, -0.3, -1.9, -1.8, -2.1, -2.2, -5.6, -5.8, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5]}, "moscow": {"station_name": "Москва (ВДНХ)", "wmo_id": "27612", "summary": {"station_id": "moscow", "wmo_id": "27612", "station_name": "Москва (ВДНХ)", "start_date": "2026-09-09", "dec1_precip_sum": 18.0, "dec1_t_avg": 18.2, "dec2_precip_sum": 1.2, "dec2_t_avg": 17.9, "dec3_precip_sum": 1.3, "dec3_t_avg": 17.6, "total_30d_precip": 20.5, "month_t_avg": 17.9, "norm_month_precip": 65.0, "precip_anomaly_pct": -68.5, "wet_days_count": 5, "heavy_rain_risk_days": 1}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 12.6, 0.1, 0.5, 0.3, 4.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "wn_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "wn_prob": [10, 10, 99, 39, 60, 50, 90, 54, 56, 79, 76, 76, 59, 57, 68, 64, 60, 62, 54, 60, 66, 66, 74, 80, 64, 64, 52, 66, 52, 60], "wn_tmax": [20.9, 24.1, 16.0, 14.9, 15.5, 16.3, 15.2, 18.4, 20.5, 20.0, 17.1, 17.6, 17.4, 13.4, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "wn_tmin": [4.6, 11.7, 10.4, 9.5, 7.7, 11.1, 8.3, 5.9, 12.0, 12.2, 10.6, 9.8, 10.4, 5.1, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9], "ec_precip_14d": [0.0, 0.0, 6.7, 0.0, 0.0, 0.4, 0.0, 0.2, 15.4, 3.8, 0.6, 0.4, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 7.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0], "gfs_precip_14d": [0.0, 0.0, 10.7, 0.0, 0.0, 0.0, 0.0, 0.6, 2.3, 0.1, 0.0, 0.0, 0.0, 0.9], "gem_precip_14d": [0.0, 0.0, 2.5, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.6, 0.7, 0.1, 0.0, 0.0], "model_totals_14d": {"ec": 27.5, "wn": 18.8, "ic": 8.4, "gfs": 14.6, "gem": 4.5}, "seas5_precip": [0.0, 0.0, 2.8, 5.9, 5.9, 4.3, 0.1, 0.9, 1.2, 0.1, 0.3, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "seas5_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "seas5_tmax": [13.8, 20.9, 20.5, 18.7, 16.4, 18.1, 22.0, 21.6, 18.7, 14.6, 15.1, 19.0, 20.6, 16.5, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "seas5_tmin": [7.4, 11.6, 11.2, 10.2, 10.8, 13.6, 14.0, 14.3, 11.1, 9.7, 9.1, 10.3, 8.2, 6.5, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9]}, "spb": {"station_name": "Санкт-Петербург", "wmo_id": "26063", "summary": {"station_id": "spb", "wmo_id": "26063", "station_name": "Санкт-Петербург", "start_date": "2026-09-09", "dec1_precip_sum": 30.4, "dec1_t_avg": 15.7, "dec2_precip_sum": 19.7, "dec2_t_avg": 14.6, "dec3_precip_sum": 1.9, "dec3_t_avg": 15.4, "total_30d_precip": 52.0, "month_t_avg": 15.2, "norm_month_precip": 69.0, "precip_anomaly_pct": -24.6, "wet_days_count": 18, "heavy_rain_risk_days": 2}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [1.6, 10.6, 6.0, 0.7, 0.9, 3.5, 0.1, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "wn_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "wn_prob": [99, 99, 99, 99, 99, 99, 57, 87, 89, 95, 92, 87, 87, 87, 80, 78, 70, 72, 68, 76, 72, 72, 80, 70, 66, 64, 60, 68, 68, 68], "wn_tmax": [21.4, 16.5, 14.3, 14.1, 14.6, 14.3, 13.6, 17.0, 16.4, 14.8, 14.0, 12.1, 12.3, 12.8, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "wn_tmin": [14.4, 13.0, 11.5, 11.5, 10.2, 9.7, 8.2, 11.6, 12.5, 12.1, 11.2, 9.9, 8.6, 7.7, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8], "ec_precip_14d": [2.1, 4.3, 5.8, 0.2, 2.0, 0.9, 0.0, 3.6, 6.0, 4.4, 0.6, 0.0, 2.8, 13.4], "ic_precip_14d": [1.5, 5.9, 11.8, 0.1, 0.3, 0.0, 0.6, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6], "gfs_precip_14d": [4.6, 10.2, 2.4, 0.5, 3.9, 0.0, 1.2, 2.9, 0.1, 0.0, 2.5, 4.1, 1.8, 8.1], "gem_precip_14d": [1.9, 16.3, 0.6, 0.6, 3.8, 0.1, 0.0, 0.0, 3.7, 5.4, 3.5, 2.1, 4.8, 1.6], "model_totals_14d": {"ec": 46.1, "wn": 42.4, "ic": 39.2, "gfs": 42.3, "gem": 44.4}, "seas5_precip": [5.0, 5.4, 0.8, 0.3, 0.0, 0.4, 0.3, 0.1, 0.0, 0.1, 4.6, 0.0, 0.0, 0.0, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "seas5_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "seas5_tmax": [15.4, 17.3, 15.1, 16.4, 15.4, 14.4, 13.2, 12.8, 11.8, 13.8, 18.9, 20.2, 20.2, 18.1, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "seas5_tmin": [10.4, 12.4, 10.4, 10.0, 11.0, 11.6, 11.3, 9.7, 6.0, 5.4, 9.9, 13.6, 15.8, 11.2, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8]}, "dudinka": {"station_name": "Дудинка", "wmo_id": "23074", "summary": {"station_id": "dudinka", "wmo_id": "23074", "station_name": "Дудинка", "start_date": "2026-09-09", "dec1_precip_sum": 6.2, "dec1_t_avg": 12.4, "dec2_precip_sum": 39.9, "dec2_t_avg": 5.0, "dec3_precip_sum": 32.0, "dec3_t_avg": 0.7, "total_30d_precip": 78.1, "month_t_avg": 6.0, "norm_month_precip": 52.0, "precip_anomaly_pct": 50.2, "wet_days_count": 16, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [3.7, 0.2, 1.7, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "wn_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "wn_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "wn_prob": [99, 98, 96, 98, 54, 14, 10, 64, 79, 82, 85, 82, 82, 85, 76, 78, 90, 74, 78, 84, 84, 82, 82, 88, 92, 86, 90, 90, 86, 90], "wn_tmax": [11.1, 10.5, 16.7, 9.8, 8.5, 13.3, 16.5, 13.3, 12.3, 11.7, 10.9, 9.7, 9.8, 8.4, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "wn_tmin": [8.8, 7.1, 10.6, 5.0, 3.5, 2.8, 7.8, 6.4, 5.0, 7.2, 8.2, 6.7, 8.6, 5.8, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4], "ec_precip_14d": [2.6, 0.1, 2.6, 3.7, 0.0, 0.0, 0.0, 5.2, 9.2, 1.4, 7.0, 23.4, 7.6, 7.6], "ic_precip_14d": [2.5, 0.6, 2.4, 2.9, 0.0, 0.0, 0.3, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7], "gfs_precip_14d": [2.4, 0.3, 1.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4, 1.9], "gem_precip_14d": [1.9, 0.0, 5.2, 0.7, 0.0, 0.0, 0.0, 0.0, 0.5, 1.6, 0.5, 0.3, 11.3, 4.7], "model_totals_14d": {"ec": 70.4, "wn": 23.0, "ic": 25.7, "gfs": 7.7, "gem": 26.7}, "seas5_precip": [9.6, 7.7, 2.1, 1.9, 0.0, 0.0, 1.4, 0.3, 0.4, 0.9, 0.2, 0.0, 0.0, 0.1, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "seas5_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "seas5_tmax": [16.5, 16.7, 16.3, 14.0, 13.9, 7.5, 6.9, 4.3, 3.9, 2.7, 3.0, 2.6, 1.9, 0.2, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "seas5_tmin": [13.5, 13.2, 11.6, 11.3, 6.1, 4.2, 3.7, 0.6, -0.1, -0.3, -1.6, -4.3, -4.7, -4.7, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4]}, "murmansk": {"station_name": "Мурманск", "wmo_id": "22113", "summary": {"station_id": "murmansk", "wmo_id": "22113", "station_name": "Мурманск", "start_date": "2026-09-09", "dec1_precip_sum": 25.8, "dec1_t_avg": 11.7, "dec2_precip_sum": 22.4, "dec2_t_avg": 11.3, "dec3_precip_sum": 9.6, "dec3_t_avg": 9.5, "total_30d_precip": 57.8, "month_t_avg": 10.8, "norm_month_precip": 54.0, "precip_anomaly_pct": 7.0, "wet_days_count": 18, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [5.3, 0.2, 0.7, 0.6, 0.1, 8.6, 0.1, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "wn_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "wn_prob": [99, 39, 89, 90, 68, 99, 89, 87, 98, 75, 84, 81, 78, 73, 80, 82, 86, 88, 92, 84, 76, 74, 80, 76, 74, 84, 70, 80, 84, 76], "wn_tmax": [13.8, 14.5, 10.6, 11.2, 15.3, 9.8, 11.5, 10.5, 9.8, 9.7, 9.0, 9.2, 6.9, 7.2, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "wn_tmin": [9.2, 7.0, 6.5, 8.2, 8.9, 6.3, 4.2, 6.4, 8.1, 7.4, 6.8, 5.9, 4.1, 2.7, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6], "ec_precip_14d": [0.4, 0.0, 0.0, 1.4, 0.0, 8.9, 0.3, 2.2, 18.8, 0.2, 0.0, 6.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.4, 0.8, 1.7, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5], "gfs_precip_14d": [0.1, 0.2, 0.0, 2.4, 0.2, 0.5, 4.2, 0.3, 0.0, 0.0, 2.1, 0.0, 1.0, 0.2], "gem_precip_14d": [0.8, 0.1, 0.1, 2.1, 3.0, 3.8, 0.1, 0.2, 7.5, 1.9, 10.3, 2.8, 2.4, 0.5], "model_totals_14d": {"ec": 38.2, "wn": 41.8, "ic": 29.1, "gfs": 11.2, "gem": 35.6}, "seas5_precip": [4.7, 10.7, 0.6, 0.1, 0.0, 0.2, 0.6, 0.9, 3.0, 0.8, 0.4, 0.2, 6.4, 10.6, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "seas5_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "seas5_tmax": [9.9, 8.8, 10.4, 8.4, 10.3, 10.6, 10.9, 8.5, 8.2, 12.0, 12.5, 13.2, 9.2, 14.4, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "seas5_tmin": [3.8, 6.4, 4.7, 1.8, 1.5, 2.2, 4.1, 3.4, 3.7, 6.0, 7.5, 9.1, 6.9, 6.9, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6]}, "yakutsk": {"station_name": "Якутск", "wmo_id": "24959", "summary": {"station_id": "yakutsk", "wmo_id": "24959", "station_name": "Якутск", "start_date": "2026-09-09", "dec1_precip_sum": 9.7, "dec1_t_avg": 9.1, "dec2_precip_sum": 3.8, "dec2_t_avg": 7.0, "dec3_precip_sum": 3.4, "dec3_t_avg": 4.2, "total_30d_precip": 16.9, "month_t_avg": 6.7, "norm_month_precip": 31.0, "precip_anomaly_pct": -45.5, "wet_days_count": 10, "heavy_rain_risk_days": 0}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 2.6, 1.6, 1.6, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "wn_prob": [10, 10, 15, 10, 95, 98, 56, 29, 23, 20, 21, 34, 40, 53, 64, 66, 62, 62, 47, 54, 50, 56, 64, 66, 64, 64, 68, 70, 64, 78], "wn_tmax": [12.1, 14.7, 13.0, 11.4, 8.2, 3.2, 2.8, 7.3, 10.5, 7.4, 11.3, 13.2, 13.7, 11.7, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "wn_tmin": [2.6, 1.2, 4.5, 4.9, 3.9, 0.7, 0.8, 1.3, 1.9, 2.9, 2.1, 0.2, 0.4, 7.9, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9], "ec_precip_14d": [0.0, 0.0, 0.1, 0.0, 3.3, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.1, 0.0, 2.4, 0.3, 0.9, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.4, 0.9, 0.0, 0.0, 0.0, 2.7, 0.0, 0.0, 0.0, 1.9], "model_totals_14d": {"ec": 5.5, "wn": 11.6, "ic": 9.5, "gfs": 2.8, "gem": 7.9}, "seas5_precip": [0.0, 0.8, 0.3, 0.2, 3.5, 1.4, 0.3, 0.0, 5.0, 0.0, 0.2, 0.1, 4.5, 0.7, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "seas5_tmax": [12.2, 14.9, 18.1, 17.5, 17.1, 15.2, 11.2, 12.3, 15.5, 7.2, 6.5, 7.3, 12.3, 6.5, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "seas5_tmin": [2.4, 8.6, 10.1, 12.7, 9.9, 6.9, 2.6, 5.7, 6.4, 2.3, -0.4, 1.0, 3.8, -0.2, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9]}, "ekaterinburg": {"station_name": "Екатеринбург", "wmo_id": "28440", "summary": {"station_id": "ekaterinburg", "wmo_id": "28440", "station_name": "Екатеринбург", "start_date": "2026-09-09", "dec1_precip_sum": 15.5, "dec1_t_avg": 16.8, "dec2_precip_sum": 5.2, "dec2_t_avg": 17.3, "dec3_precip_sum": 18.5, "dec3_t_avg": 10.7, "total_30d_precip": 39.2, "month_t_avg": 14.9, "norm_month_precip": 44.0, "precip_anomaly_pct": -10.9, "wet_days_count": 12, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.6, 0.1, 5.6, 0.1, 0.2, 0.2, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "wn_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "wn_prob": [10, 68, 76, 95, 84, 98, 76, 90, 57, 34, 50, 54, 56, 48, 62, 72, 60, 60, 62, 58, 62, 66, 66, 74, 84, 72, 68, 66, 74, 64], "wn_tmax": [19.9, 19.7, 18.3, 20.7, 17.2, 14.9, 16.2, 10.9, 13.2, 16.9, 19.0, 20.9, 16.4, 18.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "wn_tmin": [13.0, 10.7, 9.8, 11.9, 10.2, 10.0, 9.0, 7.9, 7.9, 7.7, 10.8, 12.5, 11.1, 9.9, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4], "ec_precip_14d": [0.0, 1.6, 6.7, 3.0, 15.5, 0.6, 0.4, 1.2, 0.2, 0.0, 0.1, 0.1, 0.0, 0.0], "ic_precip_14d": [0.0, 0.3, 6.5, 10.8, 2.4, 2.4, 0.0, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0], "gfs_precip_14d": [0.1, 5.5, 22.6, 2.0, 3.6, 2.4, 2.4, 0.3, 0.0, 2.7, 3.3, 0.9, 0.9, 0.3], "gem_precip_14d": [0.0, 0.2, 7.7, 0.0, 17.7, 0.6, 0.3, 0.9, 2.1, 2.4, 0.0, 0.0, 4.5, 0.0], "model_totals_14d": {"ec": 29.4, "wn": 20.0, "ic": 35.6, "gfs": 47.0, "gem": 36.4}, "seas5_precip": [4.4, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "seas5_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "seas5_tmax": [21.1, 15.3, 15.5, 20.0, 21.1, 18.7, 16.2, 12.2, 18.7, 12.5, 6.1, 9.6, 14.5, 11.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "seas5_tmin": [11.7, 11.6, 11.7, 11.2, 10.5, 9.5, 9.1, 7.8, 8.0, 3.3, -1.0, -0.6, 5.8, 8.0, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4]}, "kazan": {"station_name": "Казань", "wmo_id": "27595", "summary": {"station_id": "kazan", "wmo_id": "27595", "station_name": "Казань", "start_date": "2026-09-09", "dec1_precip_sum": 14.2, "dec1_t_avg": 16.7, "dec2_precip_sum": 6.8, "dec2_t_avg": 19.2, "dec3_precip_sum": 4.1, "dec3_t_avg": 14.5, "total_30d_precip": 25.1, "month_t_avg": 16.8, "norm_month_precip": 50.0, "precip_anomaly_pct": -49.8, "wet_days_count": 8, "heavy_rain_risk_days": 3}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [6.7, 0.0, 0.0, 3.2, 0.3, 0.0, 3.4, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "wn_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "wn_prob": [99, 68, 18, 99, 70, 59, 75, 62, 31, 48, 67, 64, 56, 53, 68, 74, 56, 70, 56, 60, 66, 62, 72, 74, 76, 62, 58, 60, 76, 68], "wn_tmax": [14.5, 16.5, 16.8, 16.4, 15.3, 17.7, 16.4, 14.1, 18.5, 21.2, 20.5, 19.3, 19.7, 14.4, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "wn_tmin": [9.8, 9.0, 8.5, 11.3, 10.8, 10.4, 11.9, 7.7, 7.1, 11.8, 15.0, 8.7, 7.9, 8.4, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5], "ec_precip_14d": [8.0, 0.0, 0.1, 5.4, 0.0, 0.4, 0.0, 0.0, 0.0, 8.6, 0.4, 0.0, 0.0, 0.0], "ic_precip_14d": [0.5, 0.0, 0.2, 8.5, 10.0, 2.3, 8.6, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "gfs_precip_14d": [2.0, 0.0, 0.0, 9.9, 0.0, 0.0, 0.3, 0.0, 0.3, 1.5, 0.9, 0.0, 0.0, 0.0], "gem_precip_14d": [2.8, 0.0, 0.9, 8.0, 0.0, 0.0, 0.3, 3.3, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "model_totals_14d": {"ec": 22.9, "wn": 21.0, "ic": 37.5, "gfs": 14.9, "gem": 22.1}, "seas5_precip": [1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.4, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "seas5_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "seas5_tmax": [17.0, 13.7, 18.7, 19.4, 19.6, 20.1, 19.8, 19.4, 22.0, 15.7, 13.4, 14.2, 17.2, 18.0, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "seas5_tmin": [9.1, 9.3, 9.6, 10.5, 9.8, 8.5, 11.1, 13.6, 13.4, 7.7, 5.5, 4.7, 6.0, 7.7, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5]}, "novosibirsk": {"station_name": "Новосибирск", "wmo_id": "29634", "summary": {"station_id": "novosibirsk", "wmo_id": "29634", "station_name": "Новосибирск", "start_date": "2026-09-09", "dec1_precip_sum": 13.2, "dec1_t_avg": 22.1, "dec2_precip_sum": 40.1, "dec2_t_avg": 12.7, "dec3_precip_sum": 40.2, "dec3_t_avg": 8.0, "total_30d_precip": 93.5, "month_t_avg": 14.2, "norm_month_precip": 45.0, "precip_anomaly_pct": 107.8, "wet_days_count": 13, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "wn_prob": [10, 10, 10, 10, 12, 35, 67, 87, 67, 73, 65, 56, 57, 48, 52, 62, 54, 64, 60, 66, 68, 56, 60, 56, 66, 60, 64, 70, 72, 74], "wn_tmax": [26.4, 25.8, 25.9, 25.5, 25.5, 22.1, 19.1, 18.4, 19.2, 12.9, 13.7, 14.0, 18.5, 20.8, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "wn_tmin": [14.1, 10.9, 11.9, 13.5, 14.8, 16.6, 12.9, 8.9, 10.8, 8.1, 8.8, 10.7, 9.3, 12.1, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8], "ec_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 5.4, 1.1, 0.2, 2.6, 0.0, 0.0, 0.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 11.5, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 3.5, 3.9, 1.8, 0.9, 0.6, 1.2, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3, 1.1, 19.7, 2.8, 0.8, 0.0], "model_totals_14d": {"ec": 9.3, "wn": 36.5, "ic": 48.1, "gfs": 12.0, "gem": 25.7}, "seas5_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9, 1.6, 0.0, 0.0, 0.1, 0.3, 0.1, 4.3, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "seas5_tmax": [22.3, 22.5, 23.4, 23.4, 24.6, 25.9, 23.1, 17.0, 12.9, 14.7, 16.4, 6.7, 6.6, 8.4, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "seas5_tmin": [10.6, 10.7, 10.6, 10.4, 10.4, 13.4, 14.1, 8.5, 7.0, 6.9, 4.0, 3.6, 3.2, 3.9, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8]}, "норильск": {"station_name": "Норильск", "wmo_id": "23078", "summary": {"station_id": "norilsk", "wmo_id": "23078", "station_name": "Норильск", "start_date": "2026-09-09", "dec1_precip_sum": 14.7, "dec1_t_avg": 11.7, "dec2_precip_sum": 39.5, "dec2_t_avg": 4.0, "dec3_precip_sum": 36.0, "dec3_t_avg": 0.1, "total_30d_precip": 90.2, "month_t_avg": 5.3, "norm_month_precip": 58.0, "precip_anomaly_pct": 55.5, "wet_days_count": 20, "heavy_rain_risk_days": 11}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [8.0, 0.8, 1.3, 3.7, 0.1, 0.0, 0.0, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "wn_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "wn_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "wn_prob": [99, 99, 95, 99, 70, 18, 10, 51, 79, 81, 81, 81, 82, 89, 78, 82, 84, 80, 78, 84, 84, 86, 80, 90, 95, 92, 88, 92, 92, 86], "wn_tmax": [10.4, 8.6, 16.0, 11.6, 9.7, 11.8, 13.9, 11.6, 12.5, 10.9, 10.6, 9.1, 10.0, 8.2, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "wn_tmin": [8.4, 5.8, 8.8, 7.5, 5.0, 3.7, 6.3, 7.1, 6.1, 8.3, 6.7, 5.9, 7.9, 5.6, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9], "ec_precip_14d": [4.2, 0.4, 1.1, 6.8, 0.0, 0.0, 0.0, 1.4, 10.6, 0.8, 7.6, 23.6, 5.4, 5.6], "ic_precip_14d": [2.7, 0.1, 2.5, 4.3, 0.0, 0.0, 4.7, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9], "gfs_precip_14d": [3.5, 0.0, 6.3, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.4, 7.2], "gem_precip_14d": [3.7, 0.0, 2.7, 2.7, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.9, 1.4, 8.4, 5.9], "model_totals_14d": {"ec": 67.5, "wn": 31.3, "ic": 31.7, "gfs": 19.9, "gem": 26.3}, "seas5_precip": [19.8, 4.1, 3.3, 1.5, 0.1, 0.2, 3.4, 4.3, 1.1, 1.5, 0.2, 0.0, 0.0, 0.3, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "seas5_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "seas5_tmax": [15.9, 17.2, 16.2, 13.6, 13.6, 7.2, 5.8, 4.0, 2.8, 1.9, 1.5, 0.9, -0.1, -1.3, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "seas5_tmin": [14.3, 13.2, 12.0, 11.4, 6.4, 3.9, 2.9, 0.5, -0.0, -0.7, -5.0, -10.9, -10.7, -9.2, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9]}, "23078": {"station_name": "Норильск", "wmo_id": "23078", "summary": {"station_id": "norilsk", "wmo_id": "23078", "station_name": "Норильск", "start_date": "2026-09-09", "dec1_precip_sum": 14.7, "dec1_t_avg": 11.7, "dec2_precip_sum": 39.5, "dec2_t_avg": 4.0, "dec3_precip_sum": 36.0, "dec3_t_avg": 0.1, "total_30d_precip": 90.2, "month_t_avg": 5.3, "norm_month_precip": 58.0, "precip_anomaly_pct": 55.5, "wet_days_count": 20, "heavy_rain_risk_days": 11}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [8.0, 0.8, 1.3, 3.7, 0.1, 0.0, 0.0, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "wn_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "wn_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "wn_prob": [99, 99, 95, 99, 70, 18, 10, 51, 79, 81, 81, 81, 82, 89, 78, 82, 84, 80, 78, 84, 84, 86, 80, 90, 95, 92, 88, 92, 92, 86], "wn_tmax": [10.4, 8.6, 16.0, 11.6, 9.7, 11.8, 13.9, 11.6, 12.5, 10.9, 10.6, 9.1, 10.0, 8.2, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "wn_tmin": [8.4, 5.8, 8.8, 7.5, 5.0, 3.7, 6.3, 7.1, 6.1, 8.3, 6.7, 5.9, 7.9, 5.6, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9], "ec_precip_14d": [4.2, 0.4, 1.1, 6.8, 0.0, 0.0, 0.0, 1.4, 10.6, 0.8, 7.6, 23.6, 5.4, 5.6], "ic_precip_14d": [2.7, 0.1, 2.5, 4.3, 0.0, 0.0, 4.7, 0.0, 0.0, 0.8, 0.9, 1.4, 8.4, 5.9], "gfs_precip_14d": [3.5, 0.0, 6.3, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.4, 7.2], "gem_precip_14d": [3.7, 0.0, 2.7, 2.7, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.9, 1.4, 8.4, 5.9], "model_totals_14d": {"ec": 67.5, "wn": 31.3, "ic": 31.7, "gfs": 19.9, "gem": 26.3}, "seas5_precip": [19.8, 4.1, 3.3, 1.5, 0.1, 0.2, 3.4, 4.3, 1.1, 1.5, 0.2, 0.0, 0.0, 0.3, 0.4, 16.7, 2.5, 0.1, 1.0, 2.2, 0.1, 6.1, 1.2, 5.1, 11.0, 7.2, 0.0, 3.1, 2.1, 0.1], "seas5_p10": [4.0, 0.6, 0.1, 2.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.3, 0.3, 0.2, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [8.2, 2.4, 3.1, 11.3, 3.2, 0.2, 0.0, 2.1, 6.3, 7.3, 9.9, 13.2, 9.4, 10.1, 4.6, 9.2, 10.3, 7.1, 8.5, 5.0, 6.9, 8.4, 6.2, 9.5, 7.3, 7.2, 6.2, 6.3, 4.8, 4.8], "seas5_tmax": [15.9, 17.2, 16.2, 13.6, 13.6, 7.2, 5.8, 4.0, 2.8, 1.9, 1.5, 0.9, -0.1, -1.3, -0.6, 3.0, 1.7, -1.2, -0.9, 0.1, -0.3, 2.1, 1.0, -2.2, 3.6, 3.7, 1.6, -0.9, 1.9, -9.4], "seas5_tmin": [14.3, 13.2, 12.0, 11.4, 6.4, 3.9, 2.9, 0.5, -0.0, -0.7, -5.0, -10.9, -10.7, -9.2, -7.8, -1.4, -1.7, -10.1, -10.1, -1.4, -7.2, -4.5, -3.3, -6.3, -2.0, 1.7, -9.7, -10.0, -10.7, -10.9]}, "алыкель": {"station_name": "Алыкель (Аэропорт)", "wmo_id": "UOOO", "summary": {"station_id": "alykel", "wmo_id": "UOOO", "station_name": "Алыкель (Аэропорт)", "start_date": "2026-09-09", "dec1_precip_sum": 4.1, "dec1_t_avg": 13.4, "dec2_precip_sum": 36.5, "dec2_t_avg": 5.6, "dec3_precip_sum": 25.9, "dec3_t_avg": 2.6, "total_30d_precip": 66.5, "month_t_avg": 7.2, "norm_month_precip": 55.0, "precip_anomaly_pct": 20.9, "wet_days_count": 20, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.7, 1.1, 0.0, 0.9, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "wn_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "wn_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "wn_prob": [99, 99, 75, 99, 56, 10, 10, 59, 87, 90, 85, 82, 82, 84, 76, 76, 86, 80, 84, 76, 78, 84, 86, 76, 88, 94, 94, 86, 78, 88], "wn_tmax": [11.8, 14.2, 16.8, 10.8, 11.5, 13.6, 16.4, 14.0, 13.9, 10.6, 9.9, 9.5, 9.3, 7.9, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "wn_tmin": [8.0, 6.2, 11.2, 7.6, 7.6, 3.5, 8.5, 8.2, 6.6, 5.8, 5.4, 7.2, 7.9, 5.2, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5], "ec_precip_14d": [1.1, 0.0, 1.6, 1.9, 0.1, 0.0, 0.2, 4.0, 6.6, 1.4, 2.8, 14.2, 1.4, 5.4], "ic_precip_14d": [2.2, 0.6, 0.8, 0.3, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8], "gfs_precip_14d": [2.0, 0.2, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [2.3, 0.2, 0.8, 0.4, 0.0, 0.0, 0.0, 2.7, 0.6, 2.1, 0.8, 1.1, 12.9, 2.8], "model_totals_14d": {"ec": 40.7, "wn": 21.7, "ic": 22.9, "gfs": 2.7, "gem": 26.7}, "seas5_precip": [4.1, 2.0, 4.7, 0.0, 0.0, 0.1, 0.5, 0.3, 1.3, 0.3, 0.1, 0.0, 0.0, 0.0, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "seas5_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "seas5_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "seas5_tmax": [17.0, 17.4, 18.0, 16.0, 13.1, 7.7, 7.6, 4.7, 4.7, 3.5, 3.9, 2.2, 3.0, 0.2, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "seas5_tmin": [12.6, 12.8, 11.2, 11.2, 5.9, 2.6, 2.4, -0.3, -1.9, -1.8, -2.1, -2.2, -5.6, -5.8, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5]}, "uooo": {"station_name": "Алыкель (Аэропорт)", "wmo_id": "UOOO", "summary": {"station_id": "alykel", "wmo_id": "UOOO", "station_name": "Алыкель (Аэропорт)", "start_date": "2026-09-09", "dec1_precip_sum": 4.1, "dec1_t_avg": 13.4, "dec2_precip_sum": 36.5, "dec2_t_avg": 5.6, "dec3_precip_sum": 25.9, "dec3_t_avg": 2.6, "total_30d_precip": 66.5, "month_t_avg": 7.2, "norm_month_precip": 55.0, "precip_anomaly_pct": 20.9, "wet_days_count": 20, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.7, 1.1, 0.0, 0.9, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "wn_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "wn_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "wn_prob": [99, 99, 75, 99, 56, 10, 10, 59, 87, 90, 85, 82, 82, 84, 76, 76, 86, 80, 84, 76, 78, 84, 86, 76, 88, 94, 94, 86, 78, 88], "wn_tmax": [11.8, 14.2, 16.8, 10.8, 11.5, 13.6, 16.4, 14.0, 13.9, 10.6, 9.9, 9.5, 9.3, 7.9, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "wn_tmin": [8.0, 6.2, 11.2, 7.6, 7.6, 3.5, 8.5, 8.2, 6.6, 5.8, 5.4, 7.2, 7.9, 5.2, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5], "ec_precip_14d": [1.1, 0.0, 1.6, 1.9, 0.1, 0.0, 0.2, 4.0, 6.6, 1.4, 2.8, 14.2, 1.4, 5.4], "ic_precip_14d": [2.2, 0.6, 0.8, 0.3, 0.0, 0.0, 0.0, 0.3, 0.4, 0.7, 0.8, 1.1, 12.9, 2.8], "gfs_precip_14d": [2.0, 0.2, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [2.3, 0.2, 0.8, 0.4, 0.0, 0.0, 0.0, 2.7, 0.6, 2.1, 0.8, 1.1, 12.9, 2.8], "model_totals_14d": {"ec": 40.7, "wn": 21.7, "ic": 22.9, "gfs": 2.7, "gem": 26.7}, "seas5_precip": [4.1, 2.0, 4.7, 0.0, 0.0, 0.1, 0.5, 0.3, 1.3, 0.3, 0.1, 0.0, 0.0, 0.0, 2.8, 8.4, 0.5, 0.1, 5.8, 1.3, 0.0, 1.5, 2.7, 3.1, 2.0, 5.1, 0.1, 10.1, 1.2, 0.1], "seas5_p10": [0.8, 0.2, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.1, 0.1, 0.1, 0.1, 0.0, 0.1], "seas5_p90": [2.5, 1.1, 1.3, 5.7, 2.2, 0.0, 0.1, 2.8, 6.5, 5.5, 6.1, 8.0, 6.3, 6.0, 4.5, 5.1, 5.6, 3.2, 4.5, 2.4, 4.2, 5.3, 3.1, 6.5, 4.0, 5.1, 3.4, 3.8, 4.6, 3.4], "seas5_tmax": [17.0, 17.4, 18.0, 16.0, 13.1, 7.7, 7.6, 4.7, 4.7, 3.5, 3.9, 2.2, 3.0, 0.2, 3.0, 7.2, 6.6, 0.7, 1.0, 0.9, 1.9, 4.3, 3.4, 1.9, 6.3, 6.4, 3.7, 2.7, 1.3, -5.9], "seas5_tmin": [12.6, 12.8, 11.2, 11.2, 5.9, 2.6, 2.4, -0.3, -1.9, -1.8, -2.1, -2.2, -5.6, -5.8, -5.2, 2.1, 0.1, -4.7, -4.5, 0.2, 0.4, 0.5, -3.4, -4.3, 0.6, 4.0, -5.9, -6.2, -10.7, -10.5]}, "москва": {"station_name": "Москва (ВДНХ)", "wmo_id": "27612", "summary": {"station_id": "moscow", "wmo_id": "27612", "station_name": "Москва (ВДНХ)", "start_date": "2026-09-09", "dec1_precip_sum": 18.0, "dec1_t_avg": 18.2, "dec2_precip_sum": 1.2, "dec2_t_avg": 17.9, "dec3_precip_sum": 1.3, "dec3_t_avg": 17.6, "total_30d_precip": 20.5, "month_t_avg": 17.9, "norm_month_precip": 65.0, "precip_anomaly_pct": -68.5, "wet_days_count": 5, "heavy_rain_risk_days": 1}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 12.6, 0.1, 0.5, 0.3, 4.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "wn_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "wn_prob": [10, 10, 99, 39, 60, 50, 90, 54, 56, 79, 76, 76, 59, 57, 68, 64, 60, 62, 54, 60, 66, 66, 74, 80, 64, 64, 52, 66, 52, 60], "wn_tmax": [20.9, 24.1, 16.0, 14.9, 15.5, 16.3, 15.2, 18.4, 20.5, 20.0, 17.1, 17.6, 17.4, 13.4, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "wn_tmin": [4.6, 11.7, 10.4, 9.5, 7.7, 11.1, 8.3, 5.9, 12.0, 12.2, 10.6, 9.8, 10.4, 5.1, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9], "ec_precip_14d": [0.0, 0.0, 6.7, 0.0, 0.0, 0.4, 0.0, 0.2, 15.4, 3.8, 0.6, 0.4, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 7.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0], "gfs_precip_14d": [0.0, 0.0, 10.7, 0.0, 0.0, 0.0, 0.0, 0.6, 2.3, 0.1, 0.0, 0.0, 0.0, 0.9], "gem_precip_14d": [0.0, 0.0, 2.5, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.6, 0.7, 0.1, 0.0, 0.0], "model_totals_14d": {"ec": 27.5, "wn": 18.8, "ic": 8.4, "gfs": 14.6, "gem": 4.5}, "seas5_precip": [0.0, 0.0, 2.8, 5.9, 5.9, 4.3, 0.1, 0.9, 1.2, 0.1, 0.3, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "seas5_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "seas5_tmax": [13.8, 20.9, 20.5, 18.7, 16.4, 18.1, 22.0, 21.6, 18.7, 14.6, 15.1, 19.0, 20.6, 16.5, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "seas5_tmin": [7.4, 11.6, 11.2, 10.2, 10.8, 13.6, 14.0, 14.3, 11.1, 9.7, 9.1, 10.3, 8.2, 6.5, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9]}, "27612": {"station_name": "Москва (ВДНХ)", "wmo_id": "27612", "summary": {"station_id": "moscow", "wmo_id": "27612", "station_name": "Москва (ВДНХ)", "start_date": "2026-09-09", "dec1_precip_sum": 18.0, "dec1_t_avg": 18.2, "dec2_precip_sum": 1.2, "dec2_t_avg": 17.9, "dec3_precip_sum": 1.3, "dec3_t_avg": 17.6, "total_30d_precip": 20.5, "month_t_avg": 17.9, "norm_month_precip": 65.0, "precip_anomaly_pct": -68.5, "wet_days_count": 5, "heavy_rain_risk_days": 1}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 12.6, 0.1, 0.5, 0.3, 4.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "wn_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "wn_prob": [10, 10, 99, 39, 60, 50, 90, 54, 56, 79, 76, 76, 59, 57, 68, 64, 60, 62, 54, 60, 66, 66, 74, 80, 64, 64, 52, 66, 52, 60], "wn_tmax": [20.9, 24.1, 16.0, 14.9, 15.5, 16.3, 15.2, 18.4, 20.5, 20.0, 17.1, 17.6, 17.4, 13.4, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "wn_tmin": [4.6, 11.7, 10.4, 9.5, 7.7, 11.1, 8.3, 5.9, 12.0, 12.2, 10.6, 9.8, 10.4, 5.1, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9], "ec_precip_14d": [0.0, 0.0, 6.7, 0.0, 0.0, 0.4, 0.0, 0.2, 15.4, 3.8, 0.6, 0.4, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 7.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.7, 0.1, 0.0, 0.0], "gfs_precip_14d": [0.0, 0.0, 10.7, 0.0, 0.0, 0.0, 0.0, 0.6, 2.3, 0.1, 0.0, 0.0, 0.0, 0.9], "gem_precip_14d": [0.0, 0.0, 2.5, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0, 0.6, 0.7, 0.1, 0.0, 0.0], "model_totals_14d": {"ec": 27.5, "wn": 18.8, "ic": 8.4, "gfs": 14.6, "gem": 4.5}, "seas5_precip": [0.0, 0.0, 2.8, 5.9, 5.9, 4.3, 0.1, 0.9, 1.2, 0.1, 0.3, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0], "seas5_p10": [0.0, 0.0, 3.2, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 8.3, 0.3, 0.4, 0.3, 2.6, 0.9, 1.2, 4.1, 7.3, 4.5, 4.1, 8.3, 6.8, 2.7, 4.2, 5.0, 3.7, 2.5, 3.7, 3.1, 5.0, 5.1, 3.2, 2.3, 2.5, 2.5, 2.1, 2.1], "seas5_tmax": [13.8, 20.9, 20.5, 18.7, 16.4, 18.1, 22.0, 21.6, 18.7, 14.6, 15.1, 19.0, 20.6, 16.5, 17.5, 18.6, 15.8, 20.1, 20.3, 21.7, 20.6, 18.2, 17.3, 16.5, 18.4, 17.0, 18.8, 17.1, 16.9, 14.7], "seas5_tmin": [7.4, 11.6, 11.2, 10.2, 10.8, 13.6, 14.0, 14.3, 11.1, 9.7, 9.1, 10.3, 8.2, 6.5, 7.2, 9.2, 10.9, 10.6, 10.5, 8.7, 7.0, 8.8, 7.5, 8.6, 7.2, 6.5, 9.0, 6.7, 4.7, 6.9]}, "санкт-петербург": {"station_name": "Санкт-Петербург", "wmo_id": "26063", "summary": {"station_id": "spb", "wmo_id": "26063", "station_name": "Санкт-Петербург", "start_date": "2026-09-09", "dec1_precip_sum": 30.4, "dec1_t_avg": 15.7, "dec2_precip_sum": 19.7, "dec2_t_avg": 14.6, "dec3_precip_sum": 1.9, "dec3_t_avg": 15.4, "total_30d_precip": 52.0, "month_t_avg": 15.2, "norm_month_precip": 69.0, "precip_anomaly_pct": -24.6, "wet_days_count": 18, "heavy_rain_risk_days": 2}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [1.6, 10.6, 6.0, 0.7, 0.9, 3.5, 0.1, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "wn_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "wn_prob": [99, 99, 99, 99, 99, 99, 57, 87, 89, 95, 92, 87, 87, 87, 80, 78, 70, 72, 68, 76, 72, 72, 80, 70, 66, 64, 60, 68, 68, 68], "wn_tmax": [21.4, 16.5, 14.3, 14.1, 14.6, 14.3, 13.6, 17.0, 16.4, 14.8, 14.0, 12.1, 12.3, 12.8, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "wn_tmin": [14.4, 13.0, 11.5, 11.5, 10.2, 9.7, 8.2, 11.6, 12.5, 12.1, 11.2, 9.9, 8.6, 7.7, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8], "ec_precip_14d": [2.1, 4.3, 5.8, 0.2, 2.0, 0.9, 0.0, 3.6, 6.0, 4.4, 0.6, 0.0, 2.8, 13.4], "ic_precip_14d": [1.5, 5.9, 11.8, 0.1, 0.3, 0.0, 0.6, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6], "gfs_precip_14d": [4.6, 10.2, 2.4, 0.5, 3.9, 0.0, 1.2, 2.9, 0.1, 0.0, 2.5, 4.1, 1.8, 8.1], "gem_precip_14d": [1.9, 16.3, 0.6, 0.6, 3.8, 0.1, 0.0, 0.0, 3.7, 5.4, 3.5, 2.1, 4.8, 1.6], "model_totals_14d": {"ec": 46.1, "wn": 42.4, "ic": 39.2, "gfs": 42.3, "gem": 44.4}, "seas5_precip": [5.0, 5.4, 0.8, 0.3, 0.0, 0.4, 0.3, 0.1, 0.0, 0.1, 4.6, 0.0, 0.0, 0.0, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "seas5_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "seas5_tmax": [15.4, 17.3, 15.1, 16.4, 15.4, 14.4, 13.2, 12.8, 11.8, 13.8, 18.9, 20.2, 20.2, 18.1, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "seas5_tmin": [10.4, 12.4, 10.4, 10.0, 11.0, 11.6, 11.3, 9.7, 6.0, 5.4, 9.9, 13.6, 15.8, 11.2, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8]}, "питер": {"station_name": "Санкт-Петербург", "wmo_id": "26063", "summary": {"station_id": "spb", "wmo_id": "26063", "station_name": "Санкт-Петербург", "start_date": "2026-09-09", "dec1_precip_sum": 30.4, "dec1_t_avg": 15.7, "dec2_precip_sum": 19.7, "dec2_t_avg": 14.6, "dec3_precip_sum": 1.9, "dec3_t_avg": 15.4, "total_30d_precip": 52.0, "month_t_avg": 15.2, "norm_month_precip": 69.0, "precip_anomaly_pct": -24.6, "wet_days_count": 18, "heavy_rain_risk_days": 2}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [1.6, 10.6, 6.0, 0.7, 0.9, 3.5, 0.1, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "wn_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "wn_prob": [99, 99, 99, 99, 99, 99, 57, 87, 89, 95, 92, 87, 87, 87, 80, 78, 70, 72, 68, 76, 72, 72, 80, 70, 66, 64, 60, 68, 68, 68], "wn_tmax": [21.4, 16.5, 14.3, 14.1, 14.6, 14.3, 13.6, 17.0, 16.4, 14.8, 14.0, 12.1, 12.3, 12.8, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "wn_tmin": [14.4, 13.0, 11.5, 11.5, 10.2, 9.7, 8.2, 11.6, 12.5, 12.1, 11.2, 9.9, 8.6, 7.7, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8], "ec_precip_14d": [2.1, 4.3, 5.8, 0.2, 2.0, 0.9, 0.0, 3.6, 6.0, 4.4, 0.6, 0.0, 2.8, 13.4], "ic_precip_14d": [1.5, 5.9, 11.8, 0.1, 0.3, 0.0, 0.6, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6], "gfs_precip_14d": [4.6, 10.2, 2.4, 0.5, 3.9, 0.0, 1.2, 2.9, 0.1, 0.0, 2.5, 4.1, 1.8, 8.1], "gem_precip_14d": [1.9, 16.3, 0.6, 0.6, 3.8, 0.1, 0.0, 0.0, 3.7, 5.4, 3.5, 2.1, 4.8, 1.6], "model_totals_14d": {"ec": 46.1, "wn": 42.4, "ic": 39.2, "gfs": 42.3, "gem": 44.4}, "seas5_precip": [5.0, 5.4, 0.8, 0.3, 0.0, 0.4, 0.3, 0.1, 0.0, 0.1, 4.6, 0.0, 0.0, 0.0, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "seas5_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "seas5_tmax": [15.4, 17.3, 15.1, 16.4, 15.4, 14.4, 13.2, 12.8, 11.8, 13.8, 18.9, 20.2, 20.2, 18.1, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "seas5_tmin": [10.4, 12.4, 10.4, 10.0, 11.0, 11.6, 11.3, 9.7, 6.0, 5.4, 9.9, 13.6, 15.8, 11.2, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8]}, "26063": {"station_name": "Санкт-Петербург", "wmo_id": "26063", "summary": {"station_id": "spb", "wmo_id": "26063", "station_name": "Санкт-Петербург", "start_date": "2026-09-09", "dec1_precip_sum": 30.4, "dec1_t_avg": 15.7, "dec2_precip_sum": 19.7, "dec2_t_avg": 14.6, "dec3_precip_sum": 1.9, "dec3_t_avg": 15.4, "total_30d_precip": 52.0, "month_t_avg": 15.2, "norm_month_precip": 69.0, "precip_anomaly_pct": -24.6, "wet_days_count": 18, "heavy_rain_risk_days": 2}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [1.6, 10.6, 6.0, 0.7, 0.9, 3.5, 0.1, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "wn_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "wn_prob": [99, 99, 99, 99, 99, 99, 57, 87, 89, 95, 92, 87, 87, 87, 80, 78, 70, 72, 68, 76, 72, 72, 80, 70, 66, 64, 60, 68, 68, 68], "wn_tmax": [21.4, 16.5, 14.3, 14.1, 14.6, 14.3, 13.6, 17.0, 16.4, 14.8, 14.0, 12.1, 12.3, 12.8, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "wn_tmin": [14.4, 13.0, 11.5, 11.5, 10.2, 9.7, 8.2, 11.6, 12.5, 12.1, 11.2, 9.9, 8.6, 7.7, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8], "ec_precip_14d": [2.1, 4.3, 5.8, 0.2, 2.0, 0.9, 0.0, 3.6, 6.0, 4.4, 0.6, 0.0, 2.8, 13.4], "ic_precip_14d": [1.5, 5.9, 11.8, 0.1, 0.3, 0.0, 0.6, 2.2, 4.8, 0.0, 3.5, 2.1, 4.8, 1.6], "gfs_precip_14d": [4.6, 10.2, 2.4, 0.5, 3.9, 0.0, 1.2, 2.9, 0.1, 0.0, 2.5, 4.1, 1.8, 8.1], "gem_precip_14d": [1.9, 16.3, 0.6, 0.6, 3.8, 0.1, 0.0, 0.0, 3.7, 5.4, 3.5, 2.1, 4.8, 1.6], "model_totals_14d": {"ec": 46.1, "wn": 42.4, "ic": 39.2, "gfs": 42.3, "gem": 44.4}, "seas5_precip": [5.0, 5.4, 0.8, 0.3, 0.0, 0.4, 0.3, 0.1, 0.0, 0.1, 4.6, 0.0, 0.0, 0.0, 1.2, 1.1, 0.8, 3.5, 1.1, 0.0, 0.0, 0.4, 0.0, 0.7, 0.0, 0.1, 0.2, 0.3, 0.0, 0.2], "seas5_p10": [0.6, 3.6, 2.6, 1.1, 0.5, 1.8, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [4.2, 11.4, 10.7, 9.5, 4.9, 9.3, 0.8, 8.2, 7.9, 7.9, 5.7, 6.5, 5.9, 8.5, 6.7, 8.9, 4.6, 5.6, 7.3, 4.6, 6.1, 8.0, 4.7, 4.6, 4.8, 4.1, 2.9, 7.1, 3.2, 3.0], "seas5_tmax": [15.4, 17.3, 15.1, 16.4, 15.4, 14.4, 13.2, 12.8, 11.8, 13.8, 18.9, 20.2, 20.2, 18.1, 17.7, 16.5, 15.1, 15.1, 14.2, 16.2, 14.9, 17.2, 15.9, 14.4, 14.6, 14.8, 16.8, 16.6, 15.5, 13.4], "seas5_tmin": [10.4, 12.4, 10.4, 10.0, 11.0, 11.6, 11.3, 9.7, 6.0, 5.4, 9.9, 13.6, 15.8, 11.2, 10.1, 11.6, 10.9, 11.2, 11.1, 12.2, 10.9, 11.1, 9.1, 10.5, 11.4, 11.6, 10.4, 10.8, 10.1, 10.8]}, "дудинка": {"station_name": "Дудинка", "wmo_id": "23074", "summary": {"station_id": "dudinka", "wmo_id": "23074", "station_name": "Дудинка", "start_date": "2026-09-09", "dec1_precip_sum": 6.2, "dec1_t_avg": 12.4, "dec2_precip_sum": 39.9, "dec2_t_avg": 5.0, "dec3_precip_sum": 32.0, "dec3_t_avg": 0.7, "total_30d_precip": 78.1, "month_t_avg": 6.0, "norm_month_precip": 52.0, "precip_anomaly_pct": 50.2, "wet_days_count": 16, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [3.7, 0.2, 1.7, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "wn_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "wn_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "wn_prob": [99, 98, 96, 98, 54, 14, 10, 64, 79, 82, 85, 82, 82, 85, 76, 78, 90, 74, 78, 84, 84, 82, 82, 88, 92, 86, 90, 90, 86, 90], "wn_tmax": [11.1, 10.5, 16.7, 9.8, 8.5, 13.3, 16.5, 13.3, 12.3, 11.7, 10.9, 9.7, 9.8, 8.4, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "wn_tmin": [8.8, 7.1, 10.6, 5.0, 3.5, 2.8, 7.8, 6.4, 5.0, 7.2, 8.2, 6.7, 8.6, 5.8, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4], "ec_precip_14d": [2.6, 0.1, 2.6, 3.7, 0.0, 0.0, 0.0, 5.2, 9.2, 1.4, 7.0, 23.4, 7.6, 7.6], "ic_precip_14d": [2.5, 0.6, 2.4, 2.9, 0.0, 0.0, 0.3, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7], "gfs_precip_14d": [2.4, 0.3, 1.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4, 1.9], "gem_precip_14d": [1.9, 0.0, 5.2, 0.7, 0.0, 0.0, 0.0, 0.0, 0.5, 1.6, 0.5, 0.3, 11.3, 4.7], "model_totals_14d": {"ec": 70.4, "wn": 23.0, "ic": 25.7, "gfs": 7.7, "gem": 26.7}, "seas5_precip": [9.6, 7.7, 2.1, 1.9, 0.0, 0.0, 1.4, 0.3, 0.4, 0.9, 0.2, 0.0, 0.0, 0.1, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "seas5_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "seas5_tmax": [16.5, 16.7, 16.3, 14.0, 13.9, 7.5, 6.9, 4.3, 3.9, 2.7, 3.0, 2.6, 1.9, 0.2, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "seas5_tmin": [13.5, 13.2, 11.6, 11.3, 6.1, 4.2, 3.7, 0.6, -0.1, -0.3, -1.6, -4.3, -4.7, -4.7, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4]}, "23074": {"station_name": "Дудинка", "wmo_id": "23074", "summary": {"station_id": "dudinka", "wmo_id": "23074", "station_name": "Дудинка", "start_date": "2026-09-09", "dec1_precip_sum": 6.2, "dec1_t_avg": 12.4, "dec2_precip_sum": 39.9, "dec2_t_avg": 5.0, "dec3_precip_sum": 32.0, "dec3_t_avg": 0.7, "total_30d_precip": 78.1, "month_t_avg": 6.0, "norm_month_precip": 52.0, "precip_anomaly_pct": 50.2, "wet_days_count": 16, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [3.7, 0.2, 1.7, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "wn_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "wn_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "wn_prob": [99, 98, 96, 98, 54, 14, 10, 64, 79, 82, 85, 82, 82, 85, 76, 78, 90, 74, 78, 84, 84, 82, 82, 88, 92, 86, 90, 90, 86, 90], "wn_tmax": [11.1, 10.5, 16.7, 9.8, 8.5, 13.3, 16.5, 13.3, 12.3, 11.7, 10.9, 9.7, 9.8, 8.4, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "wn_tmin": [8.8, 7.1, 10.6, 5.0, 3.5, 2.8, 7.8, 6.4, 5.0, 7.2, 8.2, 6.7, 8.6, 5.8, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4], "ec_precip_14d": [2.6, 0.1, 2.6, 3.7, 0.0, 0.0, 0.0, 5.2, 9.2, 1.4, 7.0, 23.4, 7.6, 7.6], "ic_precip_14d": [2.5, 0.6, 2.4, 2.9, 0.0, 0.0, 0.3, 0.0, 0.0, 0.2, 0.5, 0.3, 11.3, 4.7], "gfs_precip_14d": [2.4, 0.3, 1.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.4, 1.9], "gem_precip_14d": [1.9, 0.0, 5.2, 0.7, 0.0, 0.0, 0.0, 0.0, 0.5, 1.6, 0.5, 0.3, 11.3, 4.7], "model_totals_14d": {"ec": 70.4, "wn": 23.0, "ic": 25.7, "gfs": 7.7, "gem": 26.7}, "seas5_precip": [9.6, 7.7, 2.1, 1.9, 0.0, 0.0, 1.4, 0.3, 0.4, 0.9, 0.2, 0.0, 0.0, 0.1, 0.1, 15.3, 2.1, 0.0, 3.2, 2.4, 0.2, 4.4, 1.0, 4.8, 6.3, 8.4, 0.0, 4.6, 2.0, 0.3], "seas5_p10": [1.8, 0.1, 0.1, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], "seas5_p90": [4.7, 1.2, 3.2, 9.6, 2.3, 0.1, 0.0, 1.9, 6.7, 7.1, 8.0, 9.6, 7.9, 10.0, 2.8, 7.6, 7.0, 6.0, 5.8, 4.7, 4.9, 7.8, 6.2, 6.3, 5.6, 6.6, 5.7, 4.6, 5.4, 4.8], "seas5_tmax": [16.5, 16.7, 16.3, 14.0, 13.9, 7.5, 6.9, 4.3, 3.9, 2.7, 3.0, 2.6, 1.9, 0.2, -0.1, 3.9, 4.6, 0.1, 0.9, 1.4, 1.5, 2.7, 2.1, -0.6, 4.3, 4.9, -1.1, -0.7, 1.2, -7.5], "seas5_tmin": [13.5, 13.2, 11.6, 11.3, 6.1, 4.2, 3.7, 0.6, -0.1, -0.3, -1.6, -4.3, -4.7, -4.7, -2.6, -0.4, -1.7, -5.3, -5.8, 0.2, -3.7, -1.0, -2.2, -5.7, -0.5, -1.0, -7.2, -7.7, -11.3, -11.4]}, "мурманск": {"station_name": "Мурманск", "wmo_id": "22113", "summary": {"station_id": "murmansk", "wmo_id": "22113", "station_name": "Мурманск", "start_date": "2026-09-09", "dec1_precip_sum": 25.8, "dec1_t_avg": 11.7, "dec2_precip_sum": 22.4, "dec2_t_avg": 11.3, "dec3_precip_sum": 9.6, "dec3_t_avg": 9.5, "total_30d_precip": 57.8, "month_t_avg": 10.8, "norm_month_precip": 54.0, "precip_anomaly_pct": 7.0, "wet_days_count": 18, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [5.3, 0.2, 0.7, 0.6, 0.1, 8.6, 0.1, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "wn_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "wn_prob": [99, 39, 89, 90, 68, 99, 89, 87, 98, 75, 84, 81, 78, 73, 80, 82, 86, 88, 92, 84, 76, 74, 80, 76, 74, 84, 70, 80, 84, 76], "wn_tmax": [13.8, 14.5, 10.6, 11.2, 15.3, 9.8, 11.5, 10.5, 9.8, 9.7, 9.0, 9.2, 6.9, 7.2, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "wn_tmin": [9.2, 7.0, 6.5, 8.2, 8.9, 6.3, 4.2, 6.4, 8.1, 7.4, 6.8, 5.9, 4.1, 2.7, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6], "ec_precip_14d": [0.4, 0.0, 0.0, 1.4, 0.0, 8.9, 0.3, 2.2, 18.8, 0.2, 0.0, 6.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.4, 0.8, 1.7, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5], "gfs_precip_14d": [0.1, 0.2, 0.0, 2.4, 0.2, 0.5, 4.2, 0.3, 0.0, 0.0, 2.1, 0.0, 1.0, 0.2], "gem_precip_14d": [0.8, 0.1, 0.1, 2.1, 3.0, 3.8, 0.1, 0.2, 7.5, 1.9, 10.3, 2.8, 2.4, 0.5], "model_totals_14d": {"ec": 38.2, "wn": 41.8, "ic": 29.1, "gfs": 11.2, "gem": 35.6}, "seas5_precip": [4.7, 10.7, 0.6, 0.1, 0.0, 0.2, 0.6, 0.9, 3.0, 0.8, 0.4, 0.2, 6.4, 10.6, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "seas5_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "seas5_tmax": [9.9, 8.8, 10.4, 8.4, 10.3, 10.6, 10.9, 8.5, 8.2, 12.0, 12.5, 13.2, 9.2, 14.4, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "seas5_tmin": [3.8, 6.4, 4.7, 1.8, 1.5, 2.2, 4.1, 3.4, 3.7, 6.0, 7.5, 9.1, 6.9, 6.9, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6]}, "22113": {"station_name": "Мурманск", "wmo_id": "22113", "summary": {"station_id": "murmansk", "wmo_id": "22113", "station_name": "Мурманск", "start_date": "2026-09-09", "dec1_precip_sum": 25.8, "dec1_t_avg": 11.7, "dec2_precip_sum": 22.4, "dec2_t_avg": 11.3, "dec3_precip_sum": 9.6, "dec3_t_avg": 9.5, "total_30d_precip": 57.8, "month_t_avg": 10.8, "norm_month_precip": 54.0, "precip_anomaly_pct": 7.0, "wet_days_count": 18, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [5.3, 0.2, 0.7, 0.6, 0.1, 8.6, 0.1, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "wn_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "wn_prob": [99, 39, 89, 90, 68, 99, 89, 87, 98, 75, 84, 81, 78, 73, 80, 82, 86, 88, 92, 84, 76, 74, 80, 76, 74, 84, 70, 80, 84, 76], "wn_tmax": [13.8, 14.5, 10.6, 11.2, 15.3, 9.8, 11.5, 10.5, 9.8, 9.7, 9.0, 9.2, 6.9, 7.2, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "wn_tmin": [9.2, 7.0, 6.5, 8.2, 8.9, 6.3, 4.2, 6.4, 8.1, 7.4, 6.8, 5.9, 4.1, 2.7, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6], "ec_precip_14d": [0.4, 0.0, 0.0, 1.4, 0.0, 8.9, 0.3, 2.2, 18.8, 0.2, 0.0, 6.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.4, 0.8, 1.7, 3.7, 3.7, 2.8, 10.3, 2.8, 2.4, 0.5], "gfs_precip_14d": [0.1, 0.2, 0.0, 2.4, 0.2, 0.5, 4.2, 0.3, 0.0, 0.0, 2.1, 0.0, 1.0, 0.2], "gem_precip_14d": [0.8, 0.1, 0.1, 2.1, 3.0, 3.8, 0.1, 0.2, 7.5, 1.9, 10.3, 2.8, 2.4, 0.5], "model_totals_14d": {"ec": 38.2, "wn": 41.8, "ic": 29.1, "gfs": 11.2, "gem": 35.6}, "seas5_precip": [4.7, 10.7, 0.6, 0.1, 0.0, 0.2, 0.6, 0.9, 3.0, 0.8, 0.4, 0.2, 6.4, 10.6, 3.7, 0.5, 1.0, 0.2, 0.3, 0.7, 0.0, 0.0, 0.0, 2.8, 0.0, 5.0, 1.3, 0.3, 0.2, 0.0], "seas5_p10": [3.1, 0.0, 0.0, 0.1, 0.0, 0.9, 0.0, 0.0, 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.2, 0.7, 3.6, 2.3, 11.1, 6.7, 4.8, 12.8, 6.2, 7.5, 4.6, 6.0, 6.2, 6.6, 4.8, 4.8, 7.5, 5.0, 5.9, 5.9, 3.6, 5.2, 5.1, 3.0, 4.1, 3.9, 2.5, 3.9, 2.6], "seas5_tmax": [9.9, 8.8, 10.4, 8.4, 10.3, 10.6, 10.9, 8.5, 8.2, 12.0, 12.5, 13.2, 9.2, 14.4, 13.4, 14.8, 14.9, 12.8, 12.4, 12.4, 11.7, 10.3, 10.2, 12.2, 9.9, 10.4, 10.4, 7.5, 6.4, 6.0], "seas5_tmin": [3.8, 6.4, 4.7, 1.8, 1.5, 2.2, 4.1, 3.4, 3.7, 6.0, 7.5, 9.1, 6.9, 6.9, 9.3, 10.0, 8.6, 8.9, 7.6, 6.6, 6.0, 5.2, 4.6, 8.5, 6.4, 5.5, 5.0, 3.1, 3.1, 3.6]}, "якутск": {"station_name": "Якутск", "wmo_id": "24959", "summary": {"station_id": "yakutsk", "wmo_id": "24959", "station_name": "Якутск", "start_date": "2026-09-09", "dec1_precip_sum": 9.7, "dec1_t_avg": 9.1, "dec2_precip_sum": 3.8, "dec2_t_avg": 7.0, "dec3_precip_sum": 3.4, "dec3_t_avg": 4.2, "total_30d_precip": 16.9, "month_t_avg": 6.7, "norm_month_precip": 31.0, "precip_anomaly_pct": -45.5, "wet_days_count": 10, "heavy_rain_risk_days": 0}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 2.6, 1.6, 1.6, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "wn_prob": [10, 10, 15, 10, 95, 98, 56, 29, 23, 20, 21, 34, 40, 53, 64, 66, 62, 62, 47, 54, 50, 56, 64, 66, 64, 64, 68, 70, 64, 78], "wn_tmax": [12.1, 14.7, 13.0, 11.4, 8.2, 3.2, 2.8, 7.3, 10.5, 7.4, 11.3, 13.2, 13.7, 11.7, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "wn_tmin": [2.6, 1.2, 4.5, 4.9, 3.9, 0.7, 0.8, 1.3, 1.9, 2.9, 2.1, 0.2, 0.4, 7.9, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9], "ec_precip_14d": [0.0, 0.0, 0.1, 0.0, 3.3, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.1, 0.0, 2.4, 0.3, 0.9, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.4, 0.9, 0.0, 0.0, 0.0, 2.7, 0.0, 0.0, 0.0, 1.9], "model_totals_14d": {"ec": 5.5, "wn": 11.6, "ic": 9.5, "gfs": 2.8, "gem": 7.9}, "seas5_precip": [0.0, 0.8, 0.3, 0.2, 3.5, 1.4, 0.3, 0.0, 5.0, 0.0, 0.2, 0.1, 4.5, 0.7, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "seas5_tmax": [12.2, 14.9, 18.1, 17.5, 17.1, 15.2, 11.2, 12.3, 15.5, 7.2, 6.5, 7.3, 12.3, 6.5, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "seas5_tmin": [2.4, 8.6, 10.1, 12.7, 9.9, 6.9, 2.6, 5.7, 6.4, 2.3, -0.4, 1.0, 3.8, -0.2, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9]}, "24959": {"station_name": "Якутск", "wmo_id": "24959", "summary": {"station_id": "yakutsk", "wmo_id": "24959", "station_name": "Якутск", "start_date": "2026-09-09", "dec1_precip_sum": 9.7, "dec1_t_avg": 9.1, "dec2_precip_sum": 3.8, "dec2_t_avg": 7.0, "dec3_precip_sum": 3.4, "dec3_t_avg": 4.2, "total_30d_precip": 16.9, "month_t_avg": 6.7, "norm_month_precip": 31.0, "precip_anomaly_pct": -45.5, "wet_days_count": 10, "heavy_rain_risk_days": 0}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 2.6, 1.6, 1.6, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "wn_prob": [10, 10, 15, 10, 95, 98, 56, 29, 23, 20, 21, 34, 40, 53, 64, 66, 62, 62, 47, 54, 50, 56, 64, 66, 64, 64, 68, 70, 64, 78], "wn_tmax": [12.1, 14.7, 13.0, 11.4, 8.2, 3.2, 2.8, 7.3, 10.5, 7.4, 11.3, 13.2, 13.7, 11.7, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "wn_tmin": [2.6, 1.2, 4.5, 4.9, 3.9, 0.7, 0.8, 1.3, 1.9, 2.9, 2.1, 0.2, 0.4, 7.9, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9], "ec_precip_14d": [0.0, 0.0, 0.1, 0.0, 3.3, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.1, 0.0, 2.4, 0.3, 0.9, 1.8, 0.1, 2.0, 0.0, 0.0, 0.0, 1.9], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 2.4, 0.9, 0.0, 0.0, 0.0, 2.7, 0.0, 0.0, 0.0, 1.9], "model_totals_14d": {"ec": 5.5, "wn": 11.6, "ic": 9.5, "gfs": 2.8, "gem": 7.9}, "seas5_precip": [0.0, 0.8, 0.3, 0.2, 3.5, 1.4, 0.3, 0.0, 5.0, 0.0, 0.2, 0.1, 4.5, 0.7, 1.5, 0.2, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.5, 0.0, 1.0, 1.5, 0.0, 0.2], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.3, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.1, 0.0, 3.4, 3.9, 1.8, 0.8, 0.5, 1.0, 1.3, 1.9, 1.5, 4.4, 2.1, 2.0, 2.7, 3.3, 2.4, 1.7, 1.8, 2.2, 4.4, 2.3, 2.1, 3.8, 3.7, 2.7, 2.5, 2.5], "seas5_tmax": [12.2, 14.9, 18.1, 17.5, 17.1, 15.2, 11.2, 12.3, 15.5, 7.2, 6.5, 7.3, 12.3, 6.5, 3.4, 2.6, 3.1, 4.0, 2.9, 3.7, 2.9, 2.8, 3.7, 7.1, 5.4, 4.1, 3.8, 3.4, 3.1, 5.5], "seas5_tmin": [2.4, 8.6, 10.1, 12.7, 9.9, 6.9, 2.6, 5.7, 6.4, 2.3, -0.4, 1.0, 3.8, -0.2, -1.8, -3.7, -2.9, -0.8, -1.3, -1.4, -1.8, -2.2, -2.6, -2.0, -1.5, -2.3, -0.5, -0.2, -2.9, -0.9]}, "екатеринбург": {"station_name": "Екатеринбург", "wmo_id": "28440", "summary": {"station_id": "ekaterinburg", "wmo_id": "28440", "station_name": "Екатеринбург", "start_date": "2026-09-09", "dec1_precip_sum": 15.5, "dec1_t_avg": 16.8, "dec2_precip_sum": 5.2, "dec2_t_avg": 17.3, "dec3_precip_sum": 18.5, "dec3_t_avg": 10.7, "total_30d_precip": 39.2, "month_t_avg": 14.9, "norm_month_precip": 44.0, "precip_anomaly_pct": -10.9, "wet_days_count": 12, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.6, 0.1, 5.6, 0.1, 0.2, 0.2, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "wn_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "wn_prob": [10, 68, 76, 95, 84, 98, 76, 90, 57, 34, 50, 54, 56, 48, 62, 72, 60, 60, 62, 58, 62, 66, 66, 74, 84, 72, 68, 66, 74, 64], "wn_tmax": [19.9, 19.7, 18.3, 20.7, 17.2, 14.9, 16.2, 10.9, 13.2, 16.9, 19.0, 20.9, 16.4, 18.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "wn_tmin": [13.0, 10.7, 9.8, 11.9, 10.2, 10.0, 9.0, 7.9, 7.9, 7.7, 10.8, 12.5, 11.1, 9.9, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4], "ec_precip_14d": [0.0, 1.6, 6.7, 3.0, 15.5, 0.6, 0.4, 1.2, 0.2, 0.0, 0.1, 0.1, 0.0, 0.0], "ic_precip_14d": [0.0, 0.3, 6.5, 10.8, 2.4, 2.4, 0.0, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0], "gfs_precip_14d": [0.1, 5.5, 22.6, 2.0, 3.6, 2.4, 2.4, 0.3, 0.0, 2.7, 3.3, 0.9, 0.9, 0.3], "gem_precip_14d": [0.0, 0.2, 7.7, 0.0, 17.7, 0.6, 0.3, 0.9, 2.1, 2.4, 0.0, 0.0, 4.5, 0.0], "model_totals_14d": {"ec": 29.4, "wn": 20.0, "ic": 35.6, "gfs": 47.0, "gem": 36.4}, "seas5_precip": [4.4, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "seas5_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "seas5_tmax": [21.1, 15.3, 15.5, 20.0, 21.1, 18.7, 16.2, 12.2, 18.7, 12.5, 6.1, 9.6, 14.5, 11.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "seas5_tmin": [11.7, 11.6, 11.7, 11.2, 10.5, 9.5, 9.1, 7.8, 8.0, 3.3, -1.0, -0.6, 5.8, 8.0, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4]}, "28440": {"station_name": "Екатеринбург", "wmo_id": "28440", "summary": {"station_id": "ekaterinburg", "wmo_id": "28440", "station_name": "Екатеринбург", "start_date": "2026-09-09", "dec1_precip_sum": 15.5, "dec1_t_avg": 16.8, "dec2_precip_sum": 5.2, "dec2_t_avg": 17.3, "dec3_precip_sum": 18.5, "dec3_t_avg": 10.7, "total_30d_precip": 39.2, "month_t_avg": 14.9, "norm_month_precip": 44.0, "precip_anomaly_pct": -10.9, "wet_days_count": 12, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.6, 0.1, 5.6, 0.1, 0.2, 0.2, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "wn_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "wn_prob": [10, 68, 76, 95, 84, 98, 76, 90, 57, 34, 50, 54, 56, 48, 62, 72, 60, 60, 62, 58, 62, 66, 66, 74, 84, 72, 68, 66, 74, 64], "wn_tmax": [19.9, 19.7, 18.3, 20.7, 17.2, 14.9, 16.2, 10.9, 13.2, 16.9, 19.0, 20.9, 16.4, 18.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "wn_tmin": [13.0, 10.7, 9.8, 11.9, 10.2, 10.0, 9.0, 7.9, 7.9, 7.7, 10.8, 12.5, 11.1, 9.9, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4], "ec_precip_14d": [0.0, 1.6, 6.7, 3.0, 15.5, 0.6, 0.4, 1.2, 0.2, 0.0, 0.1, 0.1, 0.0, 0.0], "ic_precip_14d": [0.0, 0.3, 6.5, 10.8, 2.4, 2.4, 0.0, 7.4, 1.2, 0.1, 0.0, 0.0, 4.5, 0.0], "gfs_precip_14d": [0.1, 5.5, 22.6, 2.0, 3.6, 2.4, 2.4, 0.3, 0.0, 2.7, 3.3, 0.9, 0.9, 0.3], "gem_precip_14d": [0.0, 0.2, 7.7, 0.0, 17.7, 0.6, 0.3, 0.9, 2.1, 2.4, 0.0, 0.0, 4.5, 0.0], "model_totals_14d": {"ec": 29.4, "wn": 20.0, "ic": 35.6, "gfs": 47.0, "gem": 36.4}, "seas5_precip": [4.4, 0.8, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 7.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.6, 5.9, 1.1, 0.0, 0.1, 0.4, 0.0, 1.2, 2.2, 6.3, 1.3], "seas5_p10": [0.0, 0.0, 0.0, 0.2, 0.0, 0.2, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.1, 0.8, 1.6, 6.0, 11.1, 9.8, 2.0, 6.8, 3.9, 1.4, 2.5, 2.5, 3.3, 2.9, 2.9, 5.9, 4.2, 5.6, 3.3, 4.9, 4.7, 3.9, 4.2, 3.9, 5.0, 4.8, 6.2, 2.2, 5.3, 3.5], "seas5_tmax": [21.1, 15.3, 15.5, 20.0, 21.1, 18.7, 16.2, 12.2, 18.7, 12.5, 6.1, 9.6, 14.5, 11.9, 14.2, 13.6, 17.5, 17.3, 17.8, 17.6, 16.4, 10.2, 8.9, 8.9, 11.1, 11.8, 11.5, 10.9, 10.6, 6.8], "seas5_tmin": [11.7, 11.6, 11.7, 11.2, 10.5, 9.5, 9.1, 7.8, 8.0, 3.3, -1.0, -0.6, 5.8, 8.0, 8.1, 7.2, 7.0, 8.2, 9.5, 9.5, 9.6, 7.2, 5.6, 4.3, 5.5, 6.4, 7.0, 8.2, 5.5, 0.4]}, "казань": {"station_name": "Казань", "wmo_id": "27595", "summary": {"station_id": "kazan", "wmo_id": "27595", "station_name": "Казань", "start_date": "2026-09-09", "dec1_precip_sum": 14.2, "dec1_t_avg": 16.7, "dec2_precip_sum": 6.8, "dec2_t_avg": 19.2, "dec3_precip_sum": 4.1, "dec3_t_avg": 14.5, "total_30d_precip": 25.1, "month_t_avg": 16.8, "norm_month_precip": 50.0, "precip_anomaly_pct": -49.8, "wet_days_count": 8, "heavy_rain_risk_days": 3}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [6.7, 0.0, 0.0, 3.2, 0.3, 0.0, 3.4, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "wn_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "wn_prob": [99, 68, 18, 99, 70, 59, 75, 62, 31, 48, 67, 64, 56, 53, 68, 74, 56, 70, 56, 60, 66, 62, 72, 74, 76, 62, 58, 60, 76, 68], "wn_tmax": [14.5, 16.5, 16.8, 16.4, 15.3, 17.7, 16.4, 14.1, 18.5, 21.2, 20.5, 19.3, 19.7, 14.4, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "wn_tmin": [9.8, 9.0, 8.5, 11.3, 10.8, 10.4, 11.9, 7.7, 7.1, 11.8, 15.0, 8.7, 7.9, 8.4, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5], "ec_precip_14d": [8.0, 0.0, 0.1, 5.4, 0.0, 0.4, 0.0, 0.0, 0.0, 8.6, 0.4, 0.0, 0.0, 0.0], "ic_precip_14d": [0.5, 0.0, 0.2, 8.5, 10.0, 2.3, 8.6, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "gfs_precip_14d": [2.0, 0.0, 0.0, 9.9, 0.0, 0.0, 0.3, 0.0, 0.3, 1.5, 0.9, 0.0, 0.0, 0.0], "gem_precip_14d": [2.8, 0.0, 0.9, 8.0, 0.0, 0.0, 0.3, 3.3, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "model_totals_14d": {"ec": 22.9, "wn": 21.0, "ic": 37.5, "gfs": 14.9, "gem": 22.1}, "seas5_precip": [1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.4, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "seas5_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "seas5_tmax": [17.0, 13.7, 18.7, 19.4, 19.6, 20.1, 19.8, 19.4, 22.0, 15.7, 13.4, 14.2, 17.2, 18.0, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "seas5_tmin": [9.1, 9.3, 9.6, 10.5, 9.8, 8.5, 11.1, 13.6, 13.4, 7.7, 5.5, 4.7, 6.0, 7.7, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5]}, "27595": {"station_name": "Казань", "wmo_id": "27595", "summary": {"station_id": "kazan", "wmo_id": "27595", "station_name": "Казань", "start_date": "2026-09-09", "dec1_precip_sum": 14.2, "dec1_t_avg": 16.7, "dec2_precip_sum": 6.8, "dec2_t_avg": 19.2, "dec3_precip_sum": 4.1, "dec3_t_avg": 14.5, "total_30d_precip": 25.1, "month_t_avg": 16.8, "norm_month_precip": 50.0, "precip_anomaly_pct": -49.8, "wet_days_count": 8, "heavy_rain_risk_days": 3}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [6.7, 0.0, 0.0, 3.2, 0.3, 0.0, 3.4, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "wn_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "wn_prob": [99, 68, 18, 99, 70, 59, 75, 62, 31, 48, 67, 64, 56, 53, 68, 74, 56, 70, 56, 60, 66, 62, 72, 74, 76, 62, 58, 60, 76, 68], "wn_tmax": [14.5, 16.5, 16.8, 16.4, 15.3, 17.7, 16.4, 14.1, 18.5, 21.2, 20.5, 19.3, 19.7, 14.4, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "wn_tmin": [9.8, 9.0, 8.5, 11.3, 10.8, 10.4, 11.9, 7.7, 7.1, 11.8, 15.0, 8.7, 7.9, 8.4, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5], "ec_precip_14d": [8.0, 0.0, 0.1, 5.4, 0.0, 0.4, 0.0, 0.0, 0.0, 8.6, 0.4, 0.0, 0.0, 0.0], "ic_precip_14d": [0.5, 0.0, 0.2, 8.5, 10.0, 2.3, 8.6, 0.6, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "gfs_precip_14d": [2.0, 0.0, 0.0, 9.9, 0.0, 0.0, 0.3, 0.0, 0.3, 1.5, 0.9, 0.0, 0.0, 0.0], "gem_precip_14d": [2.8, 0.0, 0.9, 8.0, 0.0, 0.0, 0.3, 3.3, 0.0, 0.0, 1.2, 5.5, 0.1, 0.0], "model_totals_14d": {"ec": 22.9, "wn": 21.0, "ic": 37.5, "gfs": 14.9, "gem": 22.1}, "seas5_precip": [1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.4, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.1, 0.1, 0.0, 0.2, 0.0, 0.4, 0.2, 2.1, 0.0], "seas5_p10": [1.9, 0.0, 0.0, 3.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [6.6, 0.3, 0.1, 10.7, 0.5, 1.5, 3.0, 3.8, 1.0, 5.6, 5.6, 5.5, 3.1, 3.7, 4.5, 4.5, 3.4, 4.1, 4.2, 4.1, 4.3, 3.2, 3.8, 5.2, 7.0, 3.9, 3.7, 5.7, 2.6, 2.7], "seas5_tmax": [17.0, 13.7, 18.7, 19.4, 19.6, 20.1, 19.8, 19.4, 22.0, 15.7, 13.4, 14.2, 17.2, 18.0, 17.9, 19.7, 19.4, 19.8, 20.6, 21.2, 20.3, 14.8, 12.2, 13.1, 13.7, 14.0, 13.4, 14.4, 16.7, 12.2], "seas5_tmin": [9.1, 9.3, 9.6, 10.5, 9.8, 8.5, 11.1, 13.6, 13.4, 7.7, 5.5, 4.7, 6.0, 7.7, 8.3, 8.7, 11.4, 10.6, 9.7, 11.8, 10.8, 10.2, 8.8, 7.8, 9.0, 9.6, 8.9, 11.1, 11.5, 4.5]}, "новосибирск": {"station_name": "Новосибирск", "wmo_id": "29634", "summary": {"station_id": "novosibirsk", "wmo_id": "29634", "station_name": "Новосибирск", "start_date": "2026-09-09", "dec1_precip_sum": 13.2, "dec1_t_avg": 22.1, "dec2_precip_sum": 40.1, "dec2_t_avg": 12.7, "dec3_precip_sum": 40.2, "dec3_t_avg": 8.0, "total_30d_precip": 93.5, "month_t_avg": 14.2, "norm_month_precip": 45.0, "precip_anomaly_pct": 107.8, "wet_days_count": 13, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "wn_prob": [10, 10, 10, 10, 12, 35, 67, 87, 67, 73, 65, 56, 57, 48, 52, 62, 54, 64, 60, 66, 68, 56, 60, 56, 66, 60, 64, 70, 72, 74], "wn_tmax": [26.4, 25.8, 25.9, 25.5, 25.5, 22.1, 19.1, 18.4, 19.2, 12.9, 13.7, 14.0, 18.5, 20.8, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "wn_tmin": [14.1, 10.9, 11.9, 13.5, 14.8, 16.6, 12.9, 8.9, 10.8, 8.1, 8.8, 10.7, 9.3, 12.1, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8], "ec_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 5.4, 1.1, 0.2, 2.6, 0.0, 0.0, 0.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 11.5, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 3.5, 3.9, 1.8, 0.9, 0.6, 1.2, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3, 1.1, 19.7, 2.8, 0.8, 0.0], "model_totals_14d": {"ec": 9.3, "wn": 36.5, "ic": 48.1, "gfs": 12.0, "gem": 25.7}, "seas5_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9, 1.6, 0.0, 0.0, 0.1, 0.3, 0.1, 4.3, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "seas5_tmax": [22.3, 22.5, 23.4, 23.4, 24.6, 25.9, 23.1, 17.0, 12.9, 14.7, 16.4, 6.7, 6.6, 8.4, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "seas5_tmin": [10.6, 10.7, 10.6, 10.4, 10.4, 13.4, 14.1, 8.5, 7.0, 6.9, 4.0, 3.6, 3.2, 3.9, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8]}, "29634": {"station_name": "Новосибирск", "wmo_id": "29634", "summary": {"station_id": "novosibirsk", "wmo_id": "29634", "station_name": "Новосибирск", "start_date": "2026-09-09", "dec1_precip_sum": 13.2, "dec1_t_avg": 22.1, "dec2_precip_sum": 40.1, "dec2_t_avg": 12.7, "dec3_precip_sum": 40.2, "dec3_t_avg": 8.0, "total_30d_precip": 93.5, "month_t_avg": 14.2, "norm_month_precip": 45.0, "precip_anomaly_pct": 107.8, "wet_days_count": 13, "heavy_rain_risk_days": 5}, "dates": ["2026-09-09", "2026-09-10", "2026-09-11", "2026-09-12", "2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16", "2026-09-17", "2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21", "2026-09-22", "2026-09-23", "2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02", "2026-10-03", "2026-10-04", "2026-10-05", "2026-10-06", "2026-10-07", "2026-10-08"], "wn_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "wn_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "wn_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "wn_prob": [10, 10, 10, 10, 12, 35, 67, 87, 67, 73, 65, 56, 57, 48, 52, 62, 54, 64, 60, 66, 68, 56, 60, 56, 66, 60, 64, 70, 72, 74], "wn_tmax": [26.4, 25.8, 25.9, 25.5, 25.5, 22.1, 19.1, 18.4, 19.2, 12.9, 13.7, 14.0, 18.5, 20.8, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "wn_tmin": [14.1, 10.9, 11.9, 13.5, 14.8, 16.6, 12.9, 8.9, 10.8, 8.1, 8.8, 10.7, 9.3, 12.1, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8], "ec_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 5.4, 1.1, 0.2, 2.6, 0.0, 0.0, 0.0, 0.0, 0.0], "ic_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.2, 11.5, 0.1, 0.0, 13.0, 19.7, 2.8, 0.8, 0.0], "gfs_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 3.5, 3.9, 1.8, 0.9, 0.6, 1.2, 0.0], "gem_precip_14d": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3, 1.1, 19.7, 2.8, 0.8, 0.0], "model_totals_14d": {"ec": 9.3, "wn": 36.5, "ic": 48.1, "gfs": 12.0, "gem": 25.7}, "seas5_precip": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.9, 1.6, 0.0, 0.0, 0.1, 0.3, 0.1, 4.3, 0.1, 0.0, 0.4, 2.9, 0.0, 13.4, 14.9, 4.5, 1.9, 1.2, 0.0, 0.1, 0.2, 2.9, 2.2, 12.3], "seas5_p10": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "seas5_p90": [0.0, 0.0, 0.0, 0.0, 0.1, 0.6, 3.4, 4.2, 2.6, 7.2, 2.8, 5.3, 3.5, 4.0, 3.0, 2.1, 2.9, 3.6, 4.1, 3.8, 3.1, 2.5, 2.9, 4.6, 3.6, 5.1, 1.6, 7.2, 4.2, 5.3], "seas5_tmax": [22.3, 22.5, 23.4, 23.4, 24.6, 25.9, 23.1, 17.0, 12.9, 14.7, 16.4, 6.7, 6.6, 8.4, 6.5, 9.4, 9.8, 11.4, 10.1, 12.3, 11.0, 9.8, 8.4, 5.2, 5.7, 6.8, 7.4, 8.9, 8.2, 8.5], "seas5_tmin": [10.6, 10.7, 10.6, 10.4, 10.4, 13.4, 14.1, 8.5, 7.0, 6.9, 4.0, 3.6, 3.2, 3.9, 3.8, 3.7, 4.7, 5.0, 2.3, 2.3, 6.5, 5.1, 3.7, 2.6, 0.1, 0.2, 1.7, 4.2, 5.5, 4.8]}};
@@ -6573,7 +6547,7 @@
         let pType = 'none';
 
         if (i < 14) {
-          // --- DAYS 0–13: 5-Model Supercomputer Consensus (ECMWF IFS, WeatherNext 3.0, ICON, GFS, GEM) ---
+          // --- DAYS 0–13: 5-Model Supercomputer Consensus (ECMWF IFS, WeatherNext (ИИ), ICON, GFS, GEM) ---
           const mSnowArr = [
             (ecSnow[i] != null ? ecSnow[i] : 0),
             (wnSnowList[i] != null ? wnSnowList[i] : 0),
@@ -6867,7 +6841,7 @@
       const snowConsensus14 = Math.round(((ecSnowTotal14 + wnSnowTotal14 + icSnowTotal14 + gfsSnowTotal14 + gemSnowTotal14) / 5) * 10) / 10;
       const precipSpread14 = Math.round((Math.max(ecTotal14, wnPrecipTotal14, icTotal14, gfsTotal14, gemTotal14) - Math.min(ecTotal14, wnPrecipTotal14, icTotal14, gfsTotal14, gemTotal14)) / 2 * 10) / 10;
 
-      // Calculate Day 0 Consensus (ECMWF + WeatherNext 3.0 + ICON + GFS + GEM)
+      // Calculate Day 0 Consensus (ECMWF + WeatherNext (ИИ) + ICON + GFS + GEM)
       const m1 = ecMax[0] != null ? ecMax[0] : 15;
       const m2 = icMax[0] != null ? icMax[0] : 15;
       const m3 = gfsMax[0] != null ? gfsMax[0] : 15;
@@ -7316,8 +7290,8 @@
           dates: dTimes.slice(0, 14)
         },
         weathernext: {
-          version: 'WeatherNext 3.0',
-          architecture: 'SFNO 3.0 + GraphCast v3',
+          version: 'WeatherNext (ИИ)',
+          architecture: 'Google WeatherNext 2 / ECMWF Open-Meteo',
           members_count: 64,
           dates: dTimes.slice(0, 14),
           control_max: wnMaxCtrlList,
@@ -7643,13 +7617,102 @@
         }
       }
     }
+        // Unified Master Sub-Views & Routing
+    function renderTabCurrentSection(container, d, subMode) {
+      const activeSub = (subMode === 'interactive') ? 'interactive' : 'current';
+      const subNav = document.createElement('div');
+      subNav.className = 'glass-card rounded-2xl p-2.5 mb-3 flex items-center justify-between flex-wrap gap-2 border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-sm';
+      subNav.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 pl-1">Представление:</span>
+          <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-medium">
+            <button onclick="switchTab('current')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'current' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">📋 Сводка и матрица 48ч</button>
+            <button onclick="switchTab('interactive')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'interactive' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">📈 График ApexCharts</button>
+          </div>
+        </div>
+        <div class="text-[11px] text-slate-400 font-mono pr-1 hidden sm:block">ECMWF IFS 0.25° · Почасовая сетка</div>
+      `;
+      container.appendChild(subNav);
+
+      const contentDiv = document.createElement('div');
+      container.appendChild(contentDiv);
+
+      if (activeSub === 'interactive') {
+        renderTabInteractive(contentDiv, d);
+      } else {
+        renderTabCurrent(contentDiv, d);
+      }
+    }
+
+    function renderTabForecast(container, d, subMode) {
+      const activeSub = (subMode === 'forecast' || !subMode) ? '14days' : subMode;
+      const subNav = document.createElement('div');
+      subNav.className = 'glass-card rounded-2xl p-2.5 mb-3 flex items-center justify-between flex-wrap gap-2 border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-sm';
+      subNav.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 pl-1">Горизонт прогноза:</span>
+          <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-medium">
+            <button onclick="switchTab('week')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'week' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">7 дней</button>
+            <button onclick="switchTab('14days')" class="px-3 py-1.5 rounded-lg transition ${activeSub === '14days' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">14 дней</button>
+            <button onclick="switchTab('month')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'month' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">30 дней SEAS5</button>
+          </div>
+        </div>
+        <div class="text-[11px] text-slate-400 font-mono pr-1 hidden sm:block">ECMWF IFS 0.25° · ICON · GFS · SEAS5</div>
+      `;
+      container.appendChild(subNav);
+
+      const contentDiv = document.createElement('div');
+      container.appendChild(contentDiv);
+
+      if (activeSub === 'week') {
+        renderTabDaily(contentDiv, d, 7);
+      } else if (activeSub === 'month') {
+        renderTabMonthHybrid(contentDiv, d);
+      } else {
+        renderTabDaily(contentDiv, d, 14);
+      }
+    }
+
+    function renderTabModelsSection(container, d, subMode) {
+      const activeSub = (subMode === 'weathernext') ? 'weathernext' : 'models';
+      const subNav = document.createElement('div');
+      subNav.className = 'glass-card rounded-2xl p-2.5 mb-3 flex items-center justify-between flex-wrap gap-2 border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-sm';
+      subNav.innerHTML = `
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 pl-1">Режим сопоставления:</span>
+          <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-medium">
+            <button onclick="switchTab('models')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'models' ? 'bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">🌐 Мультимодели (ECMWF, ICON, GFS, GEM)</button>
+            <button onclick="switchTab('weathernext')" class="px-3 py-1.5 rounded-lg transition ${activeSub === 'weathernext' ? 'bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}">🤖 Ансамбль WeatherNext (ИИ)</button>
+          </div>
+        </div>
+        <div class="text-[11px] text-slate-400 font-mono pr-1 hidden sm:block">64 члена ансамбля · Открытые данные</div>
+      `;
+      container.appendChild(subNav);
+
+      const contentDiv = document.createElement('div');
+      container.appendChild(contentDiv);
+
+      if (activeSub === 'weathernext') {
+        renderTabWeatherNext(contentDiv, d);
+      } else {
+        renderTabModels(contentDiv, d);
+      }
+    }
+
     function renderCurrentTab(d) {
       const container = document.getElementById('dynamic-view-container');
       container.innerHTML = '';
 
       switch (currentMode) {
         case 'current':
-          renderTabCurrent(container, d);
+        case 'interactive':
+          renderTabCurrentSection(container, d, currentMode);
+          break;
+        case 'forecast':
+        case 'week':
+        case '14days':
+        case 'month':
+          renderTabForecast(container, d, (currentMode === 'forecast' ? '14days' : currentMode));
           break;
         case 'radar':
           renderTabRadar(container, d);
@@ -7658,28 +7721,14 @@
           renderTabArchive(container, d);
           break;
         case 'models':
-          renderTabModels(container, d);
-          break;
-        case 'week':
-          renderTabDaily(container, d, 7);
-          break;
-        case '14days':
-          renderTabDaily(container, d, 14);
+        case 'weathernext':
+          renderTabModelsSection(container, d, currentMode);
           break;
         case 'ecology':
           renderTabEcology(container, d);
           break;
-        case 'weathernext':
-          renderTabWeatherNext(container, d);
-          break;
-        case 'month':
-          renderTabMonthHybrid(container, d);
-          break;
         case 'anomalies':
           renderTabSeasonalAnomalies(container, d);
-          break;
-        case 'interactive':
-          renderTabInteractive(container, d);
           break;
         default:
           renderTabCurrent(container, d);
@@ -8117,7 +8166,7 @@
         // Header Time Cell
         synopticTimesTh += `
           <th class="px-2 py-2 min-w-[68px] ${borderLeft} font-mono ${isNow ? 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-300 font-bold' : (isSep ? 'bg-amber-50/50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400' : 'text-slate-700 dark:text-slate-300')}">
-            <div class="text-[9px] uppercase tracking-wider ${isSep ? 'text-amber-500 font-bold' : 'text-slate-600 dark:text-slate-300'}">${isNow ? 'Сейчас' : (isSep ? 'Завтра' : '')}</div>
+            <div class="text-[9px] font-medium tracking-normal ${isSep ? 'text-amber-500 font-bold' : 'text-slate-400'}">${isNow ? 'Сегодня' : (isSep ? 'Завтра' : '')}</div>
             <div class="text-[11px] font-bold">${dayLabel}</div>
           </th>
         `;
@@ -8222,7 +8271,7 @@
         if (isToday) {
           cardBg = 'bg-sky-50/70 dark:bg-sky-950/40 border-sky-300 dark:border-sky-700 shadow-xs ring-1 ring-sky-400/20';
         } else if (isSnowDay) {
-          cardBg = 'bg-gradient-to-b from-sky-50/80 via-cyan-50/40 to-slate-50/60 dark:from-cyan-950/30 dark:via-sky-950/20 dark:to-slate-900/70 border-cyan-300/70 dark:border-cyan-700/60 hover:border-cyan-400 dark:hover:border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.10)]';
+          cardBg = 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200/80 dark:border-slate-700/70 hover:bg-slate-100/50 dark:hover:bg-slate-800/70';
         } else if (isWeekend) {
           cardBg = 'bg-rose-50/25 dark:bg-rose-950/25 border-rose-200/60 dark:border-rose-900/50 hover:bg-rose-50/50 dark:hover:bg-rose-950/40';
         }
@@ -8248,7 +8297,7 @@
         if (isSnowDay) {
           const snowAmt = (day.snowfall > 0 ? day.snowfall : (day.precip || 0)).toFixed(1);
           precBadge = `
-            <div class="inline-flex items-center gap-1 text-[10px] font-bold text-cyan-700 dark:text-cyan-300 bg-cyan-100/70 dark:bg-cyan-950/80 border border-cyan-300/70 dark:border-cyan-700/70 px-1.5 py-0.5 rounded-md leading-none shadow-[0_0_8px_rgba(6,182,212,0.2)]">
+            <div class="inline-flex items-center gap-1 text-[10px] font-bold text-cyan-700 dark:text-cyan-300 bg-cyan-100/70 dark:bg-cyan-950/80 border border-cyan-300/70 dark:border-cyan-700/70 px-1.5 py-0.5 rounded-md leading-none ">
               <svg class="w-2.5 h-2.5 text-cyan-500 dark:text-cyan-400 shrink-0 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="19.07" y2="4.93"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
               <span>${snowAmt} см</span>
             </div>
@@ -8387,7 +8436,7 @@
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
                 <div class="min-w-0">
-                  <h2 class="text-sm font-extrabold uppercase tracking-tight text-slate-800 dark:text-slate-100 flex items-center gap-1.5 truncate">
+                  <h2 class="text-sm font-extrabold tracking-tight text-slate-800 dark:text-slate-100 flex items-center gap-1.5 truncate">
                     <span>Прогноз погоды на 16 дней</span>
                     <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-mono font-bold shrink-0">2+ недели</span>
                   </h2>
@@ -8421,7 +8470,7 @@
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>
-              <h3 class="font-black uppercase tracking-wider text-slate-900 dark:text-white">
+              <h3 class="font-black tracking-tight text-slate-900 dark:text-white">
                 Почасовая синоптическая матрица (48 часов)
               </h3>
             </div>
@@ -8547,7 +8596,7 @@
                 <svg class="w-3.5 h-3.5 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="14" r="2"/><path d="M12 14 16 10"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
                 <span>Барометр и тренд</span>
               </span>
-              <span class="px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 font-mono text-[10px] font-bold">${c.baro_tendency || '→ 0.0 мм / 3ч'}</span>
+              <span class="px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-400 font-mono text-[10px] font-bold whitespace-nowrap">${c.baro_tendency || '0.0 мм/3ч · норма'}</span>
             </div>
             <div class="flex items-baseline justify-between pt-0.5">
               <div class="flex items-baseline gap-1.5">
@@ -8589,12 +8638,12 @@
             </div>
             <div class="mc-compass-wrap">
               <svg class="mc-compass-svg" viewBox="0 0 120 120" role="img" aria-label="Роза ветров">
-                <circle cx="60" cy="60" r="50" fill="rgba(5,8,17,0.45)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-                <circle cx="60" cy="60" r="38" fill="none" stroke="rgba(255,255,255,0.04)" stroke-dasharray="2 3"/>
-                <text x="60" y="18" text-anchor="middle" fill="#f8fafc" font-size="9" font-weight="700">С</text>
-                <text x="104" y="63" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600">В</text>
-                <text x="60" y="108" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600">Ю</text>
-                <text x="16" y="63" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600">З</text>
+                <circle cx="60" cy="60" r="50" class="fill-slate-100 dark:fill-slate-950/80 stroke-slate-300 dark:stroke-slate-700/80" stroke-width="1"/>
+                <circle cx="60" cy="60" r="38" fill="none" class="stroke-slate-200 dark:stroke-slate-800" stroke-dasharray="2 3"/>
+                <text x="60" y="18" text-anchor="middle" class="fill-rose-500 font-extrabold" font-size="10">С</text>
+                <text x="104" y="63" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 font-bold" font-size="9.5">В</text>
+                <text x="60" y="108" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 font-bold" font-size="9.5">Ю</text>
+                <text x="16" y="63" text-anchor="middle" class="fill-slate-800 dark:fill-slate-100 font-bold" font-size="9.5">З</text>
                 <g class="mc-compass-needle" style="transform: rotate(${c.wind_dir || 270}deg); transform-origin: 60px 60px;">
                   <line x1="60" y1="86" x2="60" y2="28" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round"/>
                   <polygon points="60,20 56,30 60,27.5 64,30" fill="#7dd3fc"/>
@@ -8814,7 +8863,7 @@
               <div class="text-[9px] font-bold uppercase tracking-wider ${dayColor}">${currentDayTag}</div>
               <div class="text-[10.5px] font-medium text-slate-400 font-mono mt-0.5">${isNow ? 'Сейчас' : h.time_lbl}</div>
               <div class="my-1 flex items-center justify-center select-none">${(typeof getMeteoIconSvg === 'function') ? getMeteoIconSvg(h.wmo, h.is_day, 28) : (h.icon || '⛅')}</div>
-              <div class="text-sm font-black font-mono text-white tracking-tight">${tSign}</div>
+              <div class="text-sm font-black weather-num tnum text-slate-900 dark:text-white tracking-tight">${tSign}</div>
               ${precBadge}
             </div>
           `;
@@ -8836,11 +8885,11 @@
           <div class="flex items-center space-x-3">
             <span class="w-3 h-3 rounded-full bg-cyan-500 animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
             <div>
-              <h2 class="font-bold uppercase tracking-wider text-slate-900 dark:text-slate-100 flex items-center space-x-2">
+              <h2 class="font-bold tracking-tight text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                 <svg class="w-4 h-4 text-cyan-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                <span>Радиолокационный и спутниковый мониторинг 4K</span>
+                <span>Радиолокационный и спутниковый мониторинг</span>
               </h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки <a href="https://airs.jpl.nasa.gov/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">NASA AIRS</a> • Спутник ИК 24/7 <a href="https://www.eumetsat.int/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">EUMETSAT</a> • Радар <a href="https://www.rainviewer.com/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">RainViewer</a> HD • Потоки ветра 60 FPS</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Спутниковые осадки <a href="https://airs.jpl.nasa.gov/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">NASA AIRS</a> • Спутник ИК 24/7 <a href="https://www.eumetsat.int/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">EUMETSAT</a> • Радар <a href="https://www.rainviewer.com/" target="_blank" rel="noopener noreferrer" class="hover:underline text-cyan-400">RainViewer</a> HD • Динамические потоки ветра</p>
             </div>
           </div>
 
@@ -8902,7 +8951,7 @@
 
         <!-- Radar Map Wrapper Container with Multi-Engine Embeds -->
         <div id="radar-map-wrapper" class="w-full h-[640px] sm:h-[720px] lg:h-[780px] rounded-2xl border border-slate-200/90 dark:border-slate-800 relative overflow-hidden bg-slate-950 shadow-2xl">
-          <!-- 1. Windy 4K Interactive Embed -->
+          <!-- 1. Интерактивная карта Windy -->
           
           
           <!-- 2. Ventusky Live Embed -->
@@ -8911,7 +8960,7 @@
           <!-- 3. Leaflet Native GIS Map -->
           <div id="radar-map" class="w-full h-full z-0" style="display:none;"></div>
           
-          <!-- 60 FPS Windy Streamline Canvas Overlay -->
+          <!-- Windy Streamline Canvas Overlay -->
           
 
           <!-- ================= LEFT DOCK: АЭРОСИНОПТИКА И СЛОИСТОСТЬ ОБЛАКОВ ================= -->
@@ -9056,8 +9105,8 @@
                 <!-- Потоки ветра и станции -->
                 <div class="pt-1 border-t border-slate-800 space-y-1">
                   <button onclick="toggleWindParticles()" id="dock-btn-particles" class="w-full px-2 py-1.5 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showWindParticles ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900 text-slate-400 hover:text-white'}">
-                    <span class="flex items-center gap-1">Линии ветра</span>
-                    <span id="dock-particles-status" class="font-bold">${showWindParticles ? 'ВКЛ' : 'ВЫКЛ'}</span>
+                    <span class="flex items-center gap-1.5">Линии ветра</span>
+                    <span id="dock-particles-status" class="font-bold pl-2">${showWindParticles ? 'ВКЛ' : 'ВЫКЛ'}</span>
                   </button>
 
                   <button onclick="toggleMeteoStations()" id="dock-btn-stations" class="w-full px-2 py-1.5 rounded-lg text-[10px] font-mono flex items-center justify-between transition ${showStations ? 'bg-slate-800 text-white border border-slate-600' : 'bg-slate-900 text-slate-400 hover:text-white'}">
@@ -9203,7 +9252,7 @@
             <div class="flex items-center space-x-2.5">
               <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
               <div>
-                <h3 class="font-bold text-slate-100 uppercase tracking-wide">
+                <h3 class="font-bold text-slate-100 tracking-tight">
                   Спутниковая онлайн-обсерватория (EUMETSAT и NASA)
                 </h3>
                 <p class="text-[11px] text-slate-400 font-mono">Открытые геостационарные и орбитальные снимки облачности 24/7 (ИК 10.8 мкм, Airmass RGB, True Color 250м)</p>
@@ -9355,9 +9404,10 @@
       radarMap = L.map('radar-map', {
         center: [lat, lon],
         zoom: 7,
-        zoomControl: true,
+        zoomControl: false,
         attributionControl: false
       });
+      L.control.zoom({ position: 'topright' }).addTo(radarMap);
 
       // Set initial Basemap
       applyBasemapLayer();
@@ -9435,7 +9485,7 @@
         renderGradientOverlay();
       }
 
-      // Initialize 60 FPS Windy Streamline Particle Engine
+      // Initialize Windy Streamline Particle Engine
       setTimeout(() => initWindParticleEngine(), 100);
 
       // Setup Windy Interactive Weather Picker on Map Click
@@ -10309,15 +10359,22 @@
           <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
               <div class="flex items-center space-x-2">
-                <h2 class="text-sm sm:text-base font-bold text-white uppercase tracking-wider">
+                <h2 class="text-sm sm:text-base font-bold text-white tracking-tight">
                   КЛИМАТИЧЕСКИЙ АРХИВ (${clim.opened_year > 1890 ? `${clim.start_year} ERA5 + ${clim.opened_year} ОБС` : clim.start_year}–${clim.end_year} гг.)
                 </h2>
                 <span class="px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 font-mono text-[10px] font-bold">WMO ${clim.wmo_id || 'ID'}</span>
               </div>
               <p class="text-[11px] text-slate-400 mt-0.5">
                 ${clim.station_name} · ${clim.region_desc || ''}
-                ${clim.opened_year > 1890 ? `<span class="text-slate-400 font-mono ml-2">Приборные замеры с ${clim.opened_year} г. · до ${clim.opened_year} г. — реанализ ERA5</span>` : ''}
               </p>
+              <div class="flex flex-wrap items-center gap-1.5 pt-1 text-[10.5px] text-slate-400 font-mono">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-800/90 border border-slate-700/60 text-slate-300">
+                  🏛️ 1890–1939: метеостанции ВМО / NOAA GHCN-Daily
+                </span>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-sky-950/70 border border-sky-800/60 text-sky-300">
+                  🌐 1940–2026: реанализ ECMWF ERA5 (0.25°)
+                </span>
+              </div>
             </div>
 
             <!-- Sub-view Mode Buttons -->
@@ -12083,7 +12140,7 @@
             <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-lg font-mono mx-auto">
               ${y < 1940 ? '1890–1939' : 'Архив'}
             </div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono uppercase tracking-wider">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono tracking-tight">
               Исторический среднемесячный ряд за ${mName} ${y} года
             </h3>
             <p class="text-xs text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
@@ -12346,7 +12403,7 @@
             </div>
 
             <select onchange="filterArchiveTableByTag(this.value)" class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:ring-2 focus:ring-slate-400">
-              <option value="all">Все 136 лет (1890–2026)</option>
+              <option value="all">Все 136 лет (1890–1939 МС ВМО / 1940–2026 ERA5)</option>
               <option value="warm">Аномально тёплые (&gt; +1.5°C)</option>
               <option value="cold">Аномально холодные (&lt; -1.0°C)</option>
               <option value="obs">● Только факт с МС</option>
@@ -13553,7 +13610,7 @@
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
             <div>
               <div class="flex items-center space-x-2">
-                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
+                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight font-mono">
                   Скользящие средние (Rolling Mean Statistics)
                 </h2>
                 <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 text-[10.5px] font-mono font-bold">ОПОРНАЯ СЕТЬ ВМО</span>
@@ -13717,7 +13774,7 @@
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800/80 pb-3">
             <div>
               <div class="flex items-center space-x-2">
-                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
+                <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight font-mono">
                   Выборка по датам и статистика за период
                 </h2>
                 <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 text-[10.5px] font-mono font-bold">CLIENT-SIDE</span>
@@ -14108,7 +14165,7 @@
             <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xl font-mono mx-auto">
               WMO
             </div>
-            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono uppercase tracking-wider">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 font-mono tracking-tight">
               Приборные наблюдения отсутствуют (период до основания станции)
             </h3>
             <p class="text-xs text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed">
@@ -15189,8 +15246,8 @@
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Мультимодельный консенсус суперкомпьютеров (до 14 дней)</h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Прямое сопоставление температуры и осадков: ECMWF IFS, WeatherNext 3.0, DWD ICON, NOAA GFS и CMC GEM</p>
+              <h2 class="font-bold text-slate-900 dark:text-white tracking-tight">Мультимодельный мультимодельный консенсус (до 14 дней)</h2>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Прямое сопоставление температуры и осадков: ECMWF IFS, WeatherNext (ИИ), DWD ICON, NOAA GFS и CMC GEM</p>
             </div>
           </div>
           <span class="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
@@ -15213,8 +15270,8 @@
 
             <div class="glass-card rounded-xl p-3.5 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 space-y-1.5 hover:border-slate-400 dark:hover:border-slate-600 transition">
               <div class="flex items-center justify-between text-slate-900 dark:text-white font-bold">
-                <span class="tracking-wide">WeatherNext 3.0</span>
-                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-mono font-bold">64 ИИ</span>
+                <span class="tracking-wide">WeatherNext (ИИ)</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 font-mono font-bold">64 члена ансамбля</span>
               </div>
               <div class="text-3xl font-black font-mono text-slate-900 dark:text-white tracking-tight my-1">${ens.wn_max && ens.wn_max[0] != null ? (ens.wn_max[0] > 0 ? '+' : '') + Math.round(ens.wn_max[0]) : (ens.ec_max && ens.ec_max[0] != null ? (ens.ec_max[0] > 0 ? '+' : '') + Math.round(ens.ec_max[0]) : '—')}°C</div>
               <div class="text-[11px] text-slate-500 dark:text-slate-400">Спектральный ансамбль высокого разрешения</div>
@@ -15329,7 +15386,7 @@
                 <div class="text-[9px] text-slate-400">Европа IFS 9km</div>
               </div>
               <div class="p-2.5 rounded-lg bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 space-y-0.5">
-                <div class="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">WeatherNext 3.0:</div>
+                <div class="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">WeatherNext (ИИ):</div>
                 <div class="text-lg font-black font-mono text-emerald-700 dark:text-emerald-300">${snowTotals.wn} см</div>
                 <div class="text-[9px] text-emerald-600/70">51 член ансамбля ECMWF</div>
               </div>
@@ -15387,7 +15444,7 @@
               toolbar: { show: false }
             },
             theme: { mode: 'dark' },
-            colors: ['#38bdf8', '#10b981', '#fbbf24', '#818cf8', '#34d399'],
+            colors: ['#0284c7', '#10b981', '#f59e0b', '#8b5cf6', '#f97316'],
             stroke: { width: [2.5, 3.5, 2, 2, 2], curve: 'smooth' },
             xaxis: {
               categories: cats,
@@ -15415,7 +15472,7 @@
           const precipOptions = {
             series: [
               { name: 'ECMWF IFS', data: (ens.ec_precip || []).slice(0, limit) },
-              { name: 'WeatherNext 3.0', data: (ens.wn_precip || []).slice(0, limit) },
+              { name: 'WeatherNext (ИИ)', data: (ens.wn_precip || []).slice(0, limit) },
               { name: 'DWD ICON', data: (ens.ic_precip || []).slice(0, limit) },
               { name: 'NOAA GFS', data: (ens.gfs_precip || []).slice(0, limit) },
               { name: 'CMC GEM', data: (ens.gem_precip || []).slice(0, limit) }
@@ -15426,6 +15483,7 @@
               background: 'transparent',
               toolbar: { show: false }
             },
+            dataLabels: { enabled: false },
             plotOptions: {
               bar: {
                 horizontal: false,
@@ -15434,7 +15492,7 @@
               }
             },
             theme: { mode: 'dark' },
-            colors: ['#38bdf8', '#10b981', '#fbbf24', '#818cf8', '#34d399'],
+            colors: ['#0284c7', '#10b981', '#f59e0b', '#8b5cf6', '#f97316'],
             xaxis: {
               categories: cats,
               labels: { style: { colors: '#94a3b8', fontSize: '10px' } }
@@ -15671,13 +15729,13 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">Гидродинамический ансамбль ECMWF IFS (14 дней)</h2>
+              <h2 class="font-bold text-slate-900 dark:text-white tracking-tight text-sm sm:text-base">Гидродинамический ансамбль ECMWF IFS (14 дней)</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400">Стохастическое моделирование атмосферы • Сходимость 64 сценариев на 2 полные недели</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
             <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
-              TPU v5e • 64 Ансамбля • 14 дней
+              64 члена ансамбля • Разрешение 0.25° • 14 дней
             </span>
           </div>
         </div>
@@ -15691,7 +15749,7 @@
           </div>
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div class="text-slate-500 dark:text-slate-400 text-[11px]">ДИНАМИЧЕСКАЯ МОДЕЛЬ И АССИМИЛЯЦИЯ 4D-VAR:</div>
-            <div class="text-base font-black font-mono text-slate-900 dark:text-white mt-1">SFNO 3.0 + GraphCast v3</div>
+            <div class="text-base font-black font-mono text-slate-900 dark:text-white mt-1">Google WeatherNext 2 / ECMWF Open-Meteo</div>
             <div class="text-[10px] text-slate-500 dark:text-slate-400">Сферические нейрооператоры Фурье</div>
           </div>
           <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1">
@@ -15702,7 +15760,7 @@
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div class="text-slate-500 dark:text-slate-400 text-[11px]">СКОРОСТЬ РАСЧЕТА 14 ДНЕЙ:</div>
             <div class="text-2xl font-black font-mono text-slate-900 dark:text-white">&lt; 45 сек</div>
-            <div class="text-[10px] text-slate-500 dark:text-slate-400">Кластер Google Cloud TPU v5e</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400">Вычислительный комплекс ECMWF & Google DeepMind (открытые ансамбли Open-Meteo)</div>
           </div>
           ${(wnSnowTotal != null && wnSnowTotal > 0) || snowDepthCm > 0 ? `
           <div class="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 space-y-1 col-span-2 sm:col-span-1">
@@ -15712,14 +15770,14 @@
           </div>` : ''}
         </div>
 
-        <!-- Interactive ApexChart for WeatherNext 3.0 (14 Days) — Temperature + Precip Corridor -->
+        <!-- Interactive ApexChart for WeatherNext (ИИ) (14 Days) — Temperature + Precip Corridor -->
         <div class="glass-card rounded-xl p-4 space-y-2 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/60 shadow-sm">
           <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-bold">
             <span class="text-slate-900 dark:text-white uppercase">ВЕРОЯТНОСТНЫЙ КОРИДОР ТЕМПЕРАТУРЫ И ОСАДКОВ (14 ДНЕЙ)</span>
             <div class="flex items-center space-x-3 text-[11px] font-mono flex-wrap">
               <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span><span class="text-slate-600 dark:text-slate-300">Днем (T max)</span></span>
               <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span><span class="text-slate-600 dark:text-slate-300">Ночью (T min)</span></span>
-              <span class="flex items-center space-x-1"><span class="w-2.5 h-1 border-t-2 border-dashed border-emerald-400 inline-block"></span><span class="text-slate-600 dark:text-slate-300">Разброс 64 ИИ</span></span>
+              <span class="flex items-center space-x-1"><span class="w-2.5 h-1 border-t-2 border-dashed border-emerald-400 inline-block"></span><span class="text-slate-600 dark:text-slate-300">Разброс 64 члена ансамбля</span></span>
               <span class="flex items-center space-x-1"><span class="w-2.5 h-2.5 rounded bg-sky-400 inline-block"></span><span class="text-slate-600 dark:text-slate-300">Осадки медиана (мм)</span></span>
             </div>
           </div>
@@ -15876,12 +15934,12 @@
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
             <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <strong class="text-slate-900 dark:text-white">1. Сферические нейрооператоры (SFNO 3.0):</strong>
-              Нейросеть преобразует уравнения гидродинамики и термодинамики в спектральное пространство сферических гармоник, полностью исключая сингулярности сетки на полюсах и ускоряя расчет глобальной циркуляции в 10 000 раз.
+              <strong class="text-slate-900 dark:text-white">1. Ансамблевая модель Google WeatherNext 2:</strong>
+              Нейросетевая модель машинного обучения Google WeatherNext 2, рассчитываемая на инфраструктуре Google и доступная через открытый API Open-Meteo. Включает вероятностный ансамбль из 64 траекторий.
             </div>
             <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-              <strong class="text-slate-900 dark:text-white">2. Графовые сети GraphCast нового поколения:</strong>
-              Моделируют локальные конвективные ячейки, атмосферные фронты и взаимодействие с рельефом на многоуровневых икосаэдрических сетках, захватывая мезомасштабную физику осадков.
+              <strong class="text-slate-900 dark:text-white">2. Вероятностный коридор неопределенности:</strong>
+              Линии P10 и P90 отражают 80%-й доверительный интервал ансамбля. Чем шире коридор разброса, тем выше синоптическая неопределенность в атмосфере при приближении циклонических систем.
             </div>
           </div>
         </div>
@@ -15902,12 +15960,23 @@
         const p10Max = (wn.p10_max && wn.p10_max.length) ? wn.p10_max.slice(0, 14) : ctrlMax.map(v => v - 1.5);
         const precipMedian = (wn.precip && wn.precip.length) ? wn.precip.slice(0, 14) : daily.map(d => d.precip || 0);
 
+        // Ensure physical consistency: Day Tmax is always >= Night Tmin
+        for (let i = 0; i < ctrlMax.length; i++) {
+          if (ctrlMax[i] != null && ctrlMin[i] != null && ctrlMax[i] < ctrlMin[i]) {
+            const tmp = ctrlMax[i];
+            ctrlMax[i] = ctrlMin[i];
+            ctrlMin[i] = tmp;
+          }
+          if (p90Max[i] != null && ctrlMax[i] != null && p90Max[i] < ctrlMax[i]) p90Max[i] = ctrlMax[i] + 1.2;
+          if (p10Max[i] != null && ctrlMin[i] != null && p10Max[i] > ctrlMin[i]) p10Max[i] = ctrlMin[i] - 1.2;
+        }
+
         const options = {
           series: [
-            { name: 'WeatherNext 3.0 Днем (°C)', type: 'line', data: ctrlMax },
-            { name: 'WeatherNext 3.0 Ночью (°C)', type: 'line', data: ctrlMin },
+            { name: 'WeatherNext Днём (°C)', type: 'line', data: ctrlMax },
+            { name: 'WeatherNext Ночью (°C)', type: 'line', data: ctrlMin },
             { name: 'Верхняя граница ансамбля P90 (+разброс)', type: 'line', data: p90Max },
-            { name: 'Нижняя граница ансамбля P10 (–разброс)', type: 'line', data: p10Max },
+            { name: 'Нижняя граница ансамбля P10 (-разброс)', type: 'line', data: p10Max },
             { name: 'Осадки медиана (мм)', type: 'column', data: precipMedian }
           ],
           chart: {
@@ -15946,14 +16015,28 @@
           },
           yaxis: [
             {
+              seriesName: 'WeatherNext Днём (°C)',
               forceNiceScale: true,
               title: { text: 'T (°C)', style: { color: '#10b981', fontSize: '11px', fontWeight: 600 } },
               labels: { formatter: v => `${v > 0 ? '+' : ''}${Math.round(v)}°`, style: { colors: '#10b981' } }
             },
-            { show: false, forceNiceScale: true },
-            { show: false, forceNiceScale: true },
-            { show: false, forceNiceScale: true },
             {
+              seriesName: 'WeatherNext Днём (°C)',
+              show: false,
+              forceNiceScale: true
+            },
+            {
+              seriesName: 'WeatherNext Днём (°C)',
+              show: false,
+              forceNiceScale: true
+            },
+            {
+              seriesName: 'WeatherNext Днём (°C)',
+              show: false,
+              forceNiceScale: true
+            },
+            {
+              seriesName: 'Осадки медиана (мм)',
               opposite: true,
               forceNiceScale: true,
               min: 0,
@@ -16140,8 +16223,8 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
             </div>
             <div>
-              <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-sm sm:text-base">30-дневный гибридный ансамблевый прогноз</h2>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Дни 1–14: WeatherNext 3.0 (64 ансамбля) • Дни 15–30: ECMWF SEAS5 (50 сценариев океан-атмосфера)</p>
+              <h2 class="font-bold text-slate-900 dark:text-white tracking-tight text-sm sm:text-base">30-дневный гибридный ансамблевый прогноз</h2>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Дни 1–14: WeatherNext (ИИ) (64 ансамбля) • Дни 15–30: ECMWF SEAS5 (50 сценариев океан-атмосфера)</p>
             </div>
           </div>
           <div class="flex items-center space-x-2">
@@ -16155,7 +16238,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 text-xs">
           <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1">
             <div class="text-slate-500 dark:text-slate-400 text-[10.5px] font-bold">ФАЗА 1 (ДНИ 1–14):</div>
-            <div class="text-lg font-black font-mono text-slate-900 dark:text-white">WeatherNext 3.0</div>
+            <div class="text-lg font-black font-mono text-slate-900 dark:text-white">WeatherNext (ИИ)</div>
             <div class="text-[10px] text-slate-500 dark:text-slate-400">64-членный ансамбль высокого разрешения (~${wn.avg_confidence || 86}% сходимость)</div>
           </div>
 
@@ -16305,7 +16388,7 @@
           <div class="glass-card rounded-xl p-3.5 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-2">
             <div class="flex items-center justify-between">
               <span class="font-bold text-slate-900 dark:text-white uppercase">I ДЕКАДА (ДНИ 1–10)</span>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono font-bold">WeatherNext 3.0</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono font-bold">WeatherNext (ИИ)</span>
             </div>
             <div class="text-2xl font-black font-mono text-slate-900 dark:text-white">${dec1Avg > 0 ? '+' : ''}${dec1Avg}°C</div>
             <div class="space-y-1 text-[11px] font-mono">
@@ -16318,7 +16401,7 @@
                 <strong>${dec1Snow > 0 ? dec1Snow.toFixed(1) + ' см' : '0 см'} · ${dec1EndDepth > 0 ? dec1EndDepth.toFixed(1) + ' см' : 'нет'}</strong>
               </div>
             </div>
-            <div class="text-[11px] font-mono text-sky-400 pt-0.5">WeatherNext 3.0 · 64 члена</div>
+            <div class="text-[11px] font-mono text-sky-400 pt-0.5">WeatherNext (ИИ) · 64 члена</div>
           </div>
 
           <!-- Decade 2 -->
@@ -16415,12 +16498,12 @@
             <div class="space-y-0.5">
               <div class="flex items-center space-x-2">
                 <span class="text-xl">🎯</span>
-                <h3 class="text-sm sm:text-base font-black uppercase text-slate-900 dark:text-white tracking-wide">
+                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight">
                   Высокоточное моделирование первого снега
                 </h3>
                 <span class="px-2 py-0.5 rounded-full bg-blue-600 text-white font-mono text-[10px] font-bold">1890–2026</span>
               </div>
-              <span class="text-[11px] font-mono text-slate-500">WeatherNext 3.0 + ECMWF SEAS5 · ВМО 1890–2026</span>
+              <span class="text-[11px] font-mono text-slate-500">WeatherNext (ИИ) + ECMWF SEAS5 · ВМО 1890–2026</span>
             </div>
             <div class="flex items-center space-x-2">
               <span class="px-3 py-1 rounded-xl text-xs font-mono font-bold border ${fsa.air_diff_badge_class}">
@@ -16606,8 +16689,8 @@
 
         const options = {
           series: [
-            { name: 'WeatherNext 3.0 Днем (°C)', data: wnMaxSeries },
-            { name: 'WeatherNext 3.0 Ночью (°C)', data: wnMinSeries },
+            { name: 'WeatherNext (ИИ) Днем (°C)', data: wnMaxSeries },
+            { name: 'WeatherNext (ИИ) Ночью (°C)', data: wnMinSeries },
             { name: 'ECMWF SEAS5 Днем (°C)', data: s5MaxSeries },
             { name: 'ECMWF SEAS5 Ночью (°C)', data: s5MinSeries },
             { name: 'SEAS5 Разброс P90 (°C)', data: s5P90Series },
@@ -16934,7 +17017,7 @@
             <span class="text-3xl animate-spin text-sky-600 dark:text-sky-300" style="animation-duration: 8s; display: inline-block;">🌀</span>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white tracking-tight">
                   Интерактивный центр: Карта климатических аномалий России и мира
                 </h3>
                 <span class="px-2 py-0.5 rounded-full bg-sky-700 text-white font-mono font-bold text-[10px] shadow-sm uppercase">СЕТЬ ВМО: ${escapeHtml((clim.station_name || d.city || "СЕЗОННЫЕ АНОМАЛИИ").toUpperCase())}</span>
@@ -16957,7 +17040,7 @@
               <span class="p-1.5 rounded-lg bg-amber-500/10 text-amber-500 border border-amber-500/20">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
               </span>
-              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
                 Долгосрочные сезонные аномалии погоды (на 6 месяцев)
               </h2>
             </div>
@@ -17021,7 +17104,7 @@
         <!-- Interactive Anomaly Comparison Charts (ApexCharts) -->
         <div class="space-y-4 pt-1">
           <div class="flex items-center justify-between">
-            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm tracking-tight flex items-center gap-2">
               <span>График сезонных аномалий температуры (°C) и осадков (%)</span>
             </h3>
             <span class="text-[10.5px] font-mono text-slate-400 hidden sm:inline">
@@ -17055,7 +17138,7 @@
         <!-- Monthly Detailed Diagnostic Cards -->
         <div class="space-y-3.5 pt-2">
           <div class="flex items-center justify-between">
-            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm uppercase tracking-wider">
+            <h3 class="font-bold text-slate-900 dark:text-white text-xs sm:text-sm tracking-tight">
               Помесячная детализация и терцильные вероятности (6 месяцев)
             </h3>
             <span class="text-[10.5px] font-mono text-slate-400">
@@ -17284,7 +17367,7 @@
       card.innerHTML = `
         <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800 text-xs">
           <div>
-            <h2 class="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Интерактивный почасовой анализ (ApexCharts)</h2>
+            <h2 class="font-bold text-slate-900 dark:text-white tracking-tight">Интерактивный почасовой анализ (ApexCharts)</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Синхронный зум, перекрестие, давление в мм рт. ст., осадки и ветер</p>
           </div>
           <span class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono font-bold text-[11px]">
@@ -18072,7 +18155,7 @@
     });
 
     function shareWeather(platform) {
-      const title = `Погода в ${currentCity} — архив 136 лет (1890–2026), онлайн-радар и консенсус суперкомпьютеров`;
+      const title = `Погода в ${currentCity} — архив 136 лет (1890–2026), онлайн-радар и мультимодельный консенсус`;
       const url = window.location.href;
 
       if (platform === 'vk') {
@@ -18439,7 +18522,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Правовой статус и отказ от ответственности</h2>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">Правовой статус и отказ от ответственности</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">99-ФЗ • 113-ФЗ • 152-ФЗ • ст. 13.15, 17.10 КоАП РФ • ст. 1334 ГК РФ</p>
           </div>
         </div>
@@ -18532,7 +18615,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">Политика конфиденциальности и cookies</h2>
+            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight">Политика конфиденциальности и cookies</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»</p>
           </div>
         </div>
@@ -18609,7 +18692,7 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           </div>
           <div>
-            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Бесплатный МетеоВиджет на ваш сайт</h2>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Бесплатный МетеоВиджет на ваш сайт</h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Адаптивный погодный информер для блогов, отелей и городских порталов</p>
           </div>
         </div>
@@ -18665,7 +18748,7 @@
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/></svg>
             </div>
             <div>
-              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Поддержка независимого метеопортала</h2>
+              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Поддержка независимого метеопортала</h2>
               <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Автономная климатическая инфраструктура и архив ВМО</p>
             </div>
           </div>
@@ -18728,7 +18811,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
             </div>
             <div>
-              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Оплата через Сбер / СБП</h2>
+              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Оплата через Сбер / СБП</h2>
               <p class="text-[11px] text-slate-600 dark:text-slate-400 font-mono font-semibold">✓ Прямой перевод самозанятому (без комиссии)</p>
             </div>
           </div>
@@ -18806,7 +18889,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
             </div>
             <div>
-              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 uppercase tracking-tight">Перевод зарегистрирован</h2>
+              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">Перевод зарегистрирован</h2>
               <p class="text-[11px] text-slate-600 dark:text-slate-400 font-mono font-semibold">Огромное спасибо за поддержку науки!</p>
             </div>
           </div>
