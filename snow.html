@@ -418,7 +418,7 @@
   }
 
   /* Snow chips & downloads */
-  button#chip-norilsk, a#sat-direct-download {
+  a#sat-direct-download {
     background-color: #0369a1 !important;
     color: #ffffff !important;
     border-color: #075985 !important;
@@ -499,7 +499,68 @@ html.light .glass {
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-</style>
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      min-height: 36px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border-radius: 0.625rem;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: var(--font-sans);
+    }
+    .nav-btn {
+      background-color: #ffffff;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .nav-btn:hover {
+      background-color: #f8fafc;
+      color: #0f172a;
+      border-color: #cbd5e1;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      transform: translateY(-1px);
+    }
+    .dark .nav-btn {
+      background-color: rgba(15, 23, 42, 0.75);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    .dark .nav-btn:hover {
+      background-color: rgba(30, 41, 59, 0.9);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+    .nav-btn-active {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    }
+    .dark .nav-btn-active {
+      background-color: rgba(30, 41, 59, 0.95) !important;
+      color: #ffffff !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    .nav-btn-active svg {
+      color: #0284c7 !important;
+    }
+    .dark .nav-btn-active svg {
+      color: #38bdf8 !important;
+    }
+
+  </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0284c7">
@@ -677,23 +738,21 @@ html.light .glass {
 
       <div class="flex items-center space-x-1.5 sm:space-x-2 text-xs">
         <!-- Main Forecast Link -->
-        <a href="index.html" class="nav-btn !bg-sky-500/10 !border-sky-300 dark:!border-sky-500/30 text-sky-600 dark:text-sky-400 font-bold shadow-sm" title="Главный прогноз погоды и радар">
-          <span class="text-xs shrink-0">🏠</span>
+        <a href="index.html" class="nav-btn" title="Главный прогноз погоды и радар">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span class="hidden sm:inline">Прогноз</span>
         </a>
 
         <!-- Dedicated Anomalies & Circulation Page Link -->
-        <a href="anomalies.html" class="nav-btn !bg-rose-500/10 !border-rose-300 dark:!border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold shadow-sm" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
-          <span class="text-xs shrink-0">🌀</span>
+        <a href="anomalies.html" class="nav-btn" title="Интерактивная карта климатических аномалий России и мира (ECMWF SEAS5 / WMO)">
+          <svg class="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           <span class="hidden sm:inline">Аномалии</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-rose-700 text-white font-black hidden sm:inline">Карта</span>
         </a>
 
-        <!-- Snow Monitor Link -->
-        <a href="snow.html" class="nav-btn !bg-sky-500/20 !border-sky-400 dark:!border-sky-500/50 text-sky-600 dark:text-sky-400 font-black shadow-sm" title="Снежный монитор и космическая гляциология">
-          <span class="text-xs shrink-0">❄️</span>
+        <!-- Snow Monitor Link (Active) -->
+        <a href="snow.html" class="nav-btn nav-btn-active" title="Снежный монитор и космическая гляциология">
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
           <span class="hidden sm:inline">Снег</span>
-          <span class="text-[9px] font-mono px-1 rounded bg-sky-700 text-white font-black hidden md:inline">NEW</span>
         </a>
 
         <!-- Models Link -->
@@ -841,72 +900,78 @@ html.light .glass {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
       <!-- CARD 1: SEASON SNOW MILESTONE -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-sky-500 transition-all hover:shadow-sky-500/10">
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-sm border border-slate-200/90 dark:border-white/10 transition-all hover:border-slate-300 dark:hover:border-white/20">
         <div class="flex items-center justify-between">
-          <span id="card1-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Прогноз первого снега</span>
-          <span id="card1-icon" class="text-lg">🌨️</span>
+          <span id="card1-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Снежный покров</span>
+          <span id="card1-icon" class="w-7 h-7 rounded-lg bg-sky-500/10 dark:bg-sky-500/20 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v20m10-10H2m15.07-7.07l-14.14 14.14m0-14.14l14.14 14.14"/></svg>
+          </span>
         </div>
         <div class="mt-3">
-          <div id="first-snow-date" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">Сезон 2026/27</div>
-          <div id="first-snow-detail" class="text-xs text-sky-600 dark:text-sky-400 font-semibold mt-1">Устойчивый снежный покров сформирован</div>
+          <div id="first-snow-date" class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-sans tabular-nums">Сезон 2026/27</div>
+          <div id="first-snow-detail" class="text-xs text-sky-600 dark:text-sky-400 font-semibold mt-1">Данные обновляются...</div>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
           <span id="card1-footer-label">Климатическая норма:</span>
-          <span id="norm-first-snow" class="font-mono font-bold text-slate-800 dark:text-slate-200">15–20 сентября</span>
+          <span id="norm-first-snow" class="font-sans font-bold text-slate-800 dark:text-slate-200 tabular-nums">15–20 сентября</span>
         </div>
       </div>
 
       <!-- CARD 2: SPRING SNOWMELT & COUNTDOWN -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-emerald-500 transition-all hover:shadow-emerald-500/10">
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-sm border border-slate-200/90 dark:border-white/10 transition-all hover:border-slate-300 dark:hover:border-white/20">
         <div class="flex items-center justify-between">
           <span id="card2-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Сход снега весной</span>
-          <span id="card2-icon" class="text-lg">🌱</span>
+          <span id="card2-icon" class="w-7 h-7 rounded-lg bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </span>
         </div>
         <div class="mt-3">
-          <div id="melt-date" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">14–18 июня</div>
+          <div id="melt-date" class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-sans tabular-nums">14–18 июня</div>
           <div id="melt-detail" class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Полное очищение тундры и долин</div>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
           <span id="card2-footer-label">Смещение за 40 лет:</span>
-          <span id="trend-melt" class="font-mono font-bold text-rose-500">на 20 дней раньше</span>
+          <span id="trend-melt" class="font-sans font-bold text-rose-500 tabular-nums">на 20 дней раньше</span>
         </div>
       </div>
 
       <!-- CARD 3: ACCUMULATION & PEAK DEPTH -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-cyan-500 transition-all hover:shadow-cyan-500/10">
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-sm border border-slate-200/90 dark:border-white/10 transition-all hover:border-slate-300 dark:hover:border-white/20">
         <div class="flex items-center justify-between">
           <span id="card3-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Толщина снежного покрова</span>
-          <span id="card3-icon" class="text-lg">📏</span>
+          <span id="card3-icon" class="w-7 h-7 rounded-lg bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </span>
         </div>
         <div class="mt-3">
-          <div id="peak-depth" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white font-mono">92 см (пик)</div>
+          <div id="peak-depth" class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-sans tabular-nums">92 см (пик)</div>
           <div id="avg-depth" class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold mt-1">Средняя за зиму: 64 см</div>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
           <span id="card3-footer-label">В оврагах / надувах:</span>
-          <span id="ridge-depth" class="font-mono font-bold text-slate-800 dark:text-slate-200">до 10–15 метров</span>
+          <span id="ridge-depth" class="font-sans font-bold text-slate-800 dark:text-slate-200 tabular-nums">до 10–15 метров</span>
         </div>
       </div>
 
       <!-- CARD 4: REAL-TIME STATUS & LIVE FACT -->
-      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-lg border-l-4 border-l-indigo-500 transition-all hover:shadow-indigo-500/10">
+      <div class="glass-card rounded-2xl p-5 relative overflow-hidden shadow-sm border border-slate-200/90 dark:border-white/10 transition-all hover:border-slate-300 dark:hover:border-white/20">
         <div class="flex items-center justify-between">
           <span id="card4-title" class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Текущее состояние</span>
-          <span id="card4-icon" class="text-lg">🛰️</span>
+          <span id="card4-icon" class="w-7 h-7 rounded-lg bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 flex items-center justify-center shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </span>
         </div>
         <div class="mt-3">
-          <div id="current-status" class="text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">Покров 0 см</div>
+          <div id="current-status" class="text-xl sm:text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans tabular-nums">Покров 0 см</div>
           <div id="current-temp-sub" class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1">Поверхность свободна от снега</div>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-200/80 dark:border-slate-800 flex justify-between items-center text-[11px] text-slate-500 dark:text-slate-400">
           <span id="card4-footer-label">Дней со снегом в году:</span>
-          <span id="snow-days" class="font-mono font-bold text-indigo-500">250–265 дней</span>
+          <span id="snow-days" class="font-sans font-bold text-indigo-500 tabular-nums">250–265 дней</span>
         </div>
       </div>
 
-    </div>
-
-    <!-- ================= ИНТЕРАКТИВНАЯ КАРТА СНЕЖНОГО ПОКРОВА РОССИИ ================= -->
+    </div><!-- ================= ИНТЕРАКТИВНАЯ КАРТА СНЕЖНОГО ПОКРОВА РОССИИ ================= -->
     <section class="glass-card rounded-2xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-xl relative overflow-hidden" id="section-russia-snow-map">
       <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
@@ -959,39 +1024,38 @@ html.light .glass {
       </div>
 
       <!-- Контейнер интерактивной карты -->
-      <div class="relative">
+      <div>
         <div id="russia-snow-map" class="shadow-inner border border-slate-300 dark:border-slate-700"></div>
 
-        <!-- Плавающая легенда карты снега -->
-        <div class="absolute bottom-4 left-4 z-20 glass-card p-3 rounded-xl border border-slate-200/90 dark:border-slate-800/90 shadow-2xl max-w-xs text-xs">
-          <div class="font-bold text-slate-900 dark:text-white mb-2 flex items-center justify-between">
-            <span>Шкала высоты снега:</span>
-            <span class="text-[10px] font-mono text-slate-500">В СМ</span>
+        <!-- Подкарточная легенда высоты снега -->
+        <div class="mt-3 p-3 rounded-xl border border-slate-200/90 dark:border-slate-800/90 bg-white/70 dark:bg-slate-900/70 text-xs flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-slate-900 dark:text-white text-xs">Шкала высоты снега:</span>
           </div>
-          <div class="grid grid-cols-2 gap-1.5 font-mono text-[11px]">
+          <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] font-mono">
             <div class="flex items-center gap-1.5">
-              <span class="w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500"></span>
-              <span class="text-slate-700 dark:text-slate-300">0 см (нет снега)</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/40 border border-emerald-500"></span>
+              <span class="text-slate-700 dark:text-slate-300">0 см</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3 h-3 rounded-full bg-sky-400/40 border border-sky-400"></span>
-              <span class="text-slate-700 dark:text-slate-300">1–5 см (припорошило)</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-400/50 border border-sky-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">1–5 см</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3 h-3 rounded-full bg-cyan-500/60 border border-cyan-400"></span>
-              <span class="text-slate-700 dark:text-slate-300">6–15 см (покров)</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-500/70 border border-cyan-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">6–15 см</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="w-3 h-3 rounded-full bg-blue-600/70 border border-blue-400"></span>
-              <span class="text-slate-700 dark:text-slate-300">16–30 см (сугробы)</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600/80 border border-blue-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">16–30 см</span>
             </div>
-            <div class="flex items-center gap-1.5 col-span-2">
-              <span class="w-3 h-3 rounded-full bg-indigo-600/80 border border-indigo-400"></span>
-              <span class="text-slate-700 dark:text-slate-300">> 30 см (глубокий покров)</span>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-indigo-600/90 border border-indigo-400"></span>
+              <span class="text-slate-700 dark:text-slate-300">&gt; 30 см</span>
             </div>
           </div>
-          <div class="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-[10px] text-slate-500 dark:text-slate-400">
-            Кликните по любой станции на карте для подробной синоптики.
+          <div class="text-[11px] text-slate-500 dark:text-slate-400">
+            Клик по метеостанции — просмотр детальной телеметрии
           </div>
         </div>
       </div>
@@ -1007,7 +1071,7 @@ html.light .glass {
             <div>
               <div class="flex items-center gap-2">
                 <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>🛰️</span> Спутниковый снимок высокого разрешения
+                  <svg class="w-4 h-4 text-sky-500 shrink-0 inline-block mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Спутниковый снимок высокого разрешения
                 </h3>
                 <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/30">L2A 10m/375m</span>
               </div>
@@ -1048,10 +1112,10 @@ html.light .glass {
                 −
               </button>
               <button onclick="satCenterSector()" class="px-2.5 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1 border border-white/20 backdrop-blur-md transition" title="Центрировать на секторе">
-                <span>🎯</span> <span class="hidden sm:inline">Сектор</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke-width="2"/></svg><span class="hidden sm:inline">Сектор</span>
               </button>
               <button onclick="toggleSatLabels()" id="btn-sat-labels" class="px-2.5 h-8 rounded-lg bg-sky-600/90 hover:bg-sky-500 text-white text-xs font-semibold flex items-center gap-1 border border-sky-400/40 backdrop-blur-md transition" title="Вкл/выкл названия и ориентиры">
-                <span>🏷️</span> <span class="hidden sm:inline">Названия</span>
+                <svg class="w-3.5 h-3.5 text-slate-400 shrink-0 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg><span class="hidden sm:inline">Названия</span>
               </button>
               <button onclick="toggleSatFullscreen()" class="w-8 h-8 rounded-lg bg-slate-950/85 hover:bg-slate-800 text-white flex items-center justify-center border border-white/20 backdrop-blur-md text-xs transition" title="На весь экран">
                 ⛶
@@ -1088,7 +1152,7 @@ html.light .glass {
               <div class="flex items-center gap-2 shrink-0">
                 <a id="sat-direct-download" href="https://browser.dataspace.copernicus.eu/?zoom=12&lat=69.354&lng=88.203&themeId=DEFAULT-THEME" target="_blank"
                   class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition inline-flex items-center gap-1.5 shadow" rel="noopener noreferrer">
-                  <span>🛰️</span> <span>Copernicus L2A ↗</span>
+                  <svg class="w-3.5 h-3.5 text-sky-400 shrink-0 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg><span>Copernicus L2A ↗</span>
                 </a>
               </div>
             </div>
@@ -1127,7 +1191,7 @@ html.light .glass {
       <div class="lg:col-span-4 glass-card rounded-2xl p-5 shadow-xl flex flex-col justify-between space-y-4">
         <div>
           <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-3">
-            <span>🔬</span> Физика спектрального индекса NDSI
+            <svg class="w-4 h-4 text-sky-500 shrink-0 inline-block mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>Физика спектрального индекса NDSI
           </h3>
           <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
             В видимом глазом диапазоне снег и облака одинаково белые. Профессиональные гляциологи используют формулу <strong>NDSI (Normalized Difference Snow Index)</strong>:
@@ -1155,7 +1219,7 @@ html.light .glass {
 
         <div class="p-3.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-xs text-sky-900 dark:text-sky-200">
           <div class="font-bold mb-1 flex items-center gap-1.5">
-            <span>💡</span> Автоматический анализ снегопада
+            <svg class="w-4 h-4 text-amber-500 shrink-0 inline-block mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Автоматический анализ снегопада
           </div>
           При выборе любого города мира система автоматически считывает 16-дневную ансамблевую сетку и определяет вероятность твердых осадков по температуре изобарической поверхности <strong>850 гПа</strong> и нулевой изотерме.
         </div>
@@ -1168,7 +1232,7 @@ html.light .glass {
       <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800 gap-2">
         <div>
           <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <span>📈</span> Годовой профиль накопления и таяния снежного покрова (см)
+            <svg class="w-4 h-4 text-cyan-500 shrink-0 inline-block mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>Годовой профиль накопления и таяния снежного покрова (см)
           </h3>
           <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Климатическая норма WMO 1991–2020 в сравнении с историческими максимумами
@@ -1194,7 +1258,7 @@ html.light .glass {
     <!-- GLACIOLOGICAL & REGIONAL EXPLANATION -->
     <div id="glaciology-section" class="glass-card rounded-2xl p-6 shadow-xl space-y-4">
       <h3 id="glaciology-title" class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-        <span>📖</span> Заполярная гляциология: феномен снежников Норильска и Кайеркана
+        <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 shrink-0 inline-block mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>Заполярная гляциология: феномен снежников Норильска и Кайеркана
       </h3>
       <div id="glaciology-cards-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
         <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
@@ -1756,174 +1820,105 @@ html.light .glass {
 
       // DOM Elements Cache
       const card1Title = document.getElementById('card1-title');
-      const card1Icon = document.getElementById('card1-icon');
       const firstSnowDateEl = document.getElementById('first-snow-date');
       const firstSnowDetailEl = document.getElementById('first-snow-detail');
       const card1FooterLabel = document.getElementById('card1-footer-label');
       const normFirstSnowEl = document.getElementById('norm-first-snow');
 
       const card2Title = document.getElementById('card2-title');
-      const card2Icon = document.getElementById('card2-icon');
       const meltDateEl = document.getElementById('melt-date');
       const meltDetailEl = document.getElementById('melt-detail');
       const card2FooterLabel = document.getElementById('card2-footer-label');
       const trendMeltEl = document.getElementById('trend-melt');
 
       const card3Title = document.getElementById('card3-title');
-      const card3Icon = document.getElementById('card3-icon');
       const peakDepthEl = document.getElementById('peak-depth');
       const avgDepthEl = document.getElementById('avg-depth');
       const card3FooterLabel = document.getElementById('card3-footer-label');
       const ridgeDepthEl = document.getElementById('ridge-depth');
 
       const card4Title = document.getElementById('card4-title');
-      const card4Icon = document.getElementById('card4-icon');
       const currentStatusEl = document.getElementById('current-status');
       const currentTempSubEl = document.getElementById('current-temp-sub');
       const card4FooterLabel = document.getElementById('card4-footer-label');
       const snowDaysEl = document.getElementById('snow-days');
 
-      // Live status construction
-      let statusText = '';
-      if (liveDepth != null && liveDepth > 0) {
-        statusText = `Покров ${liveDepth} см ${isSnowing ? '(Идет снег)' : ''}`.trim();
-      } else if (isSnowing) {
-        statusText = 'Покров 1–2 см (Идет снег)';
-      } else if (liveDepth === 0) {
-        statusText = 'Покров 0 см (Сухо)';
-      } else {
-        statusText = d.currentStatus || 'Покров формируется';
-      }
-
-      // SEASONAL ADAPTATION LOGIC
-      if (month === 9) {
-        // --- SEPTEMBER ---
-        if (card1Title) card1Title.innerText = 'Прогноз первого снега';
-        if (card1Icon) card1Icon.innerText = '🌨️';
-        if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || 'Начало октября';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'Ожидается заток арктического воздуха';
+      // --- CARD 1: REAL-STATE GLACIOLOGICAL LOGIC (NO CALENDAR BLIND FALLBACK) ---
+      if (liveDepth != null && liveDepth >= 2) {
+        if (card1Title) card1Title.innerText = 'Снежный покров';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = `Сформирован (${liveDepth} см)`;
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Зафиксирован на поверхности (климатическая норма: ${d.normFirstSnow})`;
         if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
         if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
-
-        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
-        if (card2Icon) card2Icon.innerText = '🌱';
-        if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
-        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
-        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
-
-        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
-        if (card3Icon) card3Icon.innerText = '📏';
-        if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
-        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
-        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
-
-      } else if (month === 10) {
-        // --- OCTOBER ---
-        const hasSnowStarted = (d.lat >= 65 || (liveDepth && liveDepth > 0) || isSnowing || (d.firstSnowDate && d.firstSnowDate.includes('3–4 окт')));
-
-        if (card1Title) card1Title.innerText = hasSnowStarted ? 'Первый снег сезона' : 'Прогноз первого снега';
-        if (card1Icon) card1Icon.innerText = hasSnowStarted ? '❄️' : '🌨️';
-        if (firstSnowDateEl) firstSnowDateEl.innerText = d.firstSnowDate || '3–4 окт 2026';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = d.firstSnowDetail || 'Снегопады формируют первый покров';
+      } else if (liveDepth != null && liveDepth > 0 && liveDepth < 2) {
+        if (card1Title) card1Title.innerText = 'Временный покров';
+        if (firstSnowDateEl) firstSnowDateEl.innerText = `${liveDepth} см`;
+        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Неустойчивое залегание при температуре около 0°C';
         if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
         if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
-
-        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
-        if (card2Icon) card2Icon.innerText = '🌱';
-        if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
-        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
-        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
-
-        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
-        if (card3Icon) card3Icon.innerText = '📏';
-        if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
-        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
-        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
-
-      } else if (month >= 11 || month <= 2) {
-        // --- NOVEMBER TO FEBRUARY ---
-        if (card1Title) card1Title.innerText = 'Устойчивый снежный покров';
-        if (card1Icon) card1Icon.innerText = '🏔️';
-        if (firstSnowDateEl) firstSnowDateEl.innerText = 'Сформирован';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Покров установился (зимний режим)`;
-        if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег был:';
-        if (normFirstSnowEl) normFirstSnowEl.innerText = d.firstSnowDate || d.normFirstSnow;
-
-        if (card2Title) card2Title.innerText = `Сход снега весной ${nextYear}`;
-        if (card2Icon) card2Icon.innerText = '🌱';
-        if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
-        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
-        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
-
-        if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
-        if (card3Icon) card3Icon.innerText = '📏';
-        if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : d.peakDepth;
-        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
-        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
-        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
-
-      } else if (month >= 3 && month <= 5) {
-        // --- MARCH TO MAY ---
-        if (card1Title) card1Title.innerText = (month === 5) ? 'Начало снеготаяния' : 'Пик снегонакопления';
-        if (card1Icon) card1Icon.innerText = (month === 5) ? '💧' : '🏔️';
-        if (firstSnowDateEl) firstSnowDateEl.innerText = `${d.peakDepth}`;
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Максимальный запас влаги в снежной толще';
-        if (card1FooterLabel) card1FooterLabel.innerText = 'Норма первого снега:';
-        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
-
-        if (card2Title) card2Title.innerText = 'Сход снега весной';
-        if (card2Icon) card2Icon.innerText = '🌱';
-        if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Фаза активного разрушения покрова';
-        if (card2FooterLabel) card2FooterLabel.innerText = 'Смещение за 40 лет:';
-        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
-
-        if (card3Title) card3Title.innerText = 'Остаток снегозапасов';
-        if (card3Icon) card3Icon.innerText = '📏';
-        if (peakDepthEl) peakDepthEl.innerText = liveDepth ? `${liveDepth} см (факт)` : `${normMonthDepth} см (норма)`;
-        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
-        if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
-        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
-
       } else {
-        // --- JUNE TO AUGUST ---
-        if (card1Title) card1Title.innerText = 'Сезон закрыт / Бесснежно';
-        if (card1Icon) card1Icon.innerText = '☀️';
-        if (firstSnowDateEl) firstSnowDateEl.innerText = 'Летний период';
-        if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва свободна от снега';
-        if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег осенью:';
-        if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
-
-        if (card2Title) card2Title.innerText = 'Сход снега состоялся';
-        if (card2Icon) card2Icon.innerText = '🌱';
-        if (meltDateEl) meltDateEl.innerText = d.meltDate;
-        if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Территория свободна от сезонного покрова';
-        if (card2FooterLabel) card2FooterLabel.innerText = 'Многолетний тренд:';
-        if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
-
-        if (card3Title) card3Title.innerText = 'Снегонакопление';
-        if (card3Icon) card3Icon.innerText = '📏';
-        if (peakDepthEl) peakDepthEl.innerText = '0 см (лето)';
-        if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
-        if (card3FooterLabel) card3FooterLabel.innerText = 'Реликтовые снежники:';
-        if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+        // liveDepth === 0 or null
+        if (month >= 9 && month <= 11) {
+          if (card1Title) card1Title.innerText = 'Снежный покров';
+          if (firstSnowDateEl) firstSnowDateEl.innerText = 'Отсутствует (0 см)';
+          if (firstSnowDetailEl) firstSnowDetailEl.innerText = `Климатическая норма первого снега: ${d.normFirstSnow}`;
+          if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
+          if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+        } else if (month >= 12 || month <= 2) {
+          if (card1Title) card1Title.innerText = 'Снежный покров';
+          if (firstSnowDateEl) firstSnowDateEl.innerText = 'Отсутствует (0 см)';
+          if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Аномальное бесснежье / затянувшаяся оттепель';
+          if (card1FooterLabel) card1FooterLabel.innerText = 'Климатическая норма:';
+          if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+        } else if (month >= 3 && month <= 5) {
+          if (card1Title) card1Title.innerText = 'Сход снега';
+          if (firstSnowDateEl) firstSnowDateEl.innerText = 'Сошел (0 см)';
+          if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва освободилась от сезонного покрова';
+          if (card1FooterLabel) card1FooterLabel.innerText = 'Норма схода:';
+          if (normFirstSnowEl) normFirstSnowEl.innerText = d.meltDate;
+        } else {
+          if (card1Title) card1Title.innerText = 'Летний период';
+          if (firstSnowDateEl) firstSnowDateEl.innerText = 'Бесснежно (0 см)';
+          if (firstSnowDetailEl) firstSnowDetailEl.innerText = 'Почва свободна от снежного покрова';
+          if (card1FooterLabel) card1FooterLabel.innerText = 'Первый снег осенью:';
+          if (normFirstSnowEl) normFirstSnowEl.innerText = d.normFirstSnow;
+        }
       }
 
-      // --- CARD 4: LIVE TELEMETRY PULSE ---
+      // --- CARD 2: SPRING SNOWMELT & COUNTDOWN ---
+      if (card2Title) card2Title.innerText = (month >= 6 && month <= 8) ? 'Сход снега состоялся' : `Сход снега весной ${nextYear}`;
+      if (meltDateEl) meltDateEl.innerText = d.meltDate;
+      if (meltDetailEl) meltDetailEl.innerText = d.meltDetail || 'Очищение территории от сезонного покрова';
+      if (card2FooterLabel) card2FooterLabel.innerText = (month >= 6 && month <= 8) ? 'Многолетний тренд:' : 'Смещение за 40 лет:';
+      if (trendMeltEl) trendMeltEl.innerText = d.trendMelt;
+
+      // --- CARD 3: ACCUMULATION & CLIMATIC PEAK (NEVER OVERWRITTEN BY LIVE FACT) ---
+      if (card3Title) card3Title.innerText = 'Толщина снежного покрова';
+      if (peakDepthEl) peakDepthEl.innerText = d.peakDepth;
+      if (avgDepthEl) avgDepthEl.innerText = d.avgDepth;
+      if (card3FooterLabel) card3FooterLabel.innerText = 'В оврагах / надувах:';
+      if (ridgeDepthEl) ridgeDepthEl.innerText = d.ridgeDepth;
+
+      // --- CARD 4: REAL-TIME STATUS & LIVE TELEMETRY ---
       if (card4Title) card4Title.innerText = 'Текущее состояние';
-      if (card4Icon) card4Icon.innerText = '🛰️';
+
+      let statusText = '';
+      if (liveDepth != null && liveDepth >= 2) {
+        statusText = `Покров ${liveDepth} см ${isSnowing ? '(Идет снег)' : ''}`.trim();
+      } else if (liveDepth != null && liveDepth > 0) {
+        statusText = `Покров ${liveDepth} см (Временный)`;
+      } else if (isSnowing) {
+        statusText = 'Идет снег (Следы)';
+      } else {
+        statusText = 'Покров 0 см (Сухо)';
+      }
 
       if (currentStatusEl) {
         currentStatusEl.innerText = statusText;
         if ((liveDepth != null && liveDepth > 0) || isSnowing) {
-          currentStatusEl.className = "text-xl sm:text-2xl font-black text-sky-500 dark:text-sky-400 font-mono flex items-center gap-2";
+          currentStatusEl.className = "text-xl sm:text-2xl font-bold tracking-tight text-sky-500 dark:text-sky-400 font-sans tabular-nums flex items-center gap-2";
         } else {
-          currentStatusEl.className = "text-xl sm:text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono";
+          currentStatusEl.className = "text-xl sm:text-2xl font-bold tracking-tight text-emerald-600 dark:text-emerald-400 font-sans tabular-nums";
         }
       }
 
@@ -2718,9 +2713,9 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
 
       var customIcon = L.divIcon({
         className: 'custom-snow-div-icon',
-        html: '<div class="snow-pin ' + pinClass + '"><span>' + pinIcon + '</span><span>' + pinLabel + '</span></div>',
-        iconSize: [60, 24],
-        iconAnchor: [30, 12]
+        html: '<div class="snow-pin ' + pinClass + '"><span class="w-1.5 h-1.5 rounded-full bg-current shrink-0"></span><span>' + pinLabel + '</span></div>',
+        iconSize: [52, 22],
+        iconAnchor: [26, 11]
       });
 
       var marker = L.marker([st.lat, st.lon], { icon: customIcon }).addTo(snowMap);
@@ -2821,9 +2816,9 @@ document.addEventListener('DOMContentLoaded', syncSubpageThemeButton);
           if (markerObj && markerObj.marker) {
             var newIcon = L.divIcon({
               className: 'custom-snow-div-icon',
-              html: '<div class="snow-pin ' + pinClass + '"><span>' + pinIcon + '</span><span>' + pinLabel + '</span></div>',
-              iconSize: [60, 24],
-              iconAnchor: [30, 12]
+              html: '<div class="snow-pin ' + pinClass + '"><span class="w-1.5 h-1.5 rounded-full bg-current shrink-0"></span><span>' + pinLabel + '</span></div>',
+              iconSize: [52, 22],
+              iconAnchor: [26, 11]
             });
             markerObj.marker.setIcon(newIcon);
 
