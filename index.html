@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <!-- Сетевые ускорители для ВСЕХ субдоменов API и радарных тайлов (Zero Latency) -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://api.open-meteo.com" crossorigin>
   <link rel="dns-prefetch" href="https://api.open-meteo.com">
   <link rel="preconnect" href="https://archive-api.open-meteo.com" crossorigin>
@@ -3451,9 +3455,142 @@
       </div>
     </div>
 
-    <!-- ================= DYNAMIC TAB CONTENT (RENDERS IMMEDIATELY WITHOUT PUSHDOWN) ================= -->
+    <!-- ================= DYNAMIC TAB CONTENT (ZERO-CLS INSTANT SHIMMER SKELETON) ================= -->
     <div id="dynamic-view-container" class="space-y-4">
-      <!-- Dynamic content rendered here instantly based on selected tab -->
+      <div id="initial-weather-skeleton" class="space-y-4 animate-pulse">
+        <!-- Subnav Skeleton -->
+        <div class="glass-card rounded-2xl p-2.5 mb-3 flex items-center justify-between flex-wrap gap-2 border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-400">Представление:</span>
+            <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl gap-1">
+              <div class="h-6 w-36 bg-slate-200 dark:bg-slate-700/60 rounded-lg"></div>
+              <div class="h-6 w-32 bg-slate-200/50 dark:bg-slate-800/40 rounded-lg"></div>
+            </div>
+          </div>
+          <div class="h-4 w-44 bg-slate-200/60 dark:bg-slate-800/60 rounded hidden sm:block"></div>
+        </div>
+
+        <!-- Hero Row: Left Card + Right Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <!-- Left Hero Card Skeleton (lg:col-span-5) -->
+          <div class="lg:col-span-5 glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="h-5 w-48 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+              <div class="h-5 w-20 rounded-md bg-slate-200/60 dark:bg-slate-800/60"></div>
+            </div>
+            <div class="h-4 w-32 rounded bg-slate-200/60 dark:bg-slate-800/60"></div>
+            <div class="flex items-center justify-between pt-1">
+              <div class="space-y-2">
+                <div class="h-8 w-40 rounded-lg bg-slate-300 dark:bg-slate-700"></div>
+                <div class="h-4 w-36 rounded bg-slate-200 dark:bg-slate-800"></div>
+              </div>
+              <div class="h-16 w-24 rounded-2xl bg-slate-300 dark:bg-slate-700"></div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 flex items-center justify-between">
+              <div class="h-4 w-28 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-4 w-24 rounded bg-slate-200 dark:bg-slate-700"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5">
+                <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div>
+              </div>
+              <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5">
+                <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div>
+              </div>
+              <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5">
+                <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div>
+              </div>
+              <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5">
+                <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right 16-Day Forecast Strip Skeleton (lg:col-span-7) -->
+          <div class="lg:col-span-7 glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="space-y-1">
+                <div class="h-5 w-48 rounded bg-slate-300 dark:bg-slate-700"></div>
+                <div class="h-3 w-64 rounded bg-slate-200 dark:bg-slate-800"></div>
+              </div>
+              <div class="h-5 w-24 rounded-md bg-slate-200/60 dark:bg-slate-800/60"></div>
+            </div>
+            <div class="flex gap-2 overflow-x-hidden py-1">
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-sky-50/50 dark:bg-sky-950/20 border border-sky-200/50 dark:border-sky-800/40 p-2.5 flex flex-col items-center justify-between">
+                <div class="h-3.5 w-10 rounded bg-sky-200 dark:bg-sky-700"></div>
+                <div class="w-8 h-8 rounded-full bg-sky-200 dark:bg-sky-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-sky-200 dark:bg-sky-700"></div>
+                <div class="h-3 w-14 rounded bg-sky-200 dark:bg-sky-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between hidden sm:flex">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between hidden md:flex">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between hidden lg:flex">
+                <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom 48-Hour Matrix Skeleton -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="h-4 w-52 rounded bg-slate-300 dark:bg-slate-700"></div>
+            <div class="h-4 w-32 rounded bg-slate-200 dark:bg-slate-800"></div>
+          </div>
+          <div class="h-28 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 p-3 flex flex-col justify-between">
+            <div class="flex justify-between">
+              <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div>
+            </div>
+            <div class="h-8 rounded-lg bg-slate-200/60 dark:bg-slate-700/40"></div>
+            <div class="flex justify-between">
+              <div class="h-3 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+              <div class="h-3 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ================= METEOROLOGICAL PROTOCOL & REPORT ================= -->
@@ -6132,16 +6269,71 @@
     // 100% Client-Side, 0 Server load, Direct high-speed API
     // =========================================================================
     // =========================================================================
-    // ARGON RESILIENCE CORE: 10-MIN SESSION CACHE & ERROR CLASSIFICATION
     // =========================================================================
-    const METEO_SESSION_CACHE_TTL = 10 * 60 * 1000; // 10 минут
+    // ARGON RESILIENCE CORE: MULTI-TIER PERSISTENT CACHE & SKELETON ENGINE
+    // Stale-While-Revalidate: Instant 0ms First Paint + Background Sync
+    // =========================================================================
+    const METEO_FRESH_CACHE_TTL = 15 * 60 * 1000; // 15 минут - абсолютно свежие данные
+    const METEO_STALE_CACHE_TTL = 12 * 60 * 60 * 1000; // 12 часов - мгновенный первый рендер
+
+    function getCachedWeather(city) {
+      const lower = (city || '').toLowerCase().trim();
+      const pKey = `meteo_p_bundle_${encodeURIComponent(lower)}`;
+      const sKey = `meteo_bundle_${lower}`;
+      try {
+        // 1. Быстрый поиск в sessionStorage (активная сессия)
+        const sRaw = sessionStorage.getItem(sKey);
+        if (sRaw) {
+          const sItem = JSON.parse(sRaw);
+          if (sItem && sItem.data && (Date.now() - sItem.timestamp < METEO_FRESH_CACHE_TTL)) {
+            return { data: sItem.data, isFresh: true };
+          }
+        }
+        // 2. Поиск в localStorage (повторные визиты)
+        const lRaw = localStorage.getItem(pKey);
+        if (lRaw) {
+          const lItem = JSON.parse(lRaw);
+          if (lItem && lItem.data) {
+            const age = Date.now() - lItem.timestamp;
+            if (age < METEO_FRESH_CACHE_TTL) {
+              return { data: lItem.data, isFresh: true };
+            } else if (age < METEO_STALE_CACHE_TTL) {
+              return { data: lItem.data, isFresh: false };
+            }
+          }
+        }
+      } catch (e) {}
+      return null;
+    }
+
+    function setCachedWeather(city, data) {
+      const lower = (city || '').toLowerCase().trim();
+      const pKey = `meteo_p_bundle_${encodeURIComponent(lower)}`;
+      const sKey = `meteo_bundle_${lower}`;
+      const payload = JSON.stringify({ timestamp: Date.now(), data });
+      try {
+        sessionStorage.setItem(sKey, payload);
+      } catch (_) {}
+      try {
+        localStorage.setItem(pKey, payload);
+      } catch (e) {
+        // Очистка устаревших бандлов при переполнении квоты localStorage
+        try {
+          for (let i = localStorage.length - 1; i >= 0; i--) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith('meteo_p_bundle_')) localStorage.removeItem(k);
+          }
+          localStorage.setItem(pKey, payload);
+        } catch (_) {}
+      }
+    }
 
     function getSessionWeather(key) {
       try {
         const raw = sessionStorage.getItem(key);
         if (!raw) return null;
         const item = JSON.parse(raw);
-        if (Date.now() - item.timestamp > METEO_SESSION_CACHE_TTL) {
+        if (Date.now() - item.timestamp > METEO_FRESH_CACHE_TTL) {
           sessionStorage.removeItem(key);
           return null;
         }
@@ -6160,6 +6352,74 @@
       } catch (e) {
         try { sessionStorage.clear(); } catch (_) {}
       }
+    }
+
+    function renderSkeletonView(container) {
+      if (!container) return;
+      // Если контейнер уже содержит реальный отрендеренный контент - сохраняем его (Stale-While-Revalidate)
+      if (container.querySelector('#weather-hero-card') || container.querySelector('.tab-active') || (container.children.length > 0 && !container.querySelector('#initial-weather-skeleton'))) {
+        return;
+      }
+      container.innerHTML = `
+        <div id="initial-weather-skeleton" class="space-y-4 animate-pulse">
+          <div class="glass-card rounded-2xl p-2.5 mb-3 flex items-center justify-between flex-wrap gap-2 border border-slate-200/90 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 shadow-sm">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold text-slate-400">Представление:</span>
+              <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl gap-1">
+                <div class="h-6 w-36 bg-slate-200 dark:bg-slate-700/60 rounded-lg"></div>
+                <div class="h-6 w-32 bg-slate-200/50 dark:bg-slate-800/40 rounded-lg"></div>
+              </div>
+            </div>
+            <div class="h-4 w-44 bg-slate-200/60 dark:bg-slate-800/60 rounded hidden sm:block"></div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <div class="lg:col-span-5 glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="h-5 w-48 rounded-full bg-slate-200 dark:bg-slate-800"></div>
+                <div class="h-5 w-20 rounded-md bg-slate-200/60 dark:bg-slate-800/60"></div>
+              </div>
+              <div class="h-4 w-32 rounded bg-slate-200/60 dark:bg-slate-800/60"></div>
+              <div class="flex items-center justify-between pt-1">
+                <div class="space-y-2">
+                  <div class="h-8 w-40 rounded-lg bg-slate-300 dark:bg-slate-700"></div>
+                  <div class="h-4 w-36 rounded bg-slate-200 dark:bg-slate-800"></div>
+                </div>
+                <div class="h-16 w-24 rounded-2xl bg-slate-300 dark:bg-slate-700"></div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-100/60 dark:bg-slate-800/40 flex items-center justify-between">
+                <div class="h-4 w-28 rounded bg-slate-200 dark:bg-slate-700"></div>
+                <div class="h-4 w-24 rounded bg-slate-200 dark:bg-slate-700"></div>
+              </div>
+              <div class="grid grid-cols-2 gap-2 pt-1">
+                <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5"><div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div><div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div></div>
+                <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5"><div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div><div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div></div>
+                <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5"><div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div><div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div></div>
+                <div class="h-14 rounded-xl bg-slate-100/80 dark:bg-slate-800/60 p-2.5 space-y-1.5"><div class="h-3 w-16 rounded bg-slate-200 dark:bg-slate-700"></div><div class="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600"></div></div>
+              </div>
+            </div>
+            <div class="lg:col-span-7 glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="space-y-1"><div class="h-5 w-48 rounded bg-slate-300 dark:bg-slate-700"></div><div class="h-3 w-64 rounded bg-slate-200 dark:bg-slate-800"></div></div>
+                <div class="h-5 w-24 rounded-md bg-slate-200/60 dark:bg-slate-800/60"></div>
+              </div>
+              <div class="flex gap-2 overflow-x-hidden py-1">
+                ${Array(7).fill(0).map(() => `
+                  <div class="min-w-[82px] h-[195px] rounded-2xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/40 p-2.5 flex flex-col items-center justify-between">
+                    <div class="h-3.5 w-10 rounded bg-slate-200 dark:bg-slate-700"></div>
+                    <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 my-1"></div>
+                    <div class="h-4 w-12 rounded bg-slate-200 dark:bg-slate-700"></div>
+                    <div class="h-3 w-14 rounded bg-slate-200 dark:bg-slate-700"></div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/90 dark:border-slate-700/60 bg-white dark:bg-slate-900/60 shadow-lg space-y-3">
+            <div class="flex items-center justify-between"><div class="h-4 w-52 rounded bg-slate-300 dark:bg-slate-700"></div><div class="h-4 w-32 rounded bg-slate-200 dark:bg-slate-800"></div></div>
+            <div class="h-28 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 p-3"></div>
+          </div>
+        </div>
+      `;
     }
 
     function setTopBarLoadingState(cityName = 'Загрузка...') {
@@ -6432,7 +6692,7 @@
         // 1. Live browser-CORS шлюз METAR (WMO/ICAO, Access-Control-Allow-Origin: *)
         try {
           const vatsimUrl = `https://metar.vatsim.net/metar.php?id=${encodeURIComponent(ids)}`;
-          const vRes = await window.fetchWithTimeout(vatsimUrl, {}, 3000);
+          const vRes = await window.fetchWithTimeout(vatsimUrl, {}, 1800);
           if (vRes && vRes.ok) {
             const rawText = await vRes.text();
             if (rawText && rawText.trim().length >= 12) {
@@ -6452,7 +6712,7 @@
         // 2. Резервный запрос к AviationWeather.gov Data API
         try {
           const awUrl = `https://aviationweather.gov/api/data/metar?ids=${encodeURIComponent(ids)}&format=json`;
-          const res = await window.fetchWithTimeout(awUrl, {}, 2200);
+          const res = await window.fetchWithTimeout(awUrl, {}, 1600);
           if (res && res.ok) {
             const data = await res.json();
             if (Array.isArray(data) && data.length > 0) {
@@ -6473,7 +6733,7 @@
       // 3. Локальный снапшот data/metar_fact.json (26 опорных станций)
       try {
         const cacheBust = Math.floor(Date.now() / 60000);
-        const localRes = await window.fetchWithTimeout(`./data/metar_fact.json?t=${cacheBust}`, {}, 2500);
+        const localRes = await window.fetchWithTimeout(`./data/metar_fact.json?t=${cacheBust}`, {}, 1500);
         if (localRes && localRes.ok) {
           const localData = await localRes.json();
           if (Array.isArray(localData) && localData.length > 0) {
@@ -6592,15 +6852,15 @@
 
       try {
         const responses = await Promise.all([
-          window.fetchWithTimeout(fUrl, {}, 15000).then(async r => {
+          window.fetchWithTimeout(fUrl, {}, 6500).then(async r => {
             if (!r.ok) throw new Error('Open-Meteo HTTP статус: ' + r.status);
             const data = await r.json();
             if (data.error) throw new Error(data.reason || 'Ошибка прогностической модели Open-Meteo');
             return data;
           }),
-          window.fetchWithTimeout(aqUrl, {}, 6000).then(r => r.json()).catch(() => ({})),
-          window.fetchWithTimeout(wnUrl, {}, 6000).then(r => r.json()).catch(() => ({})),
-          window.fetchWithTimeout(seasUrl, {}, 6000).then(r => { if (!r.ok) return {}; return r.json(); }).catch(() => ({})),
+          window.fetchWithTimeout(aqUrl, {}, 3500).then(r => r.json()).catch(() => ({})),
+          window.fetchWithTimeout(wnUrl, {}, 3500).then(r => r.json()).catch(() => ({})),
+          window.fetchWithTimeout(seasUrl, {}, 3500).then(r => { if (!r.ok) return {}; return r.json(); }).catch(() => ({})),
           fetchLiveMetarCascade(getIcaoCandidatesForCity(cityName, matchedStation, lat, lon))
         ]);
 
@@ -8011,26 +8271,76 @@
 Климатический ряд: ${climate.opened_year > 1890 ? `приборы с ${climate.opened_year} г. (${climate.start_year}-${climate.end_year} с реанализом ERA5)` : `${climate.start_year}-${climate.end_year} гг.`}, скорость потепления по приборам: +${climate.decadal_rate}°C/10 лет.`
       };
       setSessionWeather(sessionCacheKey, _finalResult);
+      if (typeof setCachedWeather === 'function') {
+        setCachedWeather(cityName || currentCity, _finalResult);
+      }
       return _finalResult;
     }
 
 
     // =========================================================================
-    // MAIN DATA FETCH ORCHESTRATOR
+    // MAIN DATA FETCH ORCHESTRATOR (STALE-WHILE-REVALIDATE & ZERO-LATENCY UX)
     // =========================================================================
     async function fetchData() {
       if (typeof updateStationsBarActive === 'function') updateStationsBarActive(currentCity);
-      const loading = document.getElementById('loading');
       const errorBox = document.getElementById('error-box');
       const reportText = document.getElementById('report-text');
+      const viewContainer = document.getElementById('dynamic-view-container');
 
       setTopBarLoadingState(currentCity);
-      if (loading) loading.classList.remove('hidden');
       if (errorBox) errorBox.classList.add('hidden');
 
+      // 1. FAST PATH: Check Multi-Tier Cache (sessionStorage & localStorage)
+      let cachedBundle = null;
+      if (typeof getCachedWeather === 'function') {
+        cachedBundle = getCachedWeather(currentCity);
+      }
+
+      if (cachedBundle && cachedBundle.data && cachedBundle.data.current) {
+        latestData = cachedBundle.data;
+        const cName = latestData.city || currentCity;
+        updateSeoMetaForCity(cName);
+        document.querySelectorAll('.seo-city-target').forEach(el => {
+          if (el) el.innerText = cName.toUpperCase();
+        });
+        updateStickyRibbon(latestData);
+        updateWmoStationBar(latestData.matched_station || (typeof findStationInCatalog === 'function' ? findStationInCatalog(latestData.city) : null), latestData.city || currentCity, latestData.lat || (lastCoords && lastCoords.lat), latestData.lon || (lastCoords && lastCoords.lon));
+        renderCurrentTab(latestData);
+        if (reportText && latestData.text) reportText.innerText = latestData.text;
+
+        // If the cache is fresh (< 15 min), finish immediately without unnecessary network traffic!
+        if (cachedBundle.isFresh) {
+          clearTopBarLoadingState();
+          return;
+        }
+      } else if (!latestData) {
+        // If first visit to Moscow and no cache yet, try instant hydration from local prebuilt bundle
+        const isMoscow = (currentCity.toLowerCase() === 'москва' || currentCity.toLowerCase() === 'moscow');
+        if (isMoscow) {
+          try {
+            const defRes = await window.fetchWithTimeout('./data/default_bundle.json', {}, 1200);
+            if (defRes && defRes.ok) {
+              const defData = await defRes.json();
+              if (defData && defData.current && !latestData) {
+                latestData = defData;
+                updateStickyRibbon(latestData);
+                renderCurrentTab(latestData);
+                if (reportText && latestData.text) reportText.innerText = latestData.text;
+              }
+            }
+          } catch (_) {}
+        }
+        // If still no data rendered, ensure Shimmer Skeleton is visible
+        if (!latestData && typeof renderSkeletonView === 'function') {
+          renderSkeletonView(viewContainer);
+        }
+      }
+
+      // 2. BACKGROUND REVALIDATION / LIVE NETWORK FETCH
       try {
         const data = await fetchClientOpenMeteo(currentCity);
         latestData = data;
+        if (typeof setCachedWeather === 'function') setCachedWeather(currentCity, data);
 
         // Dynamic Title and SEO
         const cName = data.city || currentCity;
@@ -8039,7 +8349,7 @@
           if (el) el.innerText = cName.toUpperCase();
         });
 
-        // Update Sticky Ribbon
+        // Update Sticky Ribbon & Station
         updateStickyRibbon(data);
         updateWmoStationBar(data.matched_station || (typeof findStationInCatalog === 'function' ? findStationInCatalog(data.city) : null), data.city || currentCity, data.lat || (lastCoords && lastCoords.lat), data.lon || (lastCoords && lastCoords.lon));
 
@@ -8051,9 +8361,15 @@
 
       } catch (err) {
         console.error('Data error:', err);
-        handleWeatherError(err, currentCity);
+        // If we already rendered a stale/default view, don't show an intrusive error banner
+        if (latestData && latestData.current) {
+          if (typeof showToast === 'function') {
+            showToast('⚠️ Показаны сохранённые данные (метеосервер временно отвечает с задержкой)', 'info');
+          }
+        } else {
+          handleWeatherError(err, currentCity);
+        }
       } finally {
-        if (loading) loading.classList.add('hidden');
         clearTopBarLoadingState();
       }
     }
@@ -18428,7 +18744,7 @@
           <!-- QR-Code for Mobile Scanning -->
           <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 flex flex-col items-center text-center space-y-2.5">
             <div class="p-2 bg-white rounded-xl shadow-md border border-slate-200">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=https%3A%2F%2Fwww.sberbank.com%2Fsms%2Fpbp.html%3Fp%3D79803484053" alt="QR-код СБП СберБанк" class="w-40 h-40 object-contain rounded-lg" />
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=6&data=https%3A%2F%2Fwww.sberbank.com%2Fsms%2Fpbp.html%3Fp%3D79803484053" alt="QR-код СБП СберБанк" class="w-40 h-40 object-contain rounded-lg" loading="lazy" decoding="async" />
             </div>
             <p class="text-[11px] text-slate-600 dark:text-slate-300">
               Отсканируйте камерой смартфона или приложением любого банка (Сбер, Т-Банк, ВТБ, Альфа) для быстрой оплаты по СБП
